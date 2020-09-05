@@ -27,6 +27,20 @@
 
         merge = refs/heads/master
 
+Пример ~/.gitconfig
+
+[user]
+
+        email = alex_chaplygin@mail.ru
+
+        name = alex-chaplygin
+
+[core]
+
+        editor = vi
+
+        autocrlf = input
+
 ## Порядок загрузки на удаленный репозиторий
 
 git add *
