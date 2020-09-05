@@ -2,4 +2,4 @@
 ## JPEG-READER CS
 
 ---
-
+## Настройка git
