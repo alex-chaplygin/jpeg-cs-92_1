@@ -23,6 +23,7 @@
 Там должны быть строчки:
 
 >origin  https://github.com/alex-chaplygin/jpeg-cs-92_1 (fetch)
+>
 >origin  https://github.com/alex-chaplygin/jpeg-cs-92_1 (push)
 	
 
