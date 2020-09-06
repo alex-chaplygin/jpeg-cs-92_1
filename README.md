@@ -31,8 +31,8 @@
 
 Настройка профиля:
 	
-	git config --global user.name "**ВАШЕ ИМЯ НА GITHUB**"
-	git config --global user.email "**ВАША ПОЧТА**"
+	git config --global user.name "ВАШЕ ИМЯ НА GITHUB"
+	git config --global user.email "ВАША ПОЧТА"
 	
 Настройка ядра git:
 	
