@@ -14,7 +14,8 @@
 	git remote set-url origin https://github.com/alex-chaplygin/jpeg-cs-92_1
 
 
-***
+
+
 Чтобы проверить правильность параметров предыдущего пункта:
 
 	git remote -v
@@ -22,7 +23,9 @@
 Там должны быть строчки
 	origin  https://github.com/alex-chaplygin/jpeg-cs-92_1 (fetch)
 	origin  https://github.com/alex-chaplygin/jpeg-cs-92_1 (push)
-***
+	
+
+
 
 Настройка профиля:
 	
