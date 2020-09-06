@@ -3,44 +3,42 @@
 
 ---
 ## Настройка git
-Пример .git/config
 
-[core]
+Для начала работы:
 
-        repositoryformatversion = 0
+	git clone https://github.com/alex-chaplygin/jpeg-cs-92_1
 
-        filemode = true
 
-        bare = false
+Настройка удалённого репозитория
 
-        logallrefupdates = true
+	git remote set-url origin https://github.com/alex-chaplygin/jpeg-cs-92_1
 
-[remote "origin"]
 
-        url = https://github.com/alex-chaplygin/jpeg-cs-92_1
+***
+Чтобы проверить правильность параметров предыдущего пункта:
 
-        fetch = +refs/heads/*:refs/remotes/origin/*
+	git remote -v
 
-[branch "master"]
+Там должны быть строчки
+	origin  https://github.com/alex-chaplygin/jpeg-cs-92_1 (fetch)
+	origin  https://github.com/alex-chaplygin/jpeg-cs-92_1 (push)
+***
 
-        remote = origin
+Настройка профиля:
+	
+	git config --global user.name "**ВАШЕ ИМЯ НА GITHUB**"
+	git config --global user.email "**ВАША ПОЧТА**"
+	
+Настройка ядра git:
+	
+	git config --system core.autocrlf input
+	git config core.repositoryformatversion 0
+	git config core.filemode true
+	git config core.bare false
+	git config core.logallrefupdates true
+	
 
-        merge = refs/heads/master
-
-Пример ~/.gitconfig
-
-[user]
-
-        email = alex_chaplygin@mail.ru
-
-        name = alex-chaplygin
-
-[core]
-
-        editor = vi
-
-        autocrlf = input
-
+***
 ## Порядок загрузки на удаленный репозиторий
 
 git commit -a
@@ -48,5 +46,3 @@ git commit -a
 git push origin master
 
 
-
-**тестовый текст от Максима чтобы проверить работает ли**
