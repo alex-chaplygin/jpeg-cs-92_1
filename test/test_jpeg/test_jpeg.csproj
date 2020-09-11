@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp3.1</TargetFramework>
+    <AssemblyName>test_jpeg</AssemblyName>
+    <RootNamespace>test_jpeg</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="JPEG_CLASS_LIB">
+      <HintPath>..\..\vs\JPEG_CLASS_LIB\bin\Debug\netstandard2.0\JPEG_CLASS_LIB.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>
