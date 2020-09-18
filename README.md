@@ -120,6 +120,7 @@ git pull origin master
 3. Создаем ветку
 
 git branch iss<номер>
+
 git checkout iss<номер>
 
 4. Работаем
