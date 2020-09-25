@@ -30,7 +30,7 @@ public class JPEG_CS
     /// <returns></returns>
 	public Point[,] UnPack()
 	{
-		return new Point[1,1];
+		return new Point[100,100];
 	}
 	
     /// <summary>
