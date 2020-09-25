@@ -180,23 +180,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Andrew\\.nuget\\packages\\": {},
+    "C:\\Users\\Vasileps\\.nuget\\packages\\": {},
     "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Andrew\\Desktop\\repos\\jpeg-cs-92_1\\vs\\JPEG_CLASS_LIB\\JPEG_CLASS_LIB.csproj",
+      "projectUniqueName": "D:\\ЮЗГУ\\КПО\\jpeg-cs-92_1\\vs\\JPEG_CLASS_LIB\\JPEG_CLASS_LIB.csproj",
       "projectName": "JPEG_CLASS_LIB",
-      "projectPath": "C:\\Users\\Andrew\\Desktop\\repos\\jpeg-cs-92_1\\vs\\JPEG_CLASS_LIB\\JPEG_CLASS_LIB.csproj",
-      "packagesPath": "C:\\Users\\Andrew\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Andrew\\Desktop\\repos\\jpeg-cs-92_1\\vs\\JPEG_CLASS_LIB\\obj\\",
+      "projectPath": "D:\\ЮЗГУ\\КПО\\jpeg-cs-92_1\\vs\\JPEG_CLASS_LIB\\JPEG_CLASS_LIB.csproj",
+      "packagesPath": "C:\\Users\\Vasileps\\.nuget\\packages\\",
+      "outputPath": "D:\\ЮЗГУ\\КПО\\jpeg-cs-92_1\\vs\\JPEG_CLASS_LIB\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "C:\\Users\\Andrew\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\Vasileps\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"
