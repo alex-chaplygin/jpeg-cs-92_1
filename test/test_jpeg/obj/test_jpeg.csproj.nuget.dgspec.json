@@ -1,27 +1,28 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\AfterWaLifu\\source\\repos\\for_git\\test\\test_jpeg\\test_jpeg.csproj": {}
+    "D:\\ЮЗГУ\\КПО\\jpeg-cs-92_1\\test\\test_jpeg\\test_jpeg.csproj": {}
   },
   "projects": {
-    "C:\\Users\\AfterWaLifu\\source\\repos\\for_git\\test\\test_jpeg\\test_jpeg.csproj": {
+    "D:\\ЮЗГУ\\КПО\\jpeg-cs-92_1\\test\\test_jpeg\\test_jpeg.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\AfterWaLifu\\source\\repos\\for_git\\test\\test_jpeg\\test_jpeg.csproj",
+        "projectUniqueName": "D:\\ЮЗГУ\\КПО\\jpeg-cs-92_1\\test\\test_jpeg\\test_jpeg.csproj",
         "projectName": "test_jpeg",
-        "projectPath": "C:\\Users\\AfterWaLifu\\source\\repos\\for_git\\test\\test_jpeg\\test_jpeg.csproj",
-        "packagesPath": "C:\\Users\\AfterWaLifu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\AfterWaLifu\\source\\repos\\for_git\\test\\test_jpeg\\obj\\",
+        "projectPath": "D:\\ЮЗГУ\\КПО\\jpeg-cs-92_1\\test\\test_jpeg\\test_jpeg.csproj",
+        "packagesPath": "C:\\Users\\Vasileps\\.nuget\\packages\\",
+        "outputPath": "D:\\ЮЗГУ\\КПО\\jpeg-cs-92_1\\test\\test_jpeg\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
+        ],
         "configFilePaths": [
-          "C:\\Users\\AfterWaLifu\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\Vasileps\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
         ],
         "sources": {
-          "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
@@ -38,21 +39,10 @@
       "frameworks": {
         "netcoreapp3.1": {
           "imports": [
-            "net461",
-            "net462",
-            "net47",
-            "net471",
-            "net472",
-            "net48"
+            "net461"
           ],
           "assetTargetFallback": true,
-          "warn": true,
-          "frameworkReferences": {
-            "Microsoft.NETCore.App": {
-              "privateAssets": "all"
-            }
-          },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+          "warn": true
         }
       }
     }

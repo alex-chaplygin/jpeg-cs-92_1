@@ -24,3 +24,4 @@ D:\ЮЗГУ\КПО\jpeg-cs-92_1\vs\JPEG_CLASS_LIB\obj\Debug\netstandard2.0\JPEG_
 D:\ЮЗГУ\КПО\jpeg-cs-92_1\vs\JPEG_CLASS_LIB\obj\Debug\netstandard2.0\JPEG_CLASS_LIB.AssemblyInfo.cs
 D:\ЮЗГУ\КПО\jpeg-cs-92_1\vs\JPEG_CLASS_LIB\obj\Debug\netstandard2.0\JPEG_CLASS_LIB.dll
 D:\ЮЗГУ\КПО\jpeg-cs-92_1\vs\JPEG_CLASS_LIB\obj\Debug\netstandard2.0\JPEG_CLASS_LIB.pdb
+D:\ЮЗГУ\КПО\jpeg-cs-92_1\vs\JPEG_CLASS_LIB\obj\Debug\netstandard2.0\JPEG_CLASS_LIB.csprojAssemblyReference.cache
