@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\AfterWaLifu\\source\\repos\\for_git\\test\\test_jpeg\\test_jpeg.csproj",
+      "projectUniqueName": "C:\\Users\\AfterWaLifu\\source\\repos\\3 semestr\\jpeg-cs-92_1\\test\\test_jpeg\\test_jpeg.csproj",
       "projectName": "test_jpeg",
-      "projectPath": "C:\\Users\\AfterWaLifu\\source\\repos\\for_git\\test\\test_jpeg\\test_jpeg.csproj",
+      "projectPath": "C:\\Users\\AfterWaLifu\\source\\repos\\3 semestr\\jpeg-cs-92_1\\test\\test_jpeg\\test_jpeg.csproj",
       "packagesPath": "C:\\Users\\AfterWaLifu\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\AfterWaLifu\\source\\repos\\for_git\\test\\test_jpeg\\obj\\",
+      "outputPath": "C:\\Users\\AfterWaLifu\\source\\repos\\3 semestr\\jpeg-cs-92_1\\test\\test_jpeg\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\AfterWaLifu\\AppData\\Roaming\\NuGet\\NuGet.Config",

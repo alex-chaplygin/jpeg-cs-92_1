@@ -180,28 +180,26 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Vasileps\\.nuget\\packages\\": {},
-    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
+    "C:\\Users\\AfterWaLifu\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ЮЗГУ\\КПО\\jpeg-cs-92_1\\vs\\JPEG_CLASS_LIB\\JPEG_CLASS_LIB.csproj",
+      "projectUniqueName": "C:\\Users\\AfterWaLifu\\source\\repos\\3 semestr\\jpeg-cs-92_1\\vs\\JPEG_CLASS_LIB\\JPEG_CLASS_LIB.csproj",
       "projectName": "JPEG_CLASS_LIB",
-      "projectPath": "D:\\ЮЗГУ\\КПО\\jpeg-cs-92_1\\vs\\JPEG_CLASS_LIB\\JPEG_CLASS_LIB.csproj",
-      "packagesPath": "C:\\Users\\Vasileps\\.nuget\\packages\\",
-      "outputPath": "D:\\ЮЗГУ\\КПО\\jpeg-cs-92_1\\vs\\JPEG_CLASS_LIB\\obj\\",
+      "projectPath": "C:\\Users\\AfterWaLifu\\source\\repos\\3 semestr\\jpeg-cs-92_1\\vs\\JPEG_CLASS_LIB\\JPEG_CLASS_LIB.csproj",
+      "packagesPath": "C:\\Users\\AfterWaLifu\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\AfterWaLifu\\source\\repos\\3 semestr\\jpeg-cs-92_1\\vs\\JPEG_CLASS_LIB\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-      ],
       "configFilePaths": [
-        "C:\\Users\\Vasileps\\AppData\\Roaming\\NuGet\\NuGet.Config"
+        "C:\\Users\\AfterWaLifu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
         "netstandard2.0"
       ],
       "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
         "https://api.nuget.org/v3/index.json": {}
       },
       "frameworks": {
@@ -226,10 +224,16 @@
           }
         },
         "imports": [
-          "net461"
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
         ],
         "assetTargetFallback": true,
-        "warn": true
+        "warn": true,
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
       }
     }
   }
