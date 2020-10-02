@@ -7,7 +7,7 @@ namespace JPEG_CLASS_LIB
     /// <summary>
     /// Часть изображения, содержит один канал исходного изображения.
     /// </summary>
-    class Block
+    public class Block
     {
         /// <summary>
         /// Массив, который хранит данные блока.
