@@ -1,3 +1,4 @@
+using JPEG_CLASS_LIB;
 using System;
 using System.IO;
 
@@ -21,7 +22,7 @@ public class JPEG_CS
     /// <param name="name">Поток для создания объекта.</param>
 	public JPEG_CS(Stream name)
 	{
-		
+
 	}
 	
     /// <summary>
@@ -50,41 +51,6 @@ public class JPEG_CS
 	{
 		
 	}
-
-    /// <summary>
-    /// Реализует квантование матрицы коэффициентов с помощью заданной матрицы квантования.
-    /// </summary>
-    /// <param name="MatrixCoefficient">Исходная матрица коэффициентов</param>
-    /// <param name="MatrixQuantization">Матрица квантования</param>
-    /// <returns>Изменённая матрица коэффициентов</returns>
-    static short[,] QuantizationDirect(short[,] MatrixCoefficient, short[,] MatrixQuantization)
-    {
-        for (int i = 0; i < MatrixCoefficient.GetLength(0);i++)
-        {
-            for (int j = 0; j < MatrixCoefficient.GetLength(1); j++)
-            {
-                MatrixCoefficient[i, j] /= MatrixQuantization[i, j];
-            }
-        }
-        return MatrixCoefficient;
-    }
-    /// <summary>
-    /// Реализует обратное квантование матрицы коэффициентов с помощью заданной матрицы квантования
-    /// </summary>
-    /// <param name="MatrixCoefficient">Матрица коэффициентов, прошедшая квантование</param>
-    /// <param name="MatrixQuantization">Матрица квантования</param>
-    /// <returns>Исходная матрица коэффициентов</returns>
-    static short[,] QuantizationReverse(short[,] MatrixCoefficient, short[,] MatrixQuantization)
-    {
-        for (int i = 0; i < MatrixCoefficient.GetLength(0); i++)
-        {
-            for (int j = 0; j < MatrixCoefficient.GetLength(1); j++)
-            {
-                MatrixCoefficient[i, j] *= MatrixQuantization[i, j];
-            }
-        }
-        return MatrixCoefficient;
-    }
 }
 
 /// <summary>
