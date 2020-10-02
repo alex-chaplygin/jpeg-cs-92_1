@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ЮЗГУ\\КПО\\jpeg-cs-92_1\\test\\test_jpeg\\test_jpeg.csproj": {}
+    "C:\\Users\\Vasileps\\Desktop\\papka\\jpeg-cs-92_1\\test\\test_jpeg\\test_jpeg.csproj": {}
   },
   "projects": {
-    "D:\\ЮЗГУ\\КПО\\jpeg-cs-92_1\\test\\test_jpeg\\test_jpeg.csproj": {
+    "C:\\Users\\Vasileps\\Desktop\\papka\\jpeg-cs-92_1\\test\\test_jpeg\\test_jpeg.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ЮЗГУ\\КПО\\jpeg-cs-92_1\\test\\test_jpeg\\test_jpeg.csproj",
+        "projectUniqueName": "C:\\Users\\Vasileps\\Desktop\\papka\\jpeg-cs-92_1\\test\\test_jpeg\\test_jpeg.csproj",
         "projectName": "test_jpeg",
-        "projectPath": "D:\\ЮЗГУ\\КПО\\jpeg-cs-92_1\\test\\test_jpeg\\test_jpeg.csproj",
+        "projectPath": "C:\\Users\\Vasileps\\Desktop\\papka\\jpeg-cs-92_1\\test\\test_jpeg\\test_jpeg.csproj",
         "packagesPath": "C:\\Users\\Vasileps\\.nuget\\packages\\",
-        "outputPath": "D:\\ЮЗГУ\\КПО\\jpeg-cs-92_1\\test\\test_jpeg\\obj\\",
+        "outputPath": "C:\\Users\\Vasileps\\Desktop\\papka\\jpeg-cs-92_1\\test\\test_jpeg\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
@@ -20,13 +20,13 @@
           "C:\\Users\\Vasileps\\AppData\\Roaming\\NuGet\\NuGet.Config"
         ],
         "originalTargetFrameworks": [
-          "netcoreapp3.1"
+          "netcoreapp2.1"
         ],
         "sources": {
           "https://api.nuget.org/v3/index.json": {}
         },
         "frameworks": {
-          "netcoreapp3.1": {
+          "netcoreapp2.1": {
             "projectReferences": {}
           }
         },
@@ -37,7 +37,14 @@
         }
       },
       "frameworks": {
-        "netcoreapp3.1": {
+        "netcoreapp2.1": {
+          "dependencies": {
+            "Microsoft.NETCore.App": {
+              "target": "Package",
+              "version": "[2.1.0, )",
+              "autoReferenced": true
+            }
+          },
           "imports": [
             "net461"
           ],
