@@ -39,9 +39,9 @@ namespace ConsoleApp1
             Random random = new Random();
             short[,] matrixC = new short[4, 4];
             short[,] matrixQ = new short[4, 4] { {1,2,4,1 },
-                                                {2,2,2,2 },
-                                                {3,3,3,30 },
-                                                {4,4,40,50 } };
+                                                 {2,2,2,2 },
+                                                 {3,3,3,30 },
+                                                 {4,4,40,50 } };
             
             for (int i = 0; i< 16; i++)
             {

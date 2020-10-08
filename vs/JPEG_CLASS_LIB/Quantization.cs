@@ -21,7 +21,9 @@ namespace JPEG_CLASS_LIB
             {
                 for (int j = 0; j < MatrixCoefficient.GetLength(1); j++)
                 {
-                    MatrixCoefficient[i, j] /= MatrixQuantization[i, j];
+                    double temp = MatrixCoefficient[i, j];
+                    temp /= Convert.ToDouble(MatrixQuantization[i,j]);
+                    MatrixCoefficient[i,j] = Convert.ToByte(Math.Round(temp));
                 }
             }
             return MatrixCoefficient;
