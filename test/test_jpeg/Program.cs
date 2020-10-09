@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JPEG_CLASS_LIB;
+using System;
 using System.IO;
 using JPEG_CLASS_LIB;
 
@@ -12,6 +13,7 @@ namespace ConsoleApp1
             _TestUnpack();
             _TestQuantization();
             _TestDCT();
+            _TestDCTShift();
         }
 
         static void _TestUnpack()
@@ -154,6 +156,37 @@ namespace ConsoleApp1
                     
                     Console.Write(matrix2[i, j] + " ");
                 }
+                Console.WriteLine();
+            }
+        }
+        static void _TestDCTShift()
+        {
+            Random Random = new Random();
+            byte[,] testmassive = new byte[5, 5];
+            for (int i = 0; i < testmassive.GetLength(0); i++)
+                for (int j = 0; j < testmassive.GetLength(1); j++) testmassive[i, j] = Convert.ToByte(Random.Next(0, 256));
+            short[,] testshort = new short[,] { };
+            byte[,] testbyte = new byte[,] { };
+            testshort = DCT.Shift(testmassive);
+            testbyte = DCT.ReverseShift(testshort);
+            Console.WriteLine("Изначальная матрица");
+            for (int i = 0; i < testmassive.GetLength(0); i++)
+            {
+                for (int j = 0; j < testmassive.GetLength(1); j++) Console.Write(testmassive[i, j].ToString() + " ");
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+            Console.WriteLine("Матрица со сдвигом");
+            for (int i = 0; i < testshort.GetLength(0); i++)
+            {
+                for (int j = 0; j < testshort.GetLength(1); j++) Console.Write(testshort[i, j].ToString() + " ");
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+            Console.WriteLine("Матрица с обратным сдвигом");
+            for (int i = 0; i < testbyte.GetLength(0); i++)
+            {
+                for (int j = 0; j < testbyte.GetLength(1); j++) Console.Write(testbyte[i, j].ToString() + " ");
                 Console.WriteLine();
             }
         }
