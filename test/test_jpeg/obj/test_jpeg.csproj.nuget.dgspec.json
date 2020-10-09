@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\AfterWaLifu\\source\\repos\\for_git\\test\\test_jpeg\\test_jpeg.csproj": {}
+    "C:\\Users\\dmitr\\jpeg-cs-92_1\\test\\test_jpeg\\test_jpeg.csproj": {}
   },
   "projects": {
-    "C:\\Users\\AfterWaLifu\\source\\repos\\for_git\\test\\test_jpeg\\test_jpeg.csproj": {
+    "C:\\Users\\dmitr\\jpeg-cs-92_1\\test\\test_jpeg\\test_jpeg.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\AfterWaLifu\\source\\repos\\for_git\\test\\test_jpeg\\test_jpeg.csproj",
+        "projectUniqueName": "C:\\Users\\dmitr\\jpeg-cs-92_1\\test\\test_jpeg\\test_jpeg.csproj",
         "projectName": "test_jpeg",
-        "projectPath": "C:\\Users\\AfterWaLifu\\source\\repos\\for_git\\test\\test_jpeg\\test_jpeg.csproj",
-        "packagesPath": "C:\\Users\\AfterWaLifu\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\AfterWaLifu\\source\\repos\\for_git\\test\\test_jpeg\\obj\\",
+        "projectPath": "C:\\Users\\dmitr\\jpeg-cs-92_1\\test\\test_jpeg\\test_jpeg.csproj",
+        "packagesPath": "C:\\Users\\dmitr\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\dmitr\\jpeg-cs-92_1\\test\\test_jpeg\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\AfterWaLifu\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\dmitr\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -52,7 +52,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
         }
       }
     }

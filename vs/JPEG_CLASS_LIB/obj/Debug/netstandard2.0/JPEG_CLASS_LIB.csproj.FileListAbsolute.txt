@@ -24,3 +24,10 @@ D:\ЮЗГУ\КПО\jpeg-cs-92_1\vs\JPEG_CLASS_LIB\obj\Debug\netstandard2.0\JPEG_
 D:\ЮЗГУ\КПО\jpeg-cs-92_1\vs\JPEG_CLASS_LIB\obj\Debug\netstandard2.0\JPEG_CLASS_LIB.AssemblyInfo.cs
 D:\ЮЗГУ\КПО\jpeg-cs-92_1\vs\JPEG_CLASS_LIB\obj\Debug\netstandard2.0\JPEG_CLASS_LIB.dll
 D:\ЮЗГУ\КПО\jpeg-cs-92_1\vs\JPEG_CLASS_LIB\obj\Debug\netstandard2.0\JPEG_CLASS_LIB.pdb
+C:\Users\dmitr\jpeg-cs-92_1\vs\JPEG_CLASS_LIB\bin\Debug\netstandard2.0\JPEG_CLASS_LIB.deps.json
+C:\Users\dmitr\jpeg-cs-92_1\vs\JPEG_CLASS_LIB\bin\Debug\netstandard2.0\JPEG_CLASS_LIB.dll
+C:\Users\dmitr\jpeg-cs-92_1\vs\JPEG_CLASS_LIB\bin\Debug\netstandard2.0\JPEG_CLASS_LIB.pdb
+C:\Users\dmitr\jpeg-cs-92_1\vs\JPEG_CLASS_LIB\obj\Debug\netstandard2.0\JPEG_CLASS_LIB.AssemblyInfoInputs.cache
+C:\Users\dmitr\jpeg-cs-92_1\vs\JPEG_CLASS_LIB\obj\Debug\netstandard2.0\JPEG_CLASS_LIB.AssemblyInfo.cs
+C:\Users\dmitr\jpeg-cs-92_1\vs\JPEG_CLASS_LIB\obj\Debug\netstandard2.0\JPEG_CLASS_LIB.dll
+C:\Users\dmitr\jpeg-cs-92_1\vs\JPEG_CLASS_LIB\obj\Debug\netstandard2.0\JPEG_CLASS_LIB.pdb

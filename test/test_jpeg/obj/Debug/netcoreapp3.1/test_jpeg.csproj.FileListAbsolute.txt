@@ -14,3 +14,17 @@ C:\Users\AfterWaLifu\source\repos\for_git\test\test_jpeg\obj\Debug\netcoreapp3.1
 C:\Users\AfterWaLifu\source\repos\for_git\test\test_jpeg\obj\Debug\netcoreapp3.1\test_jpeg.dll
 C:\Users\AfterWaLifu\source\repos\for_git\test\test_jpeg\obj\Debug\netcoreapp3.1\test_jpeg.pdb
 C:\Users\AfterWaLifu\source\repos\for_git\test\test_jpeg\obj\Debug\netcoreapp3.1\test_jpeg.genruntimeconfig.cache
+C:\Users\dmitr\jpeg-cs-92_1\test\test_jpeg\bin\Debug\netcoreapp3.1\test_jpeg.exe
+C:\Users\dmitr\jpeg-cs-92_1\test\test_jpeg\bin\Debug\netcoreapp3.1\test_jpeg.deps.json
+C:\Users\dmitr\jpeg-cs-92_1\test\test_jpeg\bin\Debug\netcoreapp3.1\test_jpeg.runtimeconfig.json
+C:\Users\dmitr\jpeg-cs-92_1\test\test_jpeg\bin\Debug\netcoreapp3.1\test_jpeg.runtimeconfig.dev.json
+C:\Users\dmitr\jpeg-cs-92_1\test\test_jpeg\bin\Debug\netcoreapp3.1\test_jpeg.dll
+C:\Users\dmitr\jpeg-cs-92_1\test\test_jpeg\bin\Debug\netcoreapp3.1\test_jpeg.pdb
+C:\Users\dmitr\jpeg-cs-92_1\test\test_jpeg\bin\Debug\netcoreapp3.1\JPEG_CLASS_LIB.dll
+C:\Users\dmitr\jpeg-cs-92_1\test\test_jpeg\bin\Debug\netcoreapp3.1\JPEG_CLASS_LIB.pdb
+C:\Users\dmitr\jpeg-cs-92_1\test\test_jpeg\obj\Debug\netcoreapp3.1\test_jpeg.AssemblyInfoInputs.cache
+C:\Users\dmitr\jpeg-cs-92_1\test\test_jpeg\obj\Debug\netcoreapp3.1\test_jpeg.AssemblyInfo.cs
+C:\Users\dmitr\jpeg-cs-92_1\test\test_jpeg\obj\Debug\netcoreapp3.1\test_jpeg.csproj.CopyComplete
+C:\Users\dmitr\jpeg-cs-92_1\test\test_jpeg\obj\Debug\netcoreapp3.1\test_jpeg.dll
+C:\Users\dmitr\jpeg-cs-92_1\test\test_jpeg\obj\Debug\netcoreapp3.1\test_jpeg.pdb
+C:\Users\dmitr\jpeg-cs-92_1\test\test_jpeg\obj\Debug\netcoreapp3.1\test_jpeg.csprojAssemblyReference.cache
