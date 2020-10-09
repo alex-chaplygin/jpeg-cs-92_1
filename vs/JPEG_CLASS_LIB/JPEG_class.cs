@@ -1,3 +1,4 @@
+using JPEG_CLASS_LIB;
 using System;
 using System.IO;
 
@@ -21,7 +22,7 @@ public class JPEG_CS
     /// <param name="name">Поток для создания объекта.</param>
 	public JPEG_CS(Stream name)
 	{
-		
+
 	}
 	
     /// <summary>
