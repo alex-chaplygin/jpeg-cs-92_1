@@ -2,6 +2,7 @@
   "format": 1,
   "restore": {
 <<<<<<< HEAD
+<<<<<<< HEAD
     "C:\\Users\\Andrew\\Desktop\\repos\\jpeg-cs-92_1\\vs\\JPEG_CLASS_LIB\\JPEG_CLASS_LIB.csproj": {}
   },
   "projects": {
@@ -34,6 +35,23 @@
           "C:\\Users\\AfterWaLifu\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
 >>>>>>> iss8
+=======
+    "C:\\Users\\dmitr\\jpeg-cs-92_1\\vs\\JPEG_CLASS_LIB\\JPEG_CLASS_LIB.csproj": {}
+  },
+  "projects": {
+    "C:\\Users\\dmitr\\jpeg-cs-92_1\\vs\\JPEG_CLASS_LIB\\JPEG_CLASS_LIB.csproj": {
+      "version": "1.0.0",
+      "restore": {
+        "projectUniqueName": "C:\\Users\\dmitr\\jpeg-cs-92_1\\vs\\JPEG_CLASS_LIB\\JPEG_CLASS_LIB.csproj",
+        "projectName": "JPEG_CLASS_LIB",
+        "projectPath": "C:\\Users\\dmitr\\jpeg-cs-92_1\\vs\\JPEG_CLASS_LIB\\JPEG_CLASS_LIB.csproj",
+        "packagesPath": "C:\\Users\\dmitr\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\dmitr\\jpeg-cs-92_1\\vs\\JPEG_CLASS_LIB\\obj\\",
+        "projectStyle": "PackageReference",
+        "configFilePaths": [
+          "C:\\Users\\dmitr\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+>>>>>>> iss7
         ],
         "originalTargetFrameworks": [
           "netstandard2.0"
@@ -73,7 +91,11 @@
           ],
           "assetTargetFallback": true,
           "warn": true,
+<<<<<<< HEAD
           "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.402\\RuntimeIdentifierGraph.json"
+=======
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.101\\RuntimeIdentifierGraph.json"
+>>>>>>> iss7
         }
       }
     }
