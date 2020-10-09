@@ -15,12 +15,25 @@ namespace JPEG_CLASS_LIB
         private byte[,] matrix;
 
         /// <summary>
+        /// Высота блока.
+        /// </summary>
+        private int h;
+        /// <summary>
+        /// Ширина блока.
+        /// </summary>
+        private int v;
+
+        /// <summary>
         /// Создает блок на основе заданной матрицы.
         /// </summary>
         /// <param name="matrix">Заданная матрица для создания блока.</param>
-        public Block(byte[,] matrix)
+        /// <param name="H">Ширина блока.</param>
+        /// <param name="V">Высота блока.</param>
+        public Block(byte[,] matrix, int H, int V)
         {
             this.matrix = matrix;
+            this.h = H;
+            this.v = V;
         }
 
         /// <summary>
@@ -33,79 +46,106 @@ namespace JPEG_CLASS_LIB
         }
 
         /// <summary>
-        /// Преобразует исходную матрицу в новую, изменяя ширину и высоту.
-        /// Значения матрицы интерполируются.
-        /// Ширина будет увеличина в (H/Hmax) раз.
-        /// Высота будет увеличина в (V/Vmax) раз.
+        /// Возвращает ширину блока.
         /// </summary>
-        /// <returns>Масштабированная матрица.</returns>
-        public byte[,] Scaling(int H, int Hmax, int V, int Vmax)
-        {
-            float hProportion = (float)H / Hmax;
-            float vProportion = (float)V / Vmax;
+        public int GetH => h;
+        /// <summary>
+        /// Возвращает высоту блока.
+        /// </summary>
+        public int GetV => v;
 
-            int width = (int)(matrix.GetLength(1) * hProportion);
+        public void Sample(int Hmax, int Vmax)
+        {
+            float hProportion = (float)h / Hmax;
+            float vProportion = (float)v / Vmax;
+
+            int width = (int)(matrix.GetLength(0) / hProportion);
             if (width == 0) width = 1;
-            int height = (int)(matrix.GetLength(0) * vProportion);
+            int height = (int)(matrix.GetLength(1) / vProportion);
             if (height == 0) height = 1;
 
+
             // Масштабирование по ширине.
-            byte[,] tempMatrix = new byte[matrix.GetLength(0), width];
+            byte[,] tempMatrix = new byte[width, matrix.GetLength(1)];
             if (hProportion == 1)
             {
                 tempMatrix = matrix;
-            }
-            else if (hProportion < 1) // Прореживание.
-            {
-                int hThinning = Hmax / H;
-                for (int x = 0; x < width; x++)
-                {
-                    for (int y = 0; y < tempMatrix.GetLength(0); y++)
-                    {
-                        tempMatrix[y, x] = matrix[y, x * hThinning];
-                    }
-                }
             }
             else //Кусочно-постоянная интерполяция.
             {
                 for (int x = 0; x < width; x++)
                 {
-                    for (int y = 0; y < tempMatrix.GetLength(0); y++)
+                    for (int y = 0; y < tempMatrix.GetLength(1); y++)
                     {
-                        tempMatrix[y, x] = matrix[y, (int)(x / hProportion)];
+                        tempMatrix[x, y] = matrix[(int)(x * hProportion), y];
                     }
                 }
             }
 
             // Масштабирование по высоте.
-            byte[,] scaledMatrix = new byte[height, width];
+            byte[,] scaledMatrix = new byte[width, height];
             if (vProportion == 1)
             {
                 scaledMatrix = tempMatrix;
             }
-            else if (vProportion < 1) // Прореживание.
+            else
             {
-                int vThinning = Vmax / V;
                 for (int y = 0; y < height; y++)
                 {
                     for (int x = 0; x < width; x++)
                     {
-                        scaledMatrix[y, x] = tempMatrix[y * vThinning, x];
+                        scaledMatrix[x, y] = tempMatrix[x, (int)(y * vProportion)];
                     }
                 }
+            }
+            this.matrix = scaledMatrix;
+        }
+
+        public void Resample(int Hmax, int Vmax)
+        {
+            float hProportion = Hmax / (float)h;
+            float vProportion = Vmax / (float)v;
+
+            int width = (int)(matrix.GetLength(0) / hProportion);
+            if (width == 0) width = 1;
+            int height = (int)(matrix.GetLength(1) / vProportion);
+            if (height == 0) height = 1;
+
+
+            // Масштабирование по ширине.
+            byte[,] tempMatrix = new byte[width, matrix.GetLength(1)];
+            if (hProportion == 1)
+            {
+                tempMatrix = matrix;
             }
             else //Кусочно-постоянная интерполяция.
             {
+                for (int x = 0; x < width; x++)
+                {
+                    for (int y = 0; y < tempMatrix.GetLength(1); y++)
+                    {
+                        tempMatrix[x, y] = matrix[(int)(x * hProportion), y];
+                    }
+                }
+            }
+
+            // Масштабирование по высоте.
+            byte[,] scaledMatrix = new byte[width, height];
+            if (vProportion == 1)
+            {
+                scaledMatrix = tempMatrix;
+            }
+            else
+            {
                 for (int y = 0; y < height; y++)
                 {
                     for (int x = 0; x < width; x++)
                     {
-                        scaledMatrix[y, x] = tempMatrix[(int)(y / vProportion), x];
+                        scaledMatrix[x, y] = tempMatrix[x, (int)(y * vProportion)];
                     }
                 }
             }
-            return scaledMatrix;
+            this.matrix = scaledMatrix;
         }
-
     }
 }

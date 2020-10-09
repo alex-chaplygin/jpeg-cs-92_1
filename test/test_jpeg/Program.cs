@@ -1,5 +1,4 @@
-﻿using JPEG_CLASS_LIB;
-using System;
+﻿using System;
 using System.IO;
 using JPEG_CLASS_LIB;
 
@@ -14,6 +13,7 @@ namespace ConsoleApp1
             _TestQuantization();
             _TestDCT();
             _TestDCTShift();
+            _TestBlock();
         }
 
         static void _TestUnpack()
@@ -36,44 +36,53 @@ namespace ConsoleApp1
                 }
             }
             p.Compress(points);
-            JPEG_CS j = new JPEG_CS(File.Open("test.jpg", FileMode.Create));
-            Point[,] изображение = j.UnPack();
+            JPEG_CS j2 = new JPEG_CS(File.Open("test.jpg", FileMode.Create));
+            Point[,] изображение = j2.UnPack();
             изображение[0, 0].r = 255;
-
-            BlockTest();
         }
 
-        static void BlockTest()
+
+        static void _TestBlock()
         {
 
-            byte[,] matrix = new byte[,]
+            byte[,] matrix = new byte[4, 4];
+            for (int y = 0, c = 0; y < matrix.GetLength(1); y++)
             {
-                { 1, 2, 3, 4 },
-                { 5, 6, 7, 8  },
-                { 9, 10,11,12 },
-                { 13,14,15,16 }
-            };
+                for (int x = 0; x < matrix.GetLength(0); x++, c++)
+                {
+                    matrix[x, y] = (byte)c;
+                }
+            }
 
-            Block block1 = new Block(matrix);
+            Console.WriteLine("Block(matrix, 4, 4)");
+            Block block1 = new Block(matrix, 4, 4);
             WriteMatrix(block1.GetMatrix());
-            Console.WriteLine();
 
-            Block block2 = new Block(block1.Scaling(1, 2, 1, 2));
-            WriteMatrix(block2.GetMatrix());
-            Console.WriteLine();
+            Console.WriteLine("Sample(2, 2)");
+            block1.Sample(2, 2);
+            WriteMatrix(block1.GetMatrix());
 
-            Block block3 = new Block(block2.Scaling(3, 1, 3, 1));
-            WriteMatrix(block3.GetMatrix());
-            Console.WriteLine();
+            Console.WriteLine("Sample(8, 8)");
+            block1.Sample(8, 8);
+            WriteMatrix(block1.GetMatrix());
+
+            Console.WriteLine("Resample(8, 8)");
+            block1.Resample(8, 8);
+            WriteMatrix(block1.GetMatrix());
+
+            Console.WriteLine("Resample(1, 1)");
+            block1.Resample(1, 1);
+            WriteMatrix(block1.GetMatrix());
+
         }
 
         static void WriteMatrix(byte[,] matrix)
         {
-            for (int i = 0; i < matrix.GetLength(1); i++)
+            for (int y = 0; y < matrix.GetLength(1); y++)
             {
-                for (int j = 0; j < matrix.GetLength(0); j++)
+                for (int x = 0; x < matrix.GetLength(0); x++)
                 {
-                    Console.Write(matrix[i,j] + " ");
+                    Console.Write(matrix[x, y] + " ");
                 }
                 Console.WriteLine();
             }
