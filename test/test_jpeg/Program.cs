@@ -2,6 +2,7 @@
 using System;
 using System.IO;
 using JPEG_CLASS_LIB;
+using System.Collections.Generic;
 
 namespace ConsoleApp1
 {
@@ -12,8 +13,9 @@ namespace ConsoleApp1
             //_TestPack();
             //_TestUnpack();
             //_TestQuantization();
-            _TestDCT();
+            //_TestDCT();
             //_TestDCTShift();
+            _TestCalculatingDC();
         }
 
         static void _TestUnpack()
@@ -21,7 +23,6 @@ namespace ConsoleApp1
             var up = new JPEG_CS(File.Open("testUP.jpg", FileMode.Create));
             Point[,] изображение = up.UnPack();
         }
-
         static void _TestPack()
         {
             JPEG_CS p = new JPEG_CS(File.Open("testP.jpg", FileMode.Create));
@@ -66,7 +67,6 @@ namespace ConsoleApp1
             WriteMatrix(block3.GetMatrix());
             Console.WriteLine();
         }
-
         static void WriteMatrix(byte[,] matrix)
         {
             for (int i = 0; i < matrix.GetLength(1); i++)
@@ -78,6 +78,7 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
         }
+
         static void _TestQuantization()
         {
             Random random = new Random();
@@ -116,6 +117,7 @@ namespace ConsoleApp1
                 if (i % 4 == 3) { Console.Write("\n"); }
             }
         }
+
         static void _TestDCT()
         {
             short[,]matrix= new short[8, 8];
@@ -187,6 +189,48 @@ namespace ConsoleApp1
             for (int i = 0; i < testbyte.GetLength(0); i++)
             {
                 for (int j = 0; j < testbyte.GetLength(1); j++) Console.Write(testbyte[i, j].ToString() + " ");
+                Console.WriteLine();
+            }
+        }
+
+        static void _TestCalculatingDC()
+        {
+            List<short[,]> blocks = new List<short[,]>();
+
+            Random random = new Random();
+            for (int j = 0; j < 3; j++)
+            {
+                short[,] s = new short[4, 4];
+                blocks.Add(s);
+                for (int i = 0; i < 16; i++)
+                {
+                    blocks[j][i / 4, i % 4] = Convert.ToInt16(random.Next(0, 16));
+                }
+            }
+
+            //вывод до
+            Console.WriteLine("До вычисления DC");
+            for (int j = 0; j < 3; j++)
+            {
+                for (int i = 0; i < 16; i++)
+                {
+                    Console.Write($"{blocks[j][i / 4, i % 4]}\t");
+                    if (i % 4 == 3) { Console.Write("\n"); }
+                }
+                Console.WriteLine();
+            }
+
+            JPEG_CS.CalculatingDC(ref blocks);
+
+            //вывод 
+            Console.WriteLine($"\n\nПосле");
+            for (int j = 0; j < 3; j++)
+            {
+                for (int i = 0; i < 16; i++)
+                {
+                    Console.Write($"{blocks[j][i / 4, i % 4]}\t");
+                    if (i % 4 == 3) { Console.Write("\n"); }
+                }
                 Console.WriteLine();
             }
         }

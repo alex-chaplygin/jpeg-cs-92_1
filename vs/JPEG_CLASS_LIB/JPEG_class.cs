@@ -1,6 +1,7 @@
 using JPEG_CLASS_LIB;
 using System;
 using System.IO;
+using System.Collections.Generic;
 
 /// <summary>
 /// Библиотека предназначена для сжатия и распаковки изображений в формате JPEG.
@@ -51,6 +52,18 @@ public class JPEG_CS
 	{
 		
 	}
+
+    /// <summary>
+    /// Заменяет первое значение в каждом блоке из списа на DC коэффициент
+    /// </summary>
+    /// <param name="blocks">Список блоков</param>
+    static public void CalculatingDC(ref List<short[,]> blocks)
+    {
+        for (int i = blocks.Count -1; i > 0 ; i--)
+        {
+            blocks[i][0, 0] -= blocks[i - 1][0, 0];
+        }
+    }
 }
 
 /// <summary>
