@@ -195,16 +195,16 @@ namespace ConsoleApp1
 
         static void _TestCalculatingDC()
         {
-            List<short[,]> blocks = new List<short[,]>();
+            List<byte[,]> blocks = new List<byte[,]>();
 
             Random random = new Random();
             for (int j = 0; j < 3; j++)
             {
-                short[,] s = new short[4, 4];
+                byte[,] s = new byte[4, 4];
                 blocks.Add(s);
                 for (int i = 0; i < 16; i++)
                 {
-                    blocks[j][i / 4, i % 4] = Convert.ToInt16(random.Next(0, 16));
+                    blocks[j][i / 4, i % 4] = Convert.ToByte(random.Next(0, 16));
                 }
             }
 
@@ -220,10 +220,24 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
 
-            JPEG_CS.CalculatingDC(ref blocks);
+            JPEG_CS.DCCalculating(blocks);
 
-            //вывод 
+            //вывод после
             Console.WriteLine($"\n\nПосле");
+            for (int j = 0; j < 3; j++)
+            {
+                for (int i = 0; i < 16; i++)
+                {
+                    Console.Write($"{blocks[j][i / 4, i % 4]}\t");
+                    if (i % 4 == 3) { Console.Write("\n"); }
+                }
+                Console.WriteLine();
+            }
+
+            JPEG_CS.DCRestore(blocks);
+
+            //вывод после обратного
+            Console.WriteLine($"\n\nПосле обратного");
             for (int j = 0; j < 3; j++)
             {
                 for (int i = 0; i < 16; i++)

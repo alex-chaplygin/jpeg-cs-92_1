@@ -56,13 +56,28 @@ public class JPEG_CS
     /// <summary>
     /// Заменяет первое значение в каждом блоке из списа на DC коэффициент
     /// </summary>
-    /// <param name="blocks">Список блоков</param>
-    static public void CalculatingDC(ref List<short[,]> blocks)
+    /// <param name="blocks">Список исходных блоков</param>
+    /// <returns>Список изменённых блоков</returns>
+    static public List<byte[,]> DCCalculating(List<byte[,]> blocks)
     {
         for (int i = blocks.Count -1; i > 0 ; i--)
         {
             blocks[i][0, 0] -= blocks[i - 1][0, 0];
         }
+        return blocks;
+    }
+    /// <summary>
+    /// Заменяет первое значение (DC-коэфициент) в каждом блоке на исходное значение
+    /// </summary>
+    /// <param name="blocks">Список блоков</param>
+    /// <returns>Список исходных блоков</returns>
+    static public List<byte[,]> DCRestore(List<byte[,]> blocks)
+    {
+        for (int i = 1; i < blocks.Count; i++)
+        {
+            blocks[i][0, 0] += blocks[i-1][0,0];
+        }
+        return blocks;
     }
 }
 
