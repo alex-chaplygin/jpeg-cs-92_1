@@ -13,7 +13,7 @@ namespace ConsoleApp1
             _TestQuantization();
             _TestDCT();
             _TestDCTShift();
-            _TestBlock();
+            _TestChannel();
         }
 
         static void _TestUnpack()
@@ -42,7 +42,7 @@ namespace ConsoleApp1
         }
 
 
-        static void _TestBlock()
+        static void _TestChannel()
         {
 
             byte[,] matrix = new byte[4, 4];
@@ -50,30 +50,21 @@ namespace ConsoleApp1
             {
                 for (int x = 0; x < matrix.GetLength(0); x++, c++)
                 {
-                    matrix[x, y] = (byte)c;
+                    matrix[x, y] = (byte)(c*4);
                 }
             }
 
             Console.WriteLine("Block(matrix, 4, 4)");
-            Block block1 = new Block(matrix, 4, 4);
-            WriteMatrix(block1.GetMatrix());
+            Channel channel1 = new Channel(matrix, 4, 4);
+            WriteMatrix(channel1.GetMatrix());
+                       
+            Console.WriteLine("\nResample(16, 8)");
+            channel1.Resample(16, 8);
+            WriteMatrix(channel1.GetMatrix());
 
-            Console.WriteLine("Sample(2, 2)");
-            block1.Sample(2, 2);
-            WriteMatrix(block1.GetMatrix());
-
-            Console.WriteLine("Sample(8, 8)");
-            block1.Sample(8, 8);
-            WriteMatrix(block1.GetMatrix());
-
-            Console.WriteLine("Resample(8, 8)");
-            block1.Resample(8, 8);
-            WriteMatrix(block1.GetMatrix());
-
-            Console.WriteLine("Resample(1, 1)");
-            block1.Resample(1, 1);
-            WriteMatrix(block1.GetMatrix());
-
+            Console.WriteLine("\nSample(16, 8)");
+            channel1.Sample(16, 8);
+            WriteMatrix(channel1.GetMatrix());
         }
 
         static void WriteMatrix(byte[,] matrix)
@@ -82,7 +73,7 @@ namespace ConsoleApp1
             {
                 for (int x = 0; x < matrix.GetLength(0); x++)
                 {
-                    Console.Write(matrix[x, y] + " ");
+                    Console.Write($"{matrix[x, y], 3} ");
                 }
                 Console.WriteLine();
             }
