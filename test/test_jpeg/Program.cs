@@ -9,11 +9,11 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            _TestPack();
-            _TestUnpack();
-            _TestQuantization();
+            //_TestPack();
+            //_TestUnpack();
+            //_TestQuantization();
             _TestDCT();
-            _TestDCTShift();
+            //_TestDCTShift();
         }
 
         static void _TestUnpack()
@@ -36,8 +36,8 @@ namespace ConsoleApp1
                 }
             }
             p.Compress(points);
-            JPEG_CS j = new JPEG_CS(File.Open("test.jpg", FileMode.Create));
-            Point[,] изображение = j.UnPack();
+            JPEG_CS jj = new JPEG_CS(File.Open("test.jpg", FileMode.Create));
+            Point[,] изображение = jj.UnPack();
             изображение[0, 0].r = 255;
 
             BlockTest();
@@ -127,10 +127,10 @@ namespace ConsoleApp1
                 for (int j=0; j<8;j++)
                 {
                     matrix[i, j] = Convert.ToInt16(Convert.ToInt16(r.Next(-128,128)));
-                    if (i==0) matrix[i, j] = Convert.ToInt16(Convert.ToInt16(0));
-                    if (j == 0) matrix[i, j] = Convert.ToInt16(Convert.ToInt16(0));
-                    if (i == 7) matrix[i, j] = Convert.ToInt16(Convert.ToInt16(0));
-                    if (j == 7) matrix[i, j] = Convert.ToInt16(Convert.ToInt16(0));
+                    //if (i==0) matrix[i, j] = Convert.ToInt16(Convert.ToInt16(0));
+                    //if (j == 0) matrix[i, j] = Convert.ToInt16(Convert.ToInt16(0));
+                    //if (i == 7) matrix[i, j] = Convert.ToInt16(Convert.ToInt16(0));
+                    //if (j == 7) matrix[i, j] = Convert.ToInt16(Convert.ToInt16(0));
 
                     Console.Write(matrix[i, j]+" ");
                 }
