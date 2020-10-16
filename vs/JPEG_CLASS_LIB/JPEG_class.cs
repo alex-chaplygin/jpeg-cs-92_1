@@ -59,12 +59,9 @@ public class JPEG_CS
     /// <param name="blocks">Список блоков</param>
     static public void CalculatingDC(ref List<short[,]> blocks)
     {
-        short[] NativeValues = new short[blocks.Count];
-        NativeValues[0] = blocks[0][0, 0];
-        for (int i = 1; i < blocks.Count ; i++)
+        for (int i = blocks.Count -1; i > 0 ; i--)
         {
-            NativeValues[i] = blocks[i][0, 0];
-            blocks[i][0, 0] -= blocks[i-1][0, 0];
+            blocks[i][0, 0] -= blocks[i - 1][0, 0];
         }
     }
 }

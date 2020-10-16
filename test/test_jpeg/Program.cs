@@ -208,6 +208,7 @@ namespace ConsoleApp1
                 }
             }
 
+            //вывод до
             Console.WriteLine("До вычисления DC");
             for (int j = 0; j < 3; j++)
             {
@@ -221,6 +222,7 @@ namespace ConsoleApp1
 
             JPEG_CS.CalculatingDC(ref blocks);
 
+            //вывод 
             Console.WriteLine($"\n\nПосле");
             for (int j = 0; j < 3; j++)
             {
