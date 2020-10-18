@@ -4,30 +4,30 @@ using System.IO;
 using System.Collections.Generic;
 
 /// <summary>
-/// Библиотека предназначена для сжатия и распаковки изображений в формате JPEG.
+/// Р‘РёР±Р»РёРѕС‚РµРєР° РїСЂРµРґРЅР°Р·РЅР°С‡РµРЅР° РґР»СЏ СЃР¶Р°С‚РёСЏ Рё СЂР°СЃРїР°РєРѕРІРєРё РёР·РѕР±СЂР°Р¶РµРЅРёР№ РІ С„РѕСЂРјР°С‚Рµ JPEG.
 /// </summary>
 public class JPEG_CS
 {
     /// <summary>
-    /// Ширина изображения.
+    /// РЁРёСЂРёРЅР° РёР·РѕР±СЂР°Р¶РµРЅРёСЏ.
     /// </summary>
 	int width;
     /// <summary>
-    /// Высота изображения.
+    /// Р’С‹СЃРѕС‚Р° РёР·РѕР±СЂР°Р¶РµРЅРёСЏ.
     /// </summary>
 	int height;
 	
     /// <summary>
-    /// Создает объект из потока.
+    /// РЎРѕР·РґР°РµС‚ РѕР±СЉРµРєС‚ РёР· РїРѕС‚РѕРєР°.
     /// </summary>
-    /// <param name="name">Поток для создания объекта.</param>
+    /// <param name="name">РџРѕС‚РѕРє РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РѕР±СЉРµРєС‚Р°.</param>
 	public JPEG_CS(Stream name)
 	{
 
 	}
 	
     /// <summary>
-    /// Распаковывает содержимое JPEG и возвращает изображение.
+    /// Р Р°СЃРїР°РєРѕРІС‹РІР°РµС‚ СЃРѕРґРµСЂР¶РёРјРѕРµ JPEG Рё РІРѕР·РІСЂР°С‰Р°РµС‚ РёР·РѕР±СЂР°Р¶РµРЅРёРµ.
     /// </summary>
     /// <returns></returns>
 	public Point[,] UnPack()
@@ -36,28 +36,28 @@ public class JPEG_CS
 	}
 	
     /// <summary>
-    /// Сжимает изображение и записывает его в поток.
+    /// РЎР¶РёРјР°РµС‚ РёР·РѕР±СЂР°Р¶РµРЅРёРµ Рё Р·Р°РїРёСЃС‹РІР°РµС‚ РµРіРѕ РІ РїРѕС‚РѕРє.
     /// </summary>
-    /// <param name="picture">Изображение.</param>
+    /// <param name="picture">РР·РѕР±СЂР°Р¶РµРЅРёРµ.</param>
 	public void Compress(Point[,] picture)
 	{
 		
 	}
 	
     /// <summary>
-    /// Устанавливает параметры сжатия JPEG.
+    /// РЈСЃС‚Р°РЅР°РІР»РёРІР°РµС‚ РїР°СЂР°РјРµС‚СЂС‹ СЃР¶Р°С‚РёСЏ JPEG.
     /// </summary>
-    /// <param name="parameters">Параметр сжатия JPEG.</param>
+    /// <param name="parameters">РџР°СЂР°РјРµС‚СЂ СЃР¶Р°С‚РёСЏ JPEG.</param>
 	public void SetArguments(int parameters)
 	{
 		
 	}
 
     /// <summary>
-    /// Заменяет первое значение в каждом блоке из списа на DC коэффициент
+    /// Р—Р°РјРµРЅСЏРµС‚ РїРµСЂРІРѕРµ Р·РЅР°С‡РµРЅРёРµ РІ РєР°Р¶РґРѕРј Р±Р»РѕРєРµ РёР· СЃРїРёСЃР° РЅР° DC РєРѕСЌС„С„РёС†РёРµРЅС‚
     /// </summary>
-    /// <param name="blocks">Список исходных блоков</param>
-    /// <returns>Список изменённых блоков</returns>
+    /// <param name="blocks">РЎРїРёСЃРѕРє РёСЃС…РѕРґРЅС‹С… Р±Р»РѕРєРѕРІ</param>
+    /// <returns>РЎРїРёСЃРѕРє РёР·РјРµРЅС‘РЅРЅС‹С… Р±Р»РѕРєРѕРІ</returns>
     static public List<byte[,]> DCCalculating(List<byte[,]> blocks)
     {
         for (int i = blocks.Count -1; i > 0 ; i--)
@@ -67,10 +67,10 @@ public class JPEG_CS
         return blocks;
     }
     /// <summary>
-    /// Заменяет первое значение (DC-коэфициент) в каждом блоке на исходное значение
+    /// Р—Р°РјРµРЅСЏРµС‚ РїРµСЂРІРѕРµ Р·РЅР°С‡РµРЅРёРµ (DC-РєРѕСЌС„РёС†РёРµРЅС‚) РІ РєР°Р¶РґРѕРј Р±Р»РѕРєРµ РЅР° РёСЃС…РѕРґРЅРѕРµ Р·РЅР°С‡РµРЅРёРµ
     /// </summary>
-    /// <param name="blocks">Список блоков</param>
-    /// <returns>Список исходных блоков</returns>
+    /// <param name="blocks">РЎРїРёСЃРѕРє Р±Р»РѕРєРѕРІ</param>
+    /// <returns>РЎРїРёСЃРѕРє РёСЃС…РѕРґРЅС‹С… Р±Р»РѕРєРѕРІ</returns>
     static public List<byte[,]> DCRestore(List<byte[,]> blocks)
     {
         for (int i = 1; i < blocks.Count; i++)
@@ -82,7 +82,7 @@ public class JPEG_CS
 }
 
 /// <summary>
-/// Параметры сжатия JPEG.
+/// РџР°СЂР°РјРµС‚СЂС‹ СЃР¶Р°С‚РёСЏ JPEG.
 /// </summary>
 public enum Arguments
 {
@@ -93,20 +93,20 @@ public enum Arguments
 }
 
 /// <summary>
-/// Точка.
+/// РўРѕС‡РєР°.
 /// </summary>
 public struct Point
 {
     /// <summary>
-    /// Красный byte.
+    /// РљСЂР°СЃРЅС‹Р№ byte.
     /// </summary>
     public byte r;
     /// <summary>
-    /// Зеленый byte.
+    /// Р—РµР»РµРЅС‹Р№ byte.
     /// </summary>
     public byte g;
     /// <summary>
-    /// Синий byte.
+    /// РЎРёРЅРёР№ byte.
     /// </summary>
     public byte b;
 }
