@@ -1,5 +1,4 @@
-﻿using JPEG_CLASS_LIB;
-using System;
+﻿using System;
 using System.IO;
 using JPEG_CLASS_LIB;
 using System.Collections.Generic;
@@ -10,12 +9,15 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            //_TestPack();
-            //_TestUnpack();
-            //_TestQuantization();
-            //_TestDCT();
-            //_TestDCTShift();
+           
             _TestCalculatingDC();
+
+            _TestPack();
+            _TestUnpack();
+            _TestQuantization();
+            _TestDCT();
+            _TestDCTShift();
+            _TestChannel();
         }
 
         static void _TestUnpack()
@@ -39,41 +41,42 @@ namespace ConsoleApp1
             p.Compress(points);
             JPEG_CS jj = new JPEG_CS(File.Open("test.jpg", FileMode.Create));
             Point[,] изображение = jj.UnPack();
-            изображение[0, 0].r = 255;
 
-            BlockTest();
+            изображение[0, 0].r = 255;
         }
 
-        static void BlockTest()
+
+        static void _TestChannel()
         {
 
-            byte[,] matrix = new byte[,]
+            byte[,] matrix = new byte[4, 4];
+            for (int y = 0, c = 0; y < matrix.GetLength(1); y++)
             {
-                { 1, 2, 3, 4 },
-                { 5, 6, 7, 8  },
-                { 9, 10,11,12 },
-                { 13,14,15,16 }
-            };
+                for (int x = 0; x < matrix.GetLength(0); x++, c++)
+                {
+                    matrix[x, y] = (byte)(c*4);
+                }
+            }
 
-            Block block1 = new Block(matrix);
-            WriteMatrix(block1.GetMatrix());
-            Console.WriteLine();
+            Console.WriteLine("Block(matrix, 4, 4)");
+            Channel channel1 = new Channel(matrix, 4, 4);
+            WriteMatrix(channel1.GetMatrix());
+                       
+            Console.WriteLine("\nResample(16, 8)");
+            channel1.Resample(16, 8);
+            WriteMatrix(channel1.GetMatrix());
 
-            Block block2 = new Block(block1.Scaling(1, 2, 1, 2));
-            WriteMatrix(block2.GetMatrix());
-            Console.WriteLine();
-
-            Block block3 = new Block(block2.Scaling(3, 1, 3, 1));
-            WriteMatrix(block3.GetMatrix());
-            Console.WriteLine();
+            Console.WriteLine("\nSample(16, 8)");
+            channel1.Sample(16, 8);
+            WriteMatrix(channel1.GetMatrix());
         }
         static void WriteMatrix(byte[,] matrix)
         {
-            for (int i = 0; i < matrix.GetLength(1); i++)
+            for (int y = 0; y < matrix.GetLength(1); y++)
             {
-                for (int j = 0; j < matrix.GetLength(0); j++)
+                for (int x = 0; x < matrix.GetLength(0); x++)
                 {
-                    Console.Write(matrix[i,j] + " ");
+                    Console.Write($"{matrix[x, y], 3} ");
                 }
                 Console.WriteLine();
             }
