@@ -79,6 +79,56 @@ public class JPEG_CS
         }
         return blocks;
     }
+    
+    
+    public static List<byte[,]> split(byte[,] matrix, int width, int height)
+    {
+    	    
+	    var BLOCK_SIZE = 8;
+
+	    var correctedWidth = width % BLOCK_SIZE == 0 ? width : BLOCK_SIZE*(width / BLOCK_SIZE + 1);
+	    var correctedHeight = height % BLOCK_SIZE == 0 ? height : BLOCK_SIZE*(height / BLOCK_SIZE + 1);
+
+	    var correctedMatrix = new byte[correctedHeight, correctedWidth];
+
+	    for (var i = 0; i < height; i++)
+	    {
+		    for (var j = 0; j < width; j++)
+		    {
+			    correctedMatrix[i, j] = matrix[i, j];
+		    }
+	    }
+
+	    var arr = new byte[correctedWidth * correctedHeight];
+	    
+	    for (var i = 0; i < correctedHeight; i++)
+	    {
+		    for (var j = 0; j < correctedWidth; j++)
+		    {
+			    arr[i*correctedWidth+j] = correctedMatrix[i, j];
+		    }
+	    }
+	    
+	    var splitResultList = new List<byte[,]>();
+    
+	    var blockCount = arr.Length / (BLOCK_SIZE*BLOCK_SIZE);
+	    var blockInRow = correctedWidth / BLOCK_SIZE;
+	    for (var blockIndex = 0; blockIndex < blockCount; blockIndex++)
+	    {
+		    splitResultList.Add(new byte[BLOCK_SIZE,BLOCK_SIZE]);
+		    var startIndex = (blockIndex/blockInRow)*blockInRow*BLOCK_SIZE*BLOCK_SIZE+(blockIndex%blockInRow)*BLOCK_SIZE;
+		    var innerIndex = 0;
+		    for (var row = 0; row < BLOCK_SIZE; row++)
+		    {
+			    for (var column = 0; column<BLOCK_SIZE; column++) {
+				    var realIndex = startIndex + row * correctedWidth + column;
+				    splitResultList[blockIndex][innerIndex/BLOCK_SIZE,innerIndex%BLOCK_SIZE] = arr[realIndex];
+				    innerIndex++;
+			    }
+		    }
+	    }
+	    return splitResultList;
+    }
 }
 
 /// <summary>

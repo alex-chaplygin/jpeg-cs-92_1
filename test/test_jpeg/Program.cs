@@ -9,9 +9,8 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-           
+            _TestSplit();
             _TestCalculatingDC();
-
             _TestPack();
             _TestUnpack();
             _TestQuantization();
@@ -196,6 +195,54 @@ namespace ConsoleApp1
             }
         }
 
+        static void _TestSplit()
+        {
+            var r = new Random();
+
+            // var width = r.Next(2, 1080); //big number
+            // var height = r.Next(2, 1920);
+            
+            var width = r.Next(2, 25); //compact test output
+            var height = r.Next(2, 25);
+
+            Console.WriteLine($"{width}*{height}");
+            
+            var testMatrix = new byte[height, width];
+
+            for (var i = 0; i < height; i++)
+            {
+                for (var j = 0; j < width; j++)
+                {
+                    var tmpByte = new byte[1];
+                    r.NextBytes(tmpByte);
+                    testMatrix[i, j] = tmpByte[0];
+                    Console.Write(tmpByte[0].ToString("X2")+ " ");
+                }
+                Console.WriteLine();
+            }
+            
+            var blocks = JPEG_CS.split(testMatrix, width, height);
+            Console.WriteLine();
+            Console.WriteLine($"For given {width}*{height} there is {blocks.Count} block(s)");
+
+            //for test print BLOCK_SIZE=8 - fixed!
+            var BLOCK_SIZE = 8;
+            for (var blockIndex = 0; blockIndex<blocks.Count; blockIndex++)
+            {
+                var block = blocks[blockIndex];
+                Console.WriteLine("Block #"+blockIndex);
+                var oneDArr = new byte[BLOCK_SIZE*BLOCK_SIZE];
+                Buffer.BlockCopy(block, 0, oneDArr, 0, block.Length);
+                for (int i = 1; i <= oneDArr.Length; i++)
+                {
+                    Console.Write(oneDArr[i-1].ToString("X2")+ " ");
+                    if (i!=0 && i%BLOCK_SIZE==0) Console.WriteLine();
+                }
+                
+                Console.WriteLine();
+            }
+        }
+        
         static void _TestCalculatingDC()
         {
             List<byte[,]> blocks = new List<byte[,]>();

@@ -8,9 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Reference Include="JPEG_CLASS_LIB">
-      <HintPath>..\..\vs\JPEG_CLASS_LIB\bin\Debug\netstandard2.0\JPEG_CLASS_LIB.dll</HintPath>
-    </Reference>
+    <ProjectReference Include="..\..\vs\JPEG_CLASS_LIB\JPEG_CLASS_LIB.csproj" />
   </ItemGroup>
 
 </Project>

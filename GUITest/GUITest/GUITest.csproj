@@ -83,5 +83,11 @@
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\vs\JPEG_CLASS_LIB\JPEG_CLASS_LIB.csproj">
+      <Project>{8841a541-c9c5-4696-beed-c46877202983}</Project>
+      <Name>JPEG_CLASS_LIB</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

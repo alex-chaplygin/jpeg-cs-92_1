@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.30503.244
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "test_jpeg", "test_jpeg.csproj", "{3C4FE1E3-F9F0-43EB-88DE-5EE10524AC97}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JPEG_CLASS_LIB", "..\..\vs\JPEG_CLASS_LIB\JPEG_CLASS_LIB.csproj", "{8841A541-C9C5-4696-BEED-C46877202983}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GUITest", "..\..\GUITest\GUITest\GUITest.csproj", "{EF4BFB8E-FB1B-4129-9392-2CFC44D96A40}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{3C4FE1E3-F9F0-43EB-88DE-5EE10524AC97}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3C4FE1E3-F9F0-43EB-88DE-5EE10524AC97}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3C4FE1E3-F9F0-43EB-88DE-5EE10524AC97}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8841A541-C9C5-4696-BEED-C46877202983}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8841A541-C9C5-4696-BEED-C46877202983}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8841A541-C9C5-4696-BEED-C46877202983}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8841A541-C9C5-4696-BEED-C46877202983}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF4BFB8E-FB1B-4129-9392-2CFC44D96A40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF4BFB8E-FB1B-4129-9392-2CFC44D96A40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF4BFB8E-FB1B-4129-9392-2CFC44D96A40}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF4BFB8E-FB1B-4129-9392-2CFC44D96A40}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
