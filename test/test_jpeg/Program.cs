@@ -75,7 +75,7 @@ namespace ConsoleApp1
             {
                 for (int x = 0; x < matrix.GetLength(0); x++)
                 {
-                    Console.Write($"{matrix[x, y], 3} ");
+                    Console.Write(matrix[x, y].ToString("X2")+ " ");
                 }
                 Console.WriteLine();
             }
@@ -199,7 +199,7 @@ namespace ConsoleApp1
         {
             var r = new Random();
 
-            // var width = r.Next(2, 1080); //big output
+            // var width = r.Next(2, 1080); //big test output
             // var height = r.Next(2, 1920);
             
             var width = r.Next(2, 25); //compact test output
@@ -209,22 +209,24 @@ namespace ConsoleApp1
             
             var testMatrix = new byte[width, height];
 
-            for (var i = 0; i < width; i++)
+            for (var i = 0; i < height; i++)
             {
-                for (var j = 0; j < height; j++)
+                for (var j = 0; j < width; j++)
                 {
                     var tmpByte = new byte[1];
                     r.NextBytes(tmpByte);
-                    testMatrix[i, j] = tmpByte[0];
-                    Console.Write(tmpByte[0].ToString("X2")+ " ");
+                    testMatrix[j, i] = tmpByte[0];
                 }
-                Console.WriteLine();
             }
             
-            var blocks = JPEG_CS.Split(testMatrix);
+            WriteMatrix(testMatrix);
+            
+            var channel = new Channel(testMatrix, 0, 0);
+            var blocks = channel.Split();
+            
             Console.WriteLine();
             Console.WriteLine($"For given {width}*{height} there is {blocks.Count} block(s)");
-
+            
             //for test print BLOCK_SIZE=8 - fixed!
             var BLOCK_SIZE = 8;
             for (var blockIndex = 0; blockIndex<blocks.Count; blockIndex++)
@@ -242,6 +244,21 @@ namespace ConsoleApp1
                 
                 Console.WriteLine();
             }
+            
+            channel.Collect(blocks);
+            
+            Console.WriteLine();
+            WriteMatrix(channel.GetMatrix());
+            
+            for (var i = 0; i < height; i++)
+            {
+                for (var j = 0; j < width; j++)
+                {
+                    if (testMatrix[j, i]!=channel.GetMatrix()[j, i]) throw new Exception("Test failed - matrix must be equal!");
+                }
+            }
+            
+            // if (!Enumerable.SequenceEqual(testMatrix, channel.GetMatrix())) throw new Exception("Matrix must be equal!");
         }
         
         static void _TestCalculatingDC()
