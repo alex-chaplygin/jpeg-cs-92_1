@@ -199,19 +199,19 @@ namespace ConsoleApp1
         {
             var r = new Random();
 
-            // var width = r.Next(2, 1080); //big number
+            // var width = r.Next(2, 1080); //big output
             // var height = r.Next(2, 1920);
             
             var width = r.Next(2, 25); //compact test output
             var height = r.Next(2, 25);
-
+            
             Console.WriteLine($"{width}*{height}");
             
-            var testMatrix = new byte[height, width];
+            var testMatrix = new byte[width, height];
 
-            for (var i = 0; i < height; i++)
+            for (var i = 0; i < width; i++)
             {
-                for (var j = 0; j < width; j++)
+                for (var j = 0; j < height; j++)
                 {
                     var tmpByte = new byte[1];
                     r.NextBytes(tmpByte);
@@ -230,6 +230,7 @@ namespace ConsoleApp1
             for (var blockIndex = 0; blockIndex<blocks.Count; blockIndex++)
             {
                 var block = blocks[blockIndex];
+                if (block.Length != BLOCK_SIZE * BLOCK_SIZE) throw new Exception("Incorrect block size!");
                 Console.WriteLine("Block #"+blockIndex);
                 var oneDArr = new byte[BLOCK_SIZE*BLOCK_SIZE];
                 Buffer.BlockCopy(block, 0, oneDArr, 0, block.Length);
