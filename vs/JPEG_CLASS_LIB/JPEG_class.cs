@@ -67,7 +67,7 @@ public class JPEG_CS
         return blocks;
     }
     /// <summary>
-    /// Заменяет первое значение (DC-коэфициент) в каждом блоке на исходное значение
+    /// Заменяет первое значение (DC-коэффициент) в каждом блоке на исходное значение
     /// </summary>
     /// <param name="blocks">Список блоков</param>
     /// <returns>Список исходных блоков</returns>
@@ -80,11 +80,18 @@ public class JPEG_CS
         return blocks;
     }
     
-    
-    public static List<byte[,]> split(byte[,] matrix, int width, int height)
+    /// <summary>
+    ////Разбивает исходную матрицу на блоки
+    /// </summary>
+    /// <param name="matrix">Исходная матрица</param>
+    /// <returns>Список блоков</returns>
+    public static List<byte[,]> Split(byte[,] matrix)
     {
     	    
 	    var BLOCK_SIZE = 8;
+
+	    var height = matrix.GetLength(0);
+	    var width = matrix.GetLength(1);
 
 	    var correctedWidth = width % BLOCK_SIZE == 0 ? width : BLOCK_SIZE*(width / BLOCK_SIZE + 1);
 	    var correctedHeight = height % BLOCK_SIZE == 0 ? height : BLOCK_SIZE*(height / BLOCK_SIZE + 1);

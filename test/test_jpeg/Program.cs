@@ -221,7 +221,7 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
             
-            var blocks = JPEG_CS.split(testMatrix, width, height);
+            var blocks = JPEG_CS.Split(testMatrix);
             Console.WriteLine();
             Console.WriteLine($"For given {width}*{height} there is {blocks.Count} block(s)");
 
