@@ -45,9 +45,9 @@ namespace JPEG_CLASS_LIB
         }
         
         /// <summary>
-        ////Разбивает матрицу на блоки
+        ////Разбивает внутреннюю матрицу канала на блоки 8x8
         /// </summary>
-        /// <returns>Список блоков</returns>
+        /// <returns>Список блоков матрицы канала</returns>
         public List<byte[,]> Split()
         {
     	    
@@ -99,10 +99,11 @@ namespace JPEG_CLASS_LIB
             }
             return splitResultList;
         }
+        
         /// <summary>
-        /// Собирает матрицу из блоков
+        /// Соединяет список блоков 8x8 в матрицу канала. Заменяет матрицу канала. 
         /// </summary>
-        /// <param name="list">Блоки исходной матрицы</param>
+        /// <param name="list">Блоки матрицы канала</param>
         public void Collect(List<byte[,]> list)
         {
             if (list.Count==0) throw new Exception("Empty blocks!");
@@ -141,6 +142,12 @@ namespace JPEG_CLASS_LIB
         /// </summary>
         public int GetV => v;
 
+        /// <summary>
+        /// Преобразует исходную матрицу в новую, изменяя ширину и высоту.
+        /// Значения матрицы прореживаются
+        /// </summary>
+        /// <param name="Hmax">Коэффициент Hmax</param>
+        /// <param name="Vmax">Коэффициент Vmax</param>
         public void Sample(int Hmax, int Vmax)
         {
             if (Hmax < h || Vmax < v) return;
@@ -190,6 +197,12 @@ namespace JPEG_CLASS_LIB
             this.matrix = scaledMatrix;
         }
 
+        /// <summary>
+        /// Преобразует исходную матрицу в новую, изменяя ширину и высоту.
+        /// Значения матрицы линейно интерполируются.
+        /// </summary>
+        /// <param name="Hmax">Коэффициент Hmax</param>
+        /// <param name="Vmax">Коэффициент Vmax</param>
         public void Resample(int Hmax, int Vmax)
         {
             if (Hmax < h || Vmax < v) return;
