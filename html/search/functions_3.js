@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['dccalculating',['DCCalculating',['../classJPEG__CS.html#abb5908a43c447b19dce3a3334676160f',1,'JPEG_CS']]],
-  ['dcrestore',['DCRestore',['../classJPEG__CS.html#adc45374517ed742bf09f3aca6724a455',1,'JPEG_CS']]],
-  ['dispose',['Dispose',['../classGUITest_1_1Form1.html#ab27da8de55d8376c6579fc9df1642f28',1,'GUITest::Form1']]]
+  ['fdct',['FDCT',['../classJPEG__CLASS__LIB_1_1DCT.html#ab0aceae1c76f2baec7c11429b6f1a4f7',1,'JPEG_CLASS_LIB::DCT']]],
+  ['form1',['Form1',['../classGUITest_1_1Form1.html#a91cb9c7bce2f0dbf0b9f501066a5968c',1,'GUITest::Form1']]]
 ];

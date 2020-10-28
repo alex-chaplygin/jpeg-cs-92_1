@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['entropy_5fquality',['ENTROPY_QUALITY',['../JPEG__class_8cs.html#a50fa1bfac38a7f85614717c5f4f28d98ad04f6c30c9b1ee9b3d2aceb08a59f7e4',1,'JPEG_class.cs']]]
+  ['baselinedct',['BaseLineDCT',['../namespaceJPEG__CLASS__LIB.html#ab5620bfa5c00386ee79ef6306380f8e4a1dea29ce043b4666318f03362b7e2d30',1,'JPEG_CLASS_LIB']]]
 ];

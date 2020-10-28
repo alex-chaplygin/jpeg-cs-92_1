@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['high_5fquality',['HIGH_QUALITY',['../JPEG__class_8cs.html#a50fa1bfac38a7f85614717c5f4f28d98a3758f2e09400b0da2d8be77241d3dc57',1,'JPEG_class.cs']]]
+  ['comment',['Comment',['../namespaceJPEG__CLASS__LIB.html#ab5620bfa5c00386ee79ef6306380f8e4a0be8406951cdfda82f00f79328cf4efc',1,'JPEG_CLASS_LIB']]]
 ];
