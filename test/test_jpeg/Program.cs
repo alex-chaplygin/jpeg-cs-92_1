@@ -222,7 +222,6 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
         }
-
         static void _TestSplit()
         {
             var r = new Random();
@@ -288,7 +287,7 @@ namespace ConsoleApp1
             
             // if (!Enumerable.SequenceEqual(testMatrix, channel.GetMatrix())) throw new Exception("Matrix must be equal!");
         }
-        
+
         static void _TestCalculatingDC()
         {
             List<byte[,]> blocks = new List<byte[,]>();
@@ -344,5 +343,6 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
         }
+
     }
 }
