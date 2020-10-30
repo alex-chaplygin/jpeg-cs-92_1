@@ -6,6 +6,9 @@ namespace JPEG_CLASS_LIB
 {
     public class DCT
     {
+        /// <summary>
+        /// На вход подается short матрица. Возвращает short матрицу полученную из входной по формуле FDCT
+        /// </summary>
         public static short[,] FDCT(short[,]inp_matrix)
         {
             short[,] matrix = inp_matrix;
@@ -33,7 +36,9 @@ namespace JPEG_CLASS_LIB
             return(matrix2);
         }
 
-
+        /// <summary>
+        /// На вход подается short матрица. Возвращает short матрицу полученную из входной по формуле IDCT
+        /// </summary>
         public static short[,] IDCT(short[,] inp_matrix)
         {
             short[,] matrix = inp_matrix;
@@ -59,7 +64,81 @@ namespace JPEG_CLASS_LIB
                     matrix2[y, x] = Convert.ToInt16(s/4.0);
                 }
             return (matrix2);
-	}
+	    }
+        /// <summary>
+        /// На вход подается матрица 8 на 8. Возвращает массив 64, который получен из матрицы при проходе её зигзагом
+        /// </summary>
+        public static short[] Zigzag(short[,] matrix)
+        {
+            int k = 1;
+            int k1 = 1;
+            int k2 = 0;
+            int k3 = 1;
+            int k4 = 0;
+            int zz = 1;//fff
+            int x = 0;
+            int y = 0;
+            int a = 1;
+            short[] mass = new short[64];
+            mass[0] = (matrix[0, 0]);
+            for (int i = 0; i < 13; i++)
+            {
+                if (i % 2 == 0) { x += k1; y += k2; }
+                else { y += k3; x += k4; }
+                mass[a] = (matrix[y, x]);
+                a++;
+                for (int j = 0; j < zz; j++)
+                {
+                    if (i % 2 == 0)
+                    {
+                        x--; y++; mass[a] = (matrix[y, x]);
+                    }
+                    else { x++; y--; mass[a] = (matrix[y, x]); }
+                    a++;
+                }
+                if (zz == 7) { k = -1; k1 = 0; k2 = 1; k3 = 0; k4 = 1; }
+                zz += k;
+            }
+            mass[63] = (matrix[7, 7]);
+            return (mass);
+        }
+        /// <summary>
+        /// На вход подается массив 64. Возвращает матрицу 8 на 8, которая получена из массива путем его записи в матрицу по зигзагу
+        /// </summary>
+        public static short[,] ReZigzag(short[] mass)
+        {
+            int k = 1;
+            int k1 = 1;
+            int k2 = 0;
+            int k3 = 1;
+            int k4 = 0;
+            int zz = 1;//fff
+            int x = 0;
+            int y = 0;
+            int a = 1;
+            short[,] matrix = new short[8, 8];
+            (matrix[0, 0]) = mass[0];
+            for (int i = 0; i < 13; i++)
+            {
+                if (i % 2 == 0) { x += k1; y += k2; }
+                else { y += k3; x += k4; }
+                (matrix[y, x]) = mass[a];
+                a++;
+                for (int j = 0; j < zz; j++)
+                {
+                    if (i % 2 == 0)
+                    {
+                        x--; y++; matrix[y, x] = mass[a];
+                    }
+                    else { x++; y--; matrix[y, x] = mass[a]; }
+                    a++;
+                }
+                if (zz == 7) { k = -1; k1 = 0; k2 = 1; k3 = 0; k4 = 1; }
+                zz += k;
+            }
+            matrix[7, 7] = mass[63];
+            return (matrix);
+        }
         /// <summary>
         /// Возвращает матрицу, каждый компонент которой приведен из диапазона 0..255 в диапазон -128..127
         /// </summary>
