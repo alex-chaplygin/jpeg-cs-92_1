@@ -5,18 +5,21 @@ using System.Text;
 
 namespace JPEG_CLASS_LIB
 {
+    /// <summary>
+    /// Закодированные компоненты изображения.
+    /// </summary>
     class Scan : JPEGData
     {
         /// <summary>
         /// Читает скан из потока, начиная с поля "число компонентов в скане"
         /// </summary>
-        /// <param name="s"></param>
+        /// <param name="s">Поток, из которого создается скан.</param>
         public Scan(Stream s) : base(s)
         {
-            Ns = (byte)MainStream.ReadByte(); // Читаем количество компонентов изображения в скане.
+            NumberOfImageComponent = (byte)MainStream.ReadByte(); // Читаем количество компонентов изображения в скане.
 
-            components = new Component[Ns];
-            for (byte j = 0; j < Ns; j++)
+            components = new Component[NumberOfImageComponent];
+            for (int j = 0; j < NumberOfImageComponent; j++)
             {
                 byte Cs = (byte)MainStream.ReadByte();
                 byte Td, Ta;
@@ -24,8 +27,8 @@ namespace JPEG_CLASS_LIB
                 components[j] = new Component(Cs, Td, Ta);
             }
 
-            Ss = (byte)MainStream.ReadByte();
-            Se = (byte)MainStream.ReadByte();
+            SelectionStart = (byte)MainStream.ReadByte();
+            SelectionEnd = (byte)MainStream.ReadByte();
 
             byte Ah, Al;
             Read4(out Ah, out Al);
@@ -37,57 +40,83 @@ namespace JPEG_CLASS_LIB
         /// <param name="s"></param>
         public void Write(Stream s)
         {
-            MainStream.WriteByte(Ns);
-            for (byte j = 0; j < Ns; j++)
+            MainStream.WriteByte(NumberOfImageComponent);
+            for (int j = 0; j < NumberOfImageComponent; j++)
             {
-                MainStream.WriteByte(components[j].Cs);
-                Write4(components[j].Td, components[j].Ta);
+                MainStream.WriteByte(components[j].ComponentSelector);
+                Write4(components[j].TableDC, components[j].TableAC);
             }
-            MainStream.WriteByte(Ss);
-            MainStream.WriteByte(Se);
-            Write4(Ah, Al);
+            MainStream.WriteByte(SelectionStart);
+            MainStream.WriteByte(SelectionEnd);
+            Write4(ApproximationHigh, ApproximationLow);
         }
 
 
         /// <summary>
         /// Количество компонентов изображения в скане.
+        /// По документации Ns.
         /// </summary>
-        public byte Ns { get; private set; }
+        public byte NumberOfImageComponent { get; private set; }
 
+        /// <summary>
+        /// Массив компонентов скана изображения.
+        /// </summary>
         public Component[] components { get; private set; }
 
         /// <summary>
-        /// Start of spectral or predictor selection.
+        /// Номер первого коэффициента DCT.
+        /// По документации Ss.
         /// </summary>
-        public byte Ss { get; private set; }
+        public byte SelectionStart { get; private set; }
 
         /// <summary>
-        /// End of spectral selection.
+        /// Номер последнего коэффициента DCT. 
+        /// По документации Se.
         /// </summary>
-        public byte Se { get; private set; }
+        public byte SelectionEnd { get; private set; }
 
         /// <summary>
+        /// 
         /// Successive approximation bit position high.
+        /// Высокая позиция бита последовательного приближения.
+        /// По документации Ah.
         /// </summary>
-        public byte Ah { get; private set; }
+        public byte ApproximationHigh { get; private set; }
 
         /// <summary>
         /// Succesive approximation bit position low or point transform.
+        /// По документации Al.
+        /// Низкая позиция бита последовательного приближения.
         /// </summary>
-        public byte Al { get; private set; }
+        public byte ApproximationLow { get; private set; }
     }
 
-    struct Component
+    /// <summary>
+    /// Компонент JPEG изображения.
+    /// </summary>
+    public struct Component
     {
-        public byte Cs { get; private set; }
-        public byte Td { get; private set; }
-        public byte Ta { get; private set; }
+        /// <summary>
+        /// Номер компонента.
+        /// По документации Cs.
+        /// </summary>
+        public byte ComponentSelector { get; private set; }
+        /// <summary>
+        /// Номер таблицы Хаффмана для DC коэффициентов.
+        /// По документации Td.
+        /// </summary>
+        public byte TableDC { get; private set; }
+        /// <summary>
+        /// Номер таблицы Хаффмана для AC коэффициентов.
+        /// По документации Ta.
+        /// </summary>
+        public byte TableAC { get; private set; }
 
         public Component(byte Cs, byte Td, byte Ta)
         {
-            this.Cs = Cs;
-            this.Td = Td;
-            this.Ta = Ta;
+            this.ComponentSelector = Cs;
+            this.TableDC = Td;
+            this.TableAC = Ta;
         }
     }
 }
