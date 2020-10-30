@@ -195,7 +195,6 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
         }
-
         static void _TestCalculatingDC()
         {
             List<byte[,]> blocks = new List<byte[,]>();
@@ -251,5 +250,6 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
         }
+
     }
 }
