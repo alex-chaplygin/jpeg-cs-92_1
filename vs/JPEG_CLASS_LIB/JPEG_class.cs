@@ -79,6 +79,44 @@ public class JPEG_CS
         }
         return blocks;
     }
+    
+    /// <summary>
+    /// Выполняет разбиение каналов на блоки 8x8 и перемешивание блоков в зависимости от значений факторов H и V в каналах
+    /// </summary>
+    /// <param name="channels">Массив классов Channel</param>
+    /// <returns></returns>
+    List<byte[,]> Interleave(Channel[] channels)
+    {
+	    var BLOCK_SIZE = 8;
+	    var returnList = new List<byte[,]>();
+	    var spliitedChannels = new List<List<byte[,]>>();
+
+	    for (var i = 0; i < channels.Length; i++)
+	    {
+		    spliitedChannels.Add(channels[i].Split());
+	    }
+	    
+	    for (var blockIndex = 0; blockIndex < spliitedChannels[0].Count/(channels[0].GetH*channels[0].GetV); blockIndex++)
+	    {
+		    for (var channelIndex = 0; channelIndex < channels.Length; channelIndex++)
+		    {
+			    var curChannel = channels[channelIndex];
+			    var realWidth = curChannel.GetMatrix().GetLength(0);
+			    var correctedWidth = realWidth % BLOCK_SIZE == 0 ? realWidth : BLOCK_SIZE*(realWidth / BLOCK_SIZE + 1);
+			    var channelBlockInRow = correctedWidth / BLOCK_SIZE / curChannel.GetH;
+			    var startIndex = (blockIndex/channelBlockInRow*curChannel.GetV)*(correctedWidth/BLOCK_SIZE) + ((blockIndex % channelBlockInRow) * curChannel.GetH);
+
+			    for (var lineIndex = 0; lineIndex < curChannel.GetV; lineIndex+=correctedWidth / BLOCK_SIZE)
+			    {
+				    for (var rowIndex = 0; rowIndex < curChannel.GetH; rowIndex++)
+				    {
+						returnList.Add(spliitedChannels[channelIndex][startIndex+lineIndex+rowIndex]);
+				    }
+			    }
+		    }
+	    }
+	    return returnList;
+    }
 }
 
 /// <summary>
