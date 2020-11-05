@@ -7,11 +7,21 @@ namespace JPEG_CLASS_LIB
 {
     public class JPEGData
     {
+        /// <summary>Поток с данными сегмента.</summary>
         protected Stream MainStream;
+        /// <summary>Маркер сегмента.</summary>
         protected MarkerType Marker;
+        /// <summary>Длина сегмента.</summary>
+        protected ushort Length;
+        /// <summary>
+        /// Создаёт экземпляр JPEGData, считывает маркер и длину сегмента, если она есть.
+        /// </summary>
+        /// <param name="s">Поток, на основе которого создается экземпляр класса.</param>
         public JPEGData(Stream s)
         {
             MainStream = s;
+            Marker = (MarkerType)Read16();
+            if (!(Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage)) Length = Read16();
         }
 
         /// <summary>
@@ -82,8 +92,8 @@ namespace JPEG_CLASS_LIB
         /// <returns>JPEGData или null, в зависимости от маркера.</returns>
         public JPEGData GetData()
         {
-            ushort Data = Read16();
-            if (Data >= (ushort)MarkerType.RestartWithModEightCount0 && Data <= (ushort)MarkerType.EndOfImage) return this;
+            Marker = (MarkerType)Read16();
+            if (Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage) return this;
             else return null;
         }
     }
