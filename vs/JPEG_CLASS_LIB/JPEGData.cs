@@ -5,6 +5,7 @@ using System.Text;
 
 namespace JPEG_CLASS_LIB
 {
+    /// <summary>Базовый класс данных JPEG.</summary>
     public class JPEGData
     {
         /// <summary>Поток с данными сегмента.</summary>
@@ -23,7 +24,6 @@ namespace JPEG_CLASS_LIB
             Marker = (MarkerType)Read16();
             if (!(Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage)) Length = Read16();
         }
-
         /// <summary>
         /// Читает  1 байт, разбивает его по 4 бита, которые записывает в младшие разряды двух байтов.
         /// </summary>
@@ -64,7 +64,6 @@ namespace JPEG_CLASS_LIB
             MainStream.WriteByte(Hbyte);    //Запись старшего байта в поток
             MainStream.WriteByte(Lbyte);    //Запись младшего байта в поток
         }
-
         /// <summary>Читает 4 байта и возвращает их в виде uint.</summary>
         /// <returns>4 байта в виде uint.</returns>
         protected uint Read32()
