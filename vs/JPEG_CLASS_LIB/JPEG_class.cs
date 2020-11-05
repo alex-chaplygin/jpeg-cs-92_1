@@ -85,7 +85,7 @@ public class JPEG_CS
     /// </summary>
     /// <param name="channels">Массив классов Channel</param>
     /// <returns>Возвращается список блоков всех каналов в необходимом порядке.</returns>
-    List<byte[,]> Interleave(Channel[] channels)
+    public List<byte[,]> Interleave(Channel[] channels)
     {
 	    var BLOCK_SIZE = 8;
 	    var returnList = new List<byte[,]>();
@@ -106,11 +106,12 @@ public class JPEG_CS
 			    var channelBlockInRow = correctedWidth / BLOCK_SIZE / curChannel.GetH;
 			    var startIndex = (blockIndex/channelBlockInRow*curChannel.GetV)*(correctedWidth/BLOCK_SIZE) + ((blockIndex % channelBlockInRow) * curChannel.GetH);
 
-			    for (var lineIndex = 0; lineIndex < curChannel.GetV; lineIndex+=correctedWidth / BLOCK_SIZE)
+			    for (var lineIndex = 0; lineIndex < curChannel.GetV; lineIndex+=1)
 			    {
 				    for (var rowIndex = 0; rowIndex < curChannel.GetH; rowIndex++)
 				    {
-						returnList.Add(spliitedChannels[channelIndex][startIndex+lineIndex+rowIndex]);
+					    Console.WriteLine($"block[{blockIndex}]: [{channelIndex}][{startIndex+lineIndex*(correctedWidth / BLOCK_SIZE)+rowIndex}]");
+						returnList.Add(spliitedChannels[channelIndex][startIndex+lineIndex*(correctedWidth / BLOCK_SIZE)+rowIndex]);
 				    }
 			    }
 		    }
