@@ -110,7 +110,6 @@ public class JPEG_CS
 			    {
 				    for (var rowIndex = 0; rowIndex < curChannel.GetH; rowIndex++)
 				    {
-					    Console.WriteLine($"block[{blockIndex}]: [{channelIndex}][{startIndex+lineIndex*(correctedWidth / BLOCK_SIZE)+rowIndex}]");
 						returnList.Add(spliitedChannels[channelIndex][startIndex+lineIndex*(correctedWidth / BLOCK_SIZE)+rowIndex]);
 				    }
 			    }
