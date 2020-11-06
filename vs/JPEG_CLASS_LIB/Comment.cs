@@ -15,13 +15,9 @@ namespace JPEG_CLASS_LIB
         /// </summary>
         public byte[] CommentBytes { get; private set; }
 
-        /// <summary>
-        /// Длина сегмента.
-        /// </summary>
-        public ushort Lenght { get; private set; }
 
         /// <summary>
-        /// Читает комментарий длинной 2 из поток.
+        /// Читает комментарий из поток.
         /// </summary>
         /// <param name="s"></param>
         public Comment (Stream s) : base(s)
@@ -35,7 +31,7 @@ namespace JPEG_CLASS_LIB
         }
 
         /// <summary>
-        /// Записывает коммментарий длинной 2 в поток.
+        /// Записывает комментарий в поток.
         /// </summary>
         /// <param name="s"></param>
         public void Write (Stream s)
@@ -45,6 +41,21 @@ namespace JPEG_CLASS_LIB
             {
                 MainStream.WriteByte(CommentBytes[i]);
             }
+        }
+
+        /// <summary>
+        /// Выводит в консоль информацию о классе.
+        /// </summary>
+        public void Print()
+        {
+            Console.WriteLine("Комментарий.");
+            Console.WriteLine($"Длина сегмента комментария: {Lenght:X4}");
+            Console.WriteLine("Закодированные байты комментария:");
+            for (int i = 0; i < Lenght - 2; i++)
+            {
+                Console.Write($"{CommentBytes[i]:X2} ");
+            }
+            Console.WriteLine();
         }
     }
 }
