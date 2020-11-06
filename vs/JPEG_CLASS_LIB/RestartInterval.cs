@@ -12,7 +12,7 @@ namespace JPEG_CLASS_LIB
 	{
 		public ushort restartInterval;
 		//читает интервал повтора из потока
-		public RestartInterval(Stream s) : base(s)
+		public RestartInterval(Stream s) : base(s, MarkerType.DefineRestartInterval)
 		{
 			//use method Read16 from JPEGData
 			restartInterval = Read16();

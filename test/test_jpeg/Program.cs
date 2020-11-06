@@ -9,7 +9,7 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            _TestSplit();
+           /* _TestSplit();
             _TestCalculatingDC();
             _TestPack();
             _TestUnpack();
@@ -18,7 +18,8 @@ namespace ConsoleApp1
             _TestDCTShift();
              _TestChannel();
             _TestInterleave();
-            _TestZigzad();
+            _TestZigzad();*/
+            _TestJPEGData();
         }
 
         private static void _TestInterleave()
@@ -369,6 +370,12 @@ namespace ConsoleApp1
                 }
                 Console.WriteLine();
             }
+        }
+        static void _TestJPEGData()
+        {
+            FileStream s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
+            JPEGData d = JPEGData.GetData(s);
+            d.Print();
         }
 
     }

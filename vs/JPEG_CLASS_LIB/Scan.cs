@@ -14,7 +14,7 @@ namespace JPEG_CLASS_LIB
         /// Читает скан из потока, начиная с поля "число компонентов в скане"
         /// </summary>
         /// <param name="s">Поток, из которого создается скан.</param>
-        public Scan(Stream s) : base(s)
+        public Scan(Stream s) : base(s, MarkerType.StartOfScan)
         {
             NumberOfImageComponent = (byte)MainStream.ReadByte(); // Читаем количество компонентов изображения в скане.
 
