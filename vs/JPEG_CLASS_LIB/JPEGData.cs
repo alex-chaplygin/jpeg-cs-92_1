@@ -18,12 +18,13 @@ namespace JPEG_CLASS_LIB
         /// Создаёт экземпляр JPEGData, считывает маркер и длину сегмента, если она есть.
         /// </summary>
         /// <param name="s">Поток, на основе которого создается экземпляр класса.</param>
-        public JPEGData(Stream s)
+        public JPEGData(Stream s, MarkerType type)
         {
             MainStream = s;
             Marker = (MarkerType)Read16();
             if (!(Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage)) Length = Read16();
         }
+
         /// <summary>
         /// Читает  1 байт, разбивает его по 4 бита, которые записывает в младшие разряды двух байтов.
         /// </summary>
@@ -89,9 +90,9 @@ namespace JPEG_CLASS_LIB
         }
         /// <summary>Читает маркер, если маркер SOI, EOI или RSTm, то возвращает самого себя, иначе возвращает null.</summary>
         /// <returns>JPEGData или null, в зависимости от маркера.</returns>
-        public JPEGData GetData()
+        public static JPEGData GetData(Stream s)
         {
-            Marker = (MarkerType)Read16();
+            MarkerType Marker = (MarkerType)JPEGData.Read16(s);
             if (Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage) return this;
             else return null;
         }
