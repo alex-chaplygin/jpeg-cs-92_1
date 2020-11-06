@@ -374,6 +374,7 @@ namespace ConsoleApp1
         static void _TestJPEGData()
         {
             FileStream s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
+            s.Seek(0x21d, SeekOrigin.Begin);
             JPEGData d = JPEGData.GetData(s);
             d.Print();
         }

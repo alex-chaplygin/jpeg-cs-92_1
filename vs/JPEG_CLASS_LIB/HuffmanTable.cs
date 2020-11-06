@@ -17,7 +17,7 @@ namespace JPEG_CLASS_LIB
         /// Конструктор класса HuffmanTable. Создает таблицу Хаффмена на основе данных из потока 
         /// </summary>
         /// <param name="s">Поток на основе данных из которого создается таблица Хаффмена</param>
-        public HuffmanTable(Stream s) : base (s)
+        public HuffmanTable(Stream s) : base (s, MarkerType.DefineHuffmanTables)
         {
             Stream stream = s;
             
@@ -59,8 +59,9 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Выводит в консоль данные из таблицы Хаффмена
         /// </summary>
-        public void Print()
+        override public void Print()
         {
+            base.Print();
             Console.Write("Tc: " + Tc + " Th: " + Th + " ");
             Console.WriteLine("Длинны кодов(codeLength): ");
             foreach(byte i in codeLength)

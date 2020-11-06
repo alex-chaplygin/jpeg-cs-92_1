@@ -112,6 +112,8 @@ namespace JPEG_CLASS_LIB
         {
             MarkerType Marker = (MarkerType)JPEGData.Read16(s);
             if (Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage) return new JPEGData(s, Marker);
+            else if (Marker == MarkerType.DefineHuffmanTables) return new HuffmanTable(s);
+            
             else
             {
                 new Exception("Неизвестный маркер " + Convert.ToString((int)Marker, 16));
