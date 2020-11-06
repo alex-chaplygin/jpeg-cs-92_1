@@ -14,7 +14,12 @@ namespace JPEG_CLASS_LIB
         /// Массив байт закодированного комментария.
         /// </summary>
         public byte[] CommentBytes { get; private set; }
+
+        /// <summary>
+        /// Длина сегмента.
+        /// </summary>
         public ushort Lenght { get; private set; }
+
         /// <summary>
         /// Читает комментарий длинной 2 из поток.
         /// </summary>
