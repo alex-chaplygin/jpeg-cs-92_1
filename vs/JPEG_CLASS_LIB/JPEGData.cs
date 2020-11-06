@@ -7,6 +7,7 @@ namespace JPEG_CLASS_LIB
 {
     public class JPEGData
     {
+        protected byte Lenght;
         protected Stream MainStream;
         public ushort Marker;
         public JPEGData(Stream s)
