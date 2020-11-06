@@ -9,6 +9,12 @@ namespace JPEG_CLASS_LIB
     {
         protected Stream MainStream;
         public ushort Marker;
+
+        /// <summary>
+        /// Длина сегмента.
+        /// </summary>
+        protected ushort Lenght { get; protected private set; }
+
         public JPEGData(Stream s)
         {
             MainStream = s;
