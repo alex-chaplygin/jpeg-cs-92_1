@@ -41,8 +41,8 @@ namespace JPEG_CLASS_LIB
             for (int i = 0; i < data.Length; i++)
             {
                 Console.Write($"{data[i]}\t");
-                if (i%7 == 0) {Console.WriteLine();}
             }
+            Console.WriteLine();
         }
     }
 }
