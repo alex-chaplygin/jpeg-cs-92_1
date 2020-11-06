@@ -24,7 +24,7 @@ namespace JPEG_CLASS_LIB
         /// Конктруктор класс, записывает значения Pq и Tq, значения таблицы квантования в массив из потока.
         /// </summary>
         /// <param name="s">Входной поток</param>
-        public QuantizationTable(Stream s):base(s)
+        public QuantizationTable(Stream s):base(s, MarkerType.DefineQuantizationTables)
         {
             Read4(out Pq, out Tq);
             s.Read(QuantizationTableMain,0 , QuantizationTableMain.Length);

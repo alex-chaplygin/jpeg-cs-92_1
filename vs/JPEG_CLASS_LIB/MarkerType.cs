@@ -4,7 +4,7 @@ using System.Text;
 
 namespace JPEG_CLASS_LIB
 {
-	enum MarkerType
+	public enum MarkerType
 	{
 		//enum for Start Of Frame markers, non-differential, Huffman coding
 		BaseLineDCT = 0xFFC0, 

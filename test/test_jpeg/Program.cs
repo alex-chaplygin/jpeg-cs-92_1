@@ -9,15 +9,43 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            //_TestSplit();
-            //_TestCalculatingDC();
-            //_TestPack();
-            //_TestUnpack();
-            //_TestQuantization();
-            //_TestDCT();
-            //_TestDCTShift();
-            //_TestChannel();
-            _TestZigzad();
+           /* _TestSplit();
+            _TestCalculatingDC();
+            _TestPack();
+            _TestUnpack();
+            _TestQuantization();
+            _TestDCT();
+            _TestDCTShift();
+             _TestChannel();
+            _TestInterleave();
+            _TestZigzad();*/
+            _TestJPEGData();
+        }
+
+        private static void _TestInterleave()
+        {
+            byte[,] matrix = new byte[48, 48];
+            for (int y = 0, c = 0; y < matrix.GetLength(1); y++)
+            {
+                for (int x = 0; x < matrix.GetLength(0); x++, c++)
+                {
+                    matrix[x, y] = (byte)(c*4);
+                }
+            }
+
+            Channel channel1 = new Channel(matrix, 2, 2);
+            channel1.Sample(2,2);
+            WriteMatrix(channel1.GetMatrix());
+            
+            Channel channel2 = new Channel(matrix, 2, 1);
+            channel2.Sample(2,2);
+            WriteMatrix(channel2.GetMatrix());
+            
+            Channel channel3 = new Channel(matrix, 1, 1);
+            channel3.Sample(2,2);
+            WriteMatrix(channel3.GetMatrix());
+
+            new JPEG_CS(null).Interleave(new[] {channel1, channel2, channel3});
         }
 
         static void _TestUnpack()
@@ -342,6 +370,12 @@ namespace ConsoleApp1
                 }
                 Console.WriteLine();
             }
+        }
+        static void _TestJPEGData()
+        {
+            FileStream s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
+            JPEGData d = JPEGData.GetData(s);
+            d.Print();
         }
 
     }

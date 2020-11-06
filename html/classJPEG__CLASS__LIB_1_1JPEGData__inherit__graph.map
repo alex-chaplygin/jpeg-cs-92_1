@@ -1,0 +1,5 @@
+<map id="JPEG_CLASS_LIB.JPEGData" name="JPEG_CLASS_LIB.JPEGData">
+<area shape="rect" id="node2" href="$classJPEG__CLASS__LIB_1_1QuantizationTable.html" title="Таблица Квантования &#45; класс, считывающий из потока таблицу квантования, точность её элементов и её ид..." alt="" coords="263,5,475,47"/>
+<area shape="rect" id="node3" href="$classJPEG__CLASS__LIB_1_1RestartInterval.html" title="class for интервал повтора &#45; число MCU &#45; minimum coding unit " alt="" coords="256,71,481,98"/>
+<area shape="rect" id="node4" href="$classJPEG__CLASS__LIB_1_1Scan.html" title="Закодированные компоненты изображения. " alt="" coords="284,122,453,149"/>
+</map>
