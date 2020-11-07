@@ -125,7 +125,7 @@ namespace JPEG_CLASS_LIB
         public virtual void Print()
         {
             Console.WriteLine("Маркер сегмента: " + Convert.ToString((int)Marker, 16) + " " + Marker.ToString());
-            Console.WriteLine("Длина сегмента: " + Length);
+            Console.WriteLine("Длина сегмента: " + Length + " " + Convert.ToString(Length, 16));
         }
     }
 }
