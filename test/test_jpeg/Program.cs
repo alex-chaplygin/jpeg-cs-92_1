@@ -9,22 +9,22 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-           /* _TestSplit();
+            _TestSplit();
             _TestCalculatingDC();
             _TestPack();
             _TestUnpack();
             _TestQuantization();
             _TestDCT();
             _TestDCTShift();
-             _TestChannel();
+            _TestChannel();
             _TestInterleave();
-            _TestZigzad();*/
+            _TestZigzad();
             _TestJPEGData();
         }
 
         private static void _TestInterleave()
         {
-            byte[,] matrix = new byte[48, 48];
+            byte[,] matrix = new byte[48, 32];
             for (int y = 0, c = 0; y < matrix.GetLength(1); y++)
             {
                 for (int x = 0; x < matrix.GetLength(0); x++, c++)
@@ -36,16 +36,67 @@ namespace ConsoleApp1
             Channel channel1 = new Channel(matrix, 2, 2);
             channel1.Sample(2,2);
             WriteMatrix(channel1.GetMatrix());
+            Console.WriteLine();
             
             Channel channel2 = new Channel(matrix, 2, 1);
             channel2.Sample(2,2);
             WriteMatrix(channel2.GetMatrix());
+            Console.WriteLine(); 
             
             Channel channel3 = new Channel(matrix, 1, 1);
             channel3.Sample(2,2);
             WriteMatrix(channel3.GetMatrix());
+            Console.WriteLine();
 
-            new JPEG_CS(null).Interleave(new[] {channel1, channel2, channel3});
+            
+            // Channel channel4 = new Channel(matrix, 1, 1);
+            // channel4.Sample(2,2);
+            // WriteMatrix(channel4.GetMatrix());
+            // Console.WriteLine();
+            
+
+
+            var channels = new[] {channel1, channel2, channel3};
+
+            var library = new JPEG_CS(null);
+            
+            Console.WriteLine("Тест для трех каналов:");
+
+            
+            var blocks = library.Interleave(channels);
+            
+            Console.WriteLine("Сборка блоков");
+            Console.WriteLine();
+            
+            library.Collect(channels, blocks);
+
+            foreach (var channel in channels)
+            {
+                WriteMatrix(channel.GetMatrix());
+                Console.WriteLine();
+            }
+            
+            Console.WriteLine("Тест для одного канала:");
+            Console.WriteLine();
+            
+            WriteMatrix(channels[0].GetMatrix());
+            Console.WriteLine();
+
+            channels = new[] {channel1};
+
+            blocks = library.Interleave(channels);
+            
+            Console.WriteLine("Сборка блоков");
+            Console.WriteLine();
+            
+            library.Collect(channels, blocks);
+
+            WriteMatrix(channels[0].GetMatrix());
+            Console.WriteLine();
+
+
+
+
         }
 
         static void _TestUnpack()
