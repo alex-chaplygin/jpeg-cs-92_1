@@ -1,7 +1,7 @@
 using JPEG_CLASS_LIB;
-using System;
 using System.IO;
 using System.Collections.Generic;
+using System.Linq;
 
 /// <summary>
 /// Библиотека предназначена для сжатия и распаковки изображений в формате JPEG.
@@ -80,11 +80,67 @@ public class JPEG_CS
         return blocks;
     }
     
+	/// <summary>
+	/// Собирает блоки 8x8 в каналы и выполняет обратное масштабирование матриц каналов. Если канал один, то все блоки записываются в канал слева-направо, сверху вниз.
+	/// </summary>
+	/// <param name="channels">Каналы с пустыми матрицами, но с корректными шириной, высотой и значениями H и V</param>
+	/// <param name="blocks">Список перемешанных блоков</param>
+    public void Collect(Channel[] channels, List<byte[,]> blocks)
+    {
+	    var BLOCK_SIZE = 8;
+	    var macroBlockCount = 0;
+	    foreach (var channel in channels)
+	    {
+		    macroBlockCount += channel.GetH * channel.GetV;
+	    }
+
+	    for (var channelIndex = 0; channelIndex < channels.Length; channelIndex++)
+	    {
+		    var curChannel = channels[channelIndex];
+		    
+		    var realWidth = curChannel.GetMatrix().GetLength(0);
+		    var realHeight = curChannel.GetMatrix().GetLength(1);
+		    var correctedWidth = realWidth % BLOCK_SIZE == 0 ? realWidth : BLOCK_SIZE*(realWidth / BLOCK_SIZE + 1);
+		    var correctedHeight = realHeight % BLOCK_SIZE == 0 ? realHeight : BLOCK_SIZE*(realHeight / BLOCK_SIZE + 1);
+		    
+		    var tmpArray = new byte[(correctedWidth*correctedHeight)/BLOCK_SIZE/BLOCK_SIZE][,];
+
+		    var otherChannelOffset = 0;
+		    for (var offsetChannelIndex = 0; offsetChannelIndex < channelIndex; offsetChannelIndex++)
+		    {
+			    otherChannelOffset += channels[offsetChannelIndex].GetH * channels[offsetChannelIndex].GetV;
+		    }
+		    
+		    // Console.WriteLine("Collect channel, otherChannelOffset: "+otherChannelOffset);
+		    
+		    for (var blockIndex = 0; blockIndex < correctedWidth * correctedHeight / BLOCK_SIZE / BLOCK_SIZE / (curChannel.GetH * curChannel.GetV); blockIndex++)
+		    {
+			    var channelBlockInRow = correctedWidth / BLOCK_SIZE / curChannel.GetH;
+			    var startIndex = (blockIndex/channelBlockInRow*curChannel.GetV)*(correctedWidth/BLOCK_SIZE) + ((blockIndex % channelBlockInRow) * curChannel.GetH);
+			    // Console.WriteLine("Collect block: "+blockIndex+", startIndex in blocks: "+(macroBlockCount*blockIndex+otherChannelOffset)+", length: "+curChannel.GetH * curChannel.GetV);
+			    
+			    var innerBlocksGroup =
+				    blocks.GetRange(macroBlockCount*blockIndex+otherChannelOffset, curChannel.GetH * curChannel.GetV);
+			    for (var lineIndex = 0; lineIndex < curChannel.GetV; lineIndex+=1)
+			    {
+				    for (var rowIndex = 0; rowIndex < curChannel.GetH; rowIndex++)
+				    {
+					    // Console.WriteLine($"block[{blockIndex}]: [{lineIndex}][{rowIndex}] -> {startIndex+lineIndex*(correctedWidth / BLOCK_SIZE)+rowIndex}");
+					    tmpArray[startIndex + lineIndex * (correctedWidth / BLOCK_SIZE) + rowIndex] =
+						    innerBlocksGroup[0];
+					    innerBlocksGroup.RemoveAt(0);
+				    }
+			    }
+		    }
+		    curChannel.Collect(tmpArray.ToList());
+	    }
+    }
+    
     /// <summary>
     /// Выполняется разбиение каналов на блоки 8x8 и перемешивание блоков в зависимости от значений факторов H и V в каналах (см. раздел A.2.3 стандарта). Если канал один, то перемешивания не происходит. Подразумевается, что каналы уже были уменьшены (для всех каналов был вызван метод Sample с рассчитанными Hmax и Vmax).
     /// </summary>
     /// <param name="channels">Массив классов Channel</param>
-    /// <returns>Возвращается список блоков всех каналов в необходимом порядке.</returns>
+    /// <returns>Cписок блоков всех каналов в необходимом порядке.</returns>
     public List<byte[,]> Interleave(Channel[] channels)
     {
 	    var BLOCK_SIZE = 8;
@@ -110,7 +166,8 @@ public class JPEG_CS
 			    {
 				    for (var rowIndex = 0; rowIndex < curChannel.GetH; rowIndex++)
 				    {
-						returnList.Add(spliitedChannels[channelIndex][startIndex+lineIndex*(correctedWidth / BLOCK_SIZE)+rowIndex]);
+					    // Console.WriteLine($"block[{blockIndex}]: [{lineIndex}][{rowIndex}] -> {startIndex+lineIndex*(correctedWidth / BLOCK_SIZE)+rowIndex}");
+					    returnList.Add(spliitedChannels[channelIndex][startIndex+lineIndex*(correctedWidth / BLOCK_SIZE)+rowIndex]);
 				    }
 			    }
 		    }
