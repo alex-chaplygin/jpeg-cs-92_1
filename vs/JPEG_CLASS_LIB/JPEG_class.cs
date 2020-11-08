@@ -111,13 +111,10 @@ public class JPEG_CS
 			    otherChannelOffset += channels[offsetChannelIndex].GetH * channels[offsetChannelIndex].GetV;
 		    }
 		    
-		    // Console.WriteLine("Collect channel, otherChannelOffset: "+otherChannelOffset);
-		    
 		    for (var blockIndex = 0; blockIndex < correctedWidth * correctedHeight / BLOCK_SIZE / BLOCK_SIZE / (curChannel.GetH * curChannel.GetV); blockIndex++)
 		    {
 			    var channelBlockInRow = correctedWidth / BLOCK_SIZE / curChannel.GetH;
 			    var startIndex = (blockIndex/channelBlockInRow*curChannel.GetV)*(correctedWidth/BLOCK_SIZE) + ((blockIndex % channelBlockInRow) * curChannel.GetH);
-			    // Console.WriteLine("Collect block: "+blockIndex+", startIndex in blocks: "+(macroBlockCount*blockIndex+otherChannelOffset)+", length: "+curChannel.GetH * curChannel.GetV);
 			    
 			    var innerBlocksGroup =
 				    blocks.GetRange(macroBlockCount*blockIndex+otherChannelOffset, curChannel.GetH * curChannel.GetV);
@@ -125,7 +122,6 @@ public class JPEG_CS
 			    {
 				    for (var rowIndex = 0; rowIndex < curChannel.GetH; rowIndex++)
 				    {
-					    // Console.WriteLine($"block[{blockIndex}]: [{lineIndex}][{rowIndex}] -> {startIndex+lineIndex*(correctedWidth / BLOCK_SIZE)+rowIndex}");
 					    tmpArray[startIndex + lineIndex * (correctedWidth / BLOCK_SIZE) + rowIndex] =
 						    innerBlocksGroup[0];
 					    innerBlocksGroup.RemoveAt(0);
