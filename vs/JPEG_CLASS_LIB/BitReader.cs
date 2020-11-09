@@ -30,7 +30,7 @@ namespace JPEG_CLASS_LIB
         public ushort Read(int n)
         {
             if (n<1 || n>16) throw new Exception("Значение n должно быть в диапазоне [1; 16]");
-            if (bytePos*8+bitPos+n>data.Length*8) throw new Exception("Значение n выходит за пределы массива data");
+            if (bytePos*8+(7-bitPos)+n>data.Length*8) throw new Exception("Значение n выходит за пределы массива data");
             var retVal = (ushort) 0;
             while (n>0)
             {
