@@ -9,17 +9,36 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            _TestSplit();
-            _TestCalculatingDC();
-            _TestPack();
-            _TestUnpack();
-            _TestQuantization();
-            _TestDCT();
-            _TestDCTShift();
-            _TestChannel();
-            _TestInterleave();
-            _TestZigzad();
-            _TestJPEGData();
+            // _TestSplit();
+            // _TestCalculatingDC();
+            // _TestPack();
+            // _TestUnpack();
+            // _TestQuantization();
+            // _TestDCT();
+            // _TestDCTShift();
+            // _TestChannel();
+            // _TestInterleave();
+            // _TestZigzad();
+            // _TestJPEGData();
+            _TestBitReader();
+        }
+
+        private static void _TestBitReader()
+        {
+            var data = new byte[3] { 0x12, 0x34, 0x56 };
+            var bitReader = new BitReader(data);
+            Console.WriteLine(bitReader.Read(1));
+            Console.WriteLine(bitReader.Read(2));
+            Console.WriteLine(bitReader.Read(3));
+            Console.WriteLine(bitReader.Read(4));
+            Console.WriteLine(bitReader.Read(5).ToString("X"));
+            Console.WriteLine(bitReader.Read(6).ToString("X"));
+            Console.WriteLine(bitReader.Read(3));
+            Console.WriteLine();
+            bitReader = new BitReader(data);
+            Console.WriteLine(bitReader.Read(8).ToString("X"));
+            Console.WriteLine(bitReader.Read(16).ToString("X"));
+
         }
 
         private static void _TestInterleave()
