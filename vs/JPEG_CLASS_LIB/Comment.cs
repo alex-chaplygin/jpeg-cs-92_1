@@ -20,7 +20,7 @@ namespace JPEG_CLASS_LIB
         /// Читает комментарий из поток.
         /// </summary>
         /// <param name="s"></param>
-        public Comment (Stream s) : base(s)
+        public Comment (Stream s) : base(s, MarkerType.Comment)
         {
             Length = Read16();
             CommentBytes = new byte[Length - 2];
@@ -46,10 +46,9 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Выводит в консоль информацию о классе.
         /// </summary>
-        public void Print()
+        public override void Print()
         {
-            Console.WriteLine("Комментарий.");
-            Console.WriteLine($"Длина сегмента комментария: {Length:X4}");
+            base.Print();
             Console.WriteLine("Закодированные байты комментария:");
             for (int i = 0; i < Length - 2; i++)
             {

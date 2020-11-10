@@ -100,9 +100,17 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Открытые статические члены</h2></td></tr>
 <tr class="memitem:ab0aceae1c76f2baec7c11429b6f1a4f7"><td class="memItemLeft" align="right" valign="top">static short[,]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1DCT.html#ab0aceae1c76f2baec7c11429b6f1a4f7">FDCT</a> (short[,]inp_matrix)</td></tr>
+<tr class="memdesc:ab0aceae1c76f2baec7c11429b6f1a4f7"><td class="mdescLeft">&#160;</td><td class="mdescRight">На вход подается short матрица. Возвращает short матрицу полученную из входной по формуле FDCT  <a href="#ab0aceae1c76f2baec7c11429b6f1a4f7">Подробнее...</a><br /></td></tr>
 <tr class="separator:ab0aceae1c76f2baec7c11429b6f1a4f7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae183bf8d408afdff4286a90909a02a0b"><td class="memItemLeft" align="right" valign="top">static short[,]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1DCT.html#ae183bf8d408afdff4286a90909a02a0b">IDCT</a> (short[,] inp_matrix)</td></tr>
+<tr class="memdesc:ae183bf8d408afdff4286a90909a02a0b"><td class="mdescLeft">&#160;</td><td class="mdescRight">На вход подается short матрица. Возвращает short матрицу полученную из входной по формуле IDCT  <a href="#ae183bf8d408afdff4286a90909a02a0b">Подробнее...</a><br /></td></tr>
 <tr class="separator:ae183bf8d408afdff4286a90909a02a0b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a64982137b0eb4d6ce8d55e6c1aa0f836"><td class="memItemLeft" align="right" valign="top">static short[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1DCT.html#a64982137b0eb4d6ce8d55e6c1aa0f836">Zigzag</a> (short[,] matrix)</td></tr>
+<tr class="memdesc:a64982137b0eb4d6ce8d55e6c1aa0f836"><td class="mdescLeft">&#160;</td><td class="mdescRight">На вход подается матрица 8 на 8. Возвращает массив 64, который получен из матрицы при проходе её зигзагом  <a href="#a64982137b0eb4d6ce8d55e6c1aa0f836">Подробнее...</a><br /></td></tr>
+<tr class="separator:a64982137b0eb4d6ce8d55e6c1aa0f836"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa0135cca5ff381f8c051933cdd38a536"><td class="memItemLeft" align="right" valign="top">static short[,]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1DCT.html#aa0135cca5ff381f8c051933cdd38a536">ReZigzag</a> (short[] mass)</td></tr>
+<tr class="memdesc:aa0135cca5ff381f8c051933cdd38a536"><td class="mdescLeft">&#160;</td><td class="mdescRight">На вход подается массив 64. Возвращает матрицу 8 на 8, которая получена из массива путем его записи в матрицу по зигзагу  <a href="#aa0135cca5ff381f8c051933cdd38a536">Подробнее...</a><br /></td></tr>
+<tr class="separator:aa0135cca5ff381f8c051933cdd38a536"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a457f23e57e55e12560a875fd48d92a27"><td class="memItemLeft" align="right" valign="top">static short[,]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1DCT.html#a457f23e57e55e12560a875fd48d92a27">Shift</a> (byte[,] matrix)</td></tr>
 <tr class="memdesc:a457f23e57e55e12560a875fd48d92a27"><td class="mdescLeft">&#160;</td><td class="mdescRight">Возвращает матрицу, каждый компонент которой приведен из диапазона 0..255 в диапазон -128..127  <a href="#a457f23e57e55e12560a875fd48d92a27">Подробнее...</a><br /></td></tr>
 <tr class="separator:a457f23e57e55e12560a875fd48d92a27"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -133,6 +141,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 </table>
 </div><div class="memdoc">
 
+<p>На вход подается short матрица. Возвращает short матрицу полученную из входной по формуле FDCT </p>
+
 </div>
 </div>
 <a class="anchor" id="ae183bf8d408afdff4286a90909a02a0b"></a>
@@ -156,6 +166,8 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
   </tr>
 </table>
 </div><div class="memdoc">
+
+<p>На вход подается short матрица. Возвращает short матрицу полученную из входной по формуле IDCT </p>
 
 </div>
 </div>
@@ -185,6 +197,32 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 
 </div>
 </div>
+<a class="anchor" id="aa0135cca5ff381f8c051933cdd38a536"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static short [,] JPEG_CLASS_LIB.DCT.ReZigzag </td>
+          <td>(</td>
+          <td class="paramtype">short[]&#160;</td>
+          <td class="paramname"><em>mass</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>На вход подается массив 64. Возвращает матрицу 8 на 8, которая получена из массива путем его записи в матрицу по зигзагу </p>
+
+</div>
+</div>
 <a class="anchor" id="a457f23e57e55e12560a875fd48d92a27"></a>
 <div class="memitem">
 <div class="memproto">
@@ -208,6 +246,32 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 </div><div class="memdoc">
 
 <p>Возвращает матрицу, каждый компонент которой приведен из диапазона 0..255 в диапазон -128..127 </p>
+
+</div>
+</div>
+<a class="anchor" id="a64982137b0eb4d6ce8d55e6c1aa0f836"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static short [] JPEG_CLASS_LIB.DCT.Zigzag </td>
+          <td>(</td>
+          <td class="paramtype">short&#160;</td>
+          <td class="paramname"><em>matrix</em>[,]</td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>На вход подается матрица 8 на 8. Возвращает массив 64, который получен из матрицы при проходе её зигзагом </p>
 
 </div>
 </div>

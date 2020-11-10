@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['s',['s',['../structJPEG__CLASS__LIB_1_1ImageConverter_1_1HSV.html#ac00e911ed7d73969a81163057f8366e5',1,'JPEG_CLASS_LIB::ImageConverter::HSV']]]
+  ['r',['r',['../structPoint.html#a30f6407f41192c297c3dfedd24d340f9',1,'Point']]],
+  ['restartinterval',['restartInterval',['../classJPEG__CLASS__LIB_1_1RestartInterval.html#a6ff11e22fa8d75755bdd5d7143e2c9fe',1,'JPEG_CLASS_LIB::RestartInterval']]]
 ];

@@ -92,31 +92,57 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
   <div class="summary">
 <a href="#pub-methods">Открытые члены</a> &#124;
 <a href="#pub-attribs">Открытые атрибуты</a> &#124;
-<a href="#pri-attribs">Закрытые данные</a> &#124;
+<a href="#pro-methods">Защищенные члены</a> &#124;
+<a href="#pro-attribs">Защищенные данные</a> &#124;
 <a href="classJPEG__CLASS__LIB_1_1JPEGData-members.html">Полный список членов класса</a>  </div>
   <div class="headertitle">
 <div class="title">Класс JPEG_CLASS_LIB.JPEGData</div>  </div>
 </div><!--header-->
 <div class="contents">
+<div class="dynheader">
+Граф наследования:JPEG_CLASS_LIB.JPEGData:</div>
+<div class="dyncontent">
+<div class="center"><img src="classJPEG__CLASS__LIB_1_1JPEGData__inherit__graph.png" border="0" usemap="#JPEG__CLASS__LIB_8JPEGData_inherit__map" alt="Inheritance graph"/></div>
+<map name="JPEG__CLASS__LIB_8JPEGData_inherit__map" id="JPEG__CLASS__LIB_8JPEGData_inherit__map">
+<area shape="rect" id="node2" href="classJPEG__CLASS__LIB_1_1QuantizationTable.html" title="Таблица Квантования &#45; класс, считывающий из потока таблицу квантования, точность её элементов и её ид..." alt="" coords="263,5,475,47"/>
+<area shape="rect" id="node3" href="classJPEG__CLASS__LIB_1_1RestartInterval.html" title="class for интервал повтора &#45; число MCU &#45; minimum coding unit " alt="" coords="256,71,481,98"/>
+<area shape="rect" id="node4" href="classJPEG__CLASS__LIB_1_1Scan.html" title="Закодированные компоненты изображения. " alt="" coords="284,122,453,149"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">см. легенду</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Открытые члены</h2></td></tr>
 <tr class="memitem:af9e10450aa1b9de25a44465c9a3a5f03"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1JPEGData.html#af9e10450aa1b9de25a44465c9a3a5f03">JPEGData</a> (Stream s)</td></tr>
 <tr class="separator:af9e10450aa1b9de25a44465c9a3a5f03"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3abf13a2701ed61f2f741a4cba56914b"><td class="memItemLeft" align="right" valign="top">ushort&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1JPEGData.html#a3abf13a2701ed61f2f741a4cba56914b">Read16</a> ()</td></tr>
-<tr class="memdesc:a3abf13a2701ed61f2f741a4cba56914b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Читает 2 байта и возвращает их в виде ushort <a href="#a3abf13a2701ed61f2f741a4cba56914b">Подробнее...</a><br /></td></tr>
-<tr class="separator:a3abf13a2701ed61f2f741a4cba56914b"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af20ac7f022fe639eeed677a69078727f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1JPEGData.html#af20ac7f022fe639eeed677a69078727f">Write16</a> (ushort data)</td></tr>
-<tr class="memdesc:af20ac7f022fe639eeed677a69078727f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Получает на вход ushort, разделяет его на 2 байта и записывает в поток <a href="#af20ac7f022fe639eeed677a69078727f">Подробнее...</a><br /></td></tr>
-<tr class="separator:af20ac7f022fe639eeed677a69078727f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
 Открытые атрибуты</h2></td></tr>
 <tr class="memitem:a37d8d8563885a684828f550c7ad3bfc0"><td class="memItemLeft" align="right" valign="top">ushort&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1JPEGData.html#a37d8d8563885a684828f550c7ad3bfc0">Marker</a></td></tr>
 <tr class="separator:a37d8d8563885a684828f550c7ad3bfc0"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
-<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
-Закрытые данные</h2></td></tr>
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-methods"></a>
+Защищенные члены</h2></td></tr>
+<tr class="memitem:a7bd12d0be4628b926278054dd762fc85"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1JPEGData.html#a7bd12d0be4628b926278054dd762fc85">Read4</a> (out byte v1, out byte v2)</td></tr>
+<tr class="memdesc:a7bd12d0be4628b926278054dd762fc85"><td class="mdescLeft">&#160;</td><td class="mdescRight">Читает 1 байт, разбивает его по 4 бита, которые записывает в младшие разряды двух байтов.  <a href="#a7bd12d0be4628b926278054dd762fc85">Подробнее...</a><br /></td></tr>
+<tr class="separator:a7bd12d0be4628b926278054dd762fc85"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a7d3b2542e315e3c63aeba9683fa4ef73"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1JPEGData.html#a7d3b2542e315e3c63aeba9683fa4ef73">Write4</a> (byte v1, byte v2)</td></tr>
+<tr class="memdesc:a7d3b2542e315e3c63aeba9683fa4ef73"><td class="mdescLeft">&#160;</td><td class="mdescRight">Получает на вход два байта с заполненными младшими четырьмя битами, объединяет их в один байт и записывает в поток.  <a href="#a7d3b2542e315e3c63aeba9683fa4ef73">Подробнее...</a><br /></td></tr>
+<tr class="separator:a7d3b2542e315e3c63aeba9683fa4ef73"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3abf13a2701ed61f2f741a4cba56914b"><td class="memItemLeft" align="right" valign="top">ushort&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1JPEGData.html#a3abf13a2701ed61f2f741a4cba56914b">Read16</a> ()</td></tr>
+<tr class="memdesc:a3abf13a2701ed61f2f741a4cba56914b"><td class="mdescLeft">&#160;</td><td class="mdescRight">Читает 2 байта и возвращает их в виде ushort <a href="#a3abf13a2701ed61f2f741a4cba56914b">Подробнее...</a><br /></td></tr>
+<tr class="separator:a3abf13a2701ed61f2f741a4cba56914b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af20ac7f022fe639eeed677a69078727f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1JPEGData.html#af20ac7f022fe639eeed677a69078727f">Write16</a> (ushort data)</td></tr>
+<tr class="memdesc:af20ac7f022fe639eeed677a69078727f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Получает на вход ushort, разделяет его на 2 байта и записывает в поток <a href="#af20ac7f022fe639eeed677a69078727f">Подробнее...</a><br /></td></tr>
+<tr class="separator:af20ac7f022fe639eeed677a69078727f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dc5f428a8c8242ffb818ec1227b7c89"><td class="memItemLeft" align="right" valign="top">uint&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1JPEGData.html#a1dc5f428a8c8242ffb818ec1227b7c89">Read32</a> ()</td></tr>
+<tr class="memdesc:a1dc5f428a8c8242ffb818ec1227b7c89"><td class="mdescLeft">&#160;</td><td class="mdescRight">Читает 4 байта и возвращает их в виде uint. <a href="#a1dc5f428a8c8242ffb818ec1227b7c89">Подробнее...</a><br /></td></tr>
+<tr class="separator:a1dc5f428a8c8242ffb818ec1227b7c89"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a26ac65651cc549cce405de3fadc6d6de"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1JPEGData.html#a26ac65651cc549cce405de3fadc6d6de">Write32</a> (uint data)</td></tr>
+<tr class="memdesc:a26ac65651cc549cce405de3fadc6d6de"><td class="mdescLeft">&#160;</td><td class="mdescRight">Получает на вход uint, разделяет его на 4 байта и записывает в поток. <a href="#a26ac65651cc549cce405de3fadc6d6de">Подробнее...</a><br /></td></tr>
+<tr class="separator:a26ac65651cc549cce405de3fadc6d6de"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pro-attribs"></a>
+Защищенные данные</h2></td></tr>
 <tr class="memitem:a83168866cd78b9a2ba799295d4ee4d72"><td class="memItemLeft" align="right" valign="top">Stream&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1JPEGData.html#a83168866cd78b9a2ba799295d4ee4d72">MainStream</a></td></tr>
 <tr class="separator:a83168866cd78b9a2ba799295d4ee4d72"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -162,13 +188,82 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>Читает 2 байта и возвращает их в виде ushort</p>
 <dl class="section return"><dt>Возвращает</dt><dd>2 байта в виде ushort</dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a1dc5f428a8c8242ffb818ec1227b7c89"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">uint JPEG_CLASS_LIB.JPEGData.Read32 </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Читает 4 байта и возвращает их в виде uint.</p>
+<dl class="section return"><dt>Возвращает</dt><dd>4 байта в виде uint.</dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a7bd12d0be4628b926278054dd762fc85"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void JPEG_CLASS_LIB.JPEGData.Read4 </td>
+          <td>(</td>
+          <td class="paramtype">out byte&#160;</td>
+          <td class="paramname"><em>v1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">out byte&#160;</td>
+          <td class="paramname"><em>v2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Читает 1 байт, разбивает его по 4 бита, которые записывает в младшие разряды двух байтов. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v1</td><td>Байт, в который будут записаны 4 старших бита из считываемого байта.</td></tr>
+    <tr><td class="paramname">v2</td><td>Байт, в который будут записаны 4 младших бита из считываемого байта.</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -189,12 +284,81 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">
 
 <p>Получает на вход ushort, разделяет его на 2 байта и записывает в поток</p>
+
+</div>
+</div>
+<a class="anchor" id="a26ac65651cc549cce405de3fadc6d6de"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void JPEG_CLASS_LIB.JPEGData.Write32 </td>
+          <td>(</td>
+          <td class="paramtype">uint&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Получает на вход uint, разделяет его на 4 байта и записывает в поток.</p>
+
+</div>
+</div>
+<a class="anchor" id="a7d3b2542e315e3c63aeba9683fa4ef73"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void JPEG_CLASS_LIB.JPEGData.Write4 </td>
+          <td>(</td>
+          <td class="paramtype">byte&#160;</td>
+          <td class="paramname"><em>v1</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">byte&#160;</td>
+          <td class="paramname"><em>v2</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">protected</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Получает на вход два байта с заполненными младшими четырьмя битами, объединяет их в один байт и записывает в поток. </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">v1</td><td>Байт, младшие 4 бита которого буду записаны как старшие биты байта в поток.</td></tr>
+    <tr><td class="paramname">v2</td><td>Байт, младшие 4 бита которого буду записаны как младшие биты байта в поток.</td></tr>
+  </table>
+  </dd>
+</dl>
 
 </div>
 </div>
@@ -212,7 +376,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
       </table>
   </td>
   <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+<span class="mlabels"><span class="mlabel">protected</span></span>  </td>
   </tr>
 </table>
 </div><div class="memdoc">

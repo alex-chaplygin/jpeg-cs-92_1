@@ -5,19 +5,28 @@ using System.Text;
 
 namespace JPEG_CLASS_LIB
 {
+    /// <summary>Базовый класс данных JPEG.</summary>
     public class JPEGData
     {
+        /// <summary>Поток с данными сегмента.</summary>
         protected Stream MainStream;
-        public ushort Marker;
+
+        /// <summary>Маркер сегмента.</summary>
+        protected MarkerType Marker;
+
+        /// <summary>Длина сегмента.</summary>
+        protected ushort Length;
 
         /// <summary>
-        /// Длина сегмента.
+        /// Создаёт экземпляр JPEGData, считывает маркер и длину сегмента, если она есть.
         /// </summary>
-        protected ushort Length { get; protected private set; }
-
-        public JPEGData(Stream s)
+        /// <param name="s">Поток, на основе которого создается экземпляр класса.</param>
+        /// <param name="type">Маркер, сегмента.</param>
+        public JPEGData(Stream s, MarkerType type)
         {
             MainStream = s;
+            Marker = type;
+            if (!(Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage)) Length = Read16();
         }
 
         /// <summary>
@@ -42,16 +51,29 @@ namespace JPEG_CLASS_LIB
             MainStream.WriteByte((byte)((v1 << 4) + v2));
         }
 
-        /// <summary>Читает 2 байта и возвращает их в виде ushort</summary>
-        /// <returns>2 байта в виде ushort</returns>
+        /// <summary>Читает 2 байта из потока и возвращает их в виде ushort.</summary>
+        /// <returns>2 байта в виде ushort.</returns>
         protected ushort Read16()
         {
-            Marker = (ushort)(MainStream.ReadByte());  //Чтение первого байта
-            Marker = (ushort)(Marker << 8);            //Побитовый сдвиг первого байта
-            Marker += (ushort)(MainStream.ReadByte()); //Чтение второго байта
-            return Marker;
+            ushort Data = (ushort)(MainStream.ReadByte());  //Чтение первого байта
+            Data = (ushort)(Data << 8);            //Побитовый сдвиг первого байта
+            Data += (ushort)(MainStream.ReadByte()); //Чтение второго байта
+            return Data;
         }
-        /// <summary>Получает на вход ushort, разделяет его на 2 байта и записывает в поток</summary>
+
+        /// <summary>Читает 2 байта из потока и возвращает их в виде ushort.</summary>
+        /// <param name="s">Поток, из которого будет производиться чтение.</param>
+        /// <returns>2 байта в виде ushort.</returns>
+        protected static ushort Read16(Stream s)
+        {
+            ushort Data = (ushort)(s.ReadByte());  //Чтение первого байта
+            Data = (ushort)(Data << 8);            //Побитовый сдвиг первого байта
+            Data += (ushort)(s.ReadByte()); //Чтение второго байта
+            return Data;
+        }
+
+        /// <summary>Получает на вход ushort, разделяет его на 2 байта и записывает в поток.</summary>
+        /// <param name="data">ushort, который будет записан в поток.</param>
         protected void Write16(ushort data)
         {
             byte Lbyte = (byte)(data);      //Чтение младшего байта из ushort
@@ -74,6 +96,7 @@ namespace JPEG_CLASS_LIB
             Marker += (uint)(MainStream.ReadByte());  // Чтение четвертого байта.
             return Marker;
         }
+
         /// <summary>Получает на вход uint, разделяет его на 4 байта и записывает в поток.</summary>
         protected void Write32(uint data)
         {
@@ -81,7 +104,28 @@ namespace JPEG_CLASS_LIB
             MainStream.WriteByte((byte)(data >> 16)); // Запись второго байта из uint в поток.
             MainStream.WriteByte((byte)(data >> 8));  // Запись третьего байта из uint в поток.
             MainStream.WriteByte((byte)data);         // Запись четвертого байта из uint в поток.
+        }
 
+        /// <summary>Читает маркер, если маркер SOI, EOI или RSTm, то возвращает самого себя, иначе возвращает null.</summary>
+        /// <returns>JPEGData или null, в зависимости от маркера.</returns>
+        public static JPEGData GetData(Stream s)
+        {
+            MarkerType Marker = (MarkerType)JPEGData.Read16(s);
+            if (Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage) return new JPEGData(s, Marker);
+            else if (Marker == MarkerType.StartOfScan) return new Scan(s);
+            else if (Marker == MarkerType.Comment) return new Comment(s);
+            else
+            {
+                new Exception("Неизвестный маркер " + Convert.ToString((int)Marker, 16));
+                return null;
+            }
+        }
+
+        /// <summary>Выводит в консоль поля класса.</summary>
+        public virtual void Print()
+        {
+            Console.WriteLine("Маркер сегмента: " + Convert.ToString((int)Marker, 16) + " " + Marker.ToString());
+            Console.WriteLine("Длинна сегмента: " + Length);
         }
     }
 }

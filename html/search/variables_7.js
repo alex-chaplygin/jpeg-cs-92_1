@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['r',['r',['../structPoint.html#a30f6407f41192c297c3dfedd24d340f9',1,'Point']]]
+  ['quantizationtablemain',['QuantizationTableMain',['../classJPEG__CLASS__LIB_1_1QuantizationTable.html#af59385aed5d4084fe763ee76b4768732',1,'JPEG_CLASS_LIB::QuantizationTable']]]
 ];

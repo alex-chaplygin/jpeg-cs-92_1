@@ -14,7 +14,7 @@ namespace JPEG_CLASS_LIB
         /// Читает скан из потока, начиная с поля "число компонентов в скане"
         /// </summary>
         /// <param name="s">Поток, из которого создается скан.</param>
-        public Scan(Stream s) : base(s)
+        public Scan(Stream s) : base(s, MarkerType.StartOfScan)
         {
             NumberOfImageComponent = (byte)MainStream.ReadByte(); // Читаем количество компонентов изображения в скане.
 
@@ -91,16 +91,15 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Выводит в консоль информацию о классе.
         /// </summary>
-        public void Print()
+        public override void Print()
         {
-            Console.WriteLine("Скан.");
-            Console.WriteLine($"Длина заголовка скана: {Length:X4}");
+            base.Print();
             Console.WriteLine($"Кол-во компонентов изображения в скане: {NumberOfImageComponent:X2}");
             Console.WriteLine("Описание компонентов.");
             for (int j = 0; j < NumberOfImageComponent; j++)
             {
-                Console.WriteLine($"    Номер компонента: {components[j].ComponentSelector:X2}; " +
-                    $"номер таблицы Хаффмана для DC коэф.: {components[j].TableDC:X2}; " +
+                Console.WriteLine($"    Номер комп.: {components[j].ComponentSelector:X2}; " +
+                    $"ном. табл. Хаффмана для DC коэф.: {components[j].TableDC:X2}; " +
                     $"для AC коэф.: {components[j].TableAC:X2}; ");
             }
             Console.WriteLine($"Номер первого коэффициента DCT: {SelectionStart:X2}");
