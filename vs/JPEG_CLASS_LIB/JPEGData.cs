@@ -13,7 +13,7 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Длина сегмента.
         /// </summary>
-        protected ushort Lenght { get; protected private set; }
+        protected ushort Length { get; protected private set; }
 
         public JPEGData(Stream s)
         {

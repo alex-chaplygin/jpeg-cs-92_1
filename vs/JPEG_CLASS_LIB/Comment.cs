@@ -22,9 +22,9 @@ namespace JPEG_CLASS_LIB
         /// <param name="s"></param>
         public Comment (Stream s) : base(s)
         {
-            Lenght = Read16();
-            CommentBytes = new byte[Lenght - 2];
-            for (int i = 0; i < Lenght - 2; i++)
+            Length = Read16();
+            CommentBytes = new byte[Length - 2];
+            for (int i = 0; i < Length - 2; i++)
             {
                 CommentBytes[i] = (byte)MainStream.ReadByte();
             }
@@ -36,8 +36,8 @@ namespace JPEG_CLASS_LIB
         /// <param name="s"></param>
         public void Write (Stream s)
         {
-            Write16(Lenght);
-            for (int i = 0; i < Lenght - 2; i++)
+            Write16(Length);
+            for (int i = 0; i < Length - 2; i++)
             {
                 MainStream.WriteByte(CommentBytes[i]);
             }
@@ -49,9 +49,9 @@ namespace JPEG_CLASS_LIB
         public void Print()
         {
             Console.WriteLine("Комментарий.");
-            Console.WriteLine($"Длина сегмента комментария: {Lenght:X4}");
+            Console.WriteLine($"Длина сегмента комментария: {Length:X4}");
             Console.WriteLine("Закодированные байты комментария:");
-            for (int i = 0; i < Lenght - 2; i++)
+            for (int i = 0; i < Length - 2; i++)
             {
                 Console.Write($"{CommentBytes[i]:X2} ");
             }

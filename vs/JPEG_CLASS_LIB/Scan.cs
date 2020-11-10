@@ -94,7 +94,7 @@ namespace JPEG_CLASS_LIB
         public void Print()
         {
             Console.WriteLine("Скан.");
-            Console.WriteLine($"Длина заголовка скана: {Lenght:X4}");
+            Console.WriteLine($"Длина заголовка скана: {Length:X4}");
             Console.WriteLine($"Кол-во компонентов изображения в скане: {NumberOfImageComponent:X2}");
             Console.WriteLine("Описание компонентов.");
             for (int j = 0; j < NumberOfImageComponent; j++)
