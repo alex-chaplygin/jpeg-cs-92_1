@@ -62,17 +62,18 @@ namespace JPEG_CLASS_LIB
         override public void Print()
         {
             base.Print();
-            Console.Write("Tc: " + Tc + " Th: " + Th + " ");
+            Console.WriteLine("Tc: " + Tc + " Th: " + Th + " ");
             Console.WriteLine("Длинны кодов(codeLength): ");
             foreach(byte i in codeLength)
             {
                 Console.Write(i + " ");
             }
-            Console.WriteLine("Значения(values): ");
+            Console.WriteLine("\nЗначения(values): ");
             foreach (byte i in values)
             {
                 Console.Write(i + " ");
             }
+            Console.WriteLine();
         }
     }
 }
