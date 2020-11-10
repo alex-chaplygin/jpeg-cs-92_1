@@ -112,8 +112,9 @@ namespace JPEG_CLASS_LIB
         {
             MarkerType Marker = (MarkerType)JPEGData.Read16(s);
             if (Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage) return new JPEGData(s, Marker);
-            else if (Marker == MarkerType.DefineHuffmanTables) return new HuffmanTable(s);
-            
+            else if (Marker == MarkerType.DefineHuffmanTables) return new HuffmanTable(s);            
+            else if (Marker == MarkerType.StartOfScan) return new Scan(s);
+            else if (Marker == MarkerType.Comment) return new Comment(s);
             else
             {
                 new Exception("Неизвестный маркер " + Convert.ToString((int)Marker, 16));
@@ -124,8 +125,8 @@ namespace JPEG_CLASS_LIB
         /// <summary>Выводит в консоль поля класса.</summary>
         public virtual void Print()
         {
-            Console.WriteLine("Маркер сегмента: " + Convert.ToString((int)Marker, 16) + " " + Marker.ToString());
-            Console.WriteLine("Длина сегмента: " + Length + " " + Convert.ToString(Length, 16));
+            Console.WriteLine($"Маркер сегмента: {(int)Marker:X4} {Marker}");
+            Console.WriteLine($"Длина сегмента: {Length} {Length:X2}");
         }
     }
 }

@@ -76,19 +76,36 @@ namespace JPEG_CLASS_LIB
         public byte SelectionEnd { get; private set; }
 
         /// <summary>
-        /// 
-        /// Successive approximation bit position high.
         /// Высокая позиция бита последовательного приближения.
         /// По документации Ah.
         /// </summary>
         public byte ApproximationHigh { get; private set; }
 
         /// <summary>
-        /// Succesive approximation bit position low or point transform.
-        /// По документации Al.
         /// Низкая позиция бита последовательного приближения.
+        /// По документации Al.
         /// </summary>
         public byte ApproximationLow { get; private set; }
+
+
+        /// <summary>
+        /// Выводит в консоль информацию о классе.
+        /// </summary>
+        public override void Print()
+        {
+            base.Print();
+            Console.WriteLine($"Кол-во компонентов изображения в скане: {NumberOfImageComponent:X2}");
+            Console.WriteLine("Описание компонентов.");
+            for (int j = 0; j < NumberOfImageComponent; j++)
+            {
+                Console.WriteLine($"    Номер комп.: {components[j].ComponentSelector:X2}; " +
+                    $"ном. табл. Хаффмана для DC коэф.: {components[j].TableDC:X2}; " +
+                    $"для AC коэф.: {components[j].TableAC:X2}; ");
+            }
+            Console.WriteLine($"Номер первого коэффициента DCT: {SelectionStart:X2}");
+            Console.WriteLine($"Номер последнего коэффициента DCT: {SelectionEnd:X2}");
+            Console.WriteLine($"Ah: {ApproximationHigh:X}; Al: {ApproximationLow:X}");
+        }
     }
 
     /// <summary>

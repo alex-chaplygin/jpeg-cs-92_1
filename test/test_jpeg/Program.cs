@@ -447,6 +447,10 @@ namespace ConsoleApp1
             s.Seek(0x21d, SeekOrigin.Begin);
             JPEGData d = JPEGData.GetData(s);
             d.Print();
+
+            s.Seek(862, SeekOrigin.Begin); // Чтение скана.
+            d = JPEGData.GetData(s);
+            d.Print();
         }
 
     }
