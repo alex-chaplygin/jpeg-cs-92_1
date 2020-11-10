@@ -9,17 +9,17 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            // _TestSplit();
-            // _TestCalculatingDC();
-            // _TestPack();
-            // _TestUnpack();
-            // _TestQuantization();
-            // _TestDCT();
-            // _TestDCTShift();
-            // _TestChannel();
-            // _TestInterleave();
-            // _TestZigzad();
-            // _TestJPEGData();
+            _TestSplit();
+            _TestCalculatingDC();
+            _TestPack();
+            _TestUnpack();
+            _TestQuantization();
+            _TestDCT();
+            _TestDCTShift();
+            _TestChannel();
+            _TestInterleave();
+            _TestZigzad();
+            _TestJPEGData();
             _TestBitReader();
         }
 
