@@ -21,6 +21,7 @@ namespace ConsoleApp1
             _TestZigzad();
             _TestJPEGData();
             _TestBitReader();
+            Console.ReadKey();
         }
 
         private static void _TestBitReader()
@@ -443,6 +444,7 @@ namespace ConsoleApp1
         }
         static void _TestJPEGData()
         {
+            
             FileStream s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
             s.Seek(0x21d, SeekOrigin.Begin);
             JPEGData d = JPEGData.GetData(s);
@@ -450,7 +452,12 @@ namespace ConsoleApp1
 
             s.Seek(862, SeekOrigin.Begin); // Чтение скана.
             d = JPEGData.GetData(s);
+            d.Print(); 
+
+            s.Seek(0x48D0, SeekOrigin.Begin);
+            d = JPEGData.GetData(s);
             d.Print();
+
         }
 
     }
