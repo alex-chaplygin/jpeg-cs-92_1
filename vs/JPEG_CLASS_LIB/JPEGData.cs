@@ -112,9 +112,10 @@ namespace JPEG_CLASS_LIB
         {
             MarkerType Marker = (MarkerType)JPEGData.Read16(s);
             if (Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage) return new JPEGData(s, Marker);
-            else if (Marker == MarkerType.DefineHuffmanTables) return new HuffmanTable(s);            
+            else if (Marker == MarkerType.DefineHuffmanTables) return new HuffmanTable(s);
             else if (Marker == MarkerType.StartOfScan) return new Scan(s);
             else if (Marker == MarkerType.Comment) return new Comment(s);
+            else if (Marker >= MarkerType.BaseLineDCT && Marker <= MarkerType.DifferentialLoslessArithmetic) return new Frame(s, Marker);
             else
             {
                 new Exception("Неизвестный маркер " + Convert.ToString((int)Marker, 16));
