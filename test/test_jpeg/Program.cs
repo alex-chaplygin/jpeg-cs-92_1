@@ -21,6 +21,24 @@ namespace ConsoleApp1
             _TestZigzad();
             _TestJPEGData();
             _TestBitReader();
+            _TestBitWriter();
+        }
+
+        private static void _TestBitWriter()
+        {
+            var bitWriter = new BitWriter();
+            bitWriter.Write(2, 3);
+            bitWriter.Write(4, 0);
+            bitWriter.Write(2, 3);
+            bitWriter.Write(12, 4095);
+            bitWriter.Write(3, 0);
+            bitWriter.Write(1, 1);
+
+            foreach (var curByte in bitWriter.Get())
+            {
+                Console.Write(Convert.ToString(curByte, 2).PadLeft(8, '0')+" ");
+            }
+            Console.WriteLine();
         }
 
         private static void _TestBitReader()
