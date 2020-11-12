@@ -19,9 +19,9 @@ namespace JPEG_CLASS_LIB
         /// Конструктор класса, считывает данные из потока
         /// </summary>
         /// <param name="s"></param>
-        public AppData(Stream s):base(s)
+        public AppData(Stream s):base(s, MarkerType.ReservedForApplicationSegments)
         {
-            s.Read(data,0,Lenght-2);
+            s.Read(data,0, Length - 2);
         }
 
         /// <summary>
@@ -36,8 +36,9 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Метод вывода данных в консоль
         /// </summary>
-        public void Print()
+        public override void Print()
         {
+            base.Print();
             for (int i = 0; i < data.Length; i++)
             {
                 Console.Write($"{data[i]}\t");
