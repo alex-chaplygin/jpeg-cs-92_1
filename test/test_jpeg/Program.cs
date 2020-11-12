@@ -21,6 +21,7 @@ namespace ConsoleApp1
             _TestZigzad();
             _TestJPEGData();
             _TestBitReader();
+            _TestJPEGFile();
             Console.ReadKey();
         }
 
@@ -458,7 +459,15 @@ namespace ConsoleApp1
             d = JPEGData.GetData(s);
             d.Print();
 
+            s.Dispose();
         }
-
+        
+        static void _TestJPEGFile()
+        {
+            FileStream s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
+            JPEGFile f = new JPEGFile(s);
+            f.Print();
+            s.Dispose();
+        }
     }
 }
