@@ -12,10 +12,10 @@ namespace JPEG_CLASS_LIB
         protected Stream MainStream;
 
         /// <summary>Маркер сегмента.</summary>
-        protected MarkerType Marker;
+        public MarkerType Marker;
 
         /// <summary>Длина сегмента.</summary>
-        protected ushort Length;
+        public ushort Length;
 
         /// <summary>
         /// Создаёт экземпляр JPEGData, считывает маркер и длину сегмента, если она есть.
