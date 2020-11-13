@@ -34,11 +34,8 @@ namespace JPEG_CLASS_LIB
         /// </summary>
         protected void Write()
         {
-            byte a = Convert.ToByte((int)Marker / 0x100);
-            byte b = Convert.ToByte((int)Marker % 0x100);
-            byte La = Convert.ToByte(Length >>8);
-            byte Lb = Convert.ToByte(Length % 256);
-            MainStream.Write(new byte[4] {a,b,La,Lb},0,4);
+            Write32((uint)Marker);
+            if (!(Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage)) Write16(Length) ;
         }
 
         /// <summary>
