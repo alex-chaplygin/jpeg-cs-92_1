@@ -19,13 +19,15 @@ namespace JPEG_CLASS_LIB
         /// Конструктор JPEGFile. Считывает все структуры JPEGData и записывает их в Data.
         /// </summary>
         /// <param name="s">Поток с изображением.</param>
-        public JPEGFile(Stream s) 
+        public JPEGFile(Stream s)
         {
+            long position = 0;
             do
             {
+                position = s.Position;
                 JPEGData temp = JPEGData.GetData(s);
+                s.Position = position + temp.Length + 2;
                 Data.Add(temp);
-                s.Position += temp.Length;
             }
             while (Data[Data.Count - 1].Marker != MarkerType.StartOfScan);
         }
