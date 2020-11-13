@@ -106,7 +106,7 @@ namespace JPEG_CLASS_LIB
             MainStream.WriteByte((byte)data);         // Запись четвертого байта из uint в поток.
         }
 
-        /// <summary>Читает маркер, если маркер SOI, EOI или RSTm, то возвращает самого себя, иначе возвращает null.</summary>
+        /// <summary>Читает маркер и в зависимости от него возвращает соответствующую структуру данных JPEG.</summary>
         /// <returns>JPEGData или null, в зависимости от маркера.</returns>
         public static JPEGData GetData(Stream s)
         {
@@ -116,11 +116,7 @@ namespace JPEG_CLASS_LIB
             else if (Marker == MarkerType.StartOfScan) return new Scan(s);
             else if (Marker == MarkerType.Comment) return new Comment(s);
             else if (Marker >= MarkerType.BaseLineDCT && Marker <= MarkerType.DifferentialLoslessArithmetic) return new Frame(s, Marker);
-            else
-            {
-                new Exception("Неизвестный маркер " + Convert.ToString((int)Marker, 16));
-                return null;
-            }
+            else return new JPEGData(s, Marker);
         }
 
         /// <summary>Выводит в консоль поля класса.</summary>
