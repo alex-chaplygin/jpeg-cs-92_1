@@ -12,10 +12,10 @@ namespace JPEG_CLASS_LIB
         protected Stream MainStream;
 
         /// <summary>Маркер сегмента.</summary>
-        protected MarkerType Marker;
+        public MarkerType Marker;
 
         /// <summary>Длина сегмента.</summary>
-        protected ushort Length;
+        public ushort Length;
 
         /// <summary>
         /// Создаёт экземпляр JPEGData, считывает маркер и длину сегмента, если она есть.
@@ -111,18 +111,13 @@ namespace JPEG_CLASS_LIB
         public static JPEGData GetData(Stream s)
         {
             MarkerType Marker = (MarkerType)JPEGData.Read16(s);
-            if (Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage) return new JPEGData(s, Marker);
-            else if (Marker == MarkerType.DefineHuffmanTables) return new HuffmanTable(s);
+            if (Marker == MarkerType.DefineHuffmanTables) return new HuffmanTable(s);
             else if (Marker == MarkerType.StartOfScan) return new Scan(s);
             else if (Marker == MarkerType.Comment) return new Comment(s);
             else if (Marker >= MarkerType.ReservedForApplicationSegments && Marker < MarkerType.ReservedForJPEGExt) return new AppData(s);
             else if (Marker == MarkerType.DefineNumberOfLines) return new DNL(s);
             else if (Marker >= MarkerType.BaseLineDCT && Marker <= MarkerType.DifferentialLoslessArithmetic) return new Frame(s, Marker);
-            else
-            {
-                new Exception("Неизвестный маркер " + Convert.ToString((int)Marker, 16));
-                return null;
-            }
+            else return new JPEGData(s, Marker);
         }
 
         /// <summary>Выводит в консоль поля класса.</summary>

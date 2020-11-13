@@ -9,7 +9,7 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            _TestSplit();
+	    /*    _TestSplit();
             _TestCalculatingDC();
             _TestPack();
             _TestUnpack();
@@ -21,7 +21,9 @@ namespace ConsoleApp1
             _TestZigzad();
             _TestJPEGData();
             _TestBitReader();
-            _TestBitWriter();
+            _TestBitWriter();*/
+            _TestJPEGFile();
+            Console.ReadKey();
         }
 
         private static void _TestBitWriter()
@@ -39,7 +41,6 @@ namespace ConsoleApp1
                 Console.Write(Convert.ToString(curByte, 2).PadLeft(8, '0')+" ");
             }
             Console.WriteLine();
-            Console.ReadKey();
         }
 
         private static void _TestBitReader()
@@ -476,7 +477,15 @@ namespace ConsoleApp1
             d = JPEGData.GetData(s);
             d.Print();
 
+            s.Dispose();
         }
-
+        
+        static void _TestJPEGFile()
+        {
+            FileStream s = File.Open("JPEG_example_down.jpg", FileMode.Open);
+            JPEGFile f = new JPEGFile(s);
+            f.Print();
+            s.Dispose();
+        }
     }
 }

@@ -21,6 +21,7 @@ namespace JPEG_CLASS_LIB
         /// <param name="s"></param>
         public AppData(Stream s):base(s, MarkerType.ReservedForApplicationSegments)
         {
+	    data = new byte[Length - 2];
             s.Read(data,0, Length - 2);
         }
 
