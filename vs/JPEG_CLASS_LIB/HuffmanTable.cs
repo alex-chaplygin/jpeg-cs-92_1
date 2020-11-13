@@ -11,31 +11,96 @@ namespace JPEG_CLASS_LIB
         byte[] values;
         byte Tc;
         byte Th;
+        byte[] HUFFSIZE;
+        byte[] BITS;
+        byte[] HUFFCODE;
+        byte[] EHUFCO;
+        byte[] EHUFSI;
+        byte[] HUFFVAL;
         //byte all_length_values;
         //Stream stream;
         /// <summary>
         /// Конструктор класса HuffmanTable. Создает таблицу Хаффмена на основе данных из потока 
         /// </summary>
         /// <param name="s">Поток на основе данных из которого создается таблица Хаффмена</param>
-        public HuffmanTable(Stream s) : base (s, MarkerType.DefineHuffmanTables)
+        public HuffmanTable(Stream s) : base(s, MarkerType.DefineHuffmanTables)
         {
             Stream stream = s;
-            
+
             byte value = (byte)stream.ReadByte();
             Tc = (byte)(value >> 4);
             Th = (byte)(value & 0x0F);
             byte all_length_values = 0;
-            for (int i = 0; i<16; i++)
+            for (int i = 0; i < 16; i++)
             {
                 codeLength[i] = (byte)stream.ReadByte();
                 all_length_values += codeLength[i];
             }
             values = new byte[all_length_values];
-            for (int i = 0; i<all_length_values; i++)
+            for (int i = 0; i < all_length_values; i++)
             {
                 values[i] = (byte)stream.ReadByte();
             }
+            // Generate_size_table
 
+            int K = 0;
+            byte I = 1;
+            int J = 1;
+            BITS = codeLength;
+            HUFFSIZE = new byte[all_length_values+1];
+            do
+            {
+                while (!(J > BITS[I-1]))
+                {
+                    HUFFSIZE[K] = I;
+                    K++;
+                    J++;
+                }
+                I++;
+                J = 1;
+            }
+            while (!(I > 16));
+            HUFFSIZE[K] = 0;
+            int LASTK = K;
+            // Generate_code_table
+            K = 0;
+            byte CODE = 0;
+            byte SI = HUFFSIZE[0];
+            HUFFCODE = new byte[all_length_values];
+            do
+            {
+                do
+                {
+                    HUFFCODE[K] = CODE;
+                    CODE++;
+                    K++;
+                }
+                while (HUFFSIZE[K] == SI);
+                if (HUFFSIZE[K]==0)
+                {
+                    break;
+                }
+                do
+                {
+                    CODE = (byte)(CODE<<1);
+                    SI++;
+                }
+                while (HUFFSIZE[K] != SI);
+            }
+            while (HUFFSIZE[K] == SI);
+            //Order_codes
+            K = 0;
+            EHUFCO = new byte[256];
+            EHUFSI = new byte[256];
+            HUFFVAL = values;
+            do
+            {
+                I = HUFFVAL[K];
+                EHUFCO[I] = HUFFCODE[K];
+                EHUFSI[I] = HUFFSIZE[K];
+                K++;
+            }
+            while (K < LASTK);
             
         }
         /// <summary>
@@ -70,6 +135,36 @@ namespace JPEG_CLASS_LIB
             }
             Console.WriteLine("\nЗначения(values): ");
             foreach (byte i in values)
+            {
+                Console.Write(i + " ");
+            }
+            Console.WriteLine("\nEHUFCO:");
+            foreach (byte i in EHUFCO)
+            {
+                Console.Write(i + " ");
+            }
+            Console.WriteLine("\nEHUFSI:");
+            foreach (byte i in EHUFSI)
+            {
+                Console.Write(i + " ");
+            }
+            Console.WriteLine("\nHUFFSIZE:");
+            foreach (byte i in HUFFSIZE)
+            {
+                Console.Write(i + " ");
+            }
+            Console.WriteLine("\nHUFFCODE:");
+            foreach (byte i in HUFFCODE)
+            {
+                Console.Write(i + " ");
+            }
+            Console.WriteLine("\nHUFFVAL:");
+            foreach (byte i in HUFFVAL)
+            {
+                Console.Write(i + " ");
+            }
+            Console.WriteLine("\nBITS:");
+            foreach (byte i in BITS)
             {
                 Console.Write(i + " ");
             }
