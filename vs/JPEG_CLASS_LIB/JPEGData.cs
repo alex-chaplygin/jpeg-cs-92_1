@@ -30,6 +30,18 @@ namespace JPEG_CLASS_LIB
         }
 
         /// <summary>
+        /// Записывает маркер и длину в текущий поток.
+        /// </summary>
+        protected void Write()
+        {
+            byte a = Convert.ToByte((int)Marker / 0x100);
+            byte b = Convert.ToByte((int)Marker % 0x100);
+            byte La = Convert.ToByte(Length >>8);
+            byte Lb = Convert.ToByte(Length % 256);
+            MainStream.Write(new byte[4] {a,b,La,Lb},0,4);
+        }
+
+        /// <summary>
         /// Читает  1 байт, разбивает его по 4 бита, которые записывает в младшие разряды двух байтов.
         /// </summary>
         /// <param name="v1">Байт, в который будут записаны 4 старших бита из считываемого байта.</param>
