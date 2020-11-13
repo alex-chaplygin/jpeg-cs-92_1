@@ -6,39 +6,39 @@ using System.Text;
 namespace JPEG_CLASS_LIB
 {
     /// <summary>
-    /// Содержит параметры изображения
+    /// Содержит параметры изображения.
     /// </summary>
     public class Frame : JPEGData
     {
         /// <summary>
-        /// Число колонок в изображении
+        /// Число колонок в изображении.
         /// </summary>
         ushort height;
 
         /// <summary>
-        /// Число столбцов в изображении
+        /// Число столбцов в изображении.
         /// </summary>
         ushort width;
 
         /// <summary>
-        /// Точность представления в битах
+        /// Точность представления в битах.
         /// </summary>
         byte numBit;
 
         /// <summary>
-        /// Число каналов в изображении
+        /// Число каналов в изображении.
         /// </summary>
         byte numComponent;
 
         /// <summary>
-        /// Массив компонентов
+        /// Массив компонентов.
         /// </summary>
         Component[] Components;
 
         /// <summary>
-        /// Конструктор класса Frame 
+        /// Конструктор класса Frame.
         /// </summary>
-        /// <param name="s">Поток с изображением</param>
+        /// <param name="s">Поток с изображением.</param>
         public Frame(Stream s, MarkerType markerType) : base(s, markerType)
         {
             numBit = (byte)(s.ReadByte());
@@ -55,7 +55,7 @@ namespace JPEG_CLASS_LIB
         }
 
         /// <summary>
-        /// Чтение числа бит
+        /// Чтение числа бит.
         /// </summary>
         public Int16 NumberIfBits
         {
@@ -63,7 +63,7 @@ namespace JPEG_CLASS_LIB
         }
 
         /// <summary>
-        /// Чтение высоты
+        /// Чтение высоты.
         /// </summary>
         public Int16 Height
         {
@@ -71,7 +71,7 @@ namespace JPEG_CLASS_LIB
         }
 
         /// <summary>
-        /// Чтение ширины
+        /// Чтение ширины.
         /// </summary>
         public Int16 Width
         {
@@ -79,7 +79,7 @@ namespace JPEG_CLASS_LIB
         }
 
         /// <summary>
-        /// Чтение числа компонент
+        /// Чтение числа компонент.
         /// </summary>
         public Int16 NumberOfComponent
         {
@@ -87,18 +87,35 @@ namespace JPEG_CLASS_LIB
         }
 
         /// <summary>
-        /// Параметры канала
+        /// Параметры канала.
         /// </summary>
         struct Component
         {
+            /// <summary>
+            /// Номер компонента.
+            /// </summary>
             public byte Number;
+
+            /// <summary>
+            /// Компонент H. 
+            /// Коэффициент горизонтальной выборки.
+            /// </summary>
             public byte H;
+
+            /// <summary>
+            /// Компонент V. 
+            /// Коэффициент вертикальной выборки.
+            /// </summary>
             public byte V;
+
+            /// <summary>
+            /// Номер таблицы квантования.
+            /// </summary>
             public byte QuantizationTableNumber;
         }
 
         /// <summary>
-        /// Выводит в консоль параметры изображения
+        /// Выводит в консоль параметры изображения.
         /// </summary>
         override public void Print()
         {
@@ -108,8 +125,8 @@ namespace JPEG_CLASS_LIB
             for (int i = 0; i < numComponent; i++)
             {
                 Console.WriteLine($"Компонент номер:{i}");
-                Console.WriteLine($"Компонент.H{i} = " + Components[i].H);
                 Console.WriteLine($"Компонент.C{i} = " + Components[i].Number);
+                Console.WriteLine($"Компонент.H{i} = " + Components[i].H);
                 Console.WriteLine($"Компонент.V{i} = " + Components[i].V);
                 Console.WriteLine($"Компонент.Номер таблицы квантования{i} = " + Components[i].QuantizationTableNumber);
                 Console.WriteLine();
