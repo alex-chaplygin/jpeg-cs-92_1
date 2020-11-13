@@ -30,6 +30,7 @@ namespace JPEG_CLASS_LIB
         /// <param name="s"></param>
         public void Write(Stream s)
         {
+            base.Write();
             s.Write(data, 0, data.Length);
         }
 

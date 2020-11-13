@@ -44,6 +44,7 @@ namespace JPEG_CLASS_LIB
         /// <param name="s">Поток, в который происходит запись</param>
         public void Write(ref Stream s)
         {
+            base.Write();
             //s = stream;
             s.WriteByte((byte)((Tc << 4) + Th));
             foreach(byte i in codeLength)
