@@ -482,7 +482,7 @@ namespace ConsoleApp1
         
         static void _TestJPEGFile()
         {
-            FileStream s = File.Open("JPEG_example_down.jpg", FileMode.Open);
+            FileStream s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
             JPEGFile f = new JPEGFile(s);
             f.Print();
             s.Dispose();
