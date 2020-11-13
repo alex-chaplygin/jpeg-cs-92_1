@@ -115,6 +115,7 @@ namespace JPEG_CLASS_LIB
             else if (Marker == MarkerType.DefineHuffmanTables) return new HuffmanTable(s);            
             else if (Marker == MarkerType.StartOfScan) return new Scan(s);
             else if (Marker == MarkerType.Comment) return new Comment(s);
+            else if (Marker >= MarkerType.ReservedForApplicationSegments && Marker < MarkerType.ReservedForJPEGExt) return new AppData(s);
             else
             {
                 new Exception("Неизвестный маркер " + Convert.ToString((int)Marker, 16));

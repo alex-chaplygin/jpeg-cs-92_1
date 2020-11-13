@@ -15,11 +15,13 @@ namespace JPEG_CLASS_LIB
         /// Таблица квантования содержащаяся в этом классе
         /// </summary>
         byte[] QuantizationTableMain = new byte[64];
+
         /// <summary>
         /// Pq - точность элемента таблицы квантования.
         /// Tq - идентификатор назначения таблицы квантования.
         /// </summary>
         byte Pq, Tq;
+
         /// <summary>
         /// Конктруктор класс, записывает значения Pq и Tq, значения таблицы квантования в массив из потока.
         /// </summary>
@@ -29,6 +31,7 @@ namespace JPEG_CLASS_LIB
             Read4(out Pq, out Tq);
             s.Read(QuantizationTableMain,0 , QuantizationTableMain.Length);
         }
+
         /// <summary>
         /// Метод, записывающий значения таблицы квантования в поток
         /// </summary>
@@ -37,6 +40,20 @@ namespace JPEG_CLASS_LIB
         {
             s.Write(new byte[2] {Pq,Tq}, 0, 2);
             s.Write(QuantizationTableMain, 0, QuantizationTableMain.Length);
+        }
+
+        /// <summary>
+        /// Метод вывода значений класса таблицы квантования
+        /// </summary>
+        public override void Print()
+        {
+            base.Print();
+            Console.WriteLine($"Значения Pq - {Pq}, и Tq - {Tq}\nТаблица квантования");
+            for (int i = 0; i < QuantizationTableMain.Length; i++)
+            {
+                Console.Write($"{QuantizationTableMain[i]}\t");
+            }
+            Console.WriteLine();
         }
     }
 }
