@@ -30,6 +30,15 @@ namespace JPEG_CLASS_LIB
         }
 
         /// <summary>
+        /// Записывает маркер и длину в текущий поток.
+        /// </summary>
+        protected void Write()
+        {
+            Write32((uint)Marker);
+            if (!(Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage)) Write16(Length) ;
+        }
+
+        /// <summary>
         /// Читает  1 байт, разбивает его по 4 бита, которые записывает в младшие разряды двух байтов.
         /// </summary>
         /// <param name="v1">Байт, в который будут записаны 4 старших бита из считываемого байта.</param>
