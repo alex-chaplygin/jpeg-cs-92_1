@@ -32,7 +32,7 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Записывает маркер и длину в текущий поток.
         /// </summary>
-        protected void Write()
+        protected virtual void Write()
         {
             Write32((uint)Marker);
             if (!(Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage)) Write16(Length) ;
