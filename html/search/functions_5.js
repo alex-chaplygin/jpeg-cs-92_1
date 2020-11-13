@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['idct',['IDCT',['../classJPEG__CLASS__LIB_1_1DCT.html#ae183bf8d408afdff4286a90909a02a0b',1,'JPEG_CLASS_LIB::DCT']]],
-  ['imageconverter',['ImageConverter',['../classJPEG__CLASS__LIB_1_1ImageConverter.html#a8b82481062d3bec0dd1ab5678341e29f',1,'JPEG_CLASS_LIB::ImageConverter']]],
-  ['initializecomponent',['InitializeComponent',['../classGUITest_1_1Form1.html#a7027653865b8b19f66679f8a4703cd37',1,'GUITest::Form1']]]
+  ['getdata',['GetData',['../classJPEG__CLASS__LIB_1_1JPEGData.html#a7aa665d4d352be5d90008ccc89dc0699',1,'JPEG_CLASS_LIB::JPEGData']]],
+  ['getmatrix',['GetMatrix',['../classJPEG__CLASS__LIB_1_1Channel.html#aaeff545ae8f0f0d89f5ea95facce2233',1,'JPEG_CLASS_LIB::Channel']]]
 ];

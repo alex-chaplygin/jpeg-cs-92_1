@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['scan_2ecs',['Scan.cs',['../Scan_8cs.html',1,'']]],
-  ['settings_2edesigner_2ecs',['Settings.Designer.cs',['../Settings_8Designer_8cs.html',1,'']]]
+  ['quantization_2ecs',['Quantization.cs',['../Quantization_8cs.html',1,'']]],
+  ['quantizationtable_2ecs',['QuantizationTable.cs',['../QuantizationTable_8cs.html',1,'']]]
 ];

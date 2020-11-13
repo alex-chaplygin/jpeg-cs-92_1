@@ -117,7 +117,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 <tr class="memdesc:a01d684ace6174ccc7e10504fbda465ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Соединяет список блоков 8x8 в матрицу канала. Заменяет матрицу канала.  <a href="#a01d684ace6174ccc7e10504fbda465ae">Подробнее...</a><br /></td></tr>
 <tr class="separator:a01d684ace6174ccc7e10504fbda465ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ad4d6d7c4712b40cb5ef11051c26fda00"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1Channel.html#ad4d6d7c4712b40cb5ef11051c26fda00">Sample</a> (int Hmax, int Vmax)</td></tr>
-<tr class="memdesc:ad4d6d7c4712b40cb5ef11051c26fda00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Преобразует исходную матрицу в новую, изменяя ширину и высоту. Значения матрицы прореживаются  <a href="#ad4d6d7c4712b40cb5ef11051c26fda00">Подробнее...</a><br /></td></tr>
+<tr class="memdesc:ad4d6d7c4712b40cb5ef11051c26fda00"><td class="mdescLeft">&#160;</td><td class="mdescRight">Преобразует исходную матрицу в новую, изменяя ширину и высоту. Значения матрицы интерполируются. Новая ширина матрицы равна текущая ширина разделить на Hmax/H. Новая высота матрицы равна текущая высота разделить на Vmax/V. Например, если H = 4, Hmax=4, то ширина не изменяется. H = 2, Hmax = 4, ширина уменьшается в 2 раза.  <a href="#ad4d6d7c4712b40cb5ef11051c26fda00">Подробнее...</a><br /></td></tr>
 <tr class="separator:ad4d6d7c4712b40cb5ef11051c26fda00"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab1c1f47c6d624ceb0d992745343c11cc"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1Channel.html#ab1c1f47c6d624ceb0d992745343c11cc">Resample</a> (int Hmax, int Vmax)</td></tr>
 <tr class="memdesc:ab1c1f47c6d624ceb0d992745343c11cc"><td class="mdescLeft">&#160;</td><td class="mdescRight">Преобразует исходную матрицу в новую, изменяя ширину и высоту. Значения матрицы линейно интерполируются.  <a href="#ab1c1f47c6d624ceb0d992745343c11cc">Подробнее...</a><br /></td></tr>
@@ -391,11 +391,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 </table>
 </div><div class="memdoc">
 
-<p>Преобразует исходную матрицу в новую, изменяя ширину и высоту. Значения матрицы прореживаются </p>
+<p>Преобразует исходную матрицу в новую, изменяя ширину и высоту. Значения матрицы интерполируются. Новая ширина матрицы равна текущая ширина разделить на Hmax/H. Новая высота матрицы равна текущая высота разделить на Vmax/V. Например, если H = 4, Hmax=4, то ширина не изменяется. H = 2, Hmax = 4, ширина уменьшается в 2 раза. </p>
 <dl class="params"><dt>Аргументы</dt><dd>
   <table class="params">
-    <tr><td class="paramname">Hmax</td><td>Коэффициент Hmax</td></tr>
-    <tr><td class="paramname">Vmax</td><td>Коэффициент Vmax</td></tr>
+    <tr><td class="paramname">Hmax</td><td>Максимальное значение из всех значений H всех каналов</td></tr>
+    <tr><td class="paramname">Vmax</td><td>Максимальное значение из всех значений V всех каналов</td></tr>
   </table>
   </dd>
 </dl>

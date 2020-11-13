@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['h',['h',['../classJPEG__CLASS__LIB_1_1Channel.html#a0edabd635cdbaaab0f34b7517ccce8e7',1,'JPEG_CLASS_LIB.Channel.h()'],['../structJPEG__CLASS__LIB_1_1ImageConverter_1_1HSV.html#af2d47d0080e972c66b3a6d77e5ae3016',1,'JPEG_CLASS_LIB.ImageConverter.HSV.h()']]],
-  ['height',['height',['../classJPEG__CS.html#a4152be3d0b73a84999ed5491eb25f09f',1,'JPEG_CS']]]
+  ['g',['g',['../structPoint.html#adcc9fc782aa82f1e4b54d4c0058b6fee',1,'Point']]],
+  ['geth',['GetH',['../classJPEG__CLASS__LIB_1_1Channel.html#a1b743996a94ef56de573df169254ec1c',1,'JPEG_CLASS_LIB::Channel']]],
+  ['getv',['GetV',['../classJPEG__CLASS__LIB_1_1Channel.html#aaa9fb3351da00900555db4188a1c76f6',1,'JPEG_CLASS_LIB::Channel']]]
 ];

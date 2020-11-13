@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['program_2ecs',['Program.cs',['../GUITest_2GUITest_2Program_8cs.html',1,'']]],
-  ['program_2ecs',['Program.cs',['../test_2test__jpeg_2Program_8cs.html',1,'']]]
+  ['jpeg_5fclass_2ecs',['JPEG_class.cs',['../JPEG__class_8cs.html',1,'']]],
+  ['jpegdata_2ecs',['JPEGData.cs',['../JPEGData_8cs.html',1,'']]]
 ];

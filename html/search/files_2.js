@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['dct_2ecs',['DCT.cs',['../DCT_8cs.html',1,'']]]
+  ['channel_2ecs',['Channel.cs',['../Channel_8cs.html',1,'']]],
+  ['comment_2ecs',['Comment.cs',['../Comment_8cs.html',1,'']]]
 ];

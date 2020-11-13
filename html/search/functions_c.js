@@ -1,8 +1,6 @@
 var searchData=
 [
-  ['sample',['Sample',['../classJPEG__CLASS__LIB_1_1Channel.html#ad4d6d7c4712b40cb5ef11051c26fda00',1,'JPEG_CLASS_LIB::Channel']]],
-  ['scan',['Scan',['../classJPEG__CLASS__LIB_1_1Scan.html#a311dc424b73c54f6d781f60542920992',1,'JPEG_CLASS_LIB::Scan']]],
-  ['setarguments',['SetArguments',['../classJPEG__CS.html#ab8321ab476a82bcfb754b14d630bdafb',1,'JPEG_CS']]],
-  ['shift',['Shift',['../classJPEG__CLASS__LIB_1_1DCT.html#a457f23e57e55e12560a875fd48d92a27',1,'JPEG_CLASS_LIB::DCT']]],
-  ['split',['Split',['../classJPEG__CLASS__LIB_1_1Channel.html#aa8d052ff9d794aa0acd7015866c01ac5',1,'JPEG_CLASS_LIB::Channel']]]
+  ['quantizationdirect',['QuantizationDirect',['../classJPEG__CLASS__LIB_1_1Quantization.html#a60e0233214a16e4cd1b8df426abc1e21',1,'JPEG_CLASS_LIB::Quantization']]],
+  ['quantizationreverse',['QuantizationReverse',['../classJPEG__CLASS__LIB_1_1Quantization.html#ae5af43a926dde2407a3a838caae90caf',1,'JPEG_CLASS_LIB::Quantization']]],
+  ['quantizationtable',['QuantizationTable',['../classJPEG__CLASS__LIB_1_1QuantizationTable.html#a93de85ff27f0a6dea5d01251aff8f067',1,'JPEG_CLASS_LIB::QuantizationTable']]]
 ];

@@ -1,5 +1,7 @@
 <map id="JPEG_CLASS_LIB.JPEGData" name="JPEG_CLASS_LIB.JPEGData">
-<area shape="rect" id="node2" href="$classJPEG__CLASS__LIB_1_1QuantizationTable.html" title="Таблица Квантования &#45; класс, считывающий из потока таблицу квантования, точность её элементов и её ид..." alt="" coords="263,5,475,47"/>
-<area shape="rect" id="node3" href="$classJPEG__CLASS__LIB_1_1RestartInterval.html" title="class for интервал повтора &#45; число MCU &#45; minimum coding unit " alt="" coords="256,71,481,98"/>
-<area shape="rect" id="node4" href="$classJPEG__CLASS__LIB_1_1Scan.html" title="Закодированные компоненты изображения. " alt="" coords="284,122,453,149"/>
+<area shape="rect" id="node2" href="$classJPEG__CLASS__LIB_1_1Comment.html" title="Закодированный комментарий. " alt="" coords="271,5,467,32"/>
+<area shape="rect" id="node3" href="$classJPEG__CLASS__LIB_1_1HuffmanTable.html" title="JPEG_CLASS_LIB.HuffmanTable" alt="" coords="258,56,479,83"/>
+<area shape="rect" id="node4" href="$classJPEG__CLASS__LIB_1_1QuantizationTable.html" title="Таблица Квантования &#45; класс, считывающий из потока таблицу квантования, точность её элементов и её ид..." alt="" coords="263,107,475,149"/>
+<area shape="rect" id="node5" href="$classJPEG__CLASS__LIB_1_1RestartInterval.html" title="class for интервал повтора &#45; число MCU &#45; minimum coding unit " alt="" coords="256,173,481,200"/>
+<area shape="rect" id="node6" href="$classJPEG__CLASS__LIB_1_1Scan.html" title="Закодированные компоненты изображения. " alt="" coords="284,224,453,251"/>
 </map>

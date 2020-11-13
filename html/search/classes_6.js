@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['point',['Point',['../structPoint.html',1,'']]],
-  ['program',['Program',['../classConsoleApp1_1_1Program.html',1,'ConsoleApp1']]],
-  ['program',['Program',['../classGUITest_1_1Program.html',1,'GUITest']]]
+  ['jpeg_5fcs',['JPEG_CS',['../classJPEG__CS.html',1,'']]],
+  ['jpegdata',['JPEGData',['../classJPEG__CLASS__LIB_1_1JPEGData.html',1,'JPEG_CLASS_LIB']]]
 ];

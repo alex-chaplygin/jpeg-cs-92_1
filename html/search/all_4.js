@@ -1,5 +1,6 @@
 var searchData=
 [
+  ['data',['data',['../classJPEG__CLASS__LIB_1_1BitReader.html#a165f2f20b9d28e4ad2ce46c87520ac64',1,'JPEG_CLASS_LIB::BitReader']]],
   ['dccalculating',['DCCalculating',['../classJPEG__CS.html#abb5908a43c447b19dce3a3334676160f',1,'JPEG_CS']]],
   ['dcrestore',['DCRestore',['../classJPEG__CS.html#adc45374517ed742bf09f3aca6724a455',1,'JPEG_CS']]],
   ['dct',['DCT',['../classJPEG__CLASS__LIB_1_1DCT.html',1,'JPEG_CLASS_LIB']]],
