@@ -140,13 +140,13 @@ j.Сжать(изображение);
 
 0. Удаляем свою старую ветку
 
+git checkout master
+
 git branch -D iss<номер сделанной ветки>
 
 1. Смотрим задание в разделе Issues
 
 2. Синхронизировать удаленное хранилище и локальное
-
-git checkout master
 
 git pull origin master
 
