@@ -38,7 +38,7 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Конструктор класса Frame 
         /// </summary>
-        /// <param name="s"></param>
+        /// <param name="s">Поток с изображением</param>
         public Frame(Stream s, MarkerType markerType) : base(s, markerType)
         {
             numBit = (byte)(s.ReadByte());
@@ -50,7 +50,7 @@ namespace JPEG_CLASS_LIB
             {
                 Components[i].Number = (byte)(s.ReadByte());
                 Read4(out Components[i].H, out Components[i].V);
-                Components[i].Spec = (byte)(s.ReadByte());
+                Components[i].QuantizationTableNumber = (byte)(s.ReadByte());
             }
         }
 
@@ -94,7 +94,7 @@ namespace JPEG_CLASS_LIB
             public byte Number;
             public byte H;
             public byte V;
-            public byte Spec;
+            public byte QuantizationTableNumber;
         }
 
         /// <summary>
@@ -108,9 +108,10 @@ namespace JPEG_CLASS_LIB
             for (int i = 0; i < numComponent; i++)
             {
                 Console.WriteLine($"Компонент номер:{i}");
+                Console.WriteLine($"Компонент.H{i} = " + Components[i].H);
                 Console.WriteLine($"Компонент.C{i} = " + Components[i].Number);
                 Console.WriteLine($"Компонент.V{i} = " + Components[i].V);
-                Console.WriteLine($"Компонент.Спецификация{i} = " + Components[i].Spec);
+                Console.WriteLine($"Компонент.Номер таблицы квантования{i} = " + Components[i].QuantizationTableNumber);
                 Console.WriteLine();
             }
         }
