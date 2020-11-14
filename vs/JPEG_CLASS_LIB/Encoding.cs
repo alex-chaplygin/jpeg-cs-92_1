@@ -13,19 +13,23 @@ namespace JPEG_CLASS_LIB
         /// Предваряет каждый DC коэффициент номером категорией, 
         /// добавляя в одномерный массив перед DC коэффициентом значение номера категории.
         /// </summary>
-        /// <param name="data">Список блоков 8x8 после DCT, рассчета DC и обхода зигзагом.</param>
+        /// <param name="data">Список блоков 8x8 после DCT и обхода зигзагом.</param>
         public static void EncodeDC(List<short[]> data)
         {
-            short pred = 0; // DC коэффициент из последнего рассмотренного блока.
             short[] newBlock; // Увеличенный до размера [65] блок, хранящий номер категории.
-            for (int i = 0; i < data.Count; i++)
+            for (int i = data.Count - 1; i > 0; i--)
             {
                 newBlock = new short[65];
                 Array.Copy(data[i], 0, newBlock, 1, 64);
-                newBlock[0] = ComputeDCCategory((short)(newBlock[1] - pred));
-                pred = newBlock[1];
+                newBlock[1] = (short)(newBlock[1] - data[i-1][0]); // Записываем разность в DC коэффициент.
+                newBlock[0] = ComputeDCCategory((short)newBlock[1]); // По DC коэффициенту определяем категорию.
                 data[i] = newBlock;
             }
+            // Повторяем опрерацию для самого первого блока.
+            newBlock = new short[65];
+            Array.Copy(data[0], 0, newBlock, 1, 64);
+            newBlock[0] = ComputeDCCategory((short)newBlock[1]);
+            data[0] = newBlock;
         }
 
         /// <summary>
