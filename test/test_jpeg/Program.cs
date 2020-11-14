@@ -486,6 +486,27 @@ namespace ConsoleApp1
             FileStream s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
             JPEGFile f = new JPEGFile(s);
             f.Print();
+            Decoding D = new Decoding(s);
+            Console.WriteLine("\r\nПозиция в потоке: " + s.Position.ToString("X"));
+            try
+            {
+                int i = 0;
+                do
+                {
+                    Console.Write(D.NextBit()+" ");
+                    i++;
+                    if (i == 16)
+                    {
+                        Console.WriteLine();
+                        i = 0;
+                    }
+                }
+                while (true);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
             s.Dispose();
         }
         private static void _TestEncoding()
