@@ -6,12 +6,12 @@ using System.Text;
 namespace JPEG_CLASS_LIB
 {
     /// <summary>
-    /// Класс для декодирование энтропийно закодированных данных.
+    /// Декодирование энтропийно закодированных данных.
     /// </summary>
     public class Decoding
     {
         /// <summary>
-        /// Поток данных.
+        /// Сжатые данные.
         /// </summary>
         Stream MainStream;
 
@@ -31,19 +31,18 @@ namespace JPEG_CLASS_LIB
         byte CNT = 0;
 
         /// <summary>
-        /// Конструктор класса, сохраняющий поток данных.
+        /// Создает объект, сохраняет поток в классе.
         /// </summary>
-        /// <param name="s">Поток данных.</param>
+        /// <param name="s">Поток сжатых данных.</param>
         public Decoding(Stream s)
         {
             MainStream = s;
         }
 
         /// <summary>
-        /// NEXTBIT считывает следующий бит сжатых данных и передает его процедурам более высокого уровня.
+        /// Читает следующий бит из сжатых данных, распознает маркеры и stuff-байты.
         /// </summary>
-        /// <returns>Следующий бит сжатых данных.</returns>
-        //См. F.2.2.5 в документации. 
+        /// <returns>Следующий бит сжатых данных.</returns> 
         public byte NextBit()
         {
             if (CNT == 0)
