@@ -491,43 +491,28 @@ namespace ConsoleApp1
         private static void _TestEncoding()
         {
             int numberOfBlock = 3;
-            // Создаем numberOfBlock количество блоков 8x8 со случайными байтовыми значениями.
+            // Создаем numberOfBlock количество блоков [64] со случайными байтовыми значениями.
             Random random = new Random();
-            List<byte[,]> listOfByteBLocks = new List<byte[,]>();
+            List<short[]> listOfBlocks = new List<short[]>();
             for (int k = 0; k < numberOfBlock; k++)
             {
-                listOfByteBLocks.Add(new byte[8, 8]);
-                for (int i = 0; i < 8; i++)
-                    for (int j = 0; j < 8; j++)
-                        listOfByteBLocks[k][i, j] = (byte)random.Next(0, 255);
-            }
-
-            // Выполняем нахождение DC коэффициентов блоков.
-            listOfByteBLocks = JPEG_CS.DCCalculating(listOfByteBLocks);
-
-            // Копируем значения блоков byte в блоки short, чтобы использовать метод зигзага.
-            List<short[]> listOfShortBLocks = new List<short[]>();
-            for (int k = 0; k < numberOfBlock; k++)
-            {
-                short[,] tempArray = new short[8, 8];
-                for (int i = 0; i < 8; i++)
-                    for (int j = 0; j < 8; j++)
-                        tempArray[i, j] = (short)listOfByteBLocks[k][i, j];
-                listOfShortBLocks.Add(DCT.Zigzag(tempArray));
+                listOfBlocks.Add(new short[64]);
+                for (int i = 0; i < 64; i++)
+                        listOfBlocks[k][i] = (short)random.Next(0, 255);
             }
 
             // Выводим содержимое блоков до применения метода Encoding.EncodeDC
             Console.WriteLine("Содержимое блоков до применения метода Encoding.EncodeDC");
             for (int k = 0; k < numberOfBlock; k++)
-                Console.WriteLine($"Значения {k} блока: " + string.Join(" ", listOfShortBLocks[k]));
+                Console.WriteLine($"Значения {k} блока: " + string.Join(" ", listOfBlocks[k]));
 
             // Применяем метод Encoding.EncodeDC
-            Encoding.EncodeDC(listOfShortBLocks);
+            Encoding.EncodeDC(listOfBlocks);
 
             // Выводим содержимое блоков после применения Encoding.EncodeDC
             Console.WriteLine("Содержимое блоков после применения Encoding.EncodeDC");
             for (int k = 0; k < numberOfBlock; k++)
-                Console.WriteLine($"Значения {k} блока: " + string.Join(" ", listOfShortBLocks[k]));
+                Console.WriteLine($"Значения {k} блока: " + string.Join(" ", listOfBlocks[k]));
         }
     }
 }
