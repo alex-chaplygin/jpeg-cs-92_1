@@ -135,26 +135,26 @@ namespace JPEG_CLASS_LIB
 
             return pRGB;
         }
+    }
+
+    /// <summary>
+    /// Точка цветовой модели YUV.
+    /// </summary>
+    public struct YUV
+    {
+        /// <summary>
+        /// Компонента яркости.
+        /// </summary>
+        public double Y;
 
         /// <summary>
-        /// Точка цветовой модели YUV.
+        /// Первая компонента цветности.
         /// </summary>
-        public struct YUV
-        {
-            /// <summary>
-            /// Компонента яркости.
-            /// </summary>
-            public double Y;
+        public double Cb;
 
-            /// <summary>
-            /// Первая компонента цветности.
-            /// </summary>
-            public double Cb;
-
-            /// <summary>
-            /// Вторая компонента цветности.
-            /// </summary>
-            public double Cr;
-        }
+        /// <summary>
+        /// Вторая компонента цветности.
+        /// </summary>
+        public double Cr;
     }
 }
