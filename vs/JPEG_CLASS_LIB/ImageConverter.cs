@@ -9,7 +9,6 @@ namespace JPEG_CLASS_LIB
     public class ImageConverter
     {
         public HSV[,] ImageHSV;
-        public YUV[,] ImageYUV;
         public ImageConverter()
         {
 
@@ -76,7 +75,7 @@ namespace JPEG_CLASS_LIB
         /// </summary>
         /// <param name="pRGB">Точка RGB модели.</param>
         /// <returns>Точка YUV модели.</returns>
-        private YUV RGBToYUV(Point pRGB)
+        private static YUV RGBToYUV(Point pRGB)
         {
             // Множители определены рекомендацией T-REC-T.871.
             YUV pYUV = new YUV();
@@ -92,18 +91,19 @@ namespace JPEG_CLASS_LIB
         /// Конвертирует двумерный массив точек RGB модели в массив точек YUV модели, 
         /// сохраняя его в поле ImageYUV.
         /// </summary>
-        /// <param name="Image">Массив точек RGB модели.</param>
-        public void RGBToYUV(Point[,] Image)
+        /// <param name="imgRGB">Массив точек RGB модели.</param>
+        /// <returns>Массив точек YUV модели.</returns>
+        public static YUV[,] RGBToYUV(Point[,] imgRGB)
         {
-            int width = Image.GetLength(0);
-            int height = Image.GetLength(1);
-            YUV[,] img = new YUV[width, height];
+            int width = imgRGB.GetLength(0);
+            int height = imgRGB.GetLength(1);
+            YUV[,] imgYUV = new YUV[width, height];
             for (int i = 0; i < width; i++)
                 for (int j = 0; j < height; j++)
                 {
-                    img[i, j] = RGBToYUV(Image[i, j]);
+                    imgYUV[i, j] = RGBToYUV(imgRGB[i, j]);
                 }
-            ImageYUV = img;
+            return imgYUV;
         }
 
         /// <summary>
@@ -111,7 +111,7 @@ namespace JPEG_CLASS_LIB
         /// </summary>
         /// <param name="pYUV">Точка YUV модели.</param>
         /// <returns>Точка RGB модели.</returns>
-        private Point YUVToRGB(YUV pYUV)
+        private static Point YUVToRGB(YUV pYUV)
         {
             // Множители определены рекомендацией T-REC-T.871.
             double temp;
