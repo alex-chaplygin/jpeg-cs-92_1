@@ -88,8 +88,7 @@ namespace JPEG_CLASS_LIB
         }
 
         /// <summary>
-        /// Конвертирует двумерный массив точек RGB модели в массив точек YUV модели, 
-        /// сохраняя его в поле ImageYUV.
+        /// Конвертирует двумерный массив точек RGB модели в массив точек YUV модели.
         /// </summary>
         /// <param name="imgRGB">Массив точек RGB модели.</param>
         /// <returns>Массив точек YUV модели.</returns>
@@ -100,9 +99,7 @@ namespace JPEG_CLASS_LIB
             YUV[,] imgYUV = new YUV[width, height];
             for (int i = 0; i < width; i++)
                 for (int j = 0; j < height; j++)
-                {
                     imgYUV[i, j] = RGBToYUV(imgRGB[i, j]);
-                }
             return imgYUV;
         }
 
@@ -134,6 +131,22 @@ namespace JPEG_CLASS_LIB
             pRGB.b = (byte)temp;
 
             return pRGB;
+        }
+
+        /// <summary>
+        /// Конвертирует двумерный массив точек YUV модели в массив точек RGB модели.
+        /// </summary>
+        /// <param name="imgRGB">Массив точек YUV модели.</param>
+        /// <returns>Массив точек RGB модели.</returns>
+        public static Point[,] YUVToRGB(YUV[,] imgYUV)
+        {
+            int width = imgYUV.GetLength(0);
+            int height = imgYUV.GetLength(1);
+            Point[,] imgRGB = new Point[width, height];
+            for (int i = 0; i < width; i++)
+                for (int j = 0; j < height; j++)
+                    imgRGB[i, j] = YUVToRGB(imgYUV[i, j]);
+            return imgRGB;
         }
     }
 
