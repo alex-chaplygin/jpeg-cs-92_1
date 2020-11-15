@@ -16,7 +16,17 @@ public class JPEG_CS
     /// Высота изображения.
     /// </summary>
 	int height;
-	
+
+	/// <summary>
+	/// Таблица квантования яркости.
+	/// </summary>
+	public byte[] LQT = new byte[64];
+
+	/// <summary>
+	/// Таблица квантования цветности.
+	/// </summary>
+	public byte[] CQT = new byte[64];
+
     /// <summary>
     /// Создает объект из потока.
     /// </summary>
@@ -47,10 +57,52 @@ public class JPEG_CS
     /// <summary>
     /// Устанавливает параметры сжатия JPEG.
     /// </summary>
-    /// <param name="parameters">Параметр сжатия JPEG.</param>
-	public void SetArguments(int parameters)
+    /// <param name="param">Параметр сжатия JPEG.</param>
+	public void SetParameters(int param)
 	{
-		
+		byte[] LQT = new byte[]
+		{
+			16, 11, 10, 16, 24, 40, 51, 61,
+			12, 12, 14, 19, 26, 58, 60, 55,
+			14, 13, 16, 24, 40, 57, 69, 56,
+			14, 17, 22, 29, 151, 187, 180, 162,
+            18, 22, 37, 56, 168, 109, 103, 177,
+            24, 35, 55, 64, 181, 104, 113, 192,
+            49, 64, 78, 87, 103, 121, 120, 101,
+            72, 92, 95, 98, 112, 100, 103, 199
+		};
+		byte[] CQT = new byte[]
+		{
+			17, 18, 24, 47, 99, 99, 99, 99,
+            18, 21, 26, 66, 99, 99, 99, 99,
+            24, 26, 56, 99, 99, 99, 99, 99,
+            47, 66, 99, 99, 99, 99, 99, 99,
+            99, 99, 99, 99, 99, 99, 99, 99,
+            99, 99, 99, 99, 99, 99, 99, 99,
+            99, 99, 99, 99, 99, 99, 99, 99,
+            99, 99, 99, 99, 99, 99, 99, 99
+		};
+		if (param == (int)Arguments.HIGH_QUALITY)
+        {
+			for (int i = 0; i < LQT.Length; i++)
+            {
+				this.LQT[i] = (byte)(LQT[i] >> 1);
+				this.CQT[i] = (byte)(CQT[i] >> 1);
+			}
+        }
+		else if (param == (int)Arguments.AVERAGE_QUALITY)
+        {
+			this.LQT = LQT;
+			this.CQT = CQT;
+		}
+		else if (param == (int)Arguments.LOW_QUALITY)
+        {
+			for (int i = 0; i < LQT.Length; i++)
+			{
+				this.LQT[i] = (byte)(LQT[i] << 1);
+				this.CQT[i] = (byte)(CQT[i] << 1);
+			}
+		}
 	}
 
     /// <summary>
