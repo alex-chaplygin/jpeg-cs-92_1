@@ -20,12 +20,12 @@ public class JPEG_CS
 	/// <summary>
 	/// Таблица квантования яркости.
 	/// </summary>
-	public byte[] LQT = new byte[64];
+	byte[] LQT = new byte[64];
 
 	/// <summary>
 	/// Таблица квантования цветности.
 	/// </summary>
-	public byte[] CQT = new byte[64];
+	byte[] CQT = new byte[64];
 
     /// <summary>
     /// Создает объект из потока.
