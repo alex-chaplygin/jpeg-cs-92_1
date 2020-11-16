@@ -6,61 +6,60 @@ using System.IO;
 namespace JPEG_CLASS_LIB
 {
     /// <summary>
-    /// Класс таблица Хаффмена. Наследуется от класса JPEGData. 
+    /// Коды Хаффмана для энторпийного кодирования и декодирования
     /// </summary>
     class HuffmanTable : JPEGData
     {
         /// <summary>
-        /// Массив длинн значений таблицы Хаффмена
+        /// Массив длин кодов таблицы Хаффмана
         /// </summary>
         byte[] codeLength = new byte[16];
         /// <summary>
-        /// Массив значений таблицы Хаффмена
+        /// Массив значений кодов таблицы Хаффмана
         /// </summary>
         byte[] values;
         /// <summary>
-        /// Параметр Тc таблицы Хаффмена
+        /// Класс таблицы, 0 - DC, 1 - AC
         /// </summary>
         byte Tc;
         /// <summary>
-        /// Параметр Th таблицы Хаффмена
+        /// Номер таблицы
         /// </summary>
         byte Th;
         /// <summary>
-        /// Массив длинн кодов таблицы Хаффмена
+        /// Массив длинн кодов таблицы Хаффмана
         /// </summary>
         byte[] HUFFSIZE;
         /// <summary>
-        ///Массив длинн значений таблицы Хаффмена
+        ///Массив длин значений таблицы Хаффмана
         /// </summary>
         byte[] BITS;
         /// <summary>
-        /// Массив кодов таблицы Хаффмена
+        /// Массив кодов таблицы Хаффмана для соответствия значениям
         /// </summary>
         byte[] HUFFCODE;
         /// <summary>
-        /// Массив длинной 256. Для каждого значения хранит битовый код
+        /// Массив кодов, отсортированный по значениям
         /// </summary>
         byte[] EHUFCO;
         /// <summary>
-        /// Массив длинной 256. Для каждого значения хранит размер кода
+        /// Массив длин кодов, отсортированный по значениям
         /// </summary>
         byte[] EHUFSI;
         /// <summary>
-        /// Массив значений таблицы Хаффмена
+        /// Массив значений кодов таблицы Хаффмана
         /// </summary>
         byte[] HUFFVAL;
-        private int LASTK;
-        //byte all_length_values;
-        //Stream stream;
         /// <summary>
-        /// Конструктор класса HuffmanTable. Создает таблицу Хаффмена на основе данных из потока 
+        /// Последний элемент в таблице кодов (число кодов)
+        private int LASTK;
+        
+        /// <summary>
+        /// Конструктор класса HuffmanTable. Создает таблицу Хаффмана на основе данных из потока 
         /// </summary>
-        /// <param name="s">Поток на основе данных из которого создается таблица Хаффмена</param>
+        /// <param name="s">Поток на основе данных из которого создается таблица Хаффмана</param>
         public HuffmanTable(Stream s) : base(s, MarkerType.DefineHuffmanTables)
         {
-            Stream stream = s;
-
             byte value = (byte)stream.ReadByte();
             Tc = (byte)(value >> 4);
             Th = (byte)(value & 0x0F);
@@ -80,11 +79,12 @@ namespace JPEG_CLASS_LIB
             Order_codes();
             
         }
+        
         /// <summary>
-        /// Генерирует массив длинн кодов таблицы Хаффмена
+        /// Генерирует массив длин кодов таблицы Хаффмана, чтобы каждый элемент соответствовал значению
         /// </summary>
-        /// <param name="codeLength">Массив длинн значений таблицы Хаффмена</param>
-        /// <param name="all_length_values">Количество всех значений (values) в таблицк Хаффмена</param>
+        /// <param name="codeLength">Массив длинн значений таблицы Хаффмана</param>
+        /// <param name="all_length_values">Количество всех значений (values) в таблице Хаффмана</param>
         private void Generate_size_table(byte[]codeLength, int all_length_values)
         {
             int K = 0;
@@ -107,10 +107,11 @@ namespace JPEG_CLASS_LIB
             HUFFSIZE[K] = 0;
             LASTK = K;
         }
+        
         /// <summary>
-        /// Генерирует массив кодов Хаффмена
+        /// Генерирует массив кодов Хаффмана
         /// </summary>
-        /// <param name="all_length_values">количество всех значений (values) в таблице Хаффмена</param>
+        /// <param name="all_length_values">количество всех значений (values) в таблице Хаффмана</param>
         private void Generate_code_table(int all_length_values)
         {
             int K = 0;
@@ -139,6 +140,7 @@ namespace JPEG_CLASS_LIB
             }
             while (HUFFSIZE[K] == SI);
         }
+        
         /// <summary>
         /// Создается ассоциативный массив (2 массива EHUFCO и EHUFSI размером 256 байт, но не все ячейки заполнены), для каждого значения запоминается битовый код и размер кода
         /// </summary>
@@ -158,13 +160,13 @@ namespace JPEG_CLASS_LIB
             }
             while (K < LASTK);
         }
+        
         /// <summary>
-        /// Записывает в поток данные из таблицы Хаффмена
+        /// Записывает в поток все данные из таблицы Хаффмана
         /// </summary>
         /// <param name="s">Поток, в который происходит запись</param>
         public void Write(ref Stream s)
         {
-            //s = stream;
             s.WriteByte((byte)((Tc << 4) + Th));
             foreach(byte i in codeLength)
             {
@@ -177,7 +179,7 @@ namespace JPEG_CLASS_LIB
             
         }
         /// <summary>
-        /// Выводит в консоль данные из таблицы Хаффмена
+        /// Выводит в консоль данные из таблицы Хаффмана
         /// </summary>
         override public void Print()
         {
