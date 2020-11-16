@@ -541,17 +541,18 @@ namespace ConsoleApp1
             }
 
             // Конвертируем массив RGB пикселей в массив YUV пикселей и выводим его.
-            YUV[,] imgYUV = ImageConverter.RGBToYUV(imgRGB);
+            byte[,] matrixY, matrixCb, matrixCr;
+            ImageConverter.RGBToYUV(imgRGB, out matrixY, out matrixCb, out matrixCr);
             Console.WriteLine("Конвертированный из RGB в YUV массив пикселей");
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < widgth; j++)
-                    Console.Write($"YUV=({imgYUV[j, i].Y:f1};{imgYUV[j, i].Cb:f1};{imgYUV[j, i].Cr:f1}) ");
+                    Console.Write($"YUV=({matrixY[j, i]:d3};{matrixCb[j, i]:d3};{matrixCr[j, i]:d3}) ");
                 Console.WriteLine();
             }
 
             // Конвертируем массив YUV пикселей обратно в массив RGB пикселей и выводим его.
-            Point[,] newImgRGB = ImageConverter.YUVToRGB(imgYUV);
+            Point[,] newImgRGB = ImageConverter.YUVToRGB(matrixY, matrixCb, matrixCr);
             Console.WriteLine("Конвертированный из YUV обратно в RGB массив пикселей");
             for (int i = 0; i < height; i++)
             {
