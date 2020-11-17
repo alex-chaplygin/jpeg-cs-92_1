@@ -21,9 +21,9 @@ namespace ConsoleApp1
             _TestZigzad();
             _TestJPEGData();
             _TestBitReader();
-            _TestBitWriter();
-            _TestJPEGFile();*/
-            _TestEncoding();
+            _TestBitWriter();*/
+            _TestJPEGFile();
+            //_TestEncoding();
             Console.ReadKey();
         }
 
@@ -480,14 +480,10 @@ namespace ConsoleApp1
 
             s.Dispose();
         }
-        
-        static void _TestJPEGFile()
-        {
-            FileStream s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
-            JPEGFile f = new JPEGFile(s);
-            f.Print();
-            Decoding D = new Decoding(s);
-            Console.WriteLine("\r\nПозиция в потоке: " + s.Position.ToString("X"));
+
+	static void _NextBitTest(Decoding D)
+	{
+	    //Console.WriteLine("\r\nПозиция в потоке: " + s.Position.ToString("X"));
             try
             {
                 int i = 0;
@@ -507,7 +503,15 @@ namespace ConsoleApp1
             {
                 Console.WriteLine(ex);
             }
-            s.Dispose();
+	}
+        
+        static void _TestJPEGFile()
+        {
+            FileStream s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
+            JPEGFile f = new JPEGFile(s);
+            f.Print();
+	    //_NextBitTest(new Decoding(s));
+            s.Dispose();            
         }
         private static void _TestEncoding()
         {
