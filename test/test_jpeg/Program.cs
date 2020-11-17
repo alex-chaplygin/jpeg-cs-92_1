@@ -21,9 +21,10 @@ namespace ConsoleApp1
             _TestZigzad();
             _TestJPEGData();
             _TestBitReader();
-            _TestBitWriter();*/
+            _TestBitWriter();
             _TestJPEGFile();
-            //_TestEncoding();
+            _TestEncoding();*/
+            _TestImageConverter();
             Console.ReadKey();
         }
 
@@ -538,6 +539,52 @@ namespace ConsoleApp1
             Console.WriteLine("Содержимое блоков после применения Encoding.EncodeDC");
             for (int k = 0; k < numberOfBlock; k++)
                 Console.WriteLine($"Значения {k} блока: " + string.Join(" ", listOfBlocks[k]));
+        }
+
+        private static void _TestImageConverter()
+        {
+            int widgth = 4;
+            int height = 2;
+            // Создаем матрицу пикселей RGB [widgth, height] со случайными байтовыми значениями.
+            Random random = new Random();
+            Point[,] imgRGB = new Point[widgth, height];
+            for (int i = 0; i < height; i++)
+                for (int j = 0; j < widgth; j++)
+                    imgRGB[j,i] = new Point(){
+                        r = (byte)random.Next(0, 255),
+                        g = (byte)random.Next(0, 255),
+                        b = (byte)random.Next(0, 255),
+                    };
+
+            // Выводим исходный массив RGB пикселей.
+            Console.WriteLine("Исходный массив RGB пикселей");
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < widgth; j++)
+                    Console.Write($"RGB=({imgRGB[j, i].r:d3};{imgRGB[j, i].g:d3};{imgRGB[j, i].b:d3}) ");
+                Console.WriteLine();
+            }
+
+            // Конвертируем массив RGB пикселей в массив YUV пикселей и выводим его.
+            byte[,] matrixY, matrixCb, matrixCr;
+            ImageConverter.RGBToYUV(imgRGB, out matrixY, out matrixCb, out matrixCr);
+            Console.WriteLine("Конвертированный из RGB в YUV массив пикселей");
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < widgth; j++)
+                    Console.Write($"YUV=({matrixY[j, i]:d3};{matrixCb[j, i]:d3};{matrixCr[j, i]:d3}) ");
+                Console.WriteLine();
+            }
+
+            // Конвертируем массив YUV пикселей обратно в массив RGB пикселей и выводим его.
+            Point[,] newImgRGB = ImageConverter.YUVToRGB(matrixY, matrixCb, matrixCr);
+            Console.WriteLine("Конвертированный из YUV обратно в RGB массив пикселей");
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 0; j < widgth; j++)
+                    Console.Write($"RGB=({newImgRGB[j, i].r:d3};{newImgRGB[j, i].g:d3};{newImgRGB[j, i].b:d3}) ");
+                Console.WriteLine();
+            }
         }
     }
 }
