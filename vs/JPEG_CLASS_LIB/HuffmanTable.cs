@@ -11,7 +11,7 @@ namespace JPEG_CLASS_LIB
     class HuffmanTable : JPEGData
     {
         /// <summary>
-        /// Массив длин кодов таблицы Хаффмана
+        /// Массив длинн кодов таблицы Хаффмана
         /// </summary>
         byte[] codeLength = new byte[16];
         /// <summary>
@@ -27,11 +27,11 @@ namespace JPEG_CLASS_LIB
         /// </summary>
         byte Th;
         /// <summary>
-        /// Массив длинн кодов таблицы Хаффмана
+        /// Массив длин кодов таблицы Хаффмана для соответствия значениям
         /// </summary>
         byte[] HUFFSIZE;
         /// <summary>
-        ///Массив длин значений таблицы Хаффмана
+        ///Массив длин кодов таблицы Хаффмана
         /// </summary>
         byte[] BITS;
         /// <summary>
