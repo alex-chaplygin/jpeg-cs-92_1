@@ -85,17 +85,17 @@ namespace JPEG_CLASS_LIB
             temp = 0.299 * pRGB.r + 0.587 * pRGB.g + 0.114 * pRGB.b;
             if (temp > 255) temp = 255;
             else if (temp < 0) temp = 0;
-            Y = (byte)temp;
+            Y = Convert.ToByte(temp);
 
             temp = 0.5 * (pRGB.b - Y) / (1 - 0.114) + 128;
             if (temp > 255) temp = 255;
             else if (temp < 0) temp = 0;
-            Cb = (byte)temp;
+            Cb = Convert.ToByte(temp);
 
             temp = 0.5 * (pRGB.r - Y) / (1 - 0.299) + 128;
             if (temp > 255) temp = 255;
             else if (temp < 0) temp = 0;
-            Cr = (byte)temp;
+            Cr = Convert.ToByte(temp);
         }
 
         /// <summary>
@@ -135,18 +135,18 @@ namespace JPEG_CLASS_LIB
             temp = Y + 1.402 * (Cr - 128);
             if (temp > 255) temp = 255;
             else if (temp < 0) temp = 0;
-            pRGB.r = (byte)temp;
+            pRGB.r = Convert.ToByte(temp);
 
             temp = Y - (0.114 * 1.772 * (Cb - 128) +
                 0.299 * 1.402 * (Cr - 128)) / 0.587;
             if (temp > 255) temp = 255;
             else if (temp < 0) temp = 0;
-            pRGB.g = (byte)temp;
+            pRGB.g = Convert.ToByte(temp);
 
             temp = Y + 1.772 * (Cb - 128);
             if (temp > 255) temp = 255;
             else if (temp < 0) temp = 0;
-            pRGB.b = (byte)temp;
+            pRGB.b = Convert.ToByte(temp);
 
             return pRGB;
         }
