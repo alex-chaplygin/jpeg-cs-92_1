@@ -21,10 +21,10 @@ namespace ConsoleApp1
             _TestZigzad();
             _TestJPEGData();
             _TestBitReader();
-            _TestBitWriter();
+            _TestBitWriter();            
+            _TestEncoding();
+            _TestImageConverter();*/
             _TestJPEGFile();
-            _TestEncoding();*/
-            _TestImageConverter();
             Console.ReadKey();
         }
 
@@ -482,9 +482,9 @@ namespace ConsoleApp1
             s.Dispose();
         }
 
-	static void _NextBitTest(Decoding D)
-	{
-	    //Console.WriteLine("\r\nПозиция в потоке: " + s.Position.ToString("X"));
+	    static void _NextBitTest(Decoding D)
+	    {
+	        //Console.WriteLine("\r\nПозиция в потоке: " + s.Position.ToString("X"));
             try
             {
                 int i = 0;
@@ -504,16 +504,26 @@ namespace ConsoleApp1
             {
                 Console.WriteLine(ex);
             }
-	}
+	    }
         
         static void _TestJPEGFile()
         {
             FileStream s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
             JPEGFile f = new JPEGFile(s);
             f.Print();
-	    //_NextBitTest(new Decoding(s));
-            s.Dispose();            
+            //_NextBitTest(new Decoding(s));
+            s.Dispose();
+
+            // Тестирование метода Receive класса Decoding
+            s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
+            Decoding decoding = new Decoding(s);
+            s.Seek(0x23A0, SeekOrigin.Begin);
+            Console.WriteLine("Тестирование метода Receive класса Decoding от позиции 23A0");
+            for (byte i = 1; i <= 16; i++)
+                Console.WriteLine($"Результат чтения следующих {i:d2} бит из потока: {decoding.Receive(i)}");
+            s.Dispose();
         }
+
         private static void _TestEncoding()
         {
             int numberOfBlock = 3;
