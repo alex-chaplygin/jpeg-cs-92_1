@@ -65,5 +65,24 @@ namespace JPEG_CLASS_LIB
             B = (byte)(B << 1);
             return bit;
         }
+
+        /// <summary>
+        /// Получает биты из потока.
+        /// </summary>
+        /// <param name="ssss">Число бит, которое нужно получить.</param>
+        /// <returns>Разница (DIFF) DC коэффициента.</returns>
+        public ushort Receive(byte ssss)
+        {
+            byte i = 0;
+            ushort v = 0;
+            do
+            {
+                i++;
+                v = (ushort)((v << 1) + NextBit());
+            }
+            while (i != ssss);
+
+            return v;
+        }
     }
 }
