@@ -18,7 +18,7 @@ namespace JPEG_CLASS_LIB
 			restartInterval = Read16();
 		}
 		//пишет интервал повтора из потока
-		public void Write()
+		public override void Write()
 		{
 			base.Write();
 			//use method Write16 from JPEGData
