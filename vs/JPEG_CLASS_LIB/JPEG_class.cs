@@ -16,7 +16,17 @@ public class JPEG_CS
     /// Высота изображения.
     /// </summary>
 	int height;
-	
+
+	/// <summary>
+	/// Таблица квантования яркости.
+	/// </summary>
+	byte[] LQT = new byte[64];
+
+	/// <summary>
+	/// Таблица квантования цветности.
+	/// </summary>
+	byte[] CQT = new byte[64];
+
     /// <summary>
     /// Создает объект из потока.
     /// </summary>
@@ -43,14 +53,36 @@ public class JPEG_CS
 	{
 		
 	}
-	
-    /// <summary>
-    /// Устанавливает параметры сжатия JPEG.
-    /// </summary>
-    /// <param name="parameters">Параметр сжатия JPEG.</param>
-	public void SetArguments(int parameters)
+
+	/// <summary>
+	/// Устанавливает параметры сжатия JPEG.
+	/// </summary>
+	/// <param name="param">Параметр сжатия JPEG.</param>
+	public void SetParameters(int param)
 	{
-		
+		byte[] LQT = new byte[] { 16, 11, 10, 16, 124, 140, 151, 161, 12, 12, 14, 19, 126, 158, 160, 155, 14, 13, 16, 24, 140, 157, 169, 156, 14, 17, 22, 29, 151, 187, 180, 162, 18, 22, 37, 56, 168, 109, 103, 177, 24, 35, 55, 64, 181, 104, 113, 192, 49, 64, 78, 87, 103, 121, 120, 101, 72, 92, 95, 98, 112, 100, 103, 199 };
+		byte[] CQT = new byte[] { 17, 18, 24, 47, 99, 99, 99, 99, 18, 21, 26, 66, 99, 99, 99, 99, 24, 26, 56, 99, 99, 99, 99, 99, 47, 66, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99, 99 };
+		if ((param & (int)Parameters.HIGH_QUALITY) != 0)
+		{
+			for (int i = 0; i < LQT.Length; i++)
+			{
+				this.LQT[i] = (byte)(LQT[i] >> 1);
+				this.CQT[i] = (byte)(CQT[i] >> 1);
+			}
+		}
+		else if ((param & (int)Parameters.AVERAGE_QUALITY) != 0)
+		{
+			this.LQT = LQT;
+			this.CQT = CQT;
+		}
+		else if ((param & (int)Parameters.LOW_QUALITY) != 0)
+		{
+			for (int i = 0; i < LQT.Length; i++)
+			{
+				this.LQT[i] = (byte)(LQT[i] << 1);
+				this.CQT[i] = (byte)(CQT[i] << 1);
+			}
+		}
 	}
 
     /// <summary>
@@ -174,7 +206,7 @@ public class JPEG_CS
 /// <summary>
 /// Параметры сжатия JPEG.
 /// </summary>
-public enum Arguments
+public enum Parameters
 {
 	HIGH_QUALITY = 1 << 0,
 	AVERAGE_QUALITY = 1 << 1,
