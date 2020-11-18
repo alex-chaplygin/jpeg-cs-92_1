@@ -512,15 +512,15 @@ namespace ConsoleApp1
             JPEGFile f = new JPEGFile(s);
             f.Print();
             //_NextBitTest(new Decoding(s));
-            s.Dispose();
+            //s.Dispose();
 
             // Тестирование метода Receive класса Decoding
-            s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
+            //s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
             Decoding decoding = new Decoding(s);
-            s.Seek(0x23A0, SeekOrigin.Begin);
-            Console.WriteLine("Тестирование метода Receive класса Decoding от позиции 23A0");
+            s.Seek(0x360, SeekOrigin.Begin);
+            Console.WriteLine($"Тестирование метода Receive класса Decoding от позиции {s.Position:x4}");
             for (byte i = 1; i <= 16; i++)
-                Console.WriteLine($"Результат чтения следующих {i:d2} бит из потока: {decoding.Receive(i)}");
+                Console.WriteLine($"Результат чтения следующих {i:d2} бит из потока: {Convert.ToString(decoding.Receive(i), 2)}");
             s.Dispose();
         }
 
