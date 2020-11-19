@@ -23,7 +23,7 @@ namespace JPEG_CLASS_LIB
                 {
                     double temp = MatrixCoefficient[i, j];
                     temp /= Convert.ToDouble(MatrixQuantization[i,j]);
-                    MatrixCoefficient[i,j] = Convert.ToByte(Math.Round(temp));
+                    MatrixCoefficient[i,j] = Convert.ToInt16(Math.Round(temp));
                 }
             }
             return MatrixCoefficient;
