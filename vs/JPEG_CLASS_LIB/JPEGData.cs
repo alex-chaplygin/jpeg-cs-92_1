@@ -29,6 +29,12 @@ namespace JPEG_CLASS_LIB
             if (!(Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage)) Length = Read16();
         }
 
+
+        public JPEGData(MarkerType type)
+        {
+            Marker = type;
+        }
+
         /// <summary>
         /// Записывает маркер и длину в текущий поток.
         /// </summary>
