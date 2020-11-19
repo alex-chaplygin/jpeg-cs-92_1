@@ -86,11 +86,11 @@ public class JPEG_CS
 	}
 
     /// <summary>
-    /// Заменяет первое значение в каждом блоке из списа на DC коэффициент
+    /// Рассчитывает DCT коэффициенты для блоков одного канала
     /// </summary>
-    /// <param name="blocks">Список исходных блоков</param>
+    /// <param name="blocks">Список исходных блоков одного канала</param>
     /// <returns>Список изменённых блоков</returns>
-    static public List<byte[,]> DCCalculating(List<byte[,]> blocks)
+    public List<short[,]> FDCT(List<byte[,]> blocks)
     {
         for (int i = blocks.Count -1; i > 0 ; i--)
         {

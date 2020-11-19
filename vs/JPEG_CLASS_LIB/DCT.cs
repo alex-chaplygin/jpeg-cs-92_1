@@ -64,7 +64,8 @@ namespace JPEG_CLASS_LIB
                     matrix2[y, x] = Convert.ToInt16(s/4.0);
                 }
             return (matrix2);
-	    }
+	}
+	
         /// <summary>
         /// На вход подается матрица 8 на 8. Возвращает массив 64, который получен из матрицы при проходе её зигзагом
         /// </summary>
@@ -102,6 +103,7 @@ namespace JPEG_CLASS_LIB
             mass[63] = (matrix[7, 7]);
             return (mass);
         }
+	
         /// <summary>
         /// На вход подается массив 64. Возвращает матрицу 8 на 8, которая получена из массива путем его записи в матрицу по зигзагу
         /// </summary>
@@ -139,6 +141,7 @@ namespace JPEG_CLASS_LIB
             matrix[7, 7] = mass[63];
             return (matrix);
         }
+	
         /// <summary>
         /// Возвращает матрицу, каждый компонент которой приведен из диапазона 0..255 в диапазон -128..127
         /// </summary>
@@ -149,6 +152,7 @@ namespace JPEG_CLASS_LIB
                 for (int j = 0; j < matrix.GetLength(1); j++) mat[i,j] = Convert.ToInt16(matrix[i,j]-128);
             return mat;
         }
+	
         /// <summary>
         /// Возвращает матрицу, каждый компонент которой приведен из диапазона -128..127 в диапазон 0..255
         /// </summary>
@@ -159,5 +163,71 @@ namespace JPEG_CLASS_LIB
                 for (int j = 0; j < matrix.GetLength(1); j++) mat[i, j] = Convert.ToByte(matrix[i, j]+128);
             return mat;
         }
+
+        /// <summary>
+        /// Реализует квантование матрицы коэффициентов с помощью заданной матрицы квантования.
+        /// </summary>
+        /// <param name="MatrixCoefficient">Исходная матрица коэффициентов</param>
+        /// <param name="MatrixQuantization">Матрица квантования</param>
+        /// <returns>Изменённая матрица коэффициентов</returns>
+        public static short[,] QuantizationDirect(short[,] MatrixCoefficient, short[,] MatrixQuantization)
+        {
+            for (int i = 0; i < MatrixCoefficient.GetLength(0); i++)
+            {
+                for (int j = 0; j < MatrixCoefficient.GetLength(1); j++)
+                {
+                    double temp = MatrixCoefficient[i, j];
+                    temp /= Convert.ToDouble(MatrixQuantization[i,j]);
+                    MatrixCoefficient[i,j] = Convert.ToInt16(Math.Round(temp));
+                }
+            }
+            return MatrixCoefficient;
+        }
+	
+        /// <summary>
+        /// Реализует обратное квантование матрицы коэффициентов с помощью заданной матрицы квантования
+        /// </summary>
+        /// <param name="MatrixCoefficient">Матрица коэффициентов, прошедшая квантование</param>
+        /// <param name="MatrixQuantization">Матрица квантования</param>
+        /// <returns>Исходная матрица коэффициентов</returns>
+        public static short[,] QuantizationReverse(short[,] MatrixCoefficient, short[,] MatrixQuantization)
+        {
+            for (int i = 0; i < MatrixCoefficient.GetLength(0); i++)
+            {
+                for (int j = 0; j < MatrixCoefficient.GetLength(1); j++)
+                {
+                    MatrixCoefficient[i, j] *= MatrixQuantization[i, j];
+                }
+            }
+            return MatrixCoefficient;
+        }
+	
+	/// <summary>
+	/// Заменяет первое значение в каждом блоке из списа на DC коэффициент
+	/// </summary>
+	/// <param name="blocks">Список исходных блоков</param>
+	/// <returns>Список изменённых блоков</returns>
+	static public List<byte[,]> DCCalculating(List<byte[,]> blocks)
+	{
+	    for (int i = blocks.Count -1; i > 0 ; i--)
+	    {
+		blocks[i][0, 0] -= blocks[i - 1][0, 0];
+	    }
+	    return blocks;
+	}
+	
+	/// <summary>
+	/// Заменяет первое значение (DC-коэффициент) в каждом блоке на исходное значение
+	/// </summary>
+	/// <param name="blocks">Список блоков</param>
+	/// <returns>Список исходных блоков</returns>
+	static public List<byte[,]> DCRestore(List<byte[,]> blocks)
+	{
+	    for (int i = 1; i < blocks.Count; i++)
+	    {
+		blocks[i][0, 0] += blocks[i-1][0,0];
+	    }
+	    return blocks;
+	}
     }
 }
