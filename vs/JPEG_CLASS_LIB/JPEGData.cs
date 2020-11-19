@@ -29,7 +29,10 @@ namespace JPEG_CLASS_LIB
             if (!(Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage)) Length = Read16();
         }
 
-
+        /// <summary>
+        /// Конструктор вызывается при создании новой структуры данных JPEG для записи в файл
+        /// </summary>
+        /// <param name="type">Маркер сегмента</param>
         public JPEGData(MarkerType type)
         {
             Marker = type;
