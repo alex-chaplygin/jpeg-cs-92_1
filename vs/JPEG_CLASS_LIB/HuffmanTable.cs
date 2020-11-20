@@ -257,50 +257,132 @@ namespace JPEG_CLASS_LIB
                 Tc = 1;
             }
 
-            Th = (byte) table_id; //todo Изменить Th в классе на int?
+            Th = (byte) table_id;
             var freq = new int[257];
             freq[256] = 1;
             foreach (var curByte in data)
             {
                 freq[curByte]++;
             }
-            // if (DC)
-            // {
-            //     freq[block[0]]++;
-            // }
-            // else
-            // {
-            //     for (int tmpJ = 1; tmpJ < block.Length; tmpJ++)
-            //     {
-            //      Console.WriteLine(block[tmpJ]);
-            //      freq[block[tmpJ]]++;
-            //     }
-            // }
-            Console.WriteLine("FREQ: ");
-            foreach (var val in freq)
-            {
-                Console.Write(val + " ");
-                // Console.Write(Convert.ToString(val, 16) + " ");
-            }
+
             int[] codesize = new int[257];
             int[] others = new int[257];
 
-            int v1;
-            int v2;
             int i;
             for (i = 0; i < 257; i++)
             {
                 others[i] = -1;
             }
             
-            //TODO: Пока не разбивал на отдельные функции, надо разобраться, почему результат неверный, а потом уже заниматься итоговым оформлением кода
-            
             //Начало Figure K.1
+            Code_size(freq, codesize, others);
+            //Конец Figure K.1
+
+            //Начало Figure K.2
+            byte[] bits = new byte[33];
+            Count_bits(bits, codesize);
+            //Конец Figure K.2
+            
+            //Начало Figure K.3
+            Adjust_bits(bits);
+            //Конец Figure K.3
+            
+            //Начало Figure K.4
+	        int allSize = 0;
+            for (i = 0; i < 16; i++)
+                allSize += bits[i];
+            HUFFVAL = new byte[allSize];
+            Sort_input(codesize);
+            //Конец Figure K.4
+
+	        codeLength = bits;
+	        values = HUFFVAL;
+	        Generate_size_table(codeLength, allSize);
+            Generate_code_table(allSize);
+            Order_codes();
+        }
+
+        /// <summary>
+        /// Сортирует входные значения по размеру кодов (Схема K.4 стандарта)
+        /// </summary>
+        /// <param name="codesize">Массив размеров кодов</param>
+        private void Sort_input(int[] codesize)
+        {
+            var k = 0;
+            for (var i = 1; i <= 32; i++)
+            {
+                for (var j = 0; j <= 255; j++)
+                {
+                    if (codesize[j] == i)
+                    {
+                        HUFFVAL[k] = (byte) j;
+                        k++;
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Оптимизирует массив bits так, чтобы ни один код не был длиннее 16 битов (Схема K.3 стандарта)
+        /// </summary>
+        /// <param name="bits">Массив количества кодов каждого размера</param>
+        private void Adjust_bits(byte[] bits)
+        {
+            int i;
+            for (i = 32; i > 16; i--)
+            {
+                while (bits[i] > 0)
+                {
+                    var j = i - 1;
+                    while (bits[j] == 0)
+                    {
+                        j--;
+                    }
+
+                    bits[i] -= 2;
+                    bits[i - 1]++; 
+                    bits[j + 1] += 2;
+                    bits[j]--;
+                }
+            }
+
+            while (bits[i] == 0) 
+            {
+                i--;
+            }
+
+            bits[i]--;
+        }
+
+        /// <summary>
+        /// Определяет количество кодов для каждой из длин (Схема K.2 стандарта)
+        /// </summary>
+        /// <param name="bits">Массив количества кодов каждого размера</param>
+        /// <param name="codesize">Массив размеров кодов</param>
+        private void Count_bits(byte[] bits, int[] codesize)
+        {
+            for (var i = 0; i <= 256; i++)
+            {
+                if (codesize[i] != 0)
+                {
+                    bits[codesize[i]]++;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Находит размеры кода Хаффмана (Схема K.1 стандарта)
+        /// </summary>
+        /// <param name="freq">Массив частот встречаемости</param>
+        /// <param name="codesize">Массив размеров кодов</param>
+        /// <param name="others">Массив индексов следующего символа в цепочке всех символов текущей ветви дерева кода</param>
+        void Code_size(int[] freq, int[] codesize, int[] others)
+        {
             while (true)
             {
-                v1 = -1;
+                var v1 = -1;
                 var v = Int32.MaxValue;
-                for (i = 0; i <= 256; i++)
+                for (var i = 0; i <= 256; i++)
                 {
                     if (freq[i] != 0 && freq[i] <= v)
                     {
@@ -308,9 +390,9 @@ namespace JPEG_CLASS_LIB
                         v1 = i;
                     }
                 }
-                v2 = -1;
+                var v2 = -1;
                 v = Int32.MaxValue;
-                for (i = 0; i <= 256; i++)
+                for (var i = 0; i <= 256; i++)
                 {
                     if (freq[i] != 0 && freq[i] <= v && i != v1)
                     {
@@ -338,142 +420,6 @@ namespace JPEG_CLASS_LIB
                     codesize[v2]++;
                 }
             }
-            //Конец Figure K.1
-
-            Console.WriteLine();
-            Console.WriteLine("FREQ after: ");
-
-
-            foreach (var val in freq)
-            {
-                Console.Write(val + " ");
-
-                // Console.Write(Convert.ToString(val, 16) + " ");
-            }
-
-            Console.WriteLine();
-	    
-            Console.WriteLine("CODESIZE: ");
-
-
-            foreach (var val in codesize)
-            {
-                Console.Write(val + " ");
-
-                // Console.Write(Convert.ToString(val, 16) + " ");
-            }
-
-
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("OTHERS: ");
-
-
-            foreach (var val in others)
-            {
-                Console.Write(val + " ");
-
-                // Console.Write(Convert.ToString(val, 16) + " ");
-            }
-	    
-            //Начало Figure K.2
-            byte[] bits = new byte[33];
-
-            for (i = 0; i <= 256; i++)
-            {
-                if (codesize[i] != 0)
-                {
-                    bits[codesize[i]]++;
-                }
-            }
-            //Конец Figure K.2
-
-            Console.WriteLine();
-            Console.WriteLine("BITS:");
-
-            foreach (var val in bits)
-            {
-                Console.Write(val.ToString("X2") + " ");
-            }
-
-            Console.WriteLine();
-	    
-            //Начало Figure K.3
-            for (i = 32; i > 16; i--)
-            {
-                while (bits[i] > 0)
-                {
-                    var j = i - 1;
-                    while (bits[j] == 0)
-                    {
-                        j--;
-                    }
-
-                    bits[i] -= 2;
-                    bits[i - 1]++; 
-                    bits[j + 1] += 2;
-                    bits[j]--;
-                }
-            }
-
-            while (bits[i] == 0) 
-            {
-                i--;
-            }
-
-            bits[i]--;
-            
-            //Конец Figure K.3
-
-            Console.WriteLine("Adjust BITS:");
-
-            foreach (var val in bits)
-            {
-                Console.Write(val.ToString("X2") + " ");
-            }
-
-            Console.WriteLine();
-            Console.WriteLine();
-	    
-            //Начало Figure K.4
-	    int allSize = 0;
-            for (i = 0; i < 16; i++)
-                allSize += bits[i];
-
-            HUFFVAL = new byte[allSize];
-
-            var k = 0;
-            for (i = 1; i <= 32; i++)
-            {
-                for (var j = 0; j <= 255; j++)
-                {
-                    if (codesize[j] == i)
-                    {
-                        // Console.WriteLine($"i={i}, j={j}, k={k}");
-                        HUFFVAL[k] = (byte) j;
-                        k++;
-                    }
-                }
-            }
-            //Конец Figure K.4
-
-            Console.WriteLine("HUFFVAL:");
-
-            foreach (var val in HUFFVAL)
-            {
-                Console.Write(val.ToString("X2") + " ");
-
-                // Console.Write(Convert.ToString(val, 16) + " ");
-            }
-
-            Console.WriteLine();
-            Console.WriteLine();
-	    codeLength = bits;
-	    values = HUFFVAL;
-	    Generate_size_table(codeLength, allSize);
-            Generate_code_table(allSize);
-            Order_codes();
-	    Print();
         }
     }
 }
