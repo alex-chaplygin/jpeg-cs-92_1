@@ -273,30 +273,19 @@ namespace JPEG_CLASS_LIB
             {
                 others[i] = -1;
             }
-            
-            //Начало Figure K.1
             Code_size(freq, codesize, others);
-            //Конец Figure K.1
-
-            //Начало Figure K.2
             byte[] bits = new byte[33];
             Count_bits(bits, codesize);
-            //Конец Figure K.2
-            
-            //Начало Figure K.3
             Adjust_bits(bits);
-            //Конец Figure K.3
-            
-            //Начало Figure K.4
-	        int allSize = 0;
+            int allSize = 0;
             for (i = 0; i < 16; i++)
                 allSize += bits[i];
             HUFFVAL = new byte[allSize];
             Sort_input(codesize);
-            //Конец Figure K.4
-
-	        codeLength = bits;
+            
+            codeLength = bits;
 	        values = HUFFVAL;
+            
 	        Generate_size_table(codeLength, allSize);
             Generate_code_table(allSize);
             Order_codes();
