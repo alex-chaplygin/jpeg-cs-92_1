@@ -73,7 +73,7 @@ namespace JPEG_CLASS_LIB
             byte value = (byte) MainStream.ReadByte();
             Tc = (byte) (value >> 4);
             Th = (byte) (value & 0x0F);
-            byte all_length_values = 0;
+            int all_length_values = 0;
             for (int i = 0; i < 16; i++)
             {
                 codeLength[i] = (byte) MainStream.ReadByte();
@@ -340,6 +340,42 @@ namespace JPEG_CLASS_LIB
             }
             //Конец Figure K.1
 
+            Console.WriteLine();
+            Console.WriteLine("FREQ after: ");
+
+
+            foreach (var val in freq)
+            {
+                Console.Write(val + " ");
+
+                // Console.Write(Convert.ToString(val, 16) + " ");
+            }
+
+            Console.WriteLine();
+	    
+            Console.WriteLine("CODESIZE: ");
+
+
+            foreach (var val in codesize)
+            {
+                Console.Write(val + " ");
+
+                // Console.Write(Convert.ToString(val, 16) + " ");
+            }
+
+
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("OTHERS: ");
+
+
+            foreach (var val in others)
+            {
+                Console.Write(val + " ");
+
+                // Console.Write(Convert.ToString(val, 16) + " ");
+            }
+	    
             //Начало Figure K.2
             byte[] bits = new byte[33];
 
@@ -352,6 +388,16 @@ namespace JPEG_CLASS_LIB
             }
             //Конец Figure K.2
 
+            Console.WriteLine();
+            Console.WriteLine("BITS:");
+
+            foreach (var val in bits)
+            {
+                Console.Write(val.ToString("X2") + " ");
+            }
+
+            Console.WriteLine();
+	    
             //Начало Figure K.3
             for (i = 32; i > 16; i--)
             {
@@ -379,8 +425,22 @@ namespace JPEG_CLASS_LIB
             
             //Конец Figure K.3
 
+            Console.WriteLine("Adjust BITS:");
+
+            foreach (var val in bits)
+            {
+                Console.Write(val.ToString("X2") + " ");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine();
+	    
             //Начало Figure K.4
-            HUFFVAL = new byte[256];
+	    int allSize = 0;
+            for (i = 0; i < 16; i++)
+                allSize += bits[i];
+
+            HUFFVAL = new byte[allSize];
 
             var k = 0;
             for (i = 1; i <= 32; i++)
@@ -397,17 +457,6 @@ namespace JPEG_CLASS_LIB
             }
             //Конец Figure K.4
 
-
-
-            Console.WriteLine("BITS:");
-
-            foreach (var val in bits)
-            {
-                Console.Write(val.ToString("X2") + " ");
-            }
-
-            Console.WriteLine();
-            Console.WriteLine();
             Console.WriteLine("HUFFVAL:");
 
             foreach (var val in HUFFVAL)
@@ -419,40 +468,12 @@ namespace JPEG_CLASS_LIB
 
             Console.WriteLine();
             Console.WriteLine();
-            Console.WriteLine("FREQ: ");
-
-
-            foreach (var val in freq)
-            {
-                Console.Write(val + " ");
-
-                // Console.Write(Convert.ToString(val, 16) + " ");
-            }
-
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("CODESIZE: ");
-
-
-            foreach (var val in codesize)
-            {
-                Console.Write(val + " ");
-
-                // Console.Write(Convert.ToString(val, 16) + " ");
-            }
-
-
-            Console.WriteLine();
-            Console.WriteLine();
-            Console.WriteLine("OTHERS: ");
-
-
-            foreach (var val in others)
-            {
-                Console.Write(val + " ");
-
-                // Console.Write(Convert.ToString(val, 16) + " ");
-            }
+	    codeLength = bits;
+	    values = HUFFVAL;
+	    Generate_size_table(codeLength, allSize);
+            Generate_code_table(allSize);
+            Order_codes();
+	    Print();
         }
     }
 }
