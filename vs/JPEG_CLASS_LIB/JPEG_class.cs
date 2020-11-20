@@ -96,7 +96,17 @@ public class JPEG_CS
         {
             blocks[i][0, 0] -= blocks[i - 1][0, 0];
         }
-        return blocks;
+
+		List<short[,]> blockShortList = new List<short[,]>();
+		foreach (byte[,] blockByte in blocks)
+        {
+			short[,] newBlockShort = new short[blockByte.GetLength(0), blockByte.GetLength(1)];
+			for (int i = 0; i < blockByte.GetLength(0); i++)
+				for (int j = 0; j < blockByte.GetLength(1); j++)
+					newBlockShort[i, j] = (short)blockByte[i, j];
+		}
+
+        return blockShortList;
     }
     /// <summary>
     /// Заменяет первое значение (DC-коэффициент) в каждом блоке на исходное значение
