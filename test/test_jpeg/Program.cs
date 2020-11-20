@@ -9,11 +9,11 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-	    /*    _TestSplit();
+	        /*_TestSplit();
             _TestCalculatingDC();
             _TestPack();
             _TestUnpack();
-            _TestQuantization();
+            //_TestQuantization();
             _TestDCT();
             _TestDCTShift();
             _TestChannel();
@@ -202,7 +202,7 @@ namespace ConsoleApp1
             }
         }
 
-        static void _TestQuantization()
+        /*static void _TestQuantization()
         {
             Random random = new Random();
             short[,] matrixC = new short[4, 4];
@@ -239,7 +239,7 @@ namespace ConsoleApp1
                 Console.Write($"{qtest[i / 4, i % 4]}\t");
                 if (i % 4 == 3) { Console.Write("\n"); }
             }
-        }
+        }*/
 
         static void _TestDCT()
         {
@@ -435,7 +435,7 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
 
-            JPEG_CS.DCCalculating(blocks);
+            //JPEG_CS.DCCalculating(blocks);
 
             //вывод после
             Console.WriteLine($"\n\nПосле");
@@ -443,7 +443,7 @@ namespace ConsoleApp1
             {
                 for (int i = 0; i < 16; i++)
                 {
-                    Console.Write($"{blocks[j][i / 4, i % 4]}\t");
+                    Console.Write($"{blocks[j][i / 4, i % 4]}В\t");
                     if (i % 4 == 3) { Console.Write("\n"); }
                 }
                 Console.WriteLine();
@@ -465,7 +465,6 @@ namespace ConsoleApp1
         }
         static void _TestJPEGData()
         {
-            
             FileStream s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
             s.Seek(0x21d, SeekOrigin.Begin);
             JPEGData d = JPEGData.GetData(s);

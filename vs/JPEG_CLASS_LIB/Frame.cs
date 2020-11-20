@@ -119,6 +119,7 @@ namespace JPEG_CLASS_LIB
         /// </summary>
         override public void Print()
         {
+            base.Print();
             Console.WriteLine();
             Console.WriteLine("******Параметры изображения");
             Console.WriteLine("Число бит: " + NumberIfBits + " Высота: " + Height + " Ширина: " + Width + " Число компонент: " + NumberOfComponent);
