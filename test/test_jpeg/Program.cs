@@ -24,8 +24,54 @@ namespace ConsoleApp1
             _TestBitWriter();            
             _TestEncoding();
             _TestImageConverter();*/
-            _TestJPEGFile();
+            // _TestJPEGFile();
+            _TestHuffmanTable();
             Console.ReadKey();
+        }
+
+        private static void _TestHuffmanTable()
+        {
+            // var width = 32;
+            // var height = 32;
+            // Console.WriteLine($"{width}*{height}");
+            // var testMatrix = new byte[width, height];
+            // var r = new Random();
+            // for (var i = 0; i < height; i++)
+            // {
+            //     for (var j = 0; j < width; j++)
+            //     {
+            //         testMatrix[j, i] = (byte) r.Next(0, 255);
+            //     }
+            // }
+            // short[,] CQT =
+            // {
+            //     {17, 18, 24, 47, 99, 99, 99, 99},
+            //     {18, 21, 26, 66, 99, 99, 99, 99},
+            //     {24, 26, 56, 99, 99, 99, 99, 99},
+            //     {47, 66, 99, 99, 99, 99, 99, 99},
+            //     {99, 99, 99, 99, 99, 99, 99, 99},
+            //     {99, 99, 99, 99, 99, 99, 99, 99},
+            //     {99, 99, 99, 99, 99, 99, 99, 99},
+            //     {99, 99, 99, 99, 99, 99, 99, 99}
+            // };
+            // var channel = new Channel(testMatrix, 2, 2);
+            // var blocks = channel.Split();
+            // var data = new List<short[]>();
+            // foreach (var block in blocks)
+            // {
+            //     data.Add(DCT.Zigzag(Quantization.QuantizationDirect(DCT.FDCT(DCT.Shift(block)), CQT)));
+            // }
+            // var result = new HuffmanTable(data, false, -1);
+
+            var testData = new byte[10] {1, 3, 4, 1, 1, 0, 4, 1, 2, 1};
+            // var r = new Random();
+            // for (var i = 0; i < testData.Length; i++)
+            // {
+            //     testData[i] = (byte) r.Next(0, 255);
+            // }
+            
+            var result = new HuffmanTable(testData, false, 0);
+            // result.Print();
         }
 
         private static void _TestBitWriter()
