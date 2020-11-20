@@ -225,7 +225,7 @@ namespace ConsoleApp1
             }
             Console.WriteLine();
             //после квантования
-            short[,] qtest = Quantization.QuantizationDirect(matrixC, matrixQ);
+            short[,] qtest = DCT.QuantizationDirect(matrixC, matrixQ);
             for (int i = 0; i<16; i++)
             {
                 Console.Write($"{qtest[i/4,i%4]}\t");
@@ -233,7 +233,7 @@ namespace ConsoleApp1
             }
             //после обратного
             Console.WriteLine();
-            qtest = Quantization.QuantizationReverse(matrixC, matrixQ);
+            qtest = DCT.QuantizationReverse(matrixC, matrixQ);
             for (int i = 0; i < 16; i++)
             {
                 Console.Write($"{qtest[i / 4, i % 4]}\t");
@@ -435,7 +435,7 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
 
-            JPEG_CS.DCCalculating(blocks);
+            DCT.DCCalculating(blocks);
 
             //вывод после
             Console.WriteLine($"\n\nПосле");
