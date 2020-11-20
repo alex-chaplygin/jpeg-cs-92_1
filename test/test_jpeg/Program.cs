@@ -23,8 +23,9 @@ namespace ConsoleApp1
             _TestBitReader();
             _TestBitWriter();            
             _TestEncoding();
-            _TestImageConverter();*/
-            _TestJPEGFile();
+            _TestImageConverter();
+            _TestJPEGFile();*/
+            _TestDecodingExtend();
             Console.ReadKey();
         }
 
@@ -595,6 +596,19 @@ namespace ConsoleApp1
                     Console.Write($"RGB=({newImgRGB[j, i].r:d3};{newImgRGB[j, i].g:d3};{newImgRGB[j, i].b:d3}) ");
                 Console.WriteLine();
             }
+        }
+
+        private static void _TestDecodingExtend()
+        {
+            ushort diff = 0b_0000_0000_0000_1010;
+            int num_bits = 6;
+            // Тестирование метода Receive класса Decoding.
+            short result = Decoding.Extend(diff, num_bits);
+            // Вывод результатов.
+            Console.WriteLine("Тестирование метода Receive класса Decoding");
+            Console.WriteLine($"Частичный код разницы DC: {diff} {Convert.ToString(diff, 2)}");
+            Console.WriteLine($"Число бит для разницы: {num_bits}");
+            Console.WriteLine($"Полный код: {result} {Convert.ToString(result, 2)}");
         }
     }
 }
