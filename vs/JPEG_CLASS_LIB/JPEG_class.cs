@@ -90,7 +90,7 @@ public class JPEG_CS
     /// </summary>
     /// <param name="blocks">Список исходных блоков одного канала</param>
     /// <returns>Список изменённых блоков</returns>
-    public List<short[,]> FDCT(List<byte[,]> blocks)
+    public List<byte[,]> FDCT(List<byte[,]> blocks)
     {
         for (int i = blocks.Count -1; i > 0 ; i--)
         {
