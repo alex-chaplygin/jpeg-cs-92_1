@@ -38,12 +38,26 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Метод вывода данных в консоль
         /// </summary>
-        public override void Print()
+        /*override public void Print()
         {
             base.Print();
             for (int i = 0; i < data.Length; i++)
             {
                 Console.Write($"{data[i]}\t");
+            }
+            Console.WriteLine();
+        }*/
+        public override void Print()
+        {
+            base.Print();
+            for (int i = 0, j = 1; i < data.Length; i++, j++)
+            {
+                Console.Write($"{data[i]}\t");
+                if (j == 8)
+                {
+                    j = 0;
+                    Console.WriteLine();
+                }
             }
             Console.WriteLine();
         }
