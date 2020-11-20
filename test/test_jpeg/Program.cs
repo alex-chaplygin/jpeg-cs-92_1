@@ -71,7 +71,7 @@ namespace ConsoleApp1
             // }
             
             var result = new HuffmanTable(testData, false, 0);
-            // result.Print();
+            result.Print();
         }
 
         private static void _TestBitWriter()
