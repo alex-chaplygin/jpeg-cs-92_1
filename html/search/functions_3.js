@@ -1,6 +1,9 @@
 var searchData=
 [
-  ['dccalculating',['DCCalculating',['../classJPEG__CS.html#abb5908a43c447b19dce3a3334676160f',1,'JPEG_CS']]],
-  ['dcrestore',['DCRestore',['../classJPEG__CS.html#adc45374517ed742bf09f3aca6724a455',1,'JPEG_CS']]],
-  ['dispose',['Dispose',['../classGUITest_1_1Form1.html#ab27da8de55d8376c6579fc9df1642f28',1,'GUITest::Form1']]]
+  ['channel',['Channel',['../classJPEG__CLASS__LIB_1_1Channel.html#ac5692d5d0fd211f5a4728c0abba1f11b',1,'JPEG_CLASS_LIB::Channel']]],
+  ['collect',['Collect',['../classJPEG__CLASS__LIB_1_1Channel.html#a01d684ace6174ccc7e10504fbda465ae',1,'JPEG_CLASS_LIB.Channel.Collect()'],['../classJPEG__CS.html#a3dbc92624deebfc992f98393f787f4e8',1,'JPEG_CS.Collect()']]],
+  ['comment',['Comment',['../classJPEG__CLASS__LIB_1_1Comment.html#a10d7f56973591e46b7bcedc0991f661d',1,'JPEG_CLASS_LIB::Comment']]],
+  ['component',['Component',['../structJPEG__CLASS__LIB_1_1Component.html#a48647354aefd6c8c0d16b79bd9b30516',1,'JPEG_CLASS_LIB::Component']]],
+  ['compress',['Compress',['../classJPEG__CS.html#acfa38d2374da3cf115f6f8c46b7e0c2d',1,'JPEG_CS']]],
+  ['computedccategory',['ComputeDCCategory',['../classJPEG__CLASS__LIB_1_1Encoding.html#ab4c5bf869e9b21796d81ce0e2fc93944',1,'JPEG_CLASS_LIB::Encoding']]]
 ];

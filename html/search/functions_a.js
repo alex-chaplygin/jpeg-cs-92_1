@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['main',['Main',['../classGUITest_1_1Program.html#ab6b18df56d9c95ad623eaf767e757c51',1,'GUITest.Program.Main()'],['../classConsoleApp1_1_1Program.html#ae6cedb55c6b52f4193827df8c1cf88cc',1,'ConsoleApp1.Program.Main()']]]
+  ['jpeg_5fcs',['JPEG_CS',['../classJPEG__CS.html#a2e2a22ced9f3578aa8ddc6042e595c55',1,'JPEG_CS']]],
+  ['jpegdata',['JPEGData',['../classJPEG__CLASS__LIB_1_1JPEGData.html#a7a310b01595875c06702522b147bf4ce',1,'JPEG_CLASS_LIB::JPEGData']]],
+  ['jpegfile',['JPEGFile',['../classJPEG__CLASS__LIB_1_1JPEGFile.html#ab3b6d2935d867f79d6946fd722e7bc75',1,'JPEG_CLASS_LIB::JPEGFile']]]
 ];

@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['bitreader',['BitReader',['../classJPEG__CLASS__LIB_1_1BitReader.html',1,'JPEG_CLASS_LIB']]]
+  ['appdata',['AppData',['../classJPEG__CLASS__LIB_1_1AppData.html',1,'JPEG_CLASS_LIB']]]
 ];

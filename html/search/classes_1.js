@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['channel',['Channel',['../classJPEG__CLASS__LIB_1_1Channel.html',1,'JPEG_CLASS_LIB']]],
-  ['comment',['Comment',['../classJPEG__CLASS__LIB_1_1Comment.html',1,'JPEG_CLASS_LIB']]],
-  ['component',['Component',['../structJPEG__CLASS__LIB_1_1Component.html',1,'JPEG_CLASS_LIB']]]
+  ['bitreader',['BitReader',['../classJPEG__CLASS__LIB_1_1BitReader.html',1,'JPEG_CLASS_LIB']]],
+  ['bitwriter',['BitWriter',['../classJPEG__CLASS__LIB_1_1BitWriter.html',1,'JPEG_CLASS_LIB']]]
 ];

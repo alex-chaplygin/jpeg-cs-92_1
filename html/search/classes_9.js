@@ -1,4 +1,6 @@
 var searchData=
 [
-  ['restartinterval',['RestartInterval',['../classJPEG__CLASS__LIB_1_1RestartInterval.html',1,'JPEG_CLASS_LIB']]]
+  ['point',['Point',['../structPoint.html',1,'']]],
+  ['program',['Program',['../classGUITest_1_1Program.html',1,'GUITest']]],
+  ['program',['Program',['../classConsoleApp1_1_1Program.html',1,'ConsoleApp1']]]
 ];

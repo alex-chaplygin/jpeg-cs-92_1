@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['arguments',['Arguments',['../JPEG__class_8cs.html#a50fa1bfac38a7f85614717c5f4f28d98',1,'JPEG_class.cs']]]
+  ['markertype',['MarkerType',['../namespaceJPEG__CLASS__LIB.html#ab5620bfa5c00386ee79ef6306380f8e4',1,'JPEG_CLASS_LIB']]]
 ];

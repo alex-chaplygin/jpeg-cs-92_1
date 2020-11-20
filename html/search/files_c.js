@@ -1,5 +1,5 @@
 var searchData=
 [
-  ['scan_2ecs',['Scan.cs',['../Scan_8cs.html',1,'']]],
-  ['settings_2edesigner_2ecs',['Settings.Designer.cs',['../Settings_8Designer_8cs.html',1,'']]]
+  ['resources_2edesigner_2ecs',['Resources.Designer.cs',['../Resources_8Designer_8cs.html',1,'']]],
+  ['restartinterval_2ecs',['RestartInterval.cs',['../RestartInterval_8cs.html',1,'']]]
 ];

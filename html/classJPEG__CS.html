@@ -109,9 +109,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 <tr class="memitem:acfa38d2374da3cf115f6f8c46b7e0c2d"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CS.html#acfa38d2374da3cf115f6f8c46b7e0c2d">Compress</a> (<a class="el" href="structPoint.html">Point</a>[,] picture)</td></tr>
 <tr class="memdesc:acfa38d2374da3cf115f6f8c46b7e0c2d"><td class="mdescLeft">&#160;</td><td class="mdescRight">Сжимает изображение и записывает его в поток.  <a href="#acfa38d2374da3cf115f6f8c46b7e0c2d">Подробнее...</a><br /></td></tr>
 <tr class="separator:acfa38d2374da3cf115f6f8c46b7e0c2d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab8321ab476a82bcfb754b14d630bdafb"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CS.html#ab8321ab476a82bcfb754b14d630bdafb">SetArguments</a> (int parameters)</td></tr>
-<tr class="memdesc:ab8321ab476a82bcfb754b14d630bdafb"><td class="mdescLeft">&#160;</td><td class="mdescRight">Устанавливает параметры сжатия JPEG.  <a href="#ab8321ab476a82bcfb754b14d630bdafb">Подробнее...</a><br /></td></tr>
-<tr class="separator:ab8321ab476a82bcfb754b14d630bdafb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a024cb2570d64cf9c69154bd153c8de07"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CS.html#a024cb2570d64cf9c69154bd153c8de07">SetParameters</a> (int param)</td></tr>
+<tr class="memdesc:a024cb2570d64cf9c69154bd153c8de07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Устанавливает параметры сжатия JPEG.  <a href="#a024cb2570d64cf9c69154bd153c8de07">Подробнее...</a><br /></td></tr>
+<tr class="separator:a024cb2570d64cf9c69154bd153c8de07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab0f7d9b57c5e1ae1b612626342f2fe1e"><td class="memItemLeft" align="right" valign="top">List&lt; short[,]&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CS.html#ab0f7d9b57c5e1ae1b612626342f2fe1e">FDCT</a> (List&lt; byte[,]&gt; blocks)</td></tr>
+<tr class="memdesc:ab0f7d9b57c5e1ae1b612626342f2fe1e"><td class="mdescLeft">&#160;</td><td class="mdescRight">Рассчитывает DCT коэффициенты для блоков одного канала  <a href="#ab0f7d9b57c5e1ae1b612626342f2fe1e">Подробнее...</a><br /></td></tr>
+<tr class="separator:ab0f7d9b57c5e1ae1b612626342f2fe1e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a3dbc92624deebfc992f98393f787f4e8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CS.html#a3dbc92624deebfc992f98393f787f4e8">Collect</a> (<a class="el" href="classJPEG__CLASS__LIB_1_1Channel.html">Channel</a>[] channels, List&lt; byte[,]&gt; blocks)</td></tr>
 <tr class="memdesc:a3dbc92624deebfc992f98393f787f4e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Собирает блоки 8x8 в каналы и выполняет обратное масштабирование матриц каналов. Если канал один, то все блоки записываются в канал слева-направо, сверху вниз.  <a href="#a3dbc92624deebfc992f98393f787f4e8">Подробнее...</a><br /></td></tr>
 <tr class="separator:a3dbc92624deebfc992f98393f787f4e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -121,9 +124,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Открытые статические члены</h2></td></tr>
-<tr class="memitem:abb5908a43c447b19dce3a3334676160f"><td class="memItemLeft" align="right" valign="top">static List&lt; byte[,]&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CS.html#abb5908a43c447b19dce3a3334676160f">DCCalculating</a> (List&lt; byte[,]&gt; blocks)</td></tr>
-<tr class="memdesc:abb5908a43c447b19dce3a3334676160f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Заменяет первое значение в каждом блоке из списа на DC коэффициент  <a href="#abb5908a43c447b19dce3a3334676160f">Подробнее...</a><br /></td></tr>
-<tr class="separator:abb5908a43c447b19dce3a3334676160f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adc45374517ed742bf09f3aca6724a455"><td class="memItemLeft" align="right" valign="top">static List&lt; byte[,]&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CS.html#adc45374517ed742bf09f3aca6724a455">DCRestore</a> (List&lt; byte[,]&gt; blocks)</td></tr>
 <tr class="memdesc:adc45374517ed742bf09f3aca6724a455"><td class="mdescLeft">&#160;</td><td class="mdescRight">Заменяет первое значение (DC-коэффициент) в каждом блоке на исходное значение  <a href="#adc45374517ed742bf09f3aca6724a455">Подробнее...</a><br /></td></tr>
 <tr class="separator:adc45374517ed742bf09f3aca6724a455"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -136,6 +136,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 <tr class="memitem:a4152be3d0b73a84999ed5491eb25f09f"><td class="memItemLeft" align="right" valign="top">int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CS.html#a4152be3d0b73a84999ed5491eb25f09f">height</a></td></tr>
 <tr class="memdesc:a4152be3d0b73a84999ed5491eb25f09f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Высота изображения.  <a href="#a4152be3d0b73a84999ed5491eb25f09f">Подробнее...</a><br /></td></tr>
 <tr class="separator:a4152be3d0b73a84999ed5491eb25f09f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a4c81fa8261a00c72b890907f31247f07"><td class="memItemLeft" align="right" valign="top">byte[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CS.html#a4c81fa8261a00c72b890907f31247f07">LQT</a> = new byte[64]</td></tr>
+<tr class="memdesc:a4c81fa8261a00c72b890907f31247f07"><td class="mdescLeft">&#160;</td><td class="mdescRight">Таблица квантования яркости.  <a href="#a4c81fa8261a00c72b890907f31247f07">Подробнее...</a><br /></td></tr>
+<tr class="separator:a4c81fa8261a00c72b890907f31247f07"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae424f5762c23553b0b0a8aaacb15e447"><td class="memItemLeft" align="right" valign="top">byte[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CS.html#ae424f5762c23553b0b0a8aaacb15e447">CQT</a> = new byte[64]</td></tr>
+<tr class="memdesc:ae424f5762c23553b0b0a8aaacb15e447"><td class="mdescLeft">&#160;</td><td class="mdescRight">Таблица квантования цветности.  <a href="#ae424f5762c23553b0b0a8aaacb15e447">Подробнее...</a><br /></td></tr>
+<tr class="separator:ae424f5762c23553b0b0a8aaacb15e447"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
 <div class="textblock"><p>Библиотека предназначена для сжатия и распаковки изображений в формате JPEG. </p>
@@ -248,39 +254,6 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 
 </div>
 </div>
-<a class="anchor" id="abb5908a43c447b19dce3a3334676160f"></a>
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">static List&lt;byte[,]&gt; JPEG_CS.DCCalculating </td>
-          <td>(</td>
-          <td class="paramtype">List&lt; byte[,]&gt;&#160;</td>
-          <td class="paramname"><em>blocks</em></td><td>)</td>
-          <td></td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>Заменяет первое значение в каждом блоке из списа на DC коэффициент </p>
-<dl class="params"><dt>Аргументы</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">blocks</td><td>Список исходных блоков</td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Возвращает</dt><dd>Список изменённых блоков</dd></dl>
-
-</div>
-</div>
 <a class="anchor" id="adc45374517ed742bf09f3aca6724a455"></a>
 <div class="memitem">
 <div class="memproto">
@@ -311,6 +284,39 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
   </dd>
 </dl>
 <dl class="section return"><dt>Возвращает</dt><dd>Список исходных блоков</dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ab0f7d9b57c5e1ae1b612626342f2fe1e"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">List&lt;short[,]&gt; JPEG_CS.FDCT </td>
+          <td>(</td>
+          <td class="paramtype">List&lt; byte[,]&gt;&#160;</td>
+          <td class="paramname"><em>blocks</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Рассчитывает DCT коэффициенты для блоков одного канала </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">blocks</td><td>Список исходных блоков одного канала</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>Список изменённых блоков</dd></dl>
 
 </div>
 </div>
@@ -347,7 +353,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 
 </div>
 </div>
-<a class="anchor" id="ab8321ab476a82bcfb754b14d630bdafb"></a>
+<a class="anchor" id="a024cb2570d64cf9c69154bd153c8de07"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -355,10 +361,10 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">void JPEG_CS.SetArguments </td>
+          <td class="memname">void JPEG_CS.SetParameters </td>
           <td>(</td>
           <td class="paramtype">int&#160;</td>
-          <td class="paramname"><em>parameters</em></td><td>)</td>
+          <td class="paramname"><em>param</em></td><td>)</td>
           <td></td>
         </tr>
       </table>
@@ -372,7 +378,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 <p>Устанавливает параметры сжатия JPEG. </p>
 <dl class="params"><dt>Аргументы</dt><dd>
   <table class="params">
-    <tr><td class="paramname">parameters</td><td>Параметр сжатия JPEG.</td></tr>
+    <tr><td class="paramname">param</td><td>Параметр сжатия JPEG.</td></tr>
   </table>
   </dd>
 </dl>
@@ -406,6 +412,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 </div>
 </div>
 <h2 class="groupheader">Данные класса</h2>
+<a class="anchor" id="ae424f5762c23553b0b0a8aaacb15e447"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">byte [] JPEG_CS.CQT = new byte[64]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Таблица квантования цветности. </p>
+
+</div>
+</div>
 <a class="anchor" id="a4152be3d0b73a84999ed5491eb25f09f"></a>
 <div class="memitem">
 <div class="memproto">
@@ -425,6 +453,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 </div><div class="memdoc">
 
 <p>Высота изображения. </p>
+
+</div>
+</div>
+<a class="anchor" id="a4c81fa8261a00c72b890907f31247f07"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">byte [] JPEG_CS.LQT = new byte[64]</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Таблица квантования яркости. </p>
 
 </div>
 </div>

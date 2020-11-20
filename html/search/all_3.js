@@ -3,6 +3,7 @@ var searchData=
   ['channel',['Channel',['../classJPEG__CLASS__LIB_1_1Channel.html',1,'JPEG_CLASS_LIB']]],
   ['channel',['Channel',['../classJPEG__CLASS__LIB_1_1Channel.html#ac5692d5d0fd211f5a4728c0abba1f11b',1,'JPEG_CLASS_LIB::Channel']]],
   ['channel_2ecs',['Channel.cs',['../Channel_8cs.html',1,'']]],
+  ['cnt',['CNT',['../classJPEG__CLASS__LIB_1_1Decoding.html#ad203a92238f8d5293e8d153560b36da5',1,'JPEG_CLASS_LIB::Decoding']]],
   ['codelength',['codeLength',['../classJPEG__CLASS__LIB_1_1HuffmanTable.html#a9a25ae495faca975e7d0ce2f637d3bb3',1,'JPEG_CLASS_LIB::HuffmanTable']]],
   ['collect',['Collect',['../classJPEG__CLASS__LIB_1_1Channel.html#a01d684ace6174ccc7e10504fbda465ae',1,'JPEG_CLASS_LIB.Channel.Collect()'],['../classJPEG__CS.html#a3dbc92624deebfc992f98393f787f4e8',1,'JPEG_CS.Collect()']]],
   ['comment',['Comment',['../classJPEG__CLASS__LIB_1_1Comment.html',1,'JPEG_CLASS_LIB']]],
@@ -11,8 +12,11 @@ var searchData=
   ['commentbytes',['CommentBytes',['../classJPEG__CLASS__LIB_1_1Comment.html#a6be658bc6ae0ded91341a016054e55a9',1,'JPEG_CLASS_LIB::Comment']]],
   ['component',['Component',['../structJPEG__CLASS__LIB_1_1Component.html#a48647354aefd6c8c0d16b79bd9b30516',1,'JPEG_CLASS_LIB::Component']]],
   ['component',['Component',['../structJPEG__CLASS__LIB_1_1Component.html',1,'JPEG_CLASS_LIB']]],
-  ['components',['components',['../classGUITest_1_1Form1.html#a249aa8d64ca7b826c58eb00d5c83a14f',1,'GUITest.Form1.components()'],['../classJPEG__CLASS__LIB_1_1Scan.html#a7dd75167a9dea799caca76a10cceed40',1,'JPEG_CLASS_LIB.Scan.components()']]],
+  ['component',['Component',['../structJPEG__CLASS__LIB_1_1Frame_1_1Component.html',1,'JPEG_CLASS_LIB::Frame']]],
+  ['components',['components',['../classGUITest_1_1Form1.html#a249aa8d64ca7b826c58eb00d5c83a14f',1,'GUITest.Form1.components()'],['../classJPEG__CLASS__LIB_1_1Scan.html#a7dd75167a9dea799caca76a10cceed40',1,'JPEG_CLASS_LIB.Scan.components()'],['../classJPEG__CLASS__LIB_1_1Frame.html#a4924f4d6de273bac83f0ed1cbe5d68d4',1,'JPEG_CLASS_LIB.Frame.Components()']]],
   ['componentselector',['ComponentSelector',['../structJPEG__CLASS__LIB_1_1Component.html#aad98b29ff32598f371b42f722b6977c4',1,'JPEG_CLASS_LIB::Component']]],
   ['compress',['Compress',['../classJPEG__CS.html#acfa38d2374da3cf115f6f8c46b7e0c2d',1,'JPEG_CS']]],
-  ['consoleapp1',['ConsoleApp1',['../namespaceConsoleApp1.html',1,'']]]
+  ['computedccategory',['ComputeDCCategory',['../classJPEG__CLASS__LIB_1_1Encoding.html#ab4c5bf869e9b21796d81ce0e2fc93944',1,'JPEG_CLASS_LIB::Encoding']]],
+  ['consoleapp1',['ConsoleApp1',['../namespaceConsoleApp1.html',1,'']]],
+  ['cqt',['CQT',['../classJPEG__CS.html#ae424f5762c23553b0b0a8aaacb15e447',1,'JPEG_CS']]]
 ];

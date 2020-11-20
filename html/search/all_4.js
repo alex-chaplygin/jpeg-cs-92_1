@@ -1,10 +1,13 @@
 var searchData=
 [
-  ['data',['data',['../classJPEG__CLASS__LIB_1_1BitReader.html#a165f2f20b9d28e4ad2ce46c87520ac64',1,'JPEG_CLASS_LIB::BitReader']]],
-  ['dccalculating',['DCCalculating',['../classJPEG__CS.html#abb5908a43c447b19dce3a3334676160f',1,'JPEG_CS']]],
-  ['dcrestore',['DCRestore',['../classJPEG__CS.html#adc45374517ed742bf09f3aca6724a455',1,'JPEG_CS']]],
+  ['data',['data',['../classJPEG__CLASS__LIB_1_1AppData.html#adf60500acde074ce51ac1e9d6c869653',1,'JPEG_CLASS_LIB.AppData.data()'],['../classJPEG__CLASS__LIB_1_1BitReader.html#a165f2f20b9d28e4ad2ce46c87520ac64',1,'JPEG_CLASS_LIB.BitReader.data()'],['../classJPEG__CLASS__LIB_1_1BitWriter.html#a74d7cad451eccbdda1313fea9f5abd38',1,'JPEG_CLASS_LIB.BitWriter.data()'],['../classJPEG__CLASS__LIB_1_1JPEGFile.html#a3692baba1f5dcafc024cfe6118770de1',1,'JPEG_CLASS_LIB.JPEGFile.Data()']]],
+  ['dccalculating',['DCCalculating',['../classJPEG__CLASS__LIB_1_1DCT.html#a7741768dc298b756187d422a564dbc51',1,'JPEG_CLASS_LIB::DCT']]],
+  ['dcrestore',['DCRestore',['../classJPEG__CLASS__LIB_1_1DCT.html#a390c8b3a25d092d0a179f403b9652ca1',1,'JPEG_CLASS_LIB.DCT.DCRestore()'],['../classJPEG__CS.html#adc45374517ed742bf09f3aca6724a455',1,'JPEG_CS.DCRestore()']]],
   ['dct',['DCT',['../classJPEG__CLASS__LIB_1_1DCT.html',1,'JPEG_CLASS_LIB']]],
   ['dct_2ecs',['DCT.cs',['../DCT_8cs.html',1,'']]],
+  ['decoding',['Decoding',['../classJPEG__CLASS__LIB_1_1Decoding.html',1,'JPEG_CLASS_LIB']]],
+  ['decoding',['Decoding',['../classJPEG__CLASS__LIB_1_1Decoding.html#af4c4947717466e7334b5ad935708ef9a',1,'JPEG_CLASS_LIB::Decoding']]],
+  ['decoding_2ecs',['Decoding.cs',['../Decoding_8cs.html',1,'']]],
   ['definearithmeticcodingconditionings',['DefineArithmeticCodingConditionings',['../namespaceJPEG__CLASS__LIB.html#ab5620bfa5c00386ee79ef6306380f8e4aecbb6e446a2e1d1f55e0b4b0707ba43d',1,'JPEG_CLASS_LIB']]],
   ['definehierarchicalprogression',['DefineHierarchicalProgression',['../namespaceJPEG__CLASS__LIB.html#ab5620bfa5c00386ee79ef6306380f8e4affdb16b05b81e1200659f88e9da2b327',1,'JPEG_CLASS_LIB']]],
   ['definehuffmantables',['DefineHuffmanTables',['../namespaceJPEG__CLASS__LIB.html#ab5620bfa5c00386ee79ef6306380f8e4add9dbd6472a86993013eccc3243d3908',1,'JPEG_CLASS_LIB']]],
@@ -17,5 +20,9 @@ var searchData=
   ['differentialprogressivedctarithmetic',['DifferentialProgressiveDCTArithmetic',['../namespaceJPEG__CLASS__LIB.html#ab5620bfa5c00386ee79ef6306380f8e4ad3f87d91ad20e875c393a35e40b0c759',1,'JPEG_CLASS_LIB']]],
   ['differentialprogressivedcthuffman',['DifferentialProgressiveDCTHuffman',['../namespaceJPEG__CLASS__LIB.html#ab5620bfa5c00386ee79ef6306380f8e4a157dd459d4aecedfa36085e3ff655c41',1,'JPEG_CLASS_LIB']]],
   ['differentialsequentialdctarithmetic',['DifferentialSequentialDCTArithmetic',['../namespaceJPEG__CLASS__LIB.html#ab5620bfa5c00386ee79ef6306380f8e4af7325ba90242ff02c4385c9243b97b4a',1,'JPEG_CLASS_LIB']]],
-  ['dispose',['Dispose',['../classGUITest_1_1Form1.html#ab27da8de55d8376c6579fc9df1642f28',1,'GUITest::Form1']]]
+  ['diffvaluelist',['DIFFValueList',['../classJPEG__CLASS__LIB_1_1Encoding.html#a304764ca84358706e27e515e8aeb00c5',1,'JPEG_CLASS_LIB::Encoding']]],
+  ['dispose',['Dispose',['../classGUITest_1_1Form1.html#ab27da8de55d8376c6579fc9df1642f28',1,'GUITest::Form1']]],
+  ['dnl',['DNL',['../classJPEG__CLASS__LIB_1_1DNL.html',1,'JPEG_CLASS_LIB']]],
+  ['dnl',['DNL',['../classJPEG__CLASS__LIB_1_1DNL.html#a9ddd50fdd0098370d26a7b7f26cdf880',1,'JPEG_CLASS_LIB::DNL']]],
+  ['dnl_2ecs',['DNL.cs',['../DNL_8cs.html',1,'']]]
 ];

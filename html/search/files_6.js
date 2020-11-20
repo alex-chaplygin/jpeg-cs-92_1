@@ -1,4 +1,4 @@
 var searchData=
 [
-  ['imageconverter_2ecs',['ImageConverter.cs',['../ImageConverter_8cs.html',1,'']]]
+  ['huffmantable_2ecs',['HuffmanTable.cs',['../HuffmanTable_8cs.html',1,'']]]
 ];
