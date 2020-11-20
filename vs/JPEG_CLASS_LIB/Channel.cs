@@ -45,7 +45,7 @@ namespace JPEG_CLASS_LIB
         }
         
         /// <summary>
-        ////Разбивает внутреннюю матрицу канала на блоки 8x8
+        /// Разбивает внутреннюю матрицу канала на блоки 8x8
         /// </summary>
         /// <returns>Список блоков матрицы канала</returns>
         public List<byte[,]> Split()
