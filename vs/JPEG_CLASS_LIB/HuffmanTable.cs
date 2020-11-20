@@ -8,84 +8,95 @@ namespace JPEG_CLASS_LIB
     /// <summary>
     /// Коды Хаффмана для энторпийного кодирования и декодирования
     /// </summary>
-    class HuffmanTable : JPEGData
+    public class HuffmanTable : JPEGData
     {
         /// <summary>
         /// Массив длинн кодов таблицы Хаффмана
         /// </summary>
         byte[] codeLength = new byte[16];
+
         /// <summary>
         /// Массив значений кодов таблицы Хаффмана
         /// </summary>
         byte[] values;
+
         /// <summary>
         /// Класс таблицы, 0 - DC, 1 - AC
         /// </summary>
         byte Tc;
+
         /// <summary>
         /// Номер таблицы
         /// </summary>
         byte Th;
+
         /// <summary>
         /// Массив длин кодов таблицы Хаффмана для соответствия значениям
         /// </summary>
         byte[] HUFFSIZE;
+
         /// <summary>
         ///Массив длин кодов таблицы Хаффмана
         /// </summary>
         byte[] BITS;
+
         /// <summary>
         /// Массив кодов таблицы Хаффмана для соответствия значениям
         /// </summary>
         byte[] HUFFCODE;
+
         /// <summary>
         /// Массив кодов, отсортированный по значениям
         /// </summary>
         byte[] EHUFCO;
+
         /// <summary>
         /// Массив длин кодов, отсортированный по значениям
         /// </summary>
         byte[] EHUFSI;
+
         /// <summary>
         /// Массив значений кодов таблицы Хаффмана
         /// </summary>
         byte[] HUFFVAL;
+
         /// <summary>
         /// Последний элемент в таблице кодов (число кодов)
         private int LASTK;
-        
+
         /// <summary>
         /// Конструктор класса HuffmanTable. Создает таблицу Хаффмана на основе данных из потока 
         /// </summary>
         /// <param name="s">Поток на основе данных из которого создается таблица Хаффмана</param>
         public HuffmanTable(Stream s) : base(s, MarkerType.DefineHuffmanTables)
         {
-            byte value = (byte)MainStream.ReadByte();
-            Tc = (byte)(value >> 4);
-            Th = (byte)(value & 0x0F);
+            byte value = (byte) MainStream.ReadByte();
+            Tc = (byte) (value >> 4);
+            Th = (byte) (value & 0x0F);
             byte all_length_values = 0;
             for (int i = 0; i < 16; i++)
             {
-                codeLength[i] = (byte)MainStream.ReadByte();
+                codeLength[i] = (byte) MainStream.ReadByte();
                 all_length_values += codeLength[i];
             }
+
             values = new byte[all_length_values];
             for (int i = 0; i < all_length_values; i++)
             {
-                values[i] = (byte)MainStream.ReadByte();
+                values[i] = (byte) MainStream.ReadByte();
             }
+
             Generate_size_table(codeLength, all_length_values);
             Generate_code_table(all_length_values);
             Order_codes();
-            
         }
-        
+
         /// <summary>
         /// Генерирует массив длин кодов таблицы Хаффмана, чтобы каждый элемент соответствовал значению
         /// </summary>
         /// <param name="codeLength">Массив длинн значений таблицы Хаффмана</param>
         /// <param name="all_length_values">Количество всех значений (values) в таблице Хаффмана</param>
-        private void Generate_size_table(byte[]codeLength, int all_length_values)
+        private void Generate_size_table(byte[] codeLength, int all_length_values)
         {
             int K = 0;
             byte I = 1;
@@ -100,14 +111,15 @@ namespace JPEG_CLASS_LIB
                     K++;
                     J++;
                 }
+
                 I++;
                 J = 1;
-            }
-            while (!(I > 16));
+            } while (!(I > 16));
+
             HUFFSIZE[K] = 0;
             LASTK = K;
         }
-        
+
         /// <summary>
         /// Генерирует массив кодов Хаффмана
         /// </summary>
@@ -125,22 +137,21 @@ namespace JPEG_CLASS_LIB
                     HUFFCODE[K] = CODE;
                     CODE++;
                     K++;
-                }
-                while (HUFFSIZE[K] == SI);
+                } while (HUFFSIZE[K] == SI);
+
                 if (HUFFSIZE[K] == 0)
                 {
                     break;
                 }
+
                 do
                 {
-                    CODE = (byte)(CODE << 1);
+                    CODE = (byte) (CODE << 1);
                     SI++;
-                }
-                while (HUFFSIZE[K] != SI);
-            }
-            while (HUFFSIZE[K] == SI);
+                } while (HUFFSIZE[K] != SI);
+            } while (HUFFSIZE[K] == SI);
         }
-        
+
         /// <summary>
         /// Создается ассоциативный массив (2 массива EHUFCO и EHUFSI размером 256 байт, но не все ячейки заполнены), для каждого значения запоминается битовый код и размер кода
         /// </summary>
@@ -157,29 +168,29 @@ namespace JPEG_CLASS_LIB
                 EHUFCO[I] = HUFFCODE[K];
                 EHUFSI[I] = HUFFSIZE[K];
                 K++;
-            }
-            while (K < LASTK);
+            } while (K < LASTK);
         }
-        
+
         /// <summary>
         /// Записывает в поток все данные из таблицы Хаффмана
         /// </summary>
         public override void Write()
         {
-	    base.Write();
-	    Length = (ushort)(2 + 16 + values.Length);
             base.Write();
-            MainStream.WriteByte((byte)((Tc << 4) + Th));
-            foreach(byte i in codeLength)
+            Length = (ushort) (2 + 16 + values.Length);
+            base.Write();
+            MainStream.WriteByte((byte) ((Tc << 4) + Th));
+            foreach (byte i in codeLength)
             {
                 MainStream.WriteByte(i);
             }
-            foreach(byte i in values)
+
+            foreach (byte i in values)
             {
                 MainStream.WriteByte(i);
-            }           
+            }
         }
-	
+
         /// <summary>
         /// Выводит в консоль данные из таблицы Хаффмана
         /// </summary>
@@ -188,36 +199,260 @@ namespace JPEG_CLASS_LIB
             base.Print();
             Console.WriteLine("Tc: " + Tc + " Th: " + Th + " ");
             Console.WriteLine("Длины кодов(codeLength): ");
-            foreach(byte i in codeLength)
+            foreach (byte i in codeLength)
             {
                 Console.Write(i + " ");
             }
+
             Console.WriteLine("\nЗначения(values): ");
             foreach (byte i in values)
             {
                 Console.Write(i + " ");
             }
+
             Console.WriteLine("\nHUFFSIZE:");
             foreach (byte i in HUFFSIZE)
             {
                 Console.Write(i + " ");
             }
-	    Console.WriteLine("\nHUFFCODE:");
+
+            Console.WriteLine("\nHUFFCODE:");
             foreach (byte i in HUFFCODE)
             {
                 Console.Write(Convert.ToString(i, 2) + " ");
             }
+
             Console.WriteLine("\nEHUFCO:");
             foreach (byte i in EHUFCO)
             {
                 Console.Write(Convert.ToString(i, 2) + " ");
             }
+
             Console.WriteLine("\nEHUFSI:");
             foreach (byte i in EHUFSI)
             {
                 Console.Write(i + " ");
             }
+
             Console.WriteLine();
+        }
+
+
+        /// <summary>
+        /// Создает новую таблицу Хаффмана на основе исходных коэффициентов. Генерирует таблицу значений кодов и таблицу длин кодов согласно алгоритмам в разделе K.2
+        /// </summary>
+        /// <param name="data">Список коэффицентов блоков 8x8 после DCT(сдвиг уровней, DCT, квантование, рассчет DC) и обхода зигзагом</param>
+        /// <param name="DC">
+        ///true - генерация дерева Хаффмана для DC коэффициентов, 
+        ///false - генерация дерева Хаффмана для AC коэффициентов
+        /// </param>
+        public HuffmanTable(byte[] data, bool DC, int table_id) : base(MarkerType.DefineHuffmanTables)
+        {
+            if (DC)
+            {
+                Tc = 0;
+            }
+            else
+            {
+                Tc = 1;
+            }
+
+            Th = (byte) table_id; //todo Изменить Th в классе на int?
+            var freq = new int[257];
+            freq[256] = 1;
+            foreach (var curByte in data)
+            {
+                freq[curByte]++;
+            }
+            // if (DC)
+            // {
+            //     freq[block[0]]++;
+            // }
+            // else
+            // {
+            //     for (int tmpJ = 1; tmpJ < block.Length; tmpJ++)
+            //     {
+            //      Console.WriteLine(block[tmpJ]);
+            //      freq[block[tmpJ]]++;
+            //     }
+            // }
+            Console.WriteLine("FREQ: ");
+            foreach (var val in freq)
+            {
+                Console.Write(val + " ");
+                // Console.Write(Convert.ToString(val, 16) + " ");
+            }
+            int[] codesize = new int[257];
+            int[] others = new int[257];
+
+            int v1;
+            int v2;
+            int i;
+            for (i = 0; i < 257; i++)
+            {
+                others[i] = -1;
+            }
+            
+            //TODO: Пока не разбивал на отдельные функции, надо разобраться, почему результат неверный, а потом уже заниматься итоговым оформлением кода
+            
+            //Начало Figure K.1
+            while (true)
+            {
+                v1 = -1;
+                var v = Int32.MaxValue;
+                for (i = 0; i <= 256; i++)
+                {
+                    if (freq[i] != 0 && freq[i] <= v)
+                    {
+                        v = freq[i];
+                        v1 = i;
+                    }
+                }
+                v2 = -1;
+                v = Int32.MaxValue;
+                for (i = 0; i <= 256; i++)
+                {
+                    if (freq[i] != 0 && freq[i] <= v && i != v1)
+                    {
+                        v = freq[i];
+                        v2 = i;
+                    }
+                }
+                if (v2 < 0)
+                {
+                    break;
+                }
+                freq[v1] += freq[v2];
+                freq[v2] = 0;
+                codesize[v1]++;
+                while (others[v1] != -1)
+                {
+                    v1 = others[v1];
+                    codesize[v1]++;
+                }
+                others[v1] = v2;
+                codesize[v2]++;
+                while (others[v2] != -1)
+                {
+                    v2 = others[v2];
+                    codesize[v2]++;
+                }
+            }
+            //Конец Figure K.1
+
+            //Начало Figure K.2
+            byte[] bits = new byte[33];
+
+            for (i = 0; i <= 256; i++)
+            {
+                if (codesize[i] != 0)
+                {
+                    bits[codesize[i]]++;
+                }
+            }
+            //Конец Figure K.2
+
+            //Начало Figure K.3
+            for (i = 32; i > 16; i--)
+            {
+                while (bits[i] > 0)
+                {
+                    var j = i - 1;
+                    while (bits[j] == 0)
+                    {
+                        j--;
+                    }
+
+                    bits[i] -= 2;
+                    bits[i - 1]++; 
+                    bits[j + 1] += 2;
+                    bits[j]--;
+                }
+            }
+
+            while (bits[i] == 0) 
+            {
+                i--;
+            }
+
+            bits[i]--;
+            
+            //Конец Figure K.3
+
+            //Начало Figure K.4
+            HUFFVAL = new byte[256];
+
+            var k = 0;
+            for (i = 1; i <= 32; i++)
+            {
+                for (var j = 0; j <= 255; j++)
+                {
+                    if (codesize[j] == i)
+                    {
+                        // Console.WriteLine($"i={i}, j={j}, k={k}");
+                        HUFFVAL[k] = (byte) j;
+                        k++;
+                    }
+                }
+            }
+            //Конец Figure K.4
+
+
+
+            Console.WriteLine("BITS:");
+
+            foreach (var val in bits)
+            {
+                Console.Write(val.ToString("X2") + " ");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("HUFFVAL:");
+
+            foreach (var val in HUFFVAL)
+            {
+                Console.Write(val.ToString("X2") + " ");
+
+                // Console.Write(Convert.ToString(val, 16) + " ");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("FREQ: ");
+
+
+            foreach (var val in freq)
+            {
+                Console.Write(val + " ");
+
+                // Console.Write(Convert.ToString(val, 16) + " ");
+            }
+
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("CODESIZE: ");
+
+
+            foreach (var val in codesize)
+            {
+                Console.Write(val + " ");
+
+                // Console.Write(Convert.ToString(val, 16) + " ");
+            }
+
+
+            Console.WriteLine();
+            Console.WriteLine();
+            Console.WriteLine("OTHERS: ");
+
+
+            foreach (var val in others)
+            {
+                Console.Write(val + " ");
+
+                // Console.Write(Convert.ToString(val, 16) + " ");
+            }
         }
     }
 }
