@@ -92,11 +92,12 @@ public class JPEG_CS
     /// <returns>Список изменённых блоков</returns>
     public List<short[,]> FDCT(List<byte[,]> blocks)
     {
-        for (int i = blocks.Count -1; i > 0 ; i--)
-        {
-            blocks[i][0, 0] -= blocks[i - 1][0, 0];
-        }
-        return blocks;
+        //for (int i = blocks.Count -1; i > 0 ; i--)
+        //{
+         //   blocks[i][0, 0] -= blocks[i - 1][0, 0];
+        //}
+        //return blocks;
+	return null;
     }
     /// <summary>
     /// Заменяет первое значение (DC-коэффициент) в каждом блоке на исходное значение
