@@ -89,6 +89,8 @@ namespace JPEG_CLASS_LIB
             Generate_size_table(codeLength, all_length_values);
             Generate_code_table(all_length_values);
             Order_codes();
+            
+            Length = (ushort) (19 + values.Length); //2 + 1 + 16 + values.Length
         }
 
         /// <summary>
@@ -177,8 +179,6 @@ namespace JPEG_CLASS_LIB
         public override void Write()
         {
             base.Write();
-            Length = (ushort) (2 + 16 + values.Length);
-            base.Write();
             MainStream.WriteByte((byte) ((Tc << 4) + Th));
             foreach (byte i in codeLength)
             {
@@ -246,7 +246,7 @@ namespace JPEG_CLASS_LIB
         ///true - генерация дерева Хаффмана для DC коэффициентов, 
         ///false - генерация дерева Хаффмана для AC коэффициентов
         /// </param>
-        public HuffmanTable(byte[] data, bool DC, int table_id) : base(MarkerType.DefineHuffmanTables)
+        public HuffmanTable(byte[] data, bool DC, byte table_id) : base(MarkerType.DefineHuffmanTables)
         {
             if (DC)
             {
@@ -257,7 +257,7 @@ namespace JPEG_CLASS_LIB
                 Tc = 1;
             }
 
-            Th = (byte) table_id;
+            Th = table_id;
             var freq = new int[257];
             freq[256] = 1;
             foreach (var curByte in data)
@@ -289,6 +289,8 @@ namespace JPEG_CLASS_LIB
 	        Generate_size_table(codeLength, allSize);
             Generate_code_table(allSize);
             Order_codes();
+            
+            Length = (ushort) (19 + values.Length); //2 + 1 + 16 + values.Length
         }
 
         /// <summary>
