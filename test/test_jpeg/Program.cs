@@ -600,8 +600,8 @@ namespace ConsoleApp1
 
         private static void _TestDecodingExtend()
         {
-            ushort diff = 0b_0000_0000_0000_1010;
-            int num_bits = 6;
+            ushort diff = 10;
+            int num_bits = 4;
             // Тестирование метода Receive класса Decoding.
             short result = Decoding.Extend(diff, num_bits);
             // Вывод результатов.
