@@ -89,8 +89,6 @@ namespace JPEG_CLASS_LIB
             Generate_size_table(codeLength, all_length_values);
             Generate_code_table(all_length_values);
             Order_codes();
-            
-            Length = (ushort) (19 + values.Length); //2 + 1 + 16 + values.Length
         }
 
         /// <summary>
