@@ -99,6 +99,7 @@ public class JPEG_CS
         //return blocks;
 	return null;
     }
+
     /// <summary>
     /// Заменяет первое значение (DC-коэффициент) в каждом блоке на исходное значение
     /// </summary>

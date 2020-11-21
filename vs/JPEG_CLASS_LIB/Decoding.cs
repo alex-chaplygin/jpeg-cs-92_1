@@ -84,5 +84,24 @@ namespace JPEG_CLASS_LIB
 
             return v;
         }
+
+        /// <summary>
+        /// Конвертирует частично декодированную разницу DC коэффициентов в 
+        /// полный код (расширение знакового бита в коде).
+        /// </summary>
+        /// <param name="diff">Частичный код разницы DC.</param>
+        /// <param name="num_bits">Число бит для разницы.</param>
+        /// <returns>Декодированная DC разница.</returns>
+        public static short Extend(ushort diff, int num_bits)
+        {
+            var vt = (ushort)(1 << (num_bits - 1)); // 2^(num_bits-1)
+            while (diff < vt)
+            {
+                vt = (ushort)((-1 << num_bits) + 1);
+                diff += (ushort)vt;
+            }
+
+            return (short)diff;
+        }
     }
 }

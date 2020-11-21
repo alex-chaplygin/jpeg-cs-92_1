@@ -23,8 +23,9 @@ namespace ConsoleApp1
             _TestBitReader();
             _TestBitWriter();            
             _TestEncoding();
-            _TestImageConverter();*/
-            _TestJPEGFile();
+            _TestImageConverter();
+            _TestJPEGFile();*/
+            _TestDecodingExtend();
             Console.ReadKey();
         }
 
@@ -225,7 +226,7 @@ namespace ConsoleApp1
             }
             Console.WriteLine();
             //после квантования
-            short[,] qtest = Quantization.QuantizationDirect(matrixC, matrixQ);
+            short[,] qtest = DCT.QuantizationDirect(matrixC, matrixQ);
             for (int i = 0; i<16; i++)
             {
                 Console.Write($"{qtest[i/4,i%4]}\t");
@@ -233,7 +234,7 @@ namespace ConsoleApp1
             }
             //после обратного
             Console.WriteLine();
-            qtest = Quantization.QuantizationReverse(matrixC, matrixQ);
+            qtest = DCT.QuantizationReverse(matrixC, matrixQ);
             for (int i = 0; i < 16; i++)
             {
                 Console.Write($"{qtest[i / 4, i % 4]}\t");
@@ -435,7 +436,7 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
 
-            //JPEG_CS.DCCalculating(blocks);
+            DCT.DCCalculating(blocks);
 
             //вывод после
             Console.WriteLine($"\n\nПосле");
@@ -594,6 +595,19 @@ namespace ConsoleApp1
                     Console.Write($"RGB=({newImgRGB[j, i].r:d3};{newImgRGB[j, i].g:d3};{newImgRGB[j, i].b:d3}) ");
                 Console.WriteLine();
             }
+        }
+
+        private static void _TestDecodingExtend()
+        {
+            ushort diff = 10;
+            int num_bits = 4;
+            // Тестирование метода Receive класса Decoding.
+            short result = Decoding.Extend(diff, num_bits);
+            // Вывод результатов.
+            Console.WriteLine("Тестирование метода Receive класса Decoding");
+            Console.WriteLine($"Частичный код разницы DC: {diff} {Convert.ToString(diff, 2)}");
+            Console.WriteLine($"Число бит для разницы: {num_bits}");
+            Console.WriteLine($"Полный код: {result} {Convert.ToString(result, 2)}");
         }
     }
 }
