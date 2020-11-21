@@ -90,14 +90,14 @@ public class JPEG_CS
     /// </summary>
     /// <param name="blocks">Список исходных блоков одного канала</param>
     /// <returns>Список изменённых блоков</returns>
-    public List<short[,]> FDCT(List<byte[,]> blocks)
+    /*public List<short[,]> FDCT(List<byte[,]> blocks)
     {
         for (int i = blocks.Count -1; i > 0 ; i--)
         {
             blocks[i][0, 0] -= blocks[i - 1][0, 0];
         }
-        return blocks;
-    }
+        return blocks; 
+    }*/
     /// <summary>
     /// Заменяет первое значение (DC-коэффициент) в каждом блоке на исходное значение
     /// </summary>
