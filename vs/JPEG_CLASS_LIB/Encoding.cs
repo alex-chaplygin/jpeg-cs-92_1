@@ -14,22 +14,44 @@ namespace JPEG_CLASS_LIB
         /// добавляя в одномерный массив перед DC коэффициентом значение номера категории.
         /// </summary>
         /// <param name="data">Список блоков 8x8 после DCT и обхода зигзагом.</param>
-        public static void EncodeDC(List<short[]> data)
+        public static byte[] EncodeDC(List<short[]> data)
         {
-            short[] newBlock; // Увеличенный до размера [65] блок, хранящий номер категории.
-            for (int i = data.Count - 1; i > 0; i--)
+            byte[] DCCategories = new byte[data.Count];
+            
+            for (int i = 0; i < data.Count; i++)
             {
-                newBlock = new short[65];
-                Array.Copy(data[i], 0, newBlock, 1, 64);
-                newBlock[1] = (short)(newBlock[1] - data[i-1][0]); // Записываем разность в DC коэффициент.
-                newBlock[0] = ComputeDCCategory((short)newBlock[1]); // По DC коэффициенту определяем категорию.
-                data[i] = newBlock;
+                DCCategories[i] = Convert.ToByte(ComputeDCCategory(data[i][0]));
             }
-            // Повторяем опрерацию для самого первого блока.
-            newBlock = new short[65];
-            Array.Copy(data[0], 0, newBlock, 1, 64);
-            newBlock[0] = ComputeDCCategory((short)newBlock[1]);
-            data[0] = newBlock;
+
+            return DCCategories;
+        }
+
+        /// <summary>
+        /// Вычисляет коды АС коэффициентов.
+        /// </summary>
+        /// <param name="data">Список блоков 8x8 после DCT и обхода зигзагом.</param>
+        /// <returns>Массив последовательных кодов для AC коэффициентов всех блоков</returns>
+        public static byte[] EncodeAC(List<short[]> data)
+        {
+            byte zerosCounter = 0;
+            List<byte> ACCodes = new List<byte>();
+            
+            for (int i = 0; i < data.Count; i++)
+            {
+                for (int j = 0; j < 64; j++)
+                {
+                    if (data[i][j] == 0) { zerosCounter = 0; continue; }
+                    for (int c = 0; c< zerosCounter/16; c++) 
+                    {
+                        if (c == (zerosCounter / 16) - 1) ACCodes.Add((byte)(0xF0 + ComputeACCategory(data[i][j])));
+                        else ACCodes.Add(0xF0);
+                        zerosCounter = 0;
+                    }
+                }
+            }
+            if (zerosCounter > 0) ACCodes.Add(0x00);
+
+            return ACCodes.ToArray();
         }
 
         /// <summary>
@@ -52,6 +74,22 @@ namespace JPEG_CLASS_LIB
             while (diff > DIFFValueList[category]) category++;
 
             return category;
+        }
+
+        /// <summary>
+        /// Вычисляет категорию АС коэффициента
+        /// </summary>
+        /// <param name="diff">Входное значение из таблицы</param>
+        /// <returns>Категория АС коэффициента</returns>
+        private static byte ComputeACCategory(short diff)
+        {
+            diff = Math.Abs(diff);
+            if (diff == 1) return 1;
+            for (byte i = 2; i<= 10; i++)
+            {
+                if (diff < Math.Pow(2, i)) return i;
+            }
+            throw new Exception("Значение для вычисления категории АС должно быть в диапазоне [-1023;1023 ]");
         }
 
         /// <summary>
