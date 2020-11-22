@@ -30,6 +30,15 @@ namespace JPEG_CLASS_LIB
         }
 
         /// <summary>
+        /// Конструктор вызывается при создании новой структуры данных JPEG для записи в файл
+        /// </summary>
+        /// <param name="type">Маркер сегмента</param>
+        public JPEGData(MarkerType type)
+        {
+            Marker = type;
+        }
+
+        /// <summary>
         /// Записывает маркер и длину в текущий поток.
         /// </summary>
         public virtual void Write()
