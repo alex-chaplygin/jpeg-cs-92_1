@@ -10,10 +10,10 @@ namespace JPEG_CLASS_LIB
     public class Encoding
     {
         /// <summary>
-        /// Предваряет каждый DC коэффициент номером категорией, 
-        /// добавляя в одномерный массив перед DC коэффициентом значение номера категории.
+        /// Вычисляет категории для каждой разницы DC коэффициентов для генерации таблиц Хаффмана. (F.1.2.1.2)
         /// </summary>
         /// <param name="data">Список блоков 8x8 после DCT и обхода зигзагом.</param>
+        /// <returns>Массив категорий для всех DC</returns>
         public static byte[] EncodeDC(List<short[]> data)
         {
             byte[] DCCategories = new byte[data.Count];
@@ -27,7 +27,12 @@ namespace JPEG_CLASS_LIB
         }
 
         /// <summary>
-        /// Вычисляет коды АС коэффициентов.
+        /// Вычисляет коды для AC коэффициентов (F.1.2.2.1).
+        /// Для каждого ненулевого AC генерируется составной байт, RRRRSSSS (2 по 4 бита).
+        /// SSSS - категория для AC коэффициента, RRRR - смещение текущего коэффициента относительно предыдущего (число нулей между предыдущим и текущим ненулевыми AC).
+        /// Если число нулей больше 15, генерируется код 0xF0 (15 нулей).
+        /// Если все оставшиеся коэффициенты равны нулю, то генерируется код 0x00 (конец блока).
+        /// Все сгенерированные коды идут последовательно для всех блоков.
         /// </summary>
         /// <param name="data">Список блоков 8x8 после DCT и обхода зигзагом.</param>
         /// <returns>Массив последовательных кодов для AC коэффициентов всех блоков</returns>
@@ -79,15 +84,15 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Вычисляет категорию АС коэффициента
         /// </summary>
-        /// <param name="diff">Входное значение из таблицы</param>
+        /// <param name="data">Входное значение из таблицы</param>
         /// <returns>Категория АС коэффициента</returns>
-        private static byte ComputeACCategory(short diff)
+        private static byte ComputeACCategory(short value)
         {
-            diff = Math.Abs(diff);
-            if (diff == 1) return 1;
+            value = Math.Abs(value);
+            if (value == 1) return 1;
             for (byte i = 2; i<= 10; i++)
             {
-                if (diff < Math.Pow(2, i)) return i;
+                if (value < Math.Pow(2, i)) return i;
             }
             throw new Exception("Значение для вычисления категории АС должно быть в диапазоне [-1023;1023 ]");
         }
