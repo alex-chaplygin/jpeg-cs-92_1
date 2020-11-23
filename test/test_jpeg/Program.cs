@@ -31,10 +31,6 @@ namespace ConsoleApp1
             Console.ReadKey();
         }
 
-        static void  Temp()
-        {
-
-        }
         private static void _TestBitWriter()
         {
             var bitWriter = new BitWriter();
@@ -238,7 +234,7 @@ namespace ConsoleApp1
         static void _TestChannel()
         {
 
-            byte[,] matrix = new byte[8, 8];
+            byte[,] matrix = new byte[4, 4];
             for (int y = 0, c = 0; y < matrix.GetLength(1); y++)
             {
                 for (int x = 0; x < matrix.GetLength(0); x++, c++)
