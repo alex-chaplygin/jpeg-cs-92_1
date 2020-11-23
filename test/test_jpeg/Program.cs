@@ -29,10 +29,55 @@ namespace ConsoleApp1
             _TestImageConverter();*/
             // _TestJPEGFile();
             //_TestHuffmanTable();
-            _TestDCTcoding();
+            // _TestDCTcoding();
+            _TestChannelV2();
             Console.ReadKey();
         }
 
+        static void _TestChannelV2()
+        {
+            const int TEST_COUNT = 10;
+            var r = new Random();
+            for (var i = 0; i < TEST_COUNT; i++)
+            {
+                var width = r.Next(4, 1024);
+                var height = r.Next(4, 1024);
+                byte[,] matrix = new byte[width, height];
+                for (var y = 0; y < height; y++)
+                {
+                    for (var x = 0; x < width; x++)
+                    {
+                        matrix[x, y] = (byte) r.Next(0, 255);
+
+                    }
+                }
+                Console.WriteLine($"Тестовая матрица (W*H): {width}*{height}");
+                WriteMatrix(matrix);
+
+                var H = Convert.ToInt32(Math.Pow(2, r.Next(0, 4)));
+                var V = Convert.ToInt32(Math.Pow(2, r.Next(0, 4)));
+                Console.WriteLine($"H={H}, V={V}");
+
+                var channel = new Channel(matrix, H, V);
+                channel.Sample(H, V);
+                var blocks = channel.Split();
+                channel.Collect(blocks);
+                channel.Resample(H, V);
+                
+                Console.WriteLine($"Результирующая матрица (W*H): {channel.GetMatrix().GetLength(0)}*{channel.GetMatrix().GetLength(1)}");
+                WriteMatrix(channel.GetMatrix());
+                for (var y = 0; y < height; y++)
+                {
+                    for (var x = 0; x < width; x++)
+                    {
+                        if (matrix[x, y]!=channel.GetMatrix()[x, y]) throw new Exception("Ошибка при тестировании: элементы тестовой и результирующей матрицы не совпадают!");
+                    }
+                }
+                
+            }
+            
+        }
+        
         private static void _TestHuffmanTable()
         {
             // var width = 32;
