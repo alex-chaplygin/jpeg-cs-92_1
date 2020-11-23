@@ -28,7 +28,8 @@ namespace ConsoleApp1
             _TestDecodingExtend();
             _TestImageConverter();*/
             // _TestJPEGFile();
-            _TestHuffmanTable();
+            //_TestHuffmanTable();
+            _TestDCTcoding();
             Console.ReadKey();
         }
 
@@ -89,7 +90,7 @@ namespace ConsoleApp1
 
             foreach (var curByte in bitWriter.Get())
             {
-                Console.Write(Convert.ToString(curByte, 2).PadLeft(8, '0')+" ");
+                Console.Write(Convert.ToString(curByte, 2).PadLeft(8, '0') + " ");
             }
             Console.WriteLine();
         }
@@ -119,45 +120,45 @@ namespace ConsoleApp1
             {
                 for (int x = 0; x < matrix.GetLength(0); x++, c++)
                 {
-                    matrix[x, y] = (byte)(c*4);
+                    matrix[x, y] = (byte)(c * 4);
                 }
             }
 
             Channel channel1 = new Channel(matrix, 2, 2);
-            channel1.Sample(2,2);
+            channel1.Sample(2, 2);
             WriteMatrix(channel1.GetMatrix());
             Console.WriteLine();
-            
+
             Channel channel2 = new Channel(matrix, 2, 1);
-            channel2.Sample(2,2);
+            channel2.Sample(2, 2);
             WriteMatrix(channel2.GetMatrix());
-            Console.WriteLine(); 
-            
+            Console.WriteLine();
+
             Channel channel3 = new Channel(matrix, 1, 1);
-            channel3.Sample(2,2);
+            channel3.Sample(2, 2);
             WriteMatrix(channel3.GetMatrix());
             Console.WriteLine();
 
-            
+
             // Channel channel4 = new Channel(matrix, 1, 1);
             // channel4.Sample(2,2);
             // WriteMatrix(channel4.GetMatrix());
             // Console.WriteLine();
-            
 
 
-            var channels = new[] {channel1, channel2, channel3};
+
+            var channels = new[] { channel1, channel2, channel3 };
 
             var library = new JPEG_CS(null);
-            
+
             Console.WriteLine("Тест для трех каналов:");
 
-            
+
             var blocks = library.Interleave(channels);
-            
+
             Console.WriteLine("Сборка блоков");
             Console.WriteLine();
-            
+
             library.Collect(channels, blocks);
 
             foreach (var channel in channels)
@@ -165,20 +166,20 @@ namespace ConsoleApp1
                 WriteMatrix(channel.GetMatrix());
                 Console.WriteLine();
             }
-            
+
             Console.WriteLine("Тест для одного канала:");
             Console.WriteLine();
-            
+
             WriteMatrix(channels[0].GetMatrix());
             Console.WriteLine();
 
-            channels = new[] {channel1};
+            channels = new[] { channel1 };
 
             blocks = library.Interleave(channels);
-            
+
             Console.WriteLine("Сборка блоков");
             Console.WriteLine();
-            
+
             library.Collect(channels, blocks);
 
             WriteMatrix(channels[0].GetMatrix());
@@ -197,8 +198,8 @@ namespace ConsoleApp1
         static void _TestPack()
         {
             JPEG_CS p = new JPEG_CS(File.Open("testP.jpg", FileMode.Create));
-            Point[,] points = new Point[10,10];
-            for (int i = 0; i< 10; i++)
+            Point[,] points = new Point[10, 10];
+            for (int i = 0; i < 10; i++)
             {
                 for (int j = 0; j < 10; j++)
                 {
@@ -214,6 +215,68 @@ namespace ConsoleApp1
             изображение[0, 0].r = 255;
         }
 
+        static void _TestDCTcoding()
+        {
+            Random r = new Random();
+            JPEG_CS TestJCS = new JPEG_CS(new MemoryStream());
+            TestJCS.SetParameters(2);
+            byte[,] TestMatrix = new byte[16, 16];
+            for (int y = 0, c = 0; y < TestMatrix.GetLength(1); y++)
+                for (int x = 0; x < TestMatrix.GetLength(0); x++, c++)
+                    TestMatrix[x, y] = Convert.ToByte(r.Next(0, 255));
+            Channel TestChannel = new Channel(TestMatrix, 2, 2);
+            List<byte[,]> list1 = TestChannel.Split();
+            Console.WriteLine("Изначальная матрица");
+            for (int i = 0; i < TestMatrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < TestMatrix.GetLength(1); j++)
+                {
+                    string S = TestMatrix[i, j].ToString();
+                    while (S.Length < 3) S = "0" + S;
+                    Console.Write(S + " ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+            List<short[]> list2 = TestJCS.FDCT(list1);
+            for (int k = 0; k < list2.Count; k++)
+            {
+                Console.WriteLine($"FDCT {k + 1}");
+                for (int i = 0; i < list2[k].Length; i++)
+                    Console.Write(list2[k][i] + " ");
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+            List<byte[,]> list3 = TestJCS.IDCT(list2);
+            for (int k = 0; k < list3.Count; k++)
+            {
+                Console.WriteLine($"IDCT {k + 1}");
+                for (int i = 0; i < list3[k].GetLength(0); i++)
+                {
+                    for (int j = 0; j < list3[k].GetLength(0); j++)
+                    {
+                        string S = list3[k][j, i].ToString();
+                        while (S.Length < 3) S = "0" + S;
+                        Console.Write(S + " ");
+                    }
+                    Console.WriteLine();
+                }
+                Console.WriteLine();
+            }
+            TestChannel.Collect(list3);
+            TestMatrix = TestChannel.GetMatrix();
+            Console.WriteLine("Конечная матрица");
+            for (int i = 0; i < TestMatrix.GetLength(0); i++)
+            {
+                for (int j = 0; j < TestMatrix.GetLength(1); j++)
+                {
+                    string S = TestMatrix[i, j].ToString();
+                    while (S.Length < 3) S = "0" + S;
+                    Console.Write(S + " ");
+                }
+                Console.WriteLine();
+            }
+        }
 
         static void _TestChannel()
         {
@@ -223,14 +286,14 @@ namespace ConsoleApp1
             {
                 for (int x = 0; x < matrix.GetLength(0); x++, c++)
                 {
-                    matrix[x, y] = (byte)(c*4);
+                    matrix[x, y] = (byte)(c * 4);
                 }
             }
 
             Console.WriteLine("Block(matrix, 4, 4)");
             Channel channel1 = new Channel(matrix, 4, 4);
             WriteMatrix(channel1.GetMatrix());
-                       
+
             Console.WriteLine("\nResample(16, 8)");
             channel1.Resample(16, 8);
             WriteMatrix(channel1.GetMatrix());
@@ -245,7 +308,7 @@ namespace ConsoleApp1
             {
                 for (int x = 0; x < matrix.GetLength(0); x++)
                 {
-                    Console.Write(matrix[x, y].ToString("X2")+ " ");
+                    Console.Write(matrix[x, y].ToString("X2") + " ");
                 }
                 Console.WriteLine();
             }
@@ -292,21 +355,21 @@ namespace ConsoleApp1
 
         static void _TestDCT()
         {
-            short[,]matrix= new short[8, 8];
+            short[,] matrix = new short[8, 8];
             //short a = 0;
             Random r = new Random();
 
-            for (int i = 0; i<8;i++)
+            for (int i = 0; i < 8; i++)
             {
-                for (int j=0; j<8;j++)
+                for (int j = 0; j < 8; j++)
                 {
-                    matrix[i, j] = Convert.ToInt16(Convert.ToInt16(r.Next(-128,128)));
+                    matrix[i, j] = Convert.ToInt16(Convert.ToInt16(r.Next(-128, 128)));
                     //if (i==0) matrix[i, j] = Convert.ToInt16(Convert.ToInt16(0));
                     //if (j == 0) matrix[i, j] = Convert.ToInt16(Convert.ToInt16(0));
                     //if (i == 7) matrix[i, j] = Convert.ToInt16(Convert.ToInt16(0));
                     //if (j == 7) matrix[i, j] = Convert.ToInt16(Convert.ToInt16(0));
 
-                    Console.Write(matrix[i, j]+" ");
+                    Console.Write(matrix[i, j] + " ");
                 }
                 Console.WriteLine();
             }
@@ -322,12 +385,12 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
             Console.WriteLine();
-            short[,]matrix2= DCT.IDCT(matrix3);
+            short[,] matrix2 = DCT.IDCT(matrix3);
             for (int i = 0; i < 8; i++)
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    
+
                     Console.Write(matrix2[i, j] + " ");
                 }
                 Console.WriteLine();
@@ -397,12 +460,12 @@ namespace ConsoleApp1
 
             // var width = r.Next(2, 1080); //big test output
             // var height = r.Next(2, 1920);
-            
+
             var width = r.Next(2, 25); //compact test output
             var height = r.Next(2, 25);
-            
+
             Console.WriteLine($"{width}*{height}");
-            
+
             var testMatrix = new byte[width, height];
 
             for (var i = 0; i < height; i++)
@@ -414,50 +477,50 @@ namespace ConsoleApp1
                     testMatrix[j, i] = tmpByte[0];
                 }
             }
-            
+
             WriteMatrix(testMatrix);
-            
+
             var channel = new Channel(testMatrix, 0, 0);
             var blocks = channel.Split();
-            
+
             Console.WriteLine();
             Console.WriteLine($"For given {width}*{height} there is {blocks.Count} block(s)");
-            
+
             //for test print BLOCK_SIZE=8 - fixed!
             var BLOCK_SIZE = 8;
-            for (var blockIndex = 0; blockIndex<blocks.Count; blockIndex++)
+            for (var blockIndex = 0; blockIndex < blocks.Count; blockIndex++)
             {
                 var block = blocks[blockIndex];
                 if (block.Length != BLOCK_SIZE * BLOCK_SIZE) throw new Exception("Incorrect block size!");
-                Console.WriteLine("Block #"+blockIndex);
-                var oneDArr = new byte[BLOCK_SIZE*BLOCK_SIZE];
+                Console.WriteLine("Block #" + blockIndex);
+                var oneDArr = new byte[BLOCK_SIZE * BLOCK_SIZE];
                 Buffer.BlockCopy(block, 0, oneDArr, 0, block.Length);
                 for (int i = 1; i <= oneDArr.Length; i++)
                 {
-                    Console.Write(oneDArr[i-1].ToString("X2")+ " ");
-                    if (i!=0 && i%BLOCK_SIZE==0) Console.WriteLine();
+                    Console.Write(oneDArr[i - 1].ToString("X2") + " ");
+                    if (i != 0 && i % BLOCK_SIZE == 0) Console.WriteLine();
                 }
-                
+
                 Console.WriteLine();
             }
-            
+
             channel.Collect(blocks);
-            
+
             Console.WriteLine();
             WriteMatrix(channel.GetMatrix());
-            
+
             for (var i = 0; i < height; i++)
             {
                 for (var j = 0; j < width; j++)
                 {
-                    if (testMatrix[j, i]!=channel.GetMatrix()[j, i]) throw new Exception("Test failed - matrix must be equal!");
+                    if (testMatrix[j, i] != channel.GetMatrix()[j, i]) throw new Exception("Test failed - matrix must be equal!");
                 }
             }
-            
+
             // if (!Enumerable.SequenceEqual(testMatrix, channel.GetMatrix())) throw new Exception("Matrix must be equal!");
         }
 
-        static void _TestCalculatingDC()
+        /*static void _TestCalculatingDC()
         {
             List<byte[,]> blocks = new List<byte[,]>();
 
@@ -511,7 +574,8 @@ namespace ConsoleApp1
                 }
                 Console.WriteLine();
             }
-        }
+        }*/
+
         static void _TestJPEGData()
         {
             FileStream s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
@@ -521,7 +585,7 @@ namespace ConsoleApp1
 
             s.Seek(862, SeekOrigin.Begin); // Чтение скана.
             d = JPEGData.GetData(s);
-            d.Print(); 
+            d.Print();
 
             s.Seek(0x48D0, SeekOrigin.Begin);
             d = JPEGData.GetData(s);
@@ -530,15 +594,15 @@ namespace ConsoleApp1
             s.Dispose();
         }
 
-	    static void _NextBitTest(Decoding D)
-	    {
-	        //Console.WriteLine("\r\nПозиция в потоке: " + s.Position.ToString("X"));
+        static void _NextBitTest(Decoding D)
+        {
+            //Console.WriteLine("\r\nПозиция в потоке: " + s.Position.ToString("X"));
             try
             {
                 int i = 0;
                 do
                 {
-                    Console.Write(D.NextBit()+" ");
+                    Console.Write(D.NextBit() + " ");
                     i++;
                     if (i == 16)
                     {
@@ -548,12 +612,12 @@ namespace ConsoleApp1
                 }
                 while (true);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 Console.WriteLine(ex);
             }
-	    }
-        
+        }
+
         static void _TestJPEGFile()
         {
             FileStream s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
@@ -582,7 +646,7 @@ namespace ConsoleApp1
             {
                 listOfBlocks.Add(new short[64]);
                 for (int i = 0; i < 64; i++)
-                        listOfBlocks[k][i] = (short)random.Next(0, 255);
+                    listOfBlocks[k][i] = (short)random.Next(0, 255);
             }
 
             // Выводим содержимое блоков до применения метода Encoding.EncodeDC
@@ -608,7 +672,8 @@ namespace ConsoleApp1
             Point[,] imgRGB = new Point[widgth, height];
             for (int i = 0; i < height; i++)
                 for (int j = 0; j < widgth; j++)
-                    imgRGB[j,i] = new Point(){
+                    imgRGB[j, i] = new Point()
+                    {
                         r = (byte)random.Next(0, 255),
                         g = (byte)random.Next(0, 255),
                         b = (byte)random.Next(0, 255),

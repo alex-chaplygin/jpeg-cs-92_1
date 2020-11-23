@@ -9,7 +9,7 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// На вход подается short матрица. Возвращает short матрицу полученную из входной по формуле FDCT
         /// </summary>
-        public static short[,] FDCT(short[,]inp_matrix)
+        public static short[,] FDCT(short[,] inp_matrix)
         {
             short[,] matrix = inp_matrix;
             int n = matrix.GetLength(0);
@@ -27,13 +27,13 @@ namespace JPEG_CLASS_LIB
                         {
                             S += matrix[y, x] * Math.Cos((2 * x + 1) * u * Math.PI / 16.0) * Math.Cos((2 * y + 1) * v * Math.PI / 16.0);
                         }
-		    Cv = 1;
-		    Cu = 1;
-                    if (u == 0)  Cu = 1 / Math.Sqrt(2);
-		    if (v == 0) Cv = 1 / Math.Sqrt(2); 
-                    matrix2[v, u] = Convert.ToInt16(S*Cu * Cv/4.0);
+                    Cv = 1;
+                    Cu = 1;
+                    if (u == 0) Cu = 1 / Math.Sqrt(2);
+                    if (v == 0) Cv = 1 / Math.Sqrt(2);
+                    matrix2[v, u] = Convert.ToInt16(S * Cu * Cv / 4.0);
                 }
-            return(matrix2);
+            return (matrix2);
         }
 
         /// <summary>
@@ -55,17 +55,17 @@ namespace JPEG_CLASS_LIB
                     for (int u = 0; u < m; u++)
                         for (int v = 0; v < n; v++)
                         {
-			    Cv = 1;
-			    Cu = 1;
-			    if (u == 0)  Cu = 1 / Math.Sqrt(2);
-			    if (v == 0) Cv = 1 / Math.Sqrt(2); 
-                            s += Cu*Cv*(matrix[v, u] * Math.Cos((2 * x + 1) * u * Math.PI / 16.0) * Math.Cos((2 * y + 1) * v * Math.PI / 16.0));
+                            Cv = 1;
+                            Cu = 1;
+                            if (u == 0) Cu = 1 / Math.Sqrt(2);
+                            if (v == 0) Cv = 1 / Math.Sqrt(2);
+                            s += Cu * Cv * (matrix[v, u] * Math.Cos((2 * x + 1) * u * Math.PI / 16.0) * Math.Cos((2 * y + 1) * v * Math.PI / 16.0));
                         }
-                    matrix2[y, x] = Convert.ToInt16(s/4.0);
+                    matrix2[y, x] = Convert.ToInt16(s / 4.0);
                 }
             return (matrix2);
-	}
-	
+        }
+
         /// <summary>
         /// На вход подается матрица 8 на 8. Возвращает массив 64, который получен из матрицы при проходе её зигзагом
         /// </summary>
@@ -103,7 +103,7 @@ namespace JPEG_CLASS_LIB
             mass[63] = (matrix[7, 7]);
             return (mass);
         }
-	
+
         /// <summary>
         /// На вход подается массив 64. Возвращает матрицу 8 на 8, которая получена из массива путем его записи в матрицу по зигзагу
         /// </summary>
@@ -141,7 +141,7 @@ namespace JPEG_CLASS_LIB
             matrix[7, 7] = mass[63];
             return (matrix);
         }
-	
+
         /// <summary>
         /// Возвращает матрицу, каждый компонент которой приведен из диапазона 0..255 в диапазон -128..127
         /// </summary>
@@ -149,10 +149,16 @@ namespace JPEG_CLASS_LIB
         {
             short[,] mat = new short[matrix.GetLength(0), matrix.GetLength(1)];
             for (int i = 0; i < matrix.GetLength(0); i++)
-                for (int j = 0; j < matrix.GetLength(1); j++) mat[i,j] = Convert.ToInt16(matrix[i,j]-128);
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    short temp = (short)(matrix[i, j] - 128);
+                    if (temp < -128) temp = -128;
+                    else if (temp > 127) temp = 127;
+                    mat[i, j] = temp;
+                }
             return mat;
         }
-	
+
         /// <summary>
         /// Возвращает матрицу, каждый компонент которой приведен из диапазона -128..127 в диапазон 0..255
         /// </summary>
@@ -160,7 +166,13 @@ namespace JPEG_CLASS_LIB
         {
             byte[,] mat = new byte[matrix.GetLength(0), matrix.GetLength(1)];
             for (int i = 0; i < matrix.GetLength(0); i++)
-                for (int j = 0; j < matrix.GetLength(1); j++) mat[i, j] = Convert.ToByte(matrix[i, j]+128);
+                for (int j = 0; j < matrix.GetLength(1); j++)
+                {
+                    short temp = (short)(matrix[i, j] + 128);
+                    if (temp < 0) temp = 0;
+                    else if (temp > 255) temp = 255;
+                    mat[i, j] = (byte)temp;
+                }
             return mat;
         }
 
@@ -177,13 +189,13 @@ namespace JPEG_CLASS_LIB
                 for (int j = 0; j < MatrixCoefficient.GetLength(1); j++)
                 {
                     double temp = MatrixCoefficient[i, j];
-                    temp /= Convert.ToDouble(MatrixQuantization[i,j]);
-                    MatrixCoefficient[i,j] = Convert.ToInt16(Math.Round(temp));
+                    temp /= Convert.ToDouble(MatrixQuantization[i, j]);
+                    MatrixCoefficient[i, j] = Convert.ToInt16(Math.Round(temp));
                 }
             }
             return MatrixCoefficient;
         }
-	
+
         /// <summary>
         /// Реализует обратное квантование матрицы коэффициентов с помощью заданной матрицы квантования
         /// </summary>
@@ -201,33 +213,33 @@ namespace JPEG_CLASS_LIB
             }
             return MatrixCoefficient;
         }
-	
-	/// <summary>
-	/// Заменяет первое значение в каждом блоке из списа на DC коэффициент
-	/// </summary>
-	/// <param name="blocks">Список исходных блоков</param>
-	/// <returns>Список изменённых блоков</returns>
-	static public List<byte[,]> DCCalculating(List<byte[,]> blocks)
-	{
-	    for (int i = blocks.Count -1; i > 0 ; i--)
-	    {
-		blocks[i][0, 0] -= blocks[i - 1][0, 0];
-	    }
-	    return blocks;
-	}
-	
-	/// <summary>
-	/// Заменяет первое значение (DC-коэффициент) в каждом блоке на исходное значение
-	/// </summary>
-	/// <param name="blocks">Список блоков</param>
-	/// <returns>Список исходных блоков</returns>
-	static public List<byte[,]> DCRestore(List<byte[,]> blocks)
-	{
-	    for (int i = 1; i < blocks.Count; i++)
-	    {
-		blocks[i][0, 0] += blocks[i-1][0,0];
-	    }
-	    return blocks;
-	}
+
+        /// <summary>
+        /// Заменяет первое значение в каждом блоке из списа на DC коэффициент
+        /// </summary>
+        /// <param name="blocks">Список исходных блоков</param>
+        /// <returns>Список изменённых блоков</returns>
+        static public List<short[,]> DCCalculating(List<short[,]> blocks)
+        {
+            for (int i = blocks.Count - 1; i > 0; i--)
+            {
+                blocks[i][0, 0] -= blocks[i - 1][0, 0];
+            }
+            return blocks;
+        }
+
+        /// <summary>
+        /// Заменяет первое значение (DC-коэффициент) в каждом блоке на исходное значение
+        /// </summary>
+        /// <param name="blocks">Список блоков</param>
+        /// <returns>Список исходных блоков</returns>
+        static public List<short[,]> DCRestore(List<short[,]> blocks)
+        {
+            for (int i = 1; i < blocks.Count; i++)
+            {
+                blocks[i][0, 0] += blocks[i - 1][0, 0];
+            }
+            return blocks;
+        }
     }
 }

@@ -20,17 +20,17 @@ public class JPEG_CS
 	/// <summary>
 	/// Таблица квантования яркости.
 	/// </summary>
-	byte[,] LQT = new byte[8,8];
+	short[,] LQT = new short[8, 8];
 
 	/// <summary>
 	/// Таблица квантования цветности.
 	/// </summary>
-	byte[,] CQT = new byte[8,8];
+	short[,] CQT = new short[8, 8];
 
-    /// <summary>
-    /// Создает объект из потока.
-    /// </summary>
-    /// <param name="name">Поток для создания объекта.</param>
+	/// <summary>
+	/// Создает объект из потока.
+	/// </summary>
+	/// <param name="name">Поток для создания объекта.</param>
 	public JPEG_CS(Stream name)
 	{
 
@@ -60,7 +60,8 @@ public class JPEG_CS
 	/// <param name="param">Параметр сжатия JPEG.</param>
 	public void SetParameters(int param)
 	{
-		byte[,] LQT = {
+		short[,] LQT =
+		{
 			{16, 12, 14, 14, 18, 24, 49, 72},
 			{11, 12, 13, 17, 22, 35, 64, 92},
 			{10, 14, 16, 22, 37, 55, 78, 95},
@@ -70,9 +71,7 @@ public class JPEG_CS
 			{51, 60, 69, 80, 103, 113, 120, 103},
 			{61, 55, 56, 62, 77, 92, 101, 99}
 		};
-
-
-		byte[,] CQT =
+		short[,] CQT =
 		{
 			{17, 18, 24, 47, 99, 99, 99, 99},
 			{18, 21, 26, 66, 99, 99, 99, 99},
@@ -83,18 +82,18 @@ public class JPEG_CS
 			{99, 99, 99, 99, 99, 99, 99, 99},
 			{99, 99, 99, 99, 99, 99, 99, 99}
 		};
-		
 		if ((param & (int)Parameters.HIGH_QUALITY) != 0)
 		{
 			for (int y = 0; y < LQT.GetLength(1); y++)
 			{
 				for (int x = 0; x < LQT.GetLength(0); x++)
 				{
-					this.LQT[x, y] = (byte)(LQT[x, y] >> 1);
-					this.CQT[x, y] = (byte)(CQT[x, y] >> 1);
+					this.LQT[x, y] = (short)(LQT[x, y] >> 1);
+					this.CQT[x, y] = (short)(CQT[x, y] >> 1);
 				}
 			}
 		}
+
 		else if ((param & (int)Parameters.AVERAGE_QUALITY) != 0)
 		{
 			this.LQT = LQT;
@@ -106,41 +105,54 @@ public class JPEG_CS
 			{
 				for (int x = 0; x < LQT.GetLength(0); x++)
 				{
-					this.LQT[x, y] = (byte)(LQT[x, y] << 1);
-					this.CQT[x, y] = (byte)(CQT[x, y] << 1);
+					this.LQT[x, y] = (short)(LQT[x, y] << 1);
+					this.CQT[x, y] = (short)(CQT[x, y] << 1);
 				}
 			}
 		}
 	}
 
-    /// <summary>
-    /// Рассчитывает DCT коэффициенты для блоков одного канала
-    /// </summary>
-    /// <param name="blocks">Список исходных блоков одного канала</param>
-    /// <returns>Список изменённых блоков</returns>
-    public List<byte[,]> FDCT(List<byte[,]> blocks)
-    {
-        //for (int i = blocks.Count -1; i > 0 ; i--)
-        //{
-         //   blocks[i][0, 0] -= blocks[i - 1][0, 0];
-        //}
-        //return blocks;
-	return null;
-    }
-
-    /// <summary>
-    /// Заменяет первое значение (DC-коэффициент) в каждом блоке на исходное значение
-    /// </summary>
-    /// <param name="blocks">Список блоков</param>
-    /// <returns>Список исходных блоков</returns>
-    static public List<byte[,]> DCRestore(List<byte[,]> blocks)
-    {
-        for (int i = 1; i < blocks.Count; i++)
-        {
-            blocks[i][0, 0] += blocks[i-1][0,0];
-        }
-        return blocks;
-    }
+        /// <summary>
+        /// Осуществляет все необходимые DCT преобразования для списка блоков
+	/// </summary>
+	/// <param name="blocks">Список блоков одного канала после разбиения на блоки</param>
+	/// <returns>Список коэффициентов блоков одного канала</returns>
+	public List<short[]> FDCT(List<byte[,]> blocks)
+	{
+		List<short[]> Result = new List<short[]> { };
+		List<short[,]> Temp = new List<short[,]> { };
+		for (int i = 0; i < blocks.Count; i++)
+		{
+			Temp.Add(DCT.Shift(blocks[i]));
+			Temp[i] = DCT.FDCT(Temp[i]);
+			Temp[i] = DCT.QuantizationDirect(Temp[i], LQT);
+		}
+		Temp = DCT.DCCalculating(Temp);
+		for (int i = 0; i < Temp.Count; i++)
+			Result.Add(DCT.Zigzag(Temp[i]));
+		return Result;
+	}
+    
+	/// <summary>
+	/// Осуществляет все необходимые обратные DCT преобразования для списка блоков
+	/// </summary>
+	/// <param name="data">Список коэффициентов блоков одного канала</param>
+	/// <returns>Список блоков одного канала для сборки</returns>
+	public List<byte[,]> IDCT(List<short[]> data)
+	{
+		List<byte[,]> Result = new List<byte[,]> { };
+		List<short[,]> Temp = new List<short[,]> { };
+		for (int i = 0; i < data.Count; i++)
+			Temp.Add(DCT.ReZigzag(data[i]));
+		Temp = DCT.DCRestore(Temp);
+		for (int i = 0; i < Temp.Count; i++)
+		{
+			Temp[i] = DCT.QuantizationReverse(Temp[i], LQT);
+			Temp[i] = DCT.IDCT(Temp[i]);
+			Result.Add(DCT.ReverseShift(Temp[i]));			
+		}		
+		return Result;
+	}
     
 	/// <summary>
 	/// Собирает блоки 8x8 в каналы и выполняет обратное масштабирование матриц каналов. Если канал один, то все блоки записываются в канал слева-направо, сверху вниз.
