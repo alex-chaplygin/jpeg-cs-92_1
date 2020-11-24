@@ -25,7 +25,7 @@ namespace ConsoleApp1
             _TestEncoding();
             _TestImageConverter();*/
             _TestJPEGFile();
-            Console.ReadKey();
+            //Console.ReadKey();
         }
 
         private static void _TestBitWriter()
@@ -201,7 +201,7 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
         }
-
+        /*
         static void _TestQuantization()
         {
             Random random = new Random();
@@ -240,7 +240,7 @@ namespace ConsoleApp1
                 if (i % 4 == 3) { Console.Write("\n"); }
             }
         }
-
+        */
         static void _TestDCT()
         {
             short[,]matrix= new short[8, 8];
@@ -407,7 +407,7 @@ namespace ConsoleApp1
             
             // if (!Enumerable.SequenceEqual(testMatrix, channel.GetMatrix())) throw new Exception("Matrix must be equal!");
         }
-
+        /*
         static void _TestCalculatingDC()
         {
             List<byte[,]> blocks = new List<byte[,]>();
@@ -463,6 +463,7 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
         }
+        */
         static void _TestJPEGData()
         {
             
@@ -516,13 +517,33 @@ namespace ConsoleApp1
 
             // Тестирование метода Receive класса Decoding
             //s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
-            Decoding decoding = new Decoding(s);
+            s.Seek(0x21d, SeekOrigin.Begin);
+            HuffmanTable huff = new HuffmanTable(s);
+            Decoding decoding = new Decoding(s, huff);
+            Console.WriteLine("\nЗначение, которое вернула функция Decode:" + decoding.Decode());
+            Console.WriteLine("\nТаблица MaxCode");
+            foreach (int i in decoding.MaxCode)
+            {
+                Console.Write(Convert.ToString(i, 2)+" ");
+            }
+            Console.WriteLine("\nТаблица MinCode");
+            foreach (int i in decoding.MinCode)
+            {
+                Console.Write(Convert.ToString(i, 2)+" ");
+            }
+            Console.WriteLine("\nТаблица VALPTR");
+            foreach (byte i in decoding.VALPTR)
+            {
+                Console.Write(Convert.ToString(i, 2)+" ");
+            }
+            Console.WriteLine();
             s.Seek(0x360, SeekOrigin.Begin);
             Console.WriteLine($"Тестирование метода Receive класса Decoding от позиции {s.Position:x4}");
             for (byte i = 1; i <= 16; i++)
                 Console.WriteLine($"Результат чтения следующих {i:d2} бит из потока: {Convert.ToString(decoding.Receive(i), 2)}");
             s.Dispose();
         }
+        
 
         private static void _TestEncoding()
         {
