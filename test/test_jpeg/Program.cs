@@ -512,15 +512,12 @@ namespace ConsoleApp1
             FileStream s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
             JPEGFile f = new JPEGFile(s);
             f.Print();
-            //_NextBitTest(new Decoding(s));
-            //s.Dispose();
-
-            // Тестирование метода Receive класса Decoding
-            //s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
-            s.Seek(0x21d, SeekOrigin.Begin);
+            s.Seek(0x48eb, SeekOrigin.Begin);
             HuffmanTable huff = new HuffmanTable(s);
+	    huff.Print();
+            // Тестирование метода Receive класса Decoding
+            s.Seek(0x4a9b, SeekOrigin.Begin);
             Decoding decoding = new Decoding(s, huff);
-            Console.WriteLine("\nЗначение, которое вернула функция Decode:" + decoding.Decode());
             Console.WriteLine("\nТаблица MaxCode");
             foreach (int i in decoding.MaxCode)
             {
@@ -537,10 +534,12 @@ namespace ConsoleApp1
                 Console.Write(Convert.ToString(i, 2)+" ");
             }
             Console.WriteLine();
-            s.Seek(0x360, SeekOrigin.Begin);
-            Console.WriteLine($"Тестирование метода Receive класса Decoding от позиции {s.Position:x4}");
-            for (byte i = 1; i <= 16; i++)
-                Console.WriteLine($"Результат чтения следующих {i:d2} бит из потока: {Convert.ToString(decoding.Receive(i), 2)}");
+	    Console.WriteLine("\nЗначение, которое вернула функция Decode:" + decoding.Decode());
+ 
+            //s.Seek(0x360, SeekOrigin.Begin);
+            //Console.WriteLine($"Тестирование метода Receive класса Decoding от позиции {s.Position:x4}");
+            //for (byte i = 1; i <= 16; i++)
+             //   Console.WriteLine($"Результат чтения следующих {i:d2} бит из потока: {Convert.ToString(decoding.Receive(i), 2)}");
             s.Dispose();
         }
         
