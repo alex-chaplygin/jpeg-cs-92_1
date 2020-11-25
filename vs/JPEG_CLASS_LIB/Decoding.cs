@@ -132,7 +132,7 @@ namespace JPEG_CLASS_LIB
                 }
                 if (Done) break;
                 VALPTR[i] = j;
-                MinCode[i] = HUFFCODE[i];
+                MinCode[i] = HUFFCODE[j];
                 j = Convert.ToByte(j + BITS[i] - 1);
                 MaxCode[i] = HUFFCODE[j];
                 j++;
