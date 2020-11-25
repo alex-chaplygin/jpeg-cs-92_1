@@ -9,11 +9,11 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-	        /*_TestSplit();
+            /*_TestSplit();
             _TestCalculatingDC();
             _TestPack();
             _TestUnpack();
-            //_TestQuantization();
+            _TestQuantization();
             _TestDCT();
             _TestDCTShift();
             _TestChannel();
@@ -24,7 +24,9 @@ namespace ConsoleApp1
             _TestBitWriter();            
             _TestEncoding();
             _TestImageConverter();
-            _TestJPEGFile();*/
+            _TestJPEGFile();
+            _TestBitWriterTwo();
+            _TestBitWriterError();*/
             _TestDecodingExtend();
             Console.ReadKey();
         }
@@ -42,6 +44,40 @@ namespace ConsoleApp1
             foreach (var curByte in bitWriter.Get())
             {
                 Console.Write(Convert.ToString(curByte, 2).PadLeft(8, '0')+" ");
+            }
+            Console.WriteLine();
+        }
+
+        private static void _TestBitWriterTwo()
+        {
+            var bitWriter = new BitWriter();
+            bitWriter.Write(5, 200);
+            bitWriter.Write(6, 300);
+            bitWriter.Write(7, 810);
+            bitWriter.Write(Convert.ToInt32(1.5), 570);//1.5=2
+            bitWriter.Write(4, 60);
+            bitWriter.Write(2, 2);
+
+            foreach (var curByte in bitWriter.Get())
+            {
+                Console.Write(Convert.ToString(curByte, 2).PadLeft(8, '0') + " ");
+            }
+            Console.WriteLine();
+        }
+
+        private static void _TestBitWriterError()
+        {
+            var bitWriter = new BitWriter();
+            bitWriter.Write(15, 200);
+            bitWriter.Write(6, 300);
+            bitWriter.Write(7, 810);
+            bitWriter.Write(19, 570);
+            bitWriter.Write(14, 60);
+            bitWriter.Write(12, 2);
+
+            foreach (var curByte in bitWriter.Get())
+            {
+                Console.Write(Convert.ToString(curByte, 2).PadLeft(8, '0') + " ");
             }
             Console.WriteLine();
         }
