@@ -534,12 +534,14 @@ namespace ConsoleApp1
                 Console.Write(Convert.ToString(i, 2)+" ");
             }
             Console.WriteLine();
-	    Console.WriteLine("\nЗначение, которое вернула функция Decode:" + decoding.Decode());
- 
+	        Console.WriteLine("\nЗначение, которое вернула функция Decode:" + decoding.Decode());
+            Console.WriteLine("\nЗначение, которое вернула функция Decode:" + decoding.Decode());
+            Console.WriteLine("\nЗначение, которое вернула функция Decode:" + decoding.Decode());
+
             //s.Seek(0x360, SeekOrigin.Begin);
             //Console.WriteLine($"Тестирование метода Receive класса Decoding от позиции {s.Position:x4}");
             //for (byte i = 1; i <= 16; i++)
-             //   Console.WriteLine($"Результат чтения следующих {i:d2} бит из потока: {Convert.ToString(decoding.Receive(i), 2)}");
+            //   Console.WriteLine($"Результат чтения следующих {i:d2} бит из потока: {Convert.ToString(decoding.Receive(i), 2)}");
             s.Dispose();
         }
         
