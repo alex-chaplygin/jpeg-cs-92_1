@@ -27,10 +27,10 @@ namespace ConsoleApp1
             _TestJPEGFile();
             _TestDecodingExtend();
             _TestImageConverter();*/
-            // _TestJPEGFile();
+            _TestJPEGFile();
             //_TestHuffmanTable();
             // _TestDCTcoding();
-            _TestChannelV2();
+            //_TestChannelV2();
             Console.ReadKey();
         }
 
@@ -358,8 +358,8 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
         }
-
-        /*static void _TestQuantization()
+        /*
+        static void _TestQuantization()
         {
             Random random = new Random();
             short[,] matrixC = new short[4, 4];
@@ -396,7 +396,8 @@ namespace ConsoleApp1
                 Console.Write($"{qtest[i / 4, i % 4]}\t");
                 if (i % 4 == 3) { Console.Write("\n"); }
             }
-        }*/
+        }
+        */
 
         static void _TestDCT()
         {
@@ -619,7 +620,8 @@ namespace ConsoleApp1
                 }
                 Console.WriteLine();
             }
-        }*/
+        }
+        */
 
         static void _TestJPEGData()
         {
@@ -668,18 +670,39 @@ namespace ConsoleApp1
             FileStream s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
             JPEGFile f = new JPEGFile(s);
             f.Print();
-            //_NextBitTest(new Decoding(s));
-            //s.Dispose();
-
+            s.Seek(0x48eb, SeekOrigin.Begin);
+            HuffmanTable huff = new HuffmanTable(s);
+	    huff.Print();
             // Тестирование метода Receive класса Decoding
-            //s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
-            Decoding decoding = new Decoding(s);
-            s.Seek(0x360, SeekOrigin.Begin);
-            Console.WriteLine($"Тестирование метода Receive класса Decoding от позиции {s.Position:x4}");
-            for (byte i = 1; i <= 16; i++)
-                Console.WriteLine($"Результат чтения следующих {i:d2} бит из потока: {Convert.ToString(decoding.Receive(i), 2)}");
+            s.Seek(0x4a9b, SeekOrigin.Begin);
+            Decoding decoding = new Decoding(s, huff);
+            Console.WriteLine("\nТаблица MaxCode");
+            foreach (int i in decoding.MaxCode)
+            {
+                Console.Write(Convert.ToString(i, 2)+" ");
+            }
+            Console.WriteLine("\nТаблица MinCode");
+            foreach (int i in decoding.MinCode)
+            {
+                Console.Write(Convert.ToString(i, 2)+" ");
+            }
+            Console.WriteLine("\nТаблица VALPTR");
+            foreach (byte i in decoding.VALPTR)
+            {
+                Console.Write(Convert.ToString(i, 2)+" ");
+            }
+            Console.WriteLine();
+	        Console.WriteLine("\nЗначение, которое вернула функция Decode:" + decoding.Decode());
+            Console.WriteLine("\nЗначение, которое вернула функция Decode:" + decoding.Decode());
+            Console.WriteLine("\nЗначение, которое вернула функция Decode:" + decoding.Decode());
+
+            //s.Seek(0x360, SeekOrigin.Begin);
+            //Console.WriteLine($"Тестирование метода Receive класса Decoding от позиции {s.Position:x4}");
+            //for (byte i = 1; i <= 16; i++)
+            //   Console.WriteLine($"Результат чтения следующих {i:d2} бит из потока: {Convert.ToString(decoding.Receive(i), 2)}");
             s.Dispose();
         }
+        
 
         private static void _TestEncoding()
         {

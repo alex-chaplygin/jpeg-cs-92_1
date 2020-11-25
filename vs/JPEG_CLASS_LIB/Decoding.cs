@@ -29,14 +29,31 @@ namespace JPEG_CLASS_LIB
         /// Счетчик битов.
         /// </summary>
         byte CNT = 0;
-
+        /// <summary>
+        /// Содержит самый большой код для длины I (индекс массива)
+        /// </summary>
+        public int[] MaxCode = new int[16];
+        /// <summary>
+        /// Содержит самый маленький код для длины I (индекс массива)
+        /// </summary>
+        public int[] MinCode = new int[16];
+        /// <summary>
+        /// Содержит индекс для начала списка значений в массиве HUFFVAL для декодирования кода длиной I (индекс массива)
+        /// </summary>
+        public byte[] VALPTR = new byte[16];
+        /// <summary>
+        /// Таблица Хаффмена
+        /// </summary>
+        HuffmanTable huff;
         /// <summary>
         /// Создает объект, сохраняет поток в классе.
         /// </summary>
         /// <param name="s">Поток сжатых данных.</param>
-        public Decoding(Stream s)
+        public Decoding(Stream s, HuffmanTable huff)
         {
             MainStream = s;
+            this.huff = huff;
+            GenerateTables();
         }
 
         /// <summary>
@@ -102,6 +119,64 @@ namespace JPEG_CLASS_LIB
             }
 
             return (short)diff;
+	}
+	
+        /// <summary>
+        /// Генериует вспомогательные таблицы для декодирования
+        /// </summary>
+        void GenerateTables()
+        {
+            byte[] BITS = huff.BITS;
+            byte[] HUFFCODE = huff.HUFFCODE;
+            
+            int i = -1;//0
+            byte j = 0;
+            MaxCode = new int[16];
+            MinCode = new int[16];
+            bool Done = false;
+
+            do
+            {
+                i++;
+                if (i >= 16) { Done = true; break; }//>
+                while ((BITS[i] == 0) && (!Done))
+                {
+                    MaxCode[i] = -1;
+                    i++;
+                    if (i >= 16)//>
+                    {
+                        Done = true;
+                        break;
+                    }
+                }
+                if (Done) break;
+                VALPTR[i] = j;
+                MinCode[i] = HUFFCODE[j];
+                j = Convert.ToByte(j + BITS[i] - 1);
+                MaxCode[i] = HUFFCODE[j];
+                j++;
+            }
+            while ((BITS[i] != 0));
+        }
+	
+        /// <summary>
+        /// Декодирует 8-ми битное значение, которое для DC коэффициента является категорией, а для AC - число нулей или категория для ненулевого коэффициента
+        /// </summary>
+        /// <returns>Декодированное значение</returns>
+        public byte Decode()
+        {
+            int i = 0;//1
+            byte CODE = NextBit();
+            while (CODE>MaxCode[i])
+            {
+                i++;
+                CODE = (Byte)((CODE << 1) + NextBit());
+
+            }
+            int j = VALPTR[i];
+            j = j + CODE - MinCode[i];
+            byte Value = huff.HUFFVAL[j];
+            return Value;
         }
     }
 }

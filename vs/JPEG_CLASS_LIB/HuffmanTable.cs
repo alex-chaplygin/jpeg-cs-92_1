@@ -38,13 +38,13 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         ///Массив длин кодов таблицы Хаффмана
         /// </summary>
-        byte[] BITS;
 
+        public byte[] BITS;
         /// <summary>
         /// Массив кодов таблицы Хаффмана для соответствия значениям
         /// </summary>
-        byte[] HUFFCODE;
 
+	public byte[] HUFFCODE;
         /// <summary>
         /// Массив кодов, отсортированный по значениям
         /// </summary>
@@ -58,7 +58,7 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Массив значений кодов таблицы Хаффмана
         /// </summary>
-        byte[] HUFFVAL;
+        public byte[] HUFFVAL;
 
         /// <summary>
         /// Последний элемент в таблице кодов (число кодов)
