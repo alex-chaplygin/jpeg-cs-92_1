@@ -23,9 +23,10 @@ namespace ConsoleApp1
             _TestBitReader();
             _TestBitWriter();            
             _TestEncoding();
-            _TestImageConverter();*/
+            _TestImageConverter();
             _TestJPEGFile();
-            Console.ReadKey();
+            Console.ReadKey();*/
+            _TestEncodingDCAC();
         }
 
         private static void _TestBitWriter()
@@ -165,7 +166,6 @@ namespace ConsoleApp1
             изображение[0, 0].r = 255;
         }
 
-
         static void _TestChannel()
         {
 
@@ -190,6 +190,7 @@ namespace ConsoleApp1
             channel1.Sample(16, 8);
             WriteMatrix(channel1.GetMatrix());
         }
+
         static void WriteMatrix(byte[,] matrix)
         {
             for (int y = 0; y < matrix.GetLength(1); y++)
@@ -202,7 +203,8 @@ namespace ConsoleApp1
             }
         }
 
-        static void _TestQuantization()
+        /*
+         static void _TestQuantization()
         {
             Random random = new Random();
             short[,] matrixC = new short[4, 4];
@@ -240,6 +242,7 @@ namespace ConsoleApp1
                 if (i % 4 == 3) { Console.Write("\n"); }
             }
         }
+        */
 
         static void _TestDCT()
         {
@@ -284,6 +287,7 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
         }
+
         static void _TestZigzad()
         {
             short[,] matrix = new short[8, 8]{{0, 1, 5, 6, 14, 15, 27, 28},
@@ -311,6 +315,7 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
         }
+
         static void _TestDCTShift()
         {
             Random Random = new Random();
@@ -342,6 +347,7 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
         }
+
         static void _TestSplit()
         {
             var r = new Random();
@@ -408,6 +414,7 @@ namespace ConsoleApp1
             // if (!Enumerable.SequenceEqual(testMatrix, channel.GetMatrix())) throw new Exception("Matrix must be equal!");
         }
 
+        /*
         static void _TestCalculatingDC()
         {
             List<byte[,]> blocks = new List<byte[,]>();
@@ -463,6 +470,8 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
         }
+        */
+
         static void _TestJPEGData()
         {
             
@@ -594,6 +603,58 @@ namespace ConsoleApp1
                 for (int j = 0; j < widgth; j++)
                     Console.Write($"RGB=({newImgRGB[j, i].r:d3};{newImgRGB[j, i].g:d3};{newImgRGB[j, i].b:d3}) ");
                 Console.WriteLine();
+            }
+        }
+
+        private static void _TestEncodingDCAC()
+        {
+            Random random = new Random();
+            List<short[]> data = new List<short[]>();
+
+            //заполнение
+            for (int i = 0; i < 3; i++)
+            {
+                data.Add(new short[64]);
+                for (int j = 0; j < 64; j++) data[i][j] = (short)random.Next(0, 255);
+            }
+
+            //до
+            Console.Write("\n\nДо обработки\n");
+            for (int i = 0; i < data.Count; i++)
+            {
+                for (int j = 0; j<64; j++)
+                {
+                    if (j % 7 == 0 && j != 0) Console.WriteLine();
+                    Console.Write($"{data[i][j]}\t");
+                }
+                Console.Write("\n\n");
+            }
+
+            //зигзаг
+            short[,] dataTemp = new short[8,8];
+            for (int i = 0; i < data.Count; i++)
+            {
+                for (int j = 0; j < 64; j++)
+                {
+                    dataTemp[j/8, j % 8] = data[i][j];
+                }
+                data[i] = JPEG_CLASS_LIB.DCT.Zigzag(dataTemp);
+            }
+            //кодирование дс и ас
+            byte[] DCs = JPEG_CLASS_LIB.Encoding.EncodeDC(data);
+            byte[] ACs = JPEG_CLASS_LIB.Encoding.EncodeAC(data);
+
+            //после
+            Console.Write("\n\nКатегории DC\n");
+            for (int i = 0; i < DCs.Length; i++)
+            {
+                Console.Write($"{DCs[i]}\t");
+            }
+            Console.Write("\nКатегории AC\n");
+            for (int i = 0; i < ACs.Length; i++)
+            {
+                if (i % 9 == 0 && i != 0) Console.WriteLine();
+                Console.Write($"{ACs[i]}\t");
             }
         }
     }
