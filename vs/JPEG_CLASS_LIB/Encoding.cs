@@ -38,32 +38,32 @@ namespace JPEG_CLASS_LIB
         /// <returns>Массив последовательных кодов для AC коэффициентов всех блоков</returns>
         public static byte[] EncodeAC(List<short[]> data)
         {
-            byte zerosCounter = 0;
+            byte zeroFinalCounter = 0;
             List<byte> ACCodes = new List<byte>();
             
             for (int i = 0; i < data.Count; i++)
             {
+                byte zeroRipCounter = 0;
                 for (int j = 0; j < data[i].Length; j++)
                 {
-                    if (data[i][j] == 0) { zerosCounter++; continue; }
-
-                    int counter = 0;
-                    while (counter <= zerosCounter)
+                    if (data[i][j] == 0)
                     {
-                        if (zerosCounter > 15) { ACCodes.Add(0xF0); zerosCounter -= 16; }
-                        else
-                        {
-                            byte temp = (byte)(zerosCounter << 4);
-                            temp += ComputeACCategory(data[i][j]);
-                            ACCodes.Add(temp);
-                            zerosCounter = 0;
-                            temp = 0;
-                        }
-                        counter++;
+                        zeroFinalCounter++;
+                        zeroRipCounter++;
+                    }
+                    else
+                    {
+                        while (zeroRipCounter > 15) { ACCodes.Add(0xF0); zeroRipCounter -= 15; };
+                        byte temp = (byte)(zeroRipCounter << 4);
+                        temp += ComputeACCategory(data[i][j]);
+                        ACCodes.Add(temp);
+                        zeroRipCounter = 0;
+                        zeroFinalCounter = 0;
                     }
                 }
+                if (zeroFinalCounter > 0) ACCodes.Add(0x00);
+                zeroFinalCounter = 0;
             }
-            if (zerosCounter > 0) ACCodes.Add(0x00);
 
             byte[] a = ACCodes.ToArray();
 
