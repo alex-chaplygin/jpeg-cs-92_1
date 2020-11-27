@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 
 namespace JPEG_CLASS_LIB
@@ -9,6 +10,20 @@ namespace JPEG_CLASS_LIB
     /// </summary>
     public class Encoding
     {
+        /// <summary>
+        /// Сжатые данные.
+        /// </summary>
+        Stream MainStream;
+
+        /// <summary>
+        /// Создает объект, сохраняет поток в классе.
+        /// </summary>
+        /// <param name="s">Поток сжатых данных.</param>
+        public Encoding(Stream s)
+        {
+            MainStream = s;
+        }
+
         /// <summary>
         /// Предваряет каждый DC коэффициент номером категорией, 
         /// добавляя в одномерный массив перед DC коэффициентом значение номера категории.
