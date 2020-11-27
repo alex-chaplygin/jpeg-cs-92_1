@@ -658,22 +658,24 @@ namespace ConsoleApp1
             {
                 for (int j = 0; j < 64; j++)
                 {
-                    if (j != 0 && j % 7 == 0) Console.WriteLine();
-                    Console.Write($"{data[i][j]}\t");
+                    //if (j != 0 && j % 7 == 0) Console.WriteLine();
+		    if (j > 10)  data[i][j] = 0;
+                    Console.Write($"{data[i][j]} ");
                 }
                 Console.Write("\n\n");
             }
 
             result = JPEG_CLASS_LIB.Encoding.EncodeAC(data);
 
-            string values = BitConverter.ToString(result).Replace("-"," ");
-            string[] resultStr = values.Split();
+           // string values = BitConverter.ToString(result).Replace("-"," ");
+           // string[] resultStr = values.Split();
             Console.Write("\n\n");
-            for (int i = 0; i< resultStr.Length; i++)
+            for (int i = 0; i < result.Length; i++)
             {
-                if (i != 0 && i % 7 == 0) Console.Write("\n\n");
-                Console.Write(resultStr[i]+"\t");
+//                if (i != 0 && i % 7 == 0) Console.Write("\n\n");
+                Console.Write(Convert.ToString(result[i], 16) + " ");
             }
+	    Console.WriteLine();
 
         }
     }
