@@ -633,17 +633,6 @@ namespace ConsoleApp1
                 tempB.Add(a);
             }
 
-            //до
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 64; j++)
-                {
-                    if (j != 0 && j % 7 == 0) Console.WriteLine();
-                    Console.Write($"{tempB[i][j/8,j%8]}");
-                }
-                Console.Write("\n\n");
-            }
-
             for (int i = 0; i<3; i++)
             {
                 tempS.Add(JPEG_CLASS_LIB.DCT.Shift(tempB[i]));
@@ -664,13 +653,25 @@ namespace ConsoleApp1
                 data.Add(JPEG_CLASS_LIB.DCT.Zigzag(tempS[i]));
             }
 
+            //до кодирования
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 64; j++)
+                {
+                    if (j != 0 && j % 7 == 0) Console.WriteLine();
+                    Console.Write($"{data[i][j]}\t");
+                }
+                Console.Write("\n\n");
+            }
+
             result = JPEG_CLASS_LIB.Encoding.EncodeAC(data);
 
             string values = BitConverter.ToString(result).Replace("-"," ");
             string[] resultStr = values.Split();
+            Console.Write("\n\n");
             for (int i = 0; i< resultStr.Length; i++)
             {
-                if (i != 0 && i % 7 == 0) Console.WriteLine();
+                if (i != 0 && i % 7 == 0) Console.Write("\n\n");
                 Console.Write(resultStr[i]+"\t");
             }
 
