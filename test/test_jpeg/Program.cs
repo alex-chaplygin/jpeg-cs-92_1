@@ -29,10 +29,11 @@ namespace ConsoleApp1
             _TestBitWriterError();
             _TestDecodingExtend();
             _TestImageConverter();*/
-            _TestJPEGFile();
+            //_TestJPEGFile();
             //_TestHuffmanTable();
             // _TestDCTcoding();
             //_TestChannelV2();
+            _TestEncodingWriteBits();
             Console.ReadKey();
         }
 
@@ -825,6 +826,33 @@ namespace ConsoleApp1
             Console.WriteLine($"Частичный код разницы DC: {diff} {Convert.ToString(diff, 2)}");
             Console.WriteLine($"Число бит для разницы: {num_bits}");
             Console.WriteLine($"Полный код: {result} {Convert.ToString(result, 2)}");
+        }
+
+        private static void _TestEncodingWriteBits()        
+        {
+            ushort bits = 0b0011_1111_1101_0110;
+            int numBit = 14;
+
+            // Запись в поток с помощью метода Encoding.WriteBits
+            FileStream s = File.Create("../../../testEncodingWriteBits");
+            Encoding encoding = new Encoding(s);
+            Console.WriteLine($"Использование метода Encoding.WriteBits({bits}, {numBit})");
+            Console.Write($"Двоичное представление числа {bits}: ");
+            Console.WriteLine(Convert.ToString(bits, 2));
+            encoding.WriteBits(bits, numBit);
+
+            // Чтение записанных в поток данных
+            s.Seek(0, SeekOrigin.Begin);
+            Console.WriteLine("Записанные в поток байты:");
+            byte b;
+            for (int i = 0; i < s.Length; i++)
+            {
+                b = (byte)s.ReadByte();
+                Console.WriteLine($"{b:X2} {Convert.ToString(b, 2)}");
+            }  
+
+            s.Dispose();
+            File.Delete("../../../testEncodingWriteBits");
         }
     }
 }
