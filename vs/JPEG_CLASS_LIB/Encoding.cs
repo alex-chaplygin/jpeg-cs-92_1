@@ -43,20 +43,31 @@ namespace JPEG_CLASS_LIB
             
             for (int i = 0; i < data.Count; i++)
             {
-                for (int j = 0; j < 64; j++)
+                for (int j = 0; j < data[i].Length; j++)
                 {
-                    if (data[i][j] == 0) { zerosCounter = 0; continue; }
-                    for (int c = 0; c< zerosCounter/16; c++) 
+                    if (data[i][j] == 0) { zerosCounter++; continue; }
+
+                    int counter = 0;
+                    while (counter <= zerosCounter)
                     {
-                        if (c == (zerosCounter / 16) - 1) ACCodes.Add((byte)(0xF0 + ComputeACCategory(data[i][j])));
-                        else ACCodes.Add(0xF0);
-                        zerosCounter = 0;
+                        if (zerosCounter > 15) { ACCodes.Add(0xF0); zerosCounter -= 16; }
+                        else
+                        {
+                            byte temp = (byte)(zerosCounter << 4);
+                            temp += ComputeACCategory(data[i][j]);
+                            ACCodes.Add(temp);
+                            zerosCounter = 0;
+                            temp = 0;
+                        }
+                        counter++;
                     }
                 }
             }
             if (zerosCounter > 0) ACCodes.Add(0x00);
 
-            return ACCodes.ToArray();
+            byte[] a = ACCodes.ToArray();
+
+            return a;
         }
 
         /// <summary>
