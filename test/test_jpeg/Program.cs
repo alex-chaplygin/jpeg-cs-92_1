@@ -667,16 +667,15 @@ namespace ConsoleApp1
 
             result = JPEG_CLASS_LIB.Encoding.EncodeAC(data);
 
-           // string values = BitConverter.ToString(result).Replace("-"," ");
-           // string[] resultStr = values.Split();
+            //string values = BitConverter.ToString(result).Replace("-"," ");
+            //string[] resultStr = values.Split();
             Console.Write("\n\n");
             for (int i = 0; i < result.Length; i++)
             {
-//                if (i != 0 && i % 7 == 0) Console.Write("\n\n");
+                //if (i != 0 && i % 7 == 0) Console.Write("\n\n");
                 Console.Write(Convert.ToString(result[i], 16) + " ");
             }
-	    Console.WriteLine();
-
+            Console.WriteLine();
         }
     }
 }
