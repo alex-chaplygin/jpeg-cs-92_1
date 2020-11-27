@@ -608,54 +608,72 @@ namespace ConsoleApp1
 
         private static void _TestEncodingDCAC()
         {
+            short[,] LQT = new short[,] {{ 16, 12, 14, 14, 18, 24, 49, 72 },
+                                         { 11, 12, 13, 17, 22, 35, 64, 92},
+                                         { 10, 14, 16, 22, 37, 55, 78, 95},
+                                         { 16, 19, 24, 29, 56, 64, 87, 98},
+                                         { 24, 26, 40, 51, 68, 81, 103, 112},
+                                         { 40, 58, 57, 87, 109, 104, 121, 100},
+                                         { 51, 60, 69, 80, 103, 113, 120, 103},
+                                         { 61, 55, 56, 62, 77, 92, 101, 99} };
             Random random = new Random();
+            List<byte[,]> tempB = new List<byte[,]>();
+            List<short[,]> tempS = new List<short[,]>();
             List<short[]> data = new List<short[]>();
+            byte[] result;
 
             //заполнение
             for (int i = 0; i < 3; i++)
             {
-                data.Add(new short[64]);
-                for (int j = 0; j < 64; j++) data[i][j] = (short)random.Next(0, 255);
+                byte[,] a = new byte[8,8];
+                for (int j = 0; j < 64; j++)
+                {
+                    a[j / 8, j % 8] = (byte)random.Next(0,256);
+                }
+                tempB.Add(a);
             }
 
             //до
-            Console.Write("\n\nДо обработки\n");
-            for (int i = 0; i < data.Count; i++)
+            for (int i = 0; i < 3; i++)
             {
-                for (int j = 0; j<64; j++)
+                for (int j = 0; j < 64; j++)
                 {
-                    if (j % 7 == 0 && j != 0) Console.WriteLine();
-                    Console.Write($"{data[i][j]}\t");
+                    if (j != 0 && j % 7 == 0) Console.WriteLine();
+                    Console.Write($"{tempB[i][j/8,j%8]}");
                 }
                 Console.Write("\n\n");
             }
 
-            //зигзаг
-            short[,] dataTemp = new short[8,8];
-            for (int i = 0; i < data.Count; i++)
+            for (int i = 0; i<3; i++)
+            {
+                tempS.Add(JPEG_CLASS_LIB.DCT.Shift(tempB[i]));
+                tempS[i] = JPEG_CLASS_LIB.DCT.FDCT(tempS[i]);
+                tempS[i] = JPEG_CLASS_LIB.DCT.QuantizationDirect(tempS[i], LQT);
+                for (int j = 0; j < 64; j++)
+                {
+                    tempB[i][j / 8, j % 8] = (byte)tempS[i][j / 8, j % 8];
+                }
+            }
+            tempB = DCT.DCCalculating(tempB);
+            for (int i = 0; i < 3; i++)
             {
                 for (int j = 0; j < 64; j++)
                 {
-                    dataTemp[j/8, j % 8] = data[i][j];
+                    tempS[i][j / 8, j % 8] = (short)tempB[i][j / 8, j % 8];
                 }
-                data[i] = JPEG_CLASS_LIB.DCT.Zigzag(dataTemp);
+                data.Add(JPEG_CLASS_LIB.DCT.Zigzag(tempS[i]));
             }
-            //кодирование дс и ас
-            byte[] DCs = JPEG_CLASS_LIB.Encoding.EncodeDC(data);
-            byte[] ACs = JPEG_CLASS_LIB.Encoding.EncodeAC(data);
 
-            //после
-            Console.Write("\n\nКатегории DC\n");
-            for (int i = 0; i < DCs.Length; i++)
+            result = JPEG_CLASS_LIB.Encoding.EncodeAC(data);
+
+            string values = BitConverter.ToString(result).Replace("-"," ");
+            string[] resultStr = values.Split();
+            for (int i = 0; i< resultStr.Length; i++)
             {
-                Console.Write($"{DCs[i]}\t");
+                if (i != 0 && i % 7 == 0) Console.WriteLine();
+                Console.Write(resultStr[i]+"\t");
             }
-            Console.Write("\nКатегории AC\n");
-            for (int i = 0; i < ACs.Length; i++)
-            {
-                if (i % 9 == 0 && i != 0) Console.WriteLine();
-                Console.Write($"{ACs[i]}\t");
-            }
+
         }
     }
 }
