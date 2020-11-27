@@ -76,5 +76,27 @@ namespace JPEG_CLASS_LIB
         /// <returns>Абсолютное значение числа.</returns>
         private static short Abs(short value) =>
             (value < 0) ?  (short)-value : value;
+
+        /// <summary>
+        /// Записывает в поток последовательность бит, начиная со старшего (7) и по направлению к младшему (0).
+        /// Если в текущем для записи байте все биты равны единице, то после него записывается байт 0x00 (stuff byte), 
+        /// чтобы отличать битовый поток от маркеров.
+        /// </summary>
+        /// <param name="bits">Последовательность бит для записи.</param>
+        /// <param name="num">Число бит (от 1 до 16).</param>
+        public void WriteBits(ushort bits, int num)
+        {
+            byte b; // Записываемый в поток байт
+
+            b = (num > 8) ? (byte)(bits >> (num - 8)) : (byte)(bits << (8 - num));
+            MainStream.WriteByte(b);
+            if (b == 0xFF) MainStream.WriteByte(0x00);
+
+            if (num <= 8) return;
+
+            b = (byte)(bits << (16 - num));
+            MainStream.WriteByte(b);
+            if (b == 0xFF) MainStream.WriteByte(0x00);
+        }
     }
 }
