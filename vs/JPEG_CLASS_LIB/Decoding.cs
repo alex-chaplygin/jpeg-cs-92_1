@@ -178,5 +178,21 @@ namespace JPEG_CLASS_LIB
             byte Value = huff.HUFFVAL[j];
             return Value;
         }
+
+        /// <summary>
+        /// Декодирует разницу для DC коэффициента
+        /// возвращает DIFF - разница между предыдущим и текущим DC коэффициентом
+        /// </summary>
+        public short DecodeDC()
+        {
+            short diff = 0;
+            ushort diff2 = 0;
+            byte t = Decode();
+            if (t == 0) return 0;
+            diff2 = Receive(t);
+            diff = Extend(diff2, t);
+            return diff;
+        }
+
     }
 }
