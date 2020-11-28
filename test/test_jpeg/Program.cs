@@ -659,7 +659,8 @@ namespace ConsoleApp1
                 for (int j = 0; j < 64; j++)
                 {
                     //if (j != 0 && j % 7 == 0) Console.WriteLine();
-		    if (j > 10)  data[i][j] = 0;
+		    if (j > 50)  data[i][j] = 0;
+		    if (j > 10 && j < 35) data[i][j] = 0;
                     Console.Write($"{data[i][j]} ");
                 }
                 Console.Write("\n\n");
