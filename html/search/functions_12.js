@@ -4,5 +4,6 @@ var searchData=
   ['scan',['Scan',['../classJPEG__CLASS__LIB_1_1Scan.html#a311dc424b73c54f6d781f60542920992',1,'JPEG_CLASS_LIB::Scan']]],
   ['setparameters',['SetParameters',['../classJPEG__CS.html#a024cb2570d64cf9c69154bd153c8de07',1,'JPEG_CS']]],
   ['shift',['Shift',['../classJPEG__CLASS__LIB_1_1DCT.html#a457f23e57e55e12560a875fd48d92a27',1,'JPEG_CLASS_LIB::DCT']]],
+  ['sort_5finput',['Sort_input',['../classJPEG__CLASS__LIB_1_1HuffmanTable.html#a29d5dee08b529ffe6ff98da3220e4aac',1,'JPEG_CLASS_LIB::HuffmanTable']]],
   ['split',['Split',['../classJPEG__CLASS__LIB_1_1Channel.html#aa8d052ff9d794aa0acd7015866c01ac5',1,'JPEG_CLASS_LIB::Channel']]]
 ];

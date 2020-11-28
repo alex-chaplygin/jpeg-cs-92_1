@@ -91,6 +91,9 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 <div class="header">
   <div class="summary">
 <a href="#pub-methods">Открытые члены</a> &#124;
+<a href="#pub-static-methods">Открытые статические члены</a> &#124;
+<a href="#pub-attribs">Открытые атрибуты</a> &#124;
+<a href="#pri-methods">Закрытые члены</a> &#124;
 <a href="#pri-attribs">Закрытые данные</a> &#124;
 <a href="classJPEG__CLASS__LIB_1_1Decoding-members.html">Полный список членов класса</a>  </div>
   <div class="headertitle">
@@ -100,18 +103,54 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 
 <p>Декодирование энтропийно закодированных данных.  
  <a href="classJPEG__CLASS__LIB_1_1Decoding.html#details">Подробнее...</a></p>
+<div class="dynheader">
+Граф связей класса JPEG_CLASS_LIB.Decoding:</div>
+<div class="dyncontent">
+<div class="center"><img src="classJPEG__CLASS__LIB_1_1Decoding__coll__graph.png" border="0" usemap="#JPEG__CLASS__LIB_8Decoding_coll__map" alt="Collaboration graph"/></div>
+<map name="JPEG__CLASS__LIB_8Decoding_coll__map" id="JPEG__CLASS__LIB_8Decoding_coll__map">
+<area shape="rect" id="node2" href="classJPEG__CLASS__LIB_1_1HuffmanTable.html" title="Коды Хаффмана для энторпийного кодирования и декодирования " alt="" coords="5,81,227,108"/>
+<area shape="rect" id="node3" href="classJPEG__CLASS__LIB_1_1JPEGData.html" title="Базовый класс данных JPEG." alt="" coords="73,5,159,32"/>
+</map>
+<center><span class="legend">[<a href="graph_legend.html">см. легенду</a>]</span></center></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-methods"></a>
 Открытые члены</h2></td></tr>
-<tr class="memitem:af4c4947717466e7334b5ad935708ef9a"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1Decoding.html#af4c4947717466e7334b5ad935708ef9a">Decoding</a> (Stream s)</td></tr>
-<tr class="memdesc:af4c4947717466e7334b5ad935708ef9a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Создает объект, сохраняет поток в классе.  <a href="#af4c4947717466e7334b5ad935708ef9a">Подробнее...</a><br /></td></tr>
-<tr class="separator:af4c4947717466e7334b5ad935708ef9a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3eaa061fe92eaae457252eff6391e171"><td class="memItemLeft" align="right" valign="top">&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1Decoding.html#a3eaa061fe92eaae457252eff6391e171">Decoding</a> (Stream s, <a class="el" href="classJPEG__CLASS__LIB_1_1HuffmanTable.html">HuffmanTable</a> <a class="el" href="classJPEG__CLASS__LIB_1_1Decoding.html#ad968a1ddd7ec5079efb53c58c1521091">huff</a>)</td></tr>
+<tr class="memdesc:a3eaa061fe92eaae457252eff6391e171"><td class="mdescLeft">&#160;</td><td class="mdescRight">Создает объект, сохраняет поток в классе.  <a href="#a3eaa061fe92eaae457252eff6391e171">Подробнее...</a><br /></td></tr>
+<tr class="separator:a3eaa061fe92eaae457252eff6391e171"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a99314c0652c1c0b5d12a057bd53e1c51"><td class="memItemLeft" align="right" valign="top">byte&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1Decoding.html#a99314c0652c1c0b5d12a057bd53e1c51">NextBit</a> ()</td></tr>
 <tr class="memdesc:a99314c0652c1c0b5d12a057bd53e1c51"><td class="mdescLeft">&#160;</td><td class="mdescRight">Читает следующий бит из сжатых данных, распознает маркеры и stuff-байты.  <a href="#a99314c0652c1c0b5d12a057bd53e1c51">Подробнее...</a><br /></td></tr>
 <tr class="separator:a99314c0652c1c0b5d12a057bd53e1c51"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a58ee72f90fab9b6efc8d77eb15f419d5"><td class="memItemLeft" align="right" valign="top">ushort&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1Decoding.html#a58ee72f90fab9b6efc8d77eb15f419d5">Receive</a> (byte ssss)</td></tr>
 <tr class="memdesc:a58ee72f90fab9b6efc8d77eb15f419d5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Получает биты из потока.  <a href="#a58ee72f90fab9b6efc8d77eb15f419d5">Подробнее...</a><br /></td></tr>
 <tr class="separator:a58ee72f90fab9b6efc8d77eb15f419d5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a99f2581689d1b27263f2860958ab4dd1"><td class="memItemLeft" align="right" valign="top">byte&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1Decoding.html#a99f2581689d1b27263f2860958ab4dd1">Decode</a> ()</td></tr>
+<tr class="memdesc:a99f2581689d1b27263f2860958ab4dd1"><td class="mdescLeft">&#160;</td><td class="mdescRight">Декодирует 8-ми битное значение, которое для DC коэффициента является категорией, а для AC - число нулей или категория для ненулевого коэффициента  <a href="#a99f2581689d1b27263f2860958ab4dd1">Подробнее...</a><br /></td></tr>
+<tr class="separator:a99f2581689d1b27263f2860958ab4dd1"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
+Открытые статические члены</h2></td></tr>
+<tr class="memitem:a12d682580a91635cdd255fbd48796fc9"><td class="memItemLeft" align="right" valign="top">static short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1Decoding.html#a12d682580a91635cdd255fbd48796fc9">Extend</a> (ushort diff, int num_bits)</td></tr>
+<tr class="memdesc:a12d682580a91635cdd255fbd48796fc9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Конвертирует частично декодированную разницу DC коэффициентов в полный код (расширение знакового бита в коде).  <a href="#a12d682580a91635cdd255fbd48796fc9">Подробнее...</a><br /></td></tr>
+<tr class="separator:a12d682580a91635cdd255fbd48796fc9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-attribs"></a>
+Открытые атрибуты</h2></td></tr>
+<tr class="memitem:aa7e4b89f94769eb2d9f7d525bf1b3092"><td class="memItemLeft" align="right" valign="top">int[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1Decoding.html#aa7e4b89f94769eb2d9f7d525bf1b3092">MaxCode</a> = new int[16]</td></tr>
+<tr class="memdesc:aa7e4b89f94769eb2d9f7d525bf1b3092"><td class="mdescLeft">&#160;</td><td class="mdescRight">Содержит самый большой код для длины I (индекс массива)  <a href="#aa7e4b89f94769eb2d9f7d525bf1b3092">Подробнее...</a><br /></td></tr>
+<tr class="separator:aa7e4b89f94769eb2d9f7d525bf1b3092"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:acefd8bedb9d0166cceb03faa19f88a57"><td class="memItemLeft" align="right" valign="top">int[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1Decoding.html#acefd8bedb9d0166cceb03faa19f88a57">MinCode</a> = new int[16]</td></tr>
+<tr class="memdesc:acefd8bedb9d0166cceb03faa19f88a57"><td class="mdescLeft">&#160;</td><td class="mdescRight">Содержит самый маленький код для длины I (индекс массива)  <a href="#acefd8bedb9d0166cceb03faa19f88a57">Подробнее...</a><br /></td></tr>
+<tr class="separator:acefd8bedb9d0166cceb03faa19f88a57"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80999c6f02a09d412d9416520cdf03c9"><td class="memItemLeft" align="right" valign="top">byte[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1Decoding.html#a80999c6f02a09d412d9416520cdf03c9">VALPTR</a> = new byte[16]</td></tr>
+<tr class="memdesc:a80999c6f02a09d412d9416520cdf03c9"><td class="mdescLeft">&#160;</td><td class="mdescRight">Содержит индекс для начала списка значений в массиве HUFFVAL для декодирования кода длиной I (индекс массива)  <a href="#a80999c6f02a09d412d9416520cdf03c9">Подробнее...</a><br /></td></tr>
+<tr class="separator:a80999c6f02a09d412d9416520cdf03c9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+</table><table class="memberdecls">
+<tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-methods"></a>
+Закрытые члены</h2></td></tr>
+<tr class="memitem:a4dbedd931b65b7221714f17c2b05875f"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1Decoding.html#a4dbedd931b65b7221714f17c2b05875f">GenerateTables</a> ()</td></tr>
+<tr class="memdesc:a4dbedd931b65b7221714f17c2b05875f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Генериует вспомогательные таблицы для декодирования  <a href="#a4dbedd931b65b7221714f17c2b05875f">Подробнее...</a><br /></td></tr>
+<tr class="separator:a4dbedd931b65b7221714f17c2b05875f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Закрытые данные</h2></td></tr>
@@ -127,11 +166,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 <tr class="memitem:ad203a92238f8d5293e8d153560b36da5"><td class="memItemLeft" align="right" valign="top">byte&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1Decoding.html#ad203a92238f8d5293e8d153560b36da5">CNT</a> = 0</td></tr>
 <tr class="memdesc:ad203a92238f8d5293e8d153560b36da5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Счетчик битов.  <a href="#ad203a92238f8d5293e8d153560b36da5">Подробнее...</a><br /></td></tr>
 <tr class="separator:ad203a92238f8d5293e8d153560b36da5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad968a1ddd7ec5079efb53c58c1521091"><td class="memItemLeft" align="right" valign="top"><a class="el" href="classJPEG__CLASS__LIB_1_1HuffmanTable.html">HuffmanTable</a>&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1Decoding.html#ad968a1ddd7ec5079efb53c58c1521091">huff</a></td></tr>
+<tr class="memdesc:ad968a1ddd7ec5079efb53c58c1521091"><td class="mdescLeft">&#160;</td><td class="mdescRight">Таблица Хаффмена  <a href="#ad968a1ddd7ec5079efb53c58c1521091">Подробнее...</a><br /></td></tr>
+<tr class="separator:ad968a1ddd7ec5079efb53c58c1521091"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <a name="details" id="details"></a><h2 class="groupheader">Подробное описание</h2>
 <div class="textblock"><p>Декодирование энтропийно закодированных данных. </p>
 </div><h2 class="groupheader">Конструктор(ы)</h2>
-<a class="anchor" id="af4c4947717466e7334b5ad935708ef9a"></a>
+<a class="anchor" id="a3eaa061fe92eaae457252eff6391e171"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -142,8 +184,18 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
           <td class="memname">JPEG_CLASS_LIB.Decoding.Decoding </td>
           <td>(</td>
           <td class="paramtype">Stream&#160;</td>
-          <td class="paramname"><em>s</em></td><td>)</td>
+          <td class="paramname"><em>s</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
           <td></td>
+          <td class="paramtype"><a class="el" href="classJPEG__CLASS__LIB_1_1HuffmanTable.html">HuffmanTable</a>&#160;</td>
+          <td class="paramname"><em>huff</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
         </tr>
       </table>
   </td>
@@ -164,6 +216,101 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 </div>
 </div>
 <h2 class="groupheader">Методы</h2>
+<a class="anchor" id="a99f2581689d1b27263f2860958ab4dd1"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">byte JPEG_CLASS_LIB.Decoding.Decode </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Декодирует 8-ми битное значение, которое для DC коэффициента является категорией, а для AC - число нулей или категория для ненулевого коэффициента </p>
+<dl class="section return"><dt>Возвращает</dt><dd>Декодированное значение</dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a12d682580a91635cdd255fbd48796fc9"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static short JPEG_CLASS_LIB.Decoding.Extend </td>
+          <td>(</td>
+          <td class="paramtype">ushort&#160;</td>
+          <td class="paramname"><em>diff</em>, </td>
+        </tr>
+        <tr>
+          <td class="paramkey"></td>
+          <td></td>
+          <td class="paramtype">int&#160;</td>
+          <td class="paramname"><em>num_bits</em>&#160;</td>
+        </tr>
+        <tr>
+          <td></td>
+          <td>)</td>
+          <td></td><td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Конвертирует частично декодированную разницу DC коэффициентов в полный код (расширение знакового бита в коде). </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">diff</td><td>Частичный код разницы DC.</td></tr>
+    <tr><td class="paramname">num_bits</td><td>Число бит для разницы.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>Декодированная DC разница.</dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="a4dbedd931b65b7221714f17c2b05875f"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">void JPEG_CLASS_LIB.Decoding.GenerateTables </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Генериует вспомогательные таблицы для декодирования </p>
+
+</div>
+</div>
 <a class="anchor" id="a99314c0652c1c0b5d12a057bd53e1c51"></a>
 <div class="memitem">
 <div class="memproto">
@@ -290,6 +437,28 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 
 </div>
 </div>
+<a class="anchor" id="ad968a1ddd7ec5079efb53c58c1521091"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname"><a class="el" href="classJPEG__CLASS__LIB_1_1HuffmanTable.html">HuffmanTable</a> JPEG_CLASS_LIB.Decoding.huff</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Таблица Хаффмена </p>
+
+</div>
+</div>
 <a class="anchor" id="af2cf1221757910b2a2b62f0caab1a876"></a>
 <div class="memitem">
 <div class="memproto">
@@ -309,6 +478,48 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 </div><div class="memdoc">
 
 <p>Сжатые данные. </p>
+
+</div>
+</div>
+<a class="anchor" id="aa7e4b89f94769eb2d9f7d525bf1b3092"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int [] JPEG_CLASS_LIB.Decoding.MaxCode = new int[16]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Содержит самый большой код для длины I (индекс массива) </p>
+
+</div>
+</div>
+<a class="anchor" id="acefd8bedb9d0166cceb03faa19f88a57"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">int [] JPEG_CLASS_LIB.Decoding.MinCode = new int[16]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Содержит самый маленький код для длины I (индекс массива) </p>
+
+</div>
+</div>
+<a class="anchor" id="a80999c6f02a09d412d9416520cdf03c9"></a>
+<div class="memitem">
+<div class="memproto">
+      <table class="memname">
+        <tr>
+          <td class="memname">byte [] JPEG_CLASS_LIB.Decoding.VALPTR = new byte[16]</td>
+        </tr>
+      </table>
+</div><div class="memdoc">
+
+<p>Содержит индекс для начала списка значений в массиве HUFFVAL для декодирования кода длиной I (индекс массива) </p>
 
 </div>
 </div>

@@ -104,15 +104,21 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pub-static-methods"></a>
 Открытые статические члены</h2></td></tr>
-<tr class="memitem:ae870a674012c9b6810b64bba8b782bd5"><td class="memItemLeft" align="right" valign="top">static void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1Encoding.html#ae870a674012c9b6810b64bba8b782bd5">EncodeDC</a> (List&lt; short[]&gt; data)</td></tr>
-<tr class="memdesc:ae870a674012c9b6810b64bba8b782bd5"><td class="mdescLeft">&#160;</td><td class="mdescRight">Предваряет каждый DC коэффициент номером категорией, добавляя в одномерный массив перед DC коэффициентом значение номера категории.  <a href="#ae870a674012c9b6810b64bba8b782bd5">Подробнее...</a><br /></td></tr>
-<tr class="separator:ae870a674012c9b6810b64bba8b782bd5"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ab02364b29f39aa13ed9dcca9d5f12858"><td class="memItemLeft" align="right" valign="top">static byte[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1Encoding.html#ab02364b29f39aa13ed9dcca9d5f12858">EncodeDC</a> (List&lt; short[]&gt; data)</td></tr>
+<tr class="memdesc:ab02364b29f39aa13ed9dcca9d5f12858"><td class="mdescLeft">&#160;</td><td class="mdescRight">Вычисляет категории для каждой разницы DC коэффициентов для генерации таблиц Хаффмана. (F.1.2.1.2)  <a href="#ab02364b29f39aa13ed9dcca9d5f12858">Подробнее...</a><br /></td></tr>
+<tr class="separator:ab02364b29f39aa13ed9dcca9d5f12858"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1dc69e3bb21fd052b3916fbb874a53ae"><td class="memItemLeft" align="right" valign="top">static byte[]&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1Encoding.html#a1dc69e3bb21fd052b3916fbb874a53ae">EncodeAC</a> (List&lt; short[]&gt; data)</td></tr>
+<tr class="memdesc:a1dc69e3bb21fd052b3916fbb874a53ae"><td class="mdescLeft">&#160;</td><td class="mdescRight">Вычисляет коды для AC коэффициентов (F.1.2.2.1). Для каждого ненулевого AC генерируется составной байт, RRRRSSSS (2 по 4 бита). SSSS - категория для AC коэффициента, RRRR - смещение текущего коэффициента относительно предыдущего (число нулей между предыдущим и текущим ненулевыми AC). Если число нулей больше 15, генерируется код 0xF0 (15 нулей). Если все оставшиеся коэффициенты равны нулю, то генерируется код 0x00 (конец блока). Все сгенерированные коды идут последовательно для всех блоков.  <a href="#a1dc69e3bb21fd052b3916fbb874a53ae">Подробнее...</a><br /></td></tr>
+<tr class="separator:a1dc69e3bb21fd052b3916fbb874a53ae"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-static-methods"></a>
 Закрытые статические члены</h2></td></tr>
 <tr class="memitem:ab4c5bf869e9b21796d81ce0e2fc93944"><td class="memItemLeft" align="right" valign="top">static short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1Encoding.html#ab4c5bf869e9b21796d81ce0e2fc93944">ComputeDCCategory</a> (short diff)</td></tr>
 <tr class="memdesc:ab4c5bf869e9b21796d81ce0e2fc93944"><td class="mdescLeft">&#160;</td><td class="mdescRight">Определяет категорию для разности DC коэффициентов.  <a href="#ab4c5bf869e9b21796d81ce0e2fc93944">Подробнее...</a><br /></td></tr>
 <tr class="separator:ab4c5bf869e9b21796d81ce0e2fc93944"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3549071dfe3643cc41a4a431f5f089af"><td class="memItemLeft" align="right" valign="top">static byte&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1Encoding.html#a3549071dfe3643cc41a4a431f5f089af">ComputeACCategory</a> (short value)</td></tr>
+<tr class="memdesc:a3549071dfe3643cc41a4a431f5f089af"><td class="mdescLeft">&#160;</td><td class="mdescRight">Вычисляет категорию АС коэффициента  <a href="#a3549071dfe3643cc41a4a431f5f089af">Подробнее...</a><br /></td></tr>
+<tr class="separator:a3549071dfe3643cc41a4a431f5f089af"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a71326bf4ed330b98f815dbd5a8c087a7"><td class="memItemLeft" align="right" valign="top">static short&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CLASS__LIB_1_1Encoding.html#a71326bf4ed330b98f815dbd5a8c087a7">Abs</a> (short value)</td></tr>
 <tr class="memdesc:a71326bf4ed330b98f815dbd5a8c087a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Опредеяет абсолютное значение числа.  <a href="#a71326bf4ed330b98f815dbd5a8c087a7">Подробнее...</a><br /></td></tr>
 <tr class="separator:a71326bf4ed330b98f815dbd5a8c087a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -159,6 +165,39 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 
 </div>
 </div>
+<a class="anchor" id="a3549071dfe3643cc41a4a431f5f089af"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static byte JPEG_CLASS_LIB.Encoding.ComputeACCategory </td>
+          <td>(</td>
+          <td class="paramtype">short&#160;</td>
+          <td class="paramname"><em>value</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span><span class="mlabel">private</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Вычисляет категорию АС коэффициента </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>Входное значение из таблицы</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>Категория АС коэффициента</dd></dl>
+
+</div>
+</div>
 <a class="anchor" id="ab4c5bf869e9b21796d81ce0e2fc93944"></a>
 <div class="memitem">
 <div class="memproto">
@@ -192,7 +231,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 
 </div>
 </div>
-<a class="anchor" id="ae870a674012c9b6810b64bba8b782bd5"></a>
+<a class="anchor" id="a1dc69e3bb21fd052b3916fbb874a53ae"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -200,7 +239,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static void JPEG_CLASS_LIB.Encoding.EncodeDC </td>
+          <td class="memname">static byte [] JPEG_CLASS_LIB.Encoding.EncodeAC </td>
           <td>(</td>
           <td class="paramtype">List&lt; short[]&gt;&#160;</td>
           <td class="paramname"><em>data</em></td><td>)</td>
@@ -214,13 +253,47 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 </table>
 </div><div class="memdoc">
 
-<p>Предваряет каждый DC коэффициент номером категорией, добавляя в одномерный массив перед DC коэффициентом значение номера категории. </p>
+<p>Вычисляет коды для AC коэффициентов (F.1.2.2.1). Для каждого ненулевого AC генерируется составной байт, RRRRSSSS (2 по 4 бита). SSSS - категория для AC коэффициента, RRRR - смещение текущего коэффициента относительно предыдущего (число нулей между предыдущим и текущим ненулевыми AC). Если число нулей больше 15, генерируется код 0xF0 (15 нулей). Если все оставшиеся коэффициенты равны нулю, то генерируется код 0x00 (конец блока). Все сгенерированные коды идут последовательно для всех блоков. </p>
 <dl class="params"><dt>Аргументы</dt><dd>
   <table class="params">
     <tr><td class="paramname">data</td><td>Список блоков 8x8 после <a class="el" href="classJPEG__CLASS__LIB_1_1DCT.html">DCT</a> и обхода зигзагом.</td></tr>
   </table>
   </dd>
 </dl>
+<dl class="section return"><dt>Возвращает</dt><dd>Массив последовательных кодов для AC коэффициентов всех блоков</dd></dl>
+
+</div>
+</div>
+<a class="anchor" id="ab02364b29f39aa13ed9dcca9d5f12858"></a>
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">static byte [] JPEG_CLASS_LIB.Encoding.EncodeDC </td>
+          <td>(</td>
+          <td class="paramtype">List&lt; short[]&gt;&#160;</td>
+          <td class="paramname"><em>data</em></td><td>)</td>
+          <td></td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">inline</span><span class="mlabel">static</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+
+<p>Вычисляет категории для каждой разницы DC коэффициентов для генерации таблиц Хаффмана. (F.1.2.1.2) </p>
+<dl class="params"><dt>Аргументы</dt><dd>
+  <table class="params">
+    <tr><td class="paramname">data</td><td>Список блоков 8x8 после <a class="el" href="classJPEG__CLASS__LIB_1_1DCT.html">DCT</a> и обхода зигзагом.</td></tr>
+  </table>
+  </dd>
+</dl>
+<dl class="section return"><dt>Возвращает</dt><dd>Массив категорий для всех DC</dd></dl>
 
 </div>
 </div>
