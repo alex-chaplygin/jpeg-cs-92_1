@@ -25,15 +25,8 @@ namespace ConsoleApp1
             _TestEncoding();
             _TestImageConverter();
             _TestJPEGFile();
-            _TestBitWriterTwo();
-            _TestBitWriterError();
-            _TestDecodingExtend();
-            _TestImageConverter();*/
-            _TestJPEGFile();
-            //_TestHuffmanTable();
-            // _TestDCTcoding();
-            //_TestChannelV2();
-            Console.ReadKey();
+            Console.ReadKey();*/
+            _TestEncodingDCAC();
         }
 
         static void _TestChannelV2()
@@ -383,6 +376,7 @@ namespace ConsoleApp1
             channel1.Sample(16, 8);
             WriteMatrix(channel1.GetMatrix());
         }
+
         static void WriteMatrix(byte[,] matrix)
         {
             for (int y = 0; y < matrix.GetLength(1); y++)
@@ -396,6 +390,11 @@ namespace ConsoleApp1
         }
         /*
         static void _TestQuantization()
+=======
+
+        /*
+         static void _TestQuantization()
+>>>>>>> iss45
         {
             Random random = new Random();
             short[,] matrixC = new short[4, 4];
@@ -478,6 +477,7 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
         }
+
         static void _TestZigzad()
         {
             short[,] matrix = new short[8, 8]{{0, 1, 5, 6, 14, 15, 27, 28},
@@ -505,6 +505,7 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
         }
+
         static void _TestDCTShift()
         {
             Random Random = new Random();
@@ -536,6 +537,7 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
         }
+
         static void _TestSplit()
         {
             var r = new Random();
@@ -602,7 +604,8 @@ namespace ConsoleApp1
             // if (!Enumerable.SequenceEqual(testMatrix, channel.GetMatrix())) throw new Exception("Matrix must be equal!");
         }
 
-        /*static void _TestCalculatingDC()
+        /*
+        static void _TestCalculatingDC()
         {
             List<byte[,]> blocks = new List<byte[,]>();
 
@@ -825,6 +828,79 @@ namespace ConsoleApp1
             Console.WriteLine($"Частичный код разницы DC: {diff} {Convert.ToString(diff, 2)}");
             Console.WriteLine($"Число бит для разницы: {num_bits}");
             Console.WriteLine($"Полный код: {result} {Convert.ToString(result, 2)}");
+	}
+	
+        private static void _TestEncodingDCAC()
+        {
+            short[,] LQT = new short[,] {{ 16, 12, 14, 14, 18, 24, 49, 72 },
+                                         { 11, 12, 13, 17, 22, 35, 64, 92},
+                                         { 10, 14, 16, 22, 37, 55, 78, 95},
+                                         { 16, 19, 24, 29, 56, 64, 87, 98},
+                                         { 24, 26, 40, 51, 68, 81, 103, 112},
+                                         { 40, 58, 57, 87, 109, 104, 121, 100},
+                                         { 51, 60, 69, 80, 103, 113, 120, 103},
+                                         { 61, 55, 56, 62, 77, 92, 101, 99} };
+            Random random = new Random();
+            List<byte[,]> tempB = new List<byte[,]>();
+            List<short[,]> tempS = new List<short[,]>();
+            List<short[]> data = new List<short[]>();
+            byte[] result;
+
+            //заполнение
+            for (int i = 0; i < 3; i++)
+            {
+                byte[,] a = new byte[8,8];
+                for (int j = 0; j < 64; j++)
+                {
+                    a[j / 8, j % 8] = (byte)random.Next(0,256);
+                }
+                tempB.Add(a);
+            }
+
+            for (int i = 0; i<3; i++)
+            {
+                tempS.Add(JPEG_CLASS_LIB.DCT.Shift(tempB[i]));
+                tempS[i] = JPEG_CLASS_LIB.DCT.FDCT(tempS[i]);
+                tempS[i] = JPEG_CLASS_LIB.DCT.QuantizationDirect(tempS[i], LQT);
+                for (int j = 0; j < 64; j++)
+                {
+                    tempB[i][j / 8, j % 8] = (byte)tempS[i][j / 8, j % 8];
+                }
+            }
+            tempS = DCT.DCCalculating(tempS);
+            for (int i = 0; i < 3; i++)
+            {
+                /*for (int j = 0; j < 64; j++)
+                {
+                    tempS[i][j / 8, j % 8] = (short)tempB[i][j / 8, j % 8];
+                }*/
+                data.Add(JPEG_CLASS_LIB.DCT.Zigzag(tempS[i]));
+            }
+
+            //до кодирования
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 64; j++)
+                {
+                    //if (j != 0 && j % 7 == 0) Console.WriteLine();
+		    if (j > 50)  data[i][j] = 0;
+		    if (j > 10 && j < 35) data[i][j] = 0;
+                    Console.Write($"{data[i][j]} ");
+                }
+                Console.Write("\n\n");
+            }
+
+            result = JPEG_CLASS_LIB.Encoding.EncodeAC(data);
+
+            //string values = BitConverter.ToString(result).Replace("-"," ");
+            //string[] resultStr = values.Split();
+            Console.Write("\n\n");
+            for (int i = 0; i < result.Length; i++)
+            {
+                //if (i != 0 && i % 7 == 0) Console.Write("\n\n");
+                Console.Write(Convert.ToString(result[i], 16) + " ");
+            }
+            Console.WriteLine();
         }
     }
 }
