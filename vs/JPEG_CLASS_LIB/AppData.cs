@@ -8,7 +8,7 @@ namespace JPEG_CLASS_LIB
     /// <summary>
     /// Класс AppData - содержит данные, методы их чтения из потока и записи в поток.
     /// </summary>
-    class AppData : JPEGData
+    public class AppData : JPEGData
     {
         /// <summary>
         /// Массив данных
