@@ -94,7 +94,7 @@ public class JPEG_CS
 			}
 		}
 
-		else if ((param & (int)Parameters.AVERAGE_QUALITY) != 0)
+		else if ((param & (int)Parameters.MEDIUM_QUALITY) != 0)
 		{
 			this.LQT = LQT;
 			this.CQT = CQT;
@@ -251,7 +251,7 @@ public class JPEG_CS
 public enum Parameters
 {
 	HIGH_QUALITY = 1 << 0,
-	AVERAGE_QUALITY = 1 << 1,
+	MEDIUM_QUALITY = 1 << 1,
 	LOW_QUALITY = 1 << 2,
 	ENTROPY_QUALITY = 1 << 3
 }
