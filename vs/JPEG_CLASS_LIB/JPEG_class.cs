@@ -155,11 +155,11 @@ public class JPEG_CS
 	}
     
 	/// <summary>
-	/// Собирает блоки 8x8 в каналы и выполняет обратное масштабирование матриц каналов. Если канал один, то все блоки записываются в канал слева-направо, сверху вниз.
+	/// Собирает списки каждого канала, далее к ним применяет IDCT преобразование, затем собирает блоки 8x8 в каналы и выполняет обратное масштабирование матриц каналов. Если канал один, то все блоки записываются в канал слева-направо, сверху вниз.
 	/// </summary>
 	/// <param name="channels">Каналы с пустыми матрицами, но с корректными шириной, высотой и значениями H и V</param>
-	/// <param name="blocks">Список перемешанных блоков</param>
-    public void Collect(Channel[] channels, List<byte[,]> blocks)
+	/// <param name="blocks">Список short[] перемешанных блоков</param>
+    public void Collect(Channel[] channels, List<short[]> blocks)
     {
 	    var BLOCK_SIZE = 8;
 	    var macroBlockCount = 0;
@@ -177,7 +177,7 @@ public class JPEG_CS
 		    var correctedWidth = realWidth % BLOCK_SIZE == 0 ? realWidth : BLOCK_SIZE*(realWidth / BLOCK_SIZE + 1);
 		    var correctedHeight = realHeight % BLOCK_SIZE == 0 ? realHeight : BLOCK_SIZE*(realHeight / BLOCK_SIZE + 1);
 		    
-		    var tmpArray = new byte[(correctedWidth*correctedHeight)/BLOCK_SIZE/BLOCK_SIZE][,];
+		    var tmpArray = new short[(correctedWidth*correctedHeight)/BLOCK_SIZE/BLOCK_SIZE][];
 
 		    var otherChannelOffset = 0;
 		    for (var offsetChannelIndex = 0; offsetChannelIndex < channelIndex; offsetChannelIndex++)
@@ -202,24 +202,24 @@ public class JPEG_CS
 				    }
 			    }
 		    }
-		    curChannel.Collect(tmpArray.ToList());
+		    curChannel.Collect(IDCT(tmpArray.ToList()));
 	    }
     }
     
     /// <summary>
-    /// Выполняется разбиение каналов на блоки 8x8 и перемешивание блоков в зависимости от значений факторов H и V в каналах (см. раздел A.2.3 стандарта). Если канал один, то перемешивания не происходит. Подразумевается, что каналы уже были уменьшены (для всех каналов был вызван метод Sample с рассчитанными Hmax и Vmax).
+    /// Выполняется разбиение каналов на блоки 8x8 их FDCT преобразование и перемешивание блоков в зависимости от значений факторов H и V в каналах (см. раздел A.2.3 стандарта). Если канал один, то перемешивания не происходит. Подразумевается, что каналы уже были уменьшены (для всех каналов был вызван метод Sample с рассчитанными Hmax и Vmax).
     /// </summary>
     /// <param name="channels">Массив классов Channel</param>
-    /// <returns>Cписок блоков всех каналов в необходимом порядке.</returns>
-    public List<byte[,]> Interleave(Channel[] channels)
+    /// <returns>Cписок short[] блоков всех каналов в необходимом порядке.</returns>
+    public List<short[]> Interleave(Channel[] channels)
     {
 	    var BLOCK_SIZE = 8;
-	    var returnList = new List<byte[,]>();
-	    var spliitedChannels = new List<List<byte[,]>>();
+	    var returnList = new List<short[]>();
+	    var spliitedChannels = new List<List<short[]>>();
 
 	    for (var i = 0; i < channels.Length; i++)
 	    {
-		    spliitedChannels.Add(channels[i].Split());
+		    spliitedChannels.Add(FDCT(channels[i].Split()));
 	    }
 	    
 	    for (var blockIndex = 0; blockIndex < spliitedChannels[0].Count/(channels[0].GetH*channels[0].GetV); blockIndex++)
@@ -241,6 +241,7 @@ public class JPEG_CS
 			    }
 		    }
 	    }
+
 	    return returnList;
     }
 }
