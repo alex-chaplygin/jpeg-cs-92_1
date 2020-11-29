@@ -32,7 +32,7 @@ namespace JPEG.Tests
             MemoryStream M = new MemoryStream(Testrray, true);            
             FileStream s = new FileStream(path, FileMode.Open);
             s.Seek(0x4, SeekOrigin.Begin);
-            AppData appData_Test_Write = new AppData(s);
+            AppData appData_Test_Write = new AppData(M);
             appData_Test_Write.Write(M);
             M.Position = 0;
             for (int i = 0; i < 17; i++) Testrray[i] = (byte)M.ReadByte();
