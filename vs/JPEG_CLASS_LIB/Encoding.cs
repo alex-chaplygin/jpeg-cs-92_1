@@ -16,12 +16,29 @@ namespace JPEG_CLASS_LIB
         Stream MainStream;
 
         /// <summary>
+        /// Текущий байт в сжатых данных.
+        /// </summary>
+        byte B;
+
+        /// <summary>
+        /// Счетчик битов.
+        /// </summary>
+        int CNT = 0;
+
+        /// <summary>
+        /// Счетчик избыточных битов
+        /// </summary>
+        int extraBits = 0;
+
+        /// <summary>
         /// Создает объект, сохраняет поток в классе.
         /// </summary>
         /// <param name="s">Поток сжатых данных.</param>
         public Encoding(Stream s)
         {
             MainStream = s;
+            B = 0;
+            CNT = 0;
         }
 
         /// <summary>
@@ -83,20 +100,62 @@ namespace JPEG_CLASS_LIB
         /// чтобы отличать битовый поток от маркеров.
         /// </summary>
         /// <param name="bits">Последовательность бит для записи.</param>
+        /// <param name="num">Число бит (от 1 до 8).</param>
+        public void WriteBits(byte bits, int num)
+        {
+            if (num + CNT > 8)
+            {
+                extraBits = num + CNT - 8;
+                B += (byte)(bits >> extraBits);
+                CNT = 8;
+            }
+            else
+            {
+                B += (byte)(bits << (8 - CNT - num));
+                extraBits = 0;
+                CNT += num;
+            }
+
+            if (CNT == 8)
+            {
+                MainStream.WriteByte(B);
+                if (B == 0xFF) MainStream.WriteByte(0x00);
+                B = 0;
+                CNT = 0;
+                if (extraBits > 0)
+                    WriteBits((byte)(bits & ((1 << extraBits) - 1)), extraBits);
+            }
+        }
+
+        /// <summary>
+        /// Записывает в поток последовательность бит, начиная со старшего (15) и по направлению к младшему (0).
+        /// Если в текущем для записи байте все биты равны единице, то после него записывается байт 0x00 (stuff byte), 
+        /// чтобы отличать битовый поток от маркеров.
+        /// </summary>
+        /// <param name="bits">Последовательность бит для записи.</param>
         /// <param name="num">Число бит (от 1 до 16).</param>
         public void WriteBits(ushort bits, int num)
         {
-            byte b; // Записываемый в поток байт
+            if (num > 8)
+            {
+                WriteBits((byte)(bits >> 8), num - 8);
+                num = 8;
+            }
 
-            b = (num > 8) ? (byte)(bits >> (num - 8)) : (byte)(bits << (8 - num));
-            MainStream.WriteByte(b);
-            if (b == 0xFF) MainStream.WriteByte(0x00);
+            WriteBits((byte)(bits & 0xFF), num);
+        }
 
-            if (num <= 8) return;
-
-            b = (byte)(bits << (16 - num));
-            MainStream.WriteByte(b);
-            if (b == 0xFF) MainStream.WriteByte(0x00);
+        /// <summary>
+        /// Записывает в поток последний незаполненный байт, дополнив его нужным числом нулевых бит.
+        /// </summary>
+        public void FinishBits() 
+        {
+            if (CNT > 0)
+            {
+                MainStream.WriteByte(B);
+                B = 0;
+                CNT = 0;
+            }
         }
     }
 }
