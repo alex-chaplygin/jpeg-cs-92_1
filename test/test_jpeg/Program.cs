@@ -830,16 +830,33 @@ namespace ConsoleApp1
 
         private static void _TestEncodingWriteBits()        
         {
-            ushort bits = 0b0011_1111_1101_0110;
-            int numBit = 14;
-
+            ushort[] bits = 
+            {
+                0b1010_0110_1111_1111,
+                0b0000_0000_0010_1110,
+                0b0000_0000_0000_1011,
+                0b0000_0010_0000_0110,
+                0b0000_0000_0001_0101,
+            };
+            int[] num = 
+            {
+                16,
+                6,
+                4,
+                10,
+                5,
+            };
             // Запись в поток с помощью метода Encoding.WriteBits
             FileStream s = File.Create("../../../testEncodingWriteBits");
             Encoding encoding = new Encoding(s);
-            Console.WriteLine($"Использование метода Encoding.WriteBits({bits}, {numBit})");
-            Console.Write($"Двоичное представление числа {bits}: ");
-            Console.WriteLine(Convert.ToString(bits, 2));
-            encoding.WriteBits(bits, numBit);
+            Console.WriteLine($"Использование метода Encoding.WriteBits");
+            for (int i = 0; i < bits.Length; i++)
+            {
+                Console.Write($"Двоичное представление числа {bits[i]}: ");
+                Console.WriteLine(Convert.ToString(bits[i], 2));
+                encoding.WriteBits(bits[i], num[i]);
+            }
+            encoding.FinishBits();
 
             // Чтение записанных в поток данных
             s.Seek(0, SeekOrigin.Begin);
