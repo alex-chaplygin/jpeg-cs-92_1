@@ -25,8 +25,16 @@ namespace ConsoleApp1
             _TestEncoding();
             _TestImageConverter();
             _TestJPEGFile();
-            Console.ReadKey();*/
-            _TestEncodingDCAC();
+            _TestBitWriterTwo();
+            _TestBitWriterError();
+            _TestDecodingExtend();
+            _TestImageConverter();*/
+            //_TestJPEGFile();
+            //_TestHuffmanTable();
+            // _TestDCTcoding();
+            //_TestChannelV2();
+            _TestEncodingWriteBits();
+            Console.ReadKey();
         }
 
         static void _TestChannelV2()
@@ -390,11 +398,6 @@ namespace ConsoleApp1
         }
         /*
         static void _TestQuantization()
-=======
-
-        /*
-         static void _TestQuantization()
->>>>>>> iss45
         {
             Random random = new Random();
             short[,] matrixC = new short[4, 4];
@@ -901,6 +904,50 @@ namespace ConsoleApp1
                 Console.Write(Convert.ToString(result[i], 16) + " ");
             }
             Console.WriteLine();
+        }
+
+        private static void _TestEncodingWriteBits()        
+        {
+            ushort[] bits = 
+            {
+                0xa6ff, //0b1010_0110_1111_1111
+                0x002e, //0b0000_0000_0010_1110,
+                0x000b, //0b0000_0000_0000_1011,
+                0x0206,//0b0000_0010_0000_0110,
+                0x0015,//0b0000_0000_0001_0101,
+            };
+            int[] num = 
+            {
+                16,
+                6,
+                4,
+                10,
+                5,
+            };
+            // Запись в поток с помощью метода Encoding.WriteBits
+            FileStream s = File.Create("../../../testEncodingWriteBits");
+            Encoding encoding = new Encoding(s);
+            Console.WriteLine($"Использование метода Encoding.WriteBits");
+            for (int i = 0; i < bits.Length; i++)
+            {
+                Console.Write($"Двоичное представление числа {bits[i]}: ");
+                Console.WriteLine(Convert.ToString(bits[i], 2));
+                encoding.WriteBits(bits[i], num[i]);
+            }
+            encoding.FinishBits();
+
+            // Чтение записанных в поток данных
+            s.Seek(0, SeekOrigin.Begin);
+            Console.WriteLine("Записанные в поток байты:");
+            byte b;
+            for (int i = 0; i < s.Length; i++)
+            {
+                b = (byte)s.ReadByte();
+                Console.WriteLine($"{b:X2} {Convert.ToString(b, 2)}");
+            }  
+
+            s.Dispose();
+            File.Delete("../../../testEncodingWriteBits");
         }
     }
 }
