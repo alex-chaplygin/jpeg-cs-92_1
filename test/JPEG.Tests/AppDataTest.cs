@@ -265,8 +265,9 @@ namespace JPEG.Tests
                     Console.WriteLine();
                 }
                 Console.WriteLine();
-                Assert.IsTrue(false);
             }
+            
+            Assert.IsTrue(false);
         }
                 
         static void WriteMatrix(byte[,] matrix, short baseInfo)
