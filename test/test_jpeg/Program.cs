@@ -9,13 +9,11 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
+            // _TestDCTcoding();
             /*_TestSplit();
-            _TestCalculatingDC();
             _TestPack();
             _TestUnpack();
             _TestQuantization();
-            _TestDCT();
-            _TestDCTShift();
             _TestChannel();
             _TestInterleave();
             _TestZigzad();
@@ -33,7 +31,7 @@ namespace ConsoleApp1
             //_TestHuffmanTable();
             // _TestDCTcoding();
             //_TestChannelV2();
-            _TestEncodingWriteBits();
+            // _TestEncodingWriteBits();
             Console.ReadKey();
         }
 
@@ -396,150 +394,46 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
         }
-        /*
-        static void _TestQuantization()
-        {
-            Random random = new Random();
-            short[,] matrixC = new short[4, 4];
-            short[,] matrixQ = new short[4, 4] { {1,2,4,1 },
-                                                 {2,2,2,2 },
-                                                 {3,3,3,30 },
-                                                 {4,4,40,50 } };
-            
-            for (int i = 0; i< 16; i++)
-            {
-                matrixC[i/4,i%4] = Convert.ToByte(random.Next(0,16));
-            }
+         
+         static void _TestQuantization()
+         {
+             Random random = new Random();
+             short[,] matrixC = new short[4, 4];
+             short[,] matrixQ = new short[4, 4] { {1,2,4,1 },
+                                                  {2,2,2,2 },
+                                                  {3,3,3,30 },
+                                                  {4,4,40,50 } };
+             
+             for (int i = 0; i< 16; i++)
+             {
+                 matrixC[i/4,i%4] = Convert.ToByte(random.Next(0,256));
+             }
 
 
-            //до
-            for (int i = 0; i < 16; i++)
-            {
-                Console.Write($"{matrixC[i / 4, i % 4]}\t");
-                if (i % 4 == 3) { Console.Write("\n"); }
-            }
-            Console.WriteLine();
-            //после квантования
-            short[,] qtest = DCT.QuantizationDirect(matrixC, matrixQ);
-            for (int i = 0; i<16; i++)
-            {
-                Console.Write($"{qtest[i/4,i%4]}\t");
-                if (i%4 == 3) {Console.Write("\n"); }
-            }
-            //после обратного
-            Console.WriteLine();
-            qtest = DCT.QuantizationReverse(matrixC, matrixQ);
-            for (int i = 0; i < 16; i++)
-            {
-                Console.Write($"{qtest[i / 4, i % 4]}\t");
-                if (i % 4 == 3) { Console.Write("\n"); }
-            }
-        }
-        */
-
-        static void _TestDCT()
-        {
-            short[,] matrix = new short[8, 8];
-            //short a = 0;
-            Random r = new Random();
-
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    matrix[i, j] = Convert.ToInt16(Convert.ToInt16(r.Next(-128, 128)));
-                    //if (i==0) matrix[i, j] = Convert.ToInt16(Convert.ToInt16(0));
-                    //if (j == 0) matrix[i, j] = Convert.ToInt16(Convert.ToInt16(0));
-                    //if (i == 7) matrix[i, j] = Convert.ToInt16(Convert.ToInt16(0));
-                    //if (j == 7) matrix[i, j] = Convert.ToInt16(Convert.ToInt16(0));
-
-                    Console.Write(matrix[i, j] + " ");
-                }
-                Console.WriteLine();
-            }
-            Console.WriteLine();
-            short[,] matrix3 = DCT.FDCT(matrix);
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-
-                    Console.Write(matrix3[i, j] + " ");
-                }
-                Console.WriteLine();
-            }
-            Console.WriteLine();
-            short[,] matrix2 = DCT.IDCT(matrix3);
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-
-                    Console.Write(matrix2[i, j] + " ");
-                }
-                Console.WriteLine();
-            }
-        }
-
-        static void _TestZigzad()
-        {
-            short[,] matrix = new short[8, 8]{{0, 1, 5, 6, 14, 15, 27, 28},
-                                                    {2, 4, 7, 13, 16, 26, 29, 42},
-                                                    {3, 8, 12, 17, 25, 30, 41, 43},
-                                                    {9, 11, 18, 24, 31, 40, 44, 53},
-                                                    { 10, 19, 23, 32, 39, 45, 52, 54 },
-                                                    { 20, 22, 33, 38, 46, 51, 55, 60 },
-                                                    { 21, 34, 37, 47, 50, 56, 59, 61 },
-                                                    { 35, 36, 48, 49, 57, 58, 62, 63 } };
-            short[] mass = DCT.Zigzag(matrix);//fff
-            for (int i = 0; i < 64; i++)
-            {
-                Console.Write(mass[i] + " ");
-            }
-            short[,] matrix3 = DCT.ReZigzag(mass);
-            Console.WriteLine();
-            Console.WriteLine();
-            for (int i = 0; i < 8; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    Console.Write(matrix3[i, j] + " ");
-                }
-                Console.WriteLine();
-            }
-        }
-
-        static void _TestDCTShift()
-        {
-            Random Random = new Random();
-            byte[,] testmassive = new byte[5, 5];
-            for (int i = 0; i < testmassive.GetLength(0); i++)
-                for (int j = 0; j < testmassive.GetLength(1); j++) testmassive[i, j] = Convert.ToByte(Random.Next(0, 256));
-            short[,] testshort = new short[,] { };
-            byte[,] testbyte = new byte[,] { };
-            testshort = DCT.Shift(testmassive);
-            testbyte = DCT.ReverseShift(testshort);
-            Console.WriteLine("Изначальная матрица");
-            for (int i = 0; i < testmassive.GetLength(0); i++)
-            {
-                for (int j = 0; j < testmassive.GetLength(1); j++) Console.Write(testmassive[i, j].ToString() + " ");
-                Console.WriteLine();
-            }
-            Console.WriteLine();
-            Console.WriteLine("Матрица со сдвигом");
-            for (int i = 0; i < testshort.GetLength(0); i++)
-            {
-                for (int j = 0; j < testshort.GetLength(1); j++) Console.Write(testshort[i, j].ToString() + " ");
-                Console.WriteLine();
-            }
-            Console.WriteLine();
-            Console.WriteLine("Матрица с обратным сдвигом");
-            for (int i = 0; i < testbyte.GetLength(0); i++)
-            {
-                for (int j = 0; j < testbyte.GetLength(1); j++) Console.Write(testbyte[i, j].ToString() + " ");
-                Console.WriteLine();
-            }
-        }
+             //до
+             for (int i = 0; i < 16; i++)
+             {
+                 Console.Write($"{matrixC[i / 4, i % 4]}\t");
+                 if (i % 4 == 3) { Console.Write("\n"); }
+             }
+             Console.WriteLine();
+             //после квантования
+             short[,] qtest = DCT.QuantizationDirect(matrixC, matrixQ);
+             for (int i = 0; i<16; i++)
+             {
+                 Console.Write($"{qtest[i/4,i%4]}\t");
+                 if (i%4 == 3) {Console.Write("\n"); }
+             }
+             //после обратного
+             Console.WriteLine();
+             qtest = DCT.QuantizationReverse(matrixC, matrixQ);
+             for (int i = 0; i < 16; i++)
+             {
+                 Console.Write($"{qtest[i / 4, i % 4]}\t");
+                 if (i % 4 == 3) { Console.Write("\n"); }
+             }
+         }
+         
 
         static void _TestSplit()
         {
@@ -607,63 +501,6 @@ namespace ConsoleApp1
             // if (!Enumerable.SequenceEqual(testMatrix, channel.GetMatrix())) throw new Exception("Matrix must be equal!");
         }
 
-        /*
-        static void _TestCalculatingDC()
-        {
-            List<byte[,]> blocks = new List<byte[,]>();
-
-            Random random = new Random();
-            for (int j = 0; j < 3; j++)
-            {
-                byte[,] s = new byte[4, 4];
-                blocks.Add(s);
-                for (int i = 0; i < 16; i++)
-                {
-                    blocks[j][i / 4, i % 4] = Convert.ToByte(random.Next(0, 16));
-                }
-            }
-
-            //вывод до
-            Console.WriteLine("До вычисления DC");
-            for (int j = 0; j < 3; j++)
-            {
-                for (int i = 0; i < 16; i++)
-                {
-                    Console.Write($"{blocks[j][i / 4, i % 4]}\t");
-                    if (i % 4 == 3) { Console.Write("\n"); }
-                }
-                Console.WriteLine();
-            }
-
-            DCT.DCCalculating(blocks);
-
-            //вывод после
-            Console.WriteLine($"\n\nПосле");
-            for (int j = 0; j < 3; j++)
-            {
-                for (int i = 0; i < 16; i++)
-                {
-                    Console.Write($"{blocks[j][i / 4, i % 4]}В\t");
-                    if (i % 4 == 3) { Console.Write("\n"); }
-                }
-                Console.WriteLine();
-            }
-
-            JPEG_CS.DCRestore(blocks);
-
-            //вывод после обратного
-            Console.WriteLine($"\n\nПосле обратного");
-            for (int j = 0; j < 3; j++)
-            {
-                for (int i = 0; i < 16; i++)
-                {
-                    Console.Write($"{blocks[j][i / 4, i % 4]}\t");
-                    if (i % 4 == 3) { Console.Write("\n"); }
-                }
-                Console.WriteLine();
-            }
-        }
-        */
 
         static void _TestJPEGData()
         {
