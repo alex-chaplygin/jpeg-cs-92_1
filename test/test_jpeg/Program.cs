@@ -9,31 +9,32 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            /*_TestSplit();
-            _TestCalculatingDC();
-            _TestPack();
-            _TestUnpack();
-            _TestQuantization();
-            _TestDCT();
-            _TestDCTShift();
-            _TestChannel();
+            //_TestSplit();
+            //_TestCalculatingDC();
+            //_TestPack();
+            //_TestUnpack();
+            //_TestQuantization();
+            //_TestDCT();
+            //_TestDCTShift();
+            //_TestChannel();
             _TestInterleave();
-            _TestZigzad();
-            _TestJPEGData();
-            _TestBitReader();
-            _TestBitWriter();            
-            _TestEncoding();
-            _TestImageConverter();
-            _TestJPEGFile();
-            _TestBitWriterTwo();
-            _TestBitWriterError();
-            _TestDecodingExtend();
-            _TestImageConverter();*/
+            
+            //_TestZigzad();
+            //_TestJPEGData();
+            //_TestBitReader();
+            //_TestBitWriter();            
+            //_TestEncoding();
+            //_TestImageConverter();
+            //_TestJPEGFile();
+            //_TestBitWriterTwo();
+            //_TestBitWriterError();
+            //_TestDecodingExtend();
+            //_TestImageConverter();
             //_TestJPEGFile();
             //_TestHuffmanTable();
             // _TestDCTcoding();
             //_TestChannelV2();
-            _TestEncodingWriteBits();
+            //_TestEncodingWriteBits();
             Console.ReadKey();
         }
 
@@ -232,7 +233,7 @@ namespace ConsoleApp1
             var channels = new[] { channel1, channel2, channel3 };
 
             var library = new JPEG_CS(null);
-
+            library.SetParameters(3);
             Console.WriteLine("Тест для трех каналов:");
 
 
