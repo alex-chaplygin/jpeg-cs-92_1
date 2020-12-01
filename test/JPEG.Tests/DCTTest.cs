@@ -83,7 +83,7 @@ namespace JPEG.Tests
             {
                 for (int j = 0; j < 8; j++)
                 {
-                    matrix[i, j] = Convert.ToInt16(Convert.ToInt16(r.Next(-128, 128)));
+                    matrix[i, j] = Convert.ToInt16(Convert.ToInt16(r.Next(-128, 127)));
                     Console.Write(matrix[i, j] + " ");
                 }
                 Console.WriteLine();
