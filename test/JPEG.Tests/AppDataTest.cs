@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using JPEG_CLASS_LIB;
 using System.IO;
@@ -39,4 +40,5 @@ namespace JPEG.Tests
             CollectionAssert.AreEqual(Testrray, ExpectedArraytedArray);
         }
     }
+
 }
