@@ -252,5 +252,65 @@ namespace JPEG.Tests
                 Console.WriteLine();
             }
         }
+
+        [TestMethod]
+        public void TestQuantization()
+        {
+            short[,] matrix = new short[8, 8];
+            Random r = new Random();
+
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    matrix[i, j] = Convert.ToInt16(Convert.ToInt16(r.Next(-128, 127)));
+                    Console.Write(matrix[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+            short[,] LQT =
+            {
+                {16, 12, 14, 14, 18, 24, 49, 72},
+                {11, 12, 13, 17, 22, 35, 64, 92},
+                {10, 14, 16, 22, 37, 55, 78, 95},
+                {16, 19, 24, 29, 56, 64, 87, 98},
+                {24, 26, 40, 51, 68, 81, 103, 112},
+                {40, 58, 57, 87, 109, 104, 121, 100},
+                {51, 60, 69, 80, 103, 113, 120, 103},
+                {61, 55, 56, 62, 77, 92, 101, 99}
+            };
+
+            var LQT_HIGH = new short[8,8];
+            for (int y = 0; y < LQT.GetLength(1); y++)
+            {
+                for (int x = 0; x < LQT.GetLength(0); x++)
+                {
+                    LQT_HIGH[x, y] = (short)(LQT[x, y] >> 1);
+                }
+            }
+
+            short[,] matrix3 = DCT.QuantizationDirect(DCT.FDCT(matrix), LQT_HIGH);
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+
+                    Console.Write(matrix3[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+            Console.WriteLine();
+            short[,] matrix2 = DCT.IDCT(DCT.QuantizationReverse(matrix3, LQT_HIGH));
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    Assert.IsTrue(Math.Abs(matrix2[i, j] - matrix[i, j]) <= 42, $"Разница ({Math.Abs(matrix2[i, j] - matrix[i, j])}) до и после квантования превышает допустимый уровень");
+                    Console.Write(matrix2[i, j] + " ");
+                }
+                Console.WriteLine();
+            }
+        }
     }
 }
