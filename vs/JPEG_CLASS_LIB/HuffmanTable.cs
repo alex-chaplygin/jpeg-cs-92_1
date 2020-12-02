@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Text;
 using System.IO;
 
 namespace JPEG_CLASS_LIB
@@ -44,7 +42,7 @@ namespace JPEG_CLASS_LIB
         /// Массив кодов таблицы Хаффмана для соответствия значениям
         /// </summary>
 
-	public byte[] HUFFCODE;
+        public byte[] HUFFCODE;
         /// <summary>
         /// Массив кодов, отсортированный по значениям
         /// </summary>
@@ -65,30 +63,80 @@ namespace JPEG_CLASS_LIB
         private int LASTK;
 
         /// <summary>
+        /// Содержит самый большой код для длины I (индекс массива)
+        /// </summary>
+        public int[] MaxCode = new int[16];
+
+        /// <summary>
+        /// Содержит самый маленький код для длины I (индекс массива)
+        /// </summary>
+        public int[] MinCode = new int[16];
+
+        /// <summary>
+        /// Содержит индекс для начала списка значений в массиве HUFFVAL для декодирования кода длиной I (индекс массива)
+        /// </summary>
+        public byte[] VALPTR = new byte[16];
+
+
+        /// <summary>
         /// Конструктор класса HuffmanTable. Создает таблицу Хаффмана на основе данных из потока 
         /// </summary>
         /// <param name="s">Поток на основе данных из которого создается таблица Хаффмана</param>
         public HuffmanTable(Stream s) : base(s, MarkerType.DefineHuffmanTables)
         {
-            byte value = (byte) MainStream.ReadByte();
-            Tc = (byte) (value >> 4);
-            Th = (byte) (value & 0x0F);
+            byte value = (byte)MainStream.ReadByte();
+            Tc = (byte)(value >> 4);
+            Th = (byte)(value & 0x0F);
             int all_length_values = 0;
             for (int i = 0; i < 16; i++)
             {
-                codeLength[i] = (byte) MainStream.ReadByte();
+                codeLength[i] = (byte)MainStream.ReadByte();
                 all_length_values += codeLength[i];
             }
 
             values = new byte[all_length_values];
             for (int i = 0; i < all_length_values; i++)
             {
-                values[i] = (byte) MainStream.ReadByte();
+                values[i] = (byte)MainStream.ReadByte();
             }
 
             Generate_size_table(codeLength, all_length_values);
             Generate_code_table(all_length_values);
             Order_codes();
+        }
+
+        /// <summary>
+        /// Генериует вспомогательные таблицы для декодирования
+        /// </summary>
+        public void GenerateTables()
+        {
+            int i = -1;//0
+            byte j = 0;
+            MaxCode = new int[16];
+            MinCode = new int[16];
+            bool Done = false;
+            do
+            {
+                i++;
+                if (i >= 16) { Done = true; break; }//>
+                while ((BITS[i] == 0) && (!Done))
+                {
+                    MaxCode[i] = -1;
+                    i++;
+                    if (i >= 16)//>
+                    {
+                        Done = true;
+                        break;
+                    }
+                }
+                if (Done) break;
+                VALPTR[i] = j;
+                MinCode[i] = HUFFCODE[j];
+                j = Convert.ToByte(j + BITS[i] - 1);
+                MaxCode[i] = HUFFCODE[j];
+                j++;
+            }
+            while ((BITS[i] != 0));
         }
 
         /// <summary>
@@ -146,7 +194,7 @@ namespace JPEG_CLASS_LIB
 
                 do
                 {
-                    CODE = (byte) (CODE << 1);
+                    CODE = (byte)(CODE << 1);
                     SI++;
                 } while (HUFFSIZE[K] != SI);
             } while (HUFFSIZE[K] == SI);
@@ -177,7 +225,7 @@ namespace JPEG_CLASS_LIB
         public override void Write()
         {
             base.Write();
-            MainStream.WriteByte((byte) ((Tc << 4) + Th));
+            MainStream.WriteByte((byte)((Tc << 4) + Th));
             foreach (byte i in codeLength)
             {
                 MainStream.WriteByte(i);
@@ -280,15 +328,15 @@ namespace JPEG_CLASS_LIB
                 allSize += bits[i];
             HUFFVAL = new byte[allSize];
             Sort_input(codesize);
-            
+
             codeLength = bits;
-	        values = HUFFVAL;
-            
-	        Generate_size_table(codeLength, allSize);
+            values = HUFFVAL;
+
+            Generate_size_table(codeLength, allSize);
             Generate_code_table(allSize);
             Order_codes();
-            
-            Length = (ushort) (19 + values.Length); //2 + 1 + 16 + values.Length
+
+            Length = (ushort)(19 + values.Length); //2 + 1 + 16 + values.Length
         }
 
         /// <summary>
@@ -304,7 +352,7 @@ namespace JPEG_CLASS_LIB
                 {
                     if (codesize[j] == i)
                     {
-                        HUFFVAL[k] = (byte) j;
+                        HUFFVAL[k] = (byte)j;
                         k++;
                     }
                 }
@@ -329,13 +377,13 @@ namespace JPEG_CLASS_LIB
                     }
 
                     bits[i] -= 2;
-                    bits[i - 1]++; 
+                    bits[i - 1]++;
                     bits[j + 1] += 2;
                     bits[j]--;
                 }
             }
 
-            while (bits[i] == 0) 
+            while (bits[i] == 0)
             {
                 i--;
             }
