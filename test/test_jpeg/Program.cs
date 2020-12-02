@@ -33,8 +33,35 @@ namespace ConsoleApp1
             //_TestHuffmanTable();
             // _TestDCTcoding();
             //_TestChannelV2();
-            _TestEncodingWriteBits();
+            //_TestEncodingWriteBits();
+            _TestDecodingDCAC();
             Console.ReadKey();
+        }
+
+        static void _TestDecodingDCAC()
+        {
+            short[] Block = new short[64];
+            FileStream S = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
+            S.Seek(0x48eb, SeekOrigin.Begin);
+            HuffmanTable huff = new HuffmanTable(S);
+            S.Seek(0x4a9b, SeekOrigin.Begin);
+            Decoding decoding = new Decoding(S, huff);
+            Block[0] = decoding.DecodeDC();
+            decoding.DecodeAC(Block);
+            S.Dispose();
+            Console.WriteLine("Декодирование DC и AC");
+            for (int i = 0, j = 1; i < 64; i++, j++)
+            {
+                string s = Block[i].ToString();
+                while (s.Length < 5) s = " " + s;
+                Console.Write(s);
+                if (j == 8)
+                {
+                    Console.WriteLine();
+                    j = 0;
+                }
+            }
+            Console.WriteLine();
         }
 
         static void _TestChannelV2()
