@@ -12,7 +12,6 @@ namespace ConsoleApp1
             /*_TestSplit();
             _TestPack();
             _TestUnpack();
-            _TestQuantization();
             _TestChannel();
             _TestInterleave();
             
@@ -26,12 +25,46 @@ namespace ConsoleApp1
             //_TestBitWriterError();
             //_TestDecodingExtend();
             //_TestImageConverter();
-            //_TestJPEGFile();
             //_TestHuffmanTable();
             // _TestDCTcoding();
             //_TestChannelV2();
             // _TestEncodingWriteBits();*/
+            _TestDecodingDCAC();
             Console.ReadKey();
+        }
+
+        static void _TestDecodingDCAC()
+        {
+            short[] Block = new short[64];
+            FileStream S = File.Open("../../../test.jpg", FileMode.Open);
+            S.Seek(0x1f7, SeekOrigin.Begin);
+            HuffmanTable huffDC = new HuffmanTable(S);
+            S.Seek(0x218, SeekOrigin.Begin);
+            HuffmanTable huffAC = new HuffmanTable(S);
+            S.Seek(0x3b3, SeekOrigin.Begin);
+            Decoding decoding = new Decoding(S, huffDC);
+	    for (int k = 0; k < 10; k++) {
+		decoding.huff = huffDC;
+		decoding.GenerateTables();
+		Block[0] = decoding.DecodeDC();
+		decoding.huff = huffAC;
+		decoding.GenerateTables();
+		decoding.DecodeAC(Block);
+		Console.WriteLine("Декодирование DC и AC");
+		for (int i = 0, j = 1; i < 64; i++, j++)
+		{
+		    string s = Block[i].ToString();
+		    while (s.Length < 5) s = " " + s;
+		    Console.Write(s);
+		    if (j == 8)
+		    {
+			Console.WriteLine();
+			j = 0;
+		    }
+		}
+	    }
+            Console.WriteLine();
+	    S.Dispose();
         }
 
         static void _TestChannelV2()

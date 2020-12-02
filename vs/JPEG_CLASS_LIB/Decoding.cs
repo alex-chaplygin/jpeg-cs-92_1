@@ -44,7 +44,7 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Таблица Хаффмена
         /// </summary>
-        HuffmanTable huff;
+        public HuffmanTable huff;
         /// <summary>
         /// Создает объект, сохраняет поток в классе.
         /// </summary>
@@ -124,7 +124,7 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Генериует вспомогательные таблицы для декодирования
         /// </summary>
-        void GenerateTables()
+        public void GenerateTables()
         {
             byte[] BITS = huff.BITS;
             byte[] HUFFCODE = huff.HUFFCODE;
@@ -194,5 +194,33 @@ namespace JPEG_CLASS_LIB
             return diff;
         }
 
+        /// <summary>
+        /// Декодирует AC коэффициенты из потока.
+        /// </summary>
+        /// <param name="block">Блок, куда сохраняются коэффициенты.</param>
+        public void DecodeAC(short[] block)
+        {
+            byte K, RS, RRRR, R, SSSS;
+            bool flag = true;
+            K = 1;
+            while (flag)
+            {
+                RS = Decode();
+                SSSS = (byte)(RS % 16);
+                RRRR = (byte)(RS >> 4);
+                R = RRRR;
+                if (SSSS == 0)
+                    if (R == 15) K += 16;
+                    else flag = false;
+                else
+                {
+                    K += R;
+                    block[K] = (short)Receive(SSSS);
+                    block[K] = Extend((ushort)block[K], SSSS);
+                    if (K == 63) flag = false;
+                    else K++;
+                }
+            }
+        }
     }
 }
