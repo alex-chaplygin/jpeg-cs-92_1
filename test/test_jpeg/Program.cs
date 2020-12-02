@@ -1,7 +1,7 @@
-﻿using System;
-using System.IO;
-using JPEG_CLASS_LIB;
+﻿using JPEG_CLASS_LIB;
+using System;
 using System.Collections.Generic;
+using System.IO;
 
 namespace ConsoleApp1
 {
@@ -42,29 +42,30 @@ namespace ConsoleApp1
             S.Seek(0x218, SeekOrigin.Begin);
             HuffmanTable huffAC = new HuffmanTable(S);
             S.Seek(0x3b3, SeekOrigin.Begin);
-            Decoding decoding = new Decoding(S, huffDC);
-	    for (int k = 0; k < 10; k++) {
-		decoding.huff = huffDC;
-		decoding.GenerateTables();
-		Block[0] = decoding.DecodeDC();
-		decoding.huff = huffAC;
-		decoding.GenerateTables();
-		decoding.DecodeAC(Block);
-		Console.WriteLine("Декодирование DC и AC");
-		for (int i = 0, j = 1; i < 64; i++, j++)
-		{
-		    string s = Block[i].ToString();
-		    while (s.Length < 5) s = " " + s;
-		    Console.Write(s);
-		    if (j == 8)
-		    {
-			Console.WriteLine();
-			j = 0;
-		    }
-		}
-	    }
+            Decoding decoding = new Decoding(S, huffDC, huffAC);
+            for (int k = 0; k < 10; k++)
+            {
+                decoding.huffDC = huffDC;
+                decoding.huffDC.GenerateTables();
+                Block[0] = decoding.DecodeDC();
+                decoding.huffAC = huffAC;
+                decoding.huffAC.GenerateTables();
+                decoding.DecodeAC(Block);
+                Console.WriteLine("Декодирование DC и AC");
+                for (int i = 0, j = 1; i < 64; i++, j++)
+                {
+                    string s = Block[i].ToString();
+                    while (s.Length < 5) s = " " + s;
+                    Console.Write(s);
+                    if (j == 8)
+                    {
+                        Console.WriteLine();
+                        j = 0;
+                    }
+                }
+            }
             Console.WriteLine();
-	    S.Dispose();
+            S.Dispose();
         }
 
         static void _TestChannelV2()
@@ -80,7 +81,7 @@ namespace ConsoleApp1
                 {
                     for (var x = 0; x < width; x++)
                     {
-                        matrix[x, y] = (byte) r.Next(0, 255);
+                        matrix[x, y] = (byte)r.Next(0, 255);
 
                     }
                 }
@@ -96,21 +97,21 @@ namespace ConsoleApp1
                 var blocks = channel.Split();
                 channel.Collect(blocks);
                 channel.Resample(H, V);
-                
+
                 Console.WriteLine($"Результирующая матрица (W*H): {channel.GetMatrix().GetLength(0)}*{channel.GetMatrix().GetLength(1)}");
                 WriteMatrix(channel.GetMatrix());
                 for (var y = 0; y < height; y++)
                 {
                     for (var x = 0; x < width; x++)
                     {
-                        if (matrix[x, y]!=channel.GetMatrix()[x, y]) throw new Exception("Ошибка при тестировании: элементы тестовой и результирующей матрицы не совпадают!");
+                        if (matrix[x, y] != channel.GetMatrix()[x, y]) throw new Exception("Ошибка при тестировании: элементы тестовой и результирующей матрицы не совпадают!");
                     }
                 }
-                
+
             }
-            
+
         }
-        
+
         private static void _TestHuffmanTable()
         {
             // var width = 32;
@@ -145,13 +146,13 @@ namespace ConsoleApp1
             // }
             // var result = new HuffmanTable(data, false, -1);
 
-            var testData = new byte[10] {1, 3, 4, 1, 1, 0, 4, 1, 2, 1};
+            var testData = new byte[10] { 1, 3, 4, 1, 1, 0, 4, 1, 2, 1 };
             // var r = new Random();
             // for (var i = 0; i < testData.Length; i++)
             // {
             //     testData[i] = (byte) r.Next(0, 255);
             // }
-            
+
             var result = new HuffmanTable(testData, false, 0);
             result.Print();
         }
@@ -426,46 +427,46 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
         }
-         
-         static void _TestQuantization()
-         {
-             Random random = new Random();
-             short[,] matrixC = new short[4, 4];
-             short[,] matrixQ = new short[4, 4] { {1,2,4,1 },
+
+        static void _TestQuantization()
+        {
+            Random random = new Random();
+            short[,] matrixC = new short[4, 4];
+            short[,] matrixQ = new short[4, 4] { {1,2,4,1 },
                                                   {2,2,2,2 },
                                                   {3,3,3,30 },
                                                   {4,4,40,50 } };
-             
-             for (int i = 0; i< 16; i++)
-             {
-                 matrixC[i/4,i%4] = Convert.ToByte(random.Next(0,256));
-             }
+
+            for (int i = 0; i < 16; i++)
+            {
+                matrixC[i / 4, i % 4] = Convert.ToByte(random.Next(0, 256));
+            }
 
 
-             //до
-             for (int i = 0; i < 16; i++)
-             {
-                 Console.Write($"{matrixC[i / 4, i % 4]}\t");
-                 if (i % 4 == 3) { Console.Write("\n"); }
-             }
-             Console.WriteLine();
-             //после квантования
-             short[,] qtest = DCT.QuantizationDirect(matrixC, matrixQ);
-             for (int i = 0; i<16; i++)
-             {
-                 Console.Write($"{qtest[i/4,i%4]}\t");
-                 if (i%4 == 3) {Console.Write("\n"); }
-             }
-             //после обратного
-             Console.WriteLine();
-             qtest = DCT.QuantizationReverse(matrixC, matrixQ);
-             for (int i = 0; i < 16; i++)
-             {
-                 Console.Write($"{qtest[i / 4, i % 4]}\t");
-                 if (i % 4 == 3) { Console.Write("\n"); }
-             }
-         }
-         
+            //до
+            for (int i = 0; i < 16; i++)
+            {
+                Console.Write($"{matrixC[i / 4, i % 4]}\t");
+                if (i % 4 == 3) { Console.Write("\n"); }
+            }
+            Console.WriteLine();
+            //после квантования
+            short[,] qtest = DCT.QuantizationDirect(matrixC, matrixQ);
+            for (int i = 0; i < 16; i++)
+            {
+                Console.Write($"{qtest[i / 4, i % 4]}\t");
+                if (i % 4 == 3) { Console.Write("\n"); }
+            }
+            //после обратного
+            Console.WriteLine();
+            qtest = DCT.QuantizationReverse(matrixC, matrixQ);
+            for (int i = 0; i < 16; i++)
+            {
+                Console.Write($"{qtest[i / 4, i % 4]}\t");
+                if (i % 4 == 3) { Console.Write("\n"); }
+            }
+        }
+
 
         static void _TestSplit()
         {
@@ -583,27 +584,27 @@ namespace ConsoleApp1
             f.Print();
             s.Seek(0x48eb, SeekOrigin.Begin);
             HuffmanTable huff = new HuffmanTable(s);
-	    huff.Print();
+            huff.Print();
             // Тестирование метода Receive класса Decoding
             s.Seek(0x4a9b, SeekOrigin.Begin);
-            Decoding decoding = new Decoding(s, huff);
+            /*Decoding decoding = new Decoding(s, huff);
             Console.WriteLine("\nТаблица MaxCode");
             foreach (int i in decoding.MaxCode)
             {
-                Console.Write(Convert.ToString(i, 2)+" ");
+                Console.Write(Convert.ToString(i, 2) + " ");
             }
             Console.WriteLine("\nТаблица MinCode");
             foreach (int i in decoding.MinCode)
             {
-                Console.Write(Convert.ToString(i, 2)+" ");
+                Console.Write(Convert.ToString(i, 2) + " ");
             }
             Console.WriteLine("\nТаблица VALPTR");
             foreach (byte i in decoding.VALPTR)
             {
-                Console.Write(Convert.ToString(i, 2)+" ");
+                Console.Write(Convert.ToString(i, 2) + " ");
             }
             Console.WriteLine();
-	        Console.WriteLine("\nЗначение, которое вернула функция Decode:" + decoding.Decode());
+            Console.WriteLine("\nЗначение, которое вернула функция Decode:" + decoding.Decode());
             Console.WriteLine("\nЗначение, которое вернула функция Decode:" + decoding.Decode());
             Console.WriteLine("\nЗначение, которое вернула функция Decode:" + decoding.Decode());
 
@@ -611,9 +612,9 @@ namespace ConsoleApp1
             //Console.WriteLine($"Тестирование метода Receive класса Decoding от позиции {s.Position:x4}");
             //for (byte i = 1; i <= 16; i++)
             //   Console.WriteLine($"Результат чтения следующих {i:d2} бит из потока: {Convert.ToString(decoding.Receive(i), 2)}");
-            s.Dispose();
+            s.Dispose();*/
         }
-        
+
 
         private static void _TestEncoding()
         {
@@ -700,8 +701,8 @@ namespace ConsoleApp1
             Console.WriteLine($"Частичный код разницы DC: {diff} {Convert.ToString(diff, 2)}");
             Console.WriteLine($"Число бит для разницы: {num_bits}");
             Console.WriteLine($"Полный код: {result} {Convert.ToString(result, 2)}");
-	}
-	
+        }
+
         private static void _TestEncodingDCAC()
         {
             short[,] LQT = new short[,] {{ 16, 12, 14, 14, 18, 24, 49, 72 },
@@ -721,15 +722,15 @@ namespace ConsoleApp1
             //заполнение
             for (int i = 0; i < 3; i++)
             {
-                byte[,] a = new byte[8,8];
+                byte[,] a = new byte[8, 8];
                 for (int j = 0; j < 64; j++)
                 {
-                    a[j / 8, j % 8] = (byte)random.Next(0,256);
+                    a[j / 8, j % 8] = (byte)random.Next(0, 256);
                 }
                 tempB.Add(a);
             }
 
-            for (int i = 0; i<3; i++)
+            for (int i = 0; i < 3; i++)
             {
                 tempS.Add(JPEG_CLASS_LIB.DCT.Shift(tempB[i]));
                 tempS[i] = JPEG_CLASS_LIB.DCT.FDCT(tempS[i]);
@@ -755,8 +756,8 @@ namespace ConsoleApp1
                 for (int j = 0; j < 64; j++)
                 {
                     //if (j != 0 && j % 7 == 0) Console.WriteLine();
-		    if (j > 50)  data[i][j] = 0;
-		    if (j > 10 && j < 35) data[i][j] = 0;
+                    if (j > 50) data[i][j] = 0;
+                    if (j > 10 && j < 35) data[i][j] = 0;
                     Console.Write($"{data[i][j]} ");
                 }
                 Console.Write("\n\n");
@@ -775,9 +776,9 @@ namespace ConsoleApp1
             Console.WriteLine();
         }
 
-        private static void _TestEncodingWriteBits()        
+        private static void _TestEncodingWriteBits()
         {
-            ushort[] bits = 
+            ushort[] bits =
             {
                 0xa6ff, //0b1010_0110_1111_1111
                 0x002e, //0b0000_0000_0010_1110,
@@ -785,7 +786,7 @@ namespace ConsoleApp1
                 0x0206,//0b0000_0010_0000_0110,
                 0x0015,//0b0000_0000_0001_0101,
             };
-            int[] num = 
+            int[] num =
             {
                 16,
                 6,
@@ -813,7 +814,7 @@ namespace ConsoleApp1
             {
                 b = (byte)s.ReadByte();
                 Console.WriteLine($"{b:X2} {Convert.ToString(b, 2)}");
-            }  
+            }
 
             s.Dispose();
             File.Delete("../../../testEncodingWriteBits");
