@@ -44,7 +44,7 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Таблица Хаффмена
         /// </summary>
-        HuffmanTable huff;
+        public HuffmanTable huff;
         /// <summary>
         /// Создает объект, сохраняет поток в классе.
         /// </summary>
@@ -124,7 +124,7 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Генериует вспомогательные таблицы для декодирования
         /// </summary>
-        void GenerateTables()
+        public void GenerateTables()
         {
             byte[] BITS = huff.BITS;
             byte[] HUFFCODE = huff.HUFFCODE;
