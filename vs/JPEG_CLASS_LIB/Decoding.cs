@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Text;
 
 namespace JPEG_CLASS_LIB
 {
@@ -29,31 +27,30 @@ namespace JPEG_CLASS_LIB
         /// Счетчик битов.
         /// </summary>
         byte CNT = 0;
+
         /// <summary>
-        /// Содержит самый большой код для длины I (индекс массива)
+        /// Таблица Хаффмана DC.
         /// </summary>
-        public int[] MaxCode = new int[16];
+        public HuffmanTable huffDC;
+
         /// <summary>
-        /// Содержит самый маленький код для длины I (индекс массива)
+        /// Таблица Хаффмана AC.
         /// </summary>
-        public int[] MinCode = new int[16];
-        /// <summary>
-        /// Содержит индекс для начала списка значений в массиве HUFFVAL для декодирования кода длиной I (индекс массива)
-        /// </summary>
-        public byte[] VALPTR = new byte[16];
-        /// <summary>
-        /// Таблица Хаффмена
-        /// </summary>
-        public HuffmanTable huff;
+        public HuffmanTable huffAC;
+
         /// <summary>
         /// Создает объект, сохраняет поток в классе.
         /// </summary>
         /// <param name="s">Поток сжатых данных.</param>
-        public Decoding(Stream s, HuffmanTable huff)
+        /// <param name="huffDC">Таблица Хаффмана DC.</param>
+        /// <param name="huffAC">Таблица Хаффмана AC.</param>
+        public Decoding(Stream s, HuffmanTable huffDC, HuffmanTable huffAC)
         {
             MainStream = s;
-            this.huff = huff;
-            GenerateTables();
+            this.huffDC = huffDC;
+            this.huffAC = huffAC;
+            this.huffDC.GenerateTables();
+            this.huffAC.GenerateTables();
         }
 
         /// <summary>
@@ -119,63 +116,25 @@ namespace JPEG_CLASS_LIB
             }
 
             return (short)diff;
-	}
-	
-        /// <summary>
-        /// Генериует вспомогательные таблицы для декодирования
-        /// </summary>
-        public void GenerateTables()
-        {
-            byte[] BITS = huff.BITS;
-            byte[] HUFFCODE = huff.HUFFCODE;
-            
-            int i = -1;//0
-            byte j = 0;
-            MaxCode = new int[16];
-            MinCode = new int[16];
-            bool Done = false;
-
-            do
-            {
-                i++;
-                if (i >= 16) { Done = true; break; }//>
-                while ((BITS[i] == 0) && (!Done))
-                {
-                    MaxCode[i] = -1;
-                    i++;
-                    if (i >= 16)//>
-                    {
-                        Done = true;
-                        break;
-                    }
-                }
-                if (Done) break;
-                VALPTR[i] = j;
-                MinCode[i] = HUFFCODE[j];
-                j = Convert.ToByte(j + BITS[i] - 1);
-                MaxCode[i] = HUFFCODE[j];
-                j++;
-            }
-            while ((BITS[i] != 0));
         }
-	
+
         /// <summary>
         /// Декодирует 8-ми битное значение, которое для DC коэффициента является категорией, а для AC - число нулей или категория для ненулевого коэффициента
         /// </summary>
         /// <returns>Декодированное значение</returns>
-        public byte Decode()
+        public byte Decode(HuffmanTable H)
         {
             int i = 0;//1
             byte CODE = NextBit();
-            while (CODE>MaxCode[i])
+            while (CODE > H.MaxCode[i])
             {
                 i++;
                 CODE = (Byte)((CODE << 1) + NextBit());
 
             }
-            int j = VALPTR[i];
-            j = j + CODE - MinCode[i];
-            byte Value = huff.HUFFVAL[j];
+            int j = H.VALPTR[i];
+            j = j + CODE - H.MinCode[i];
+            byte Value = H.HUFFVAL[j];
             return Value;
         }
 
@@ -187,7 +146,7 @@ namespace JPEG_CLASS_LIB
         {
             short diff = 0;
             ushort diff2 = 0;
-            byte t = Decode();
+            byte t = Decode(huffDC);
             if (t == 0) return 0;
             diff2 = Receive(t);
             diff = Extend(diff2, t);
@@ -205,7 +164,7 @@ namespace JPEG_CLASS_LIB
             K = 1;
             while (flag)
             {
-                RS = Decode();
+                RS = Decode(huffAC);
                 SSSS = (byte)(RS % 16);
                 RRRR = (byte)(RS >> 4);
                 R = RRRR;
