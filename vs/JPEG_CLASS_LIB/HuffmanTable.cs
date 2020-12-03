@@ -103,6 +103,7 @@ namespace JPEG_CLASS_LIB
             Generate_size_table(codeLength, all_length_values);
             Generate_code_table(all_length_values);
             Order_codes();
+	    GenerateTables();
         }
 
         /// <summary>

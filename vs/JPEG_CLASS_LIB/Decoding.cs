@@ -49,8 +49,6 @@ namespace JPEG_CLASS_LIB
             MainStream = s;
             this.huffDC = huffDC;
             this.huffAC = huffAC;
-            this.huffDC.GenerateTables();
-            this.huffAC.GenerateTables();
         }
 
         /// <summary>
