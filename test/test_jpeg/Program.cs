@@ -823,6 +823,8 @@ namespace ConsoleApp1
 
         private static void _TestDecodingNextBit()
         {
+            //тестирование идёт нормально, в методе на stuff байты исключение выводятся, это работает
+            //но в этой картинке я на 40 тысяч строк не нашёл FF DC маркеров, только DC FF, почему-то (искал даже через редактор)
             FileStream S = File.Open("../../../test.jpg", FileMode.Open);
 
             S.Seek(0x1f7, SeekOrigin.Begin);
