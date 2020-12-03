@@ -30,7 +30,10 @@ namespace ConsoleApp1
             //_TestChannelV2();
             // _TestEncodingWriteBits();*/
             //_TestDecodingDCAC();
-            _TestDecodingNextBit();
+
+            //_TestDecodingNextBit();       <== начало новых тестов
+            //_TestDecodingRecieve();
+            _TestDecodingExtend();
             Console.ReadKey();
         }
 
@@ -691,7 +694,7 @@ namespace ConsoleApp1
             }
         }
 
-        private static void _TestDecodingExtend()
+        /*private static void _TestDecodingExtend()
         {
             ushort diff = 10;
             int num_bits = 4;
@@ -702,7 +705,7 @@ namespace ConsoleApp1
             Console.WriteLine($"Частичный код разницы DC: {diff} {Convert.ToString(diff, 2)}");
             Console.WriteLine($"Число бит для разницы: {num_bits}");
             Console.WriteLine($"Полный код: {result} {Convert.ToString(result, 2)}");
-        }
+        }*/
 
         private static void _TestEncodingDCAC()
         {
@@ -857,5 +860,40 @@ namespace ConsoleApp1
             }
         }
 
+        private static void _TestDecodingRecieve()
+        {
+            FileStream S = File.Open("../../../test.jpg", FileMode.Open);
+
+            S.Seek(0x1f7, SeekOrigin.Begin);
+            HuffmanTable huffDC = new HuffmanTable(S);
+            S.Seek(0x218, SeekOrigin.Begin);
+            HuffmanTable huffAC = new HuffmanTable(S);
+            S.Seek(0x3a7, SeekOrigin.Begin); //начала скана
+
+            Decoding d = new Decoding(S, huffDC, huffAC);
+
+            ushort temp1 = d.Receive(8);
+            ushort temp2 = d.Receive(8);
+            ushort temp3 = d.Receive(8);
+            Console.Write($"Должно быть первое значение: 00, второе: 0c, третье: 03\n");
+            Console.Write($"Первое значение: {Convert.ToString(temp1,16)}, второе: {Convert.ToString(temp2, 16)}, третье: {Convert.ToString(temp3, 16)}");
+        }
+
+        private static void _TestDecodingExtend()
+        {
+            FileStream S = File.Open("../../../test.jpg", FileMode.Open);
+
+            S.Seek(0x1f7, SeekOrigin.Begin);
+            HuffmanTable huffDC = new HuffmanTable(S);
+            S.Seek(0x218, SeekOrigin.Begin);
+            HuffmanTable huffAC = new HuffmanTable(S);
+            S.Seek(0x3a7, SeekOrigin.Begin); //начала скана
+
+            Decoding d = new Decoding(S, huffDC, huffAC);
+
+            ushort diff = d.Receive(16);
+            diff = (ushort)Decoding.Extend(diff,16);
+            Console.Write($"Результат: {diff}");
+        }
     }
 }
