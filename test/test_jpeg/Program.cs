@@ -29,7 +29,8 @@ namespace ConsoleApp1
             // _TestDCTcoding();
             //_TestChannelV2();
             // _TestEncodingWriteBits();*/
-            _TestDecodingDCAC();
+            //_TestDecodingDCAC();
+            _TestDecodingNextBit();
             Console.ReadKey();
         }
 
@@ -819,5 +820,40 @@ namespace ConsoleApp1
             s.Dispose();
             File.Delete("../../../testEncodingWriteBits");
         }
+
+        private static void _TestDecodingNextBit()
+        {
+            FileStream S = File.Open("../../../test.jpg", FileMode.Open);
+
+            S.Seek(0x1f7, SeekOrigin.Begin);
+            HuffmanTable huffDC = new HuffmanTable(S);
+            S.Seek(0x218, SeekOrigin.Begin);
+            HuffmanTable huffAC = new HuffmanTable(S);
+            S.Seek(0x3a7,SeekOrigin.Begin); //начала скана
+
+            Decoding d = new Decoding(S,huffDC,huffAC);
+
+            int counter = 0;
+            int stringCounter = 0;
+            byte temp = 0;
+            while (true)
+            {
+                try
+                {
+                    counter++;
+                    temp = (byte)(temp<<1);
+                    temp += d.NextBit();
+                    if (counter % 15 == 0)
+                    {
+                        Console.Write($"{Convert.ToString(temp, 16)}\t");
+                        temp = 0;
+                        stringCounter++;
+                        if (stringCounter % 7 == 0) Console.WriteLine();
+                    }
+                }
+                catch (Exception ex) { throw ex; }
+            }
+        }
+
     }
 }
