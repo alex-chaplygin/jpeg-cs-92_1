@@ -176,7 +176,7 @@ namespace JPEG.Tests
         }
 
         [TestMethod]
-        public void TestChannel()
+        public void TestChannelFromProgram()
         {
             byte[,] matrix = new byte[4, 4];
             for (int y = 0, c = 0; y < matrix.GetLength(1); y++)
@@ -210,10 +210,11 @@ namespace JPEG.Tests
                     Console.Write(matrix1[x, y].ToString("X2") + " ");
                 Console.WriteLine();
             }
+            CollectionAssert.AreEqual(matrix, matrix1);
         }
 
         [TestMethod]
-        public void TestChannelV2()
+        public void TestChannelV2FromProgram()
         {
             const int TEST_COUNT = 10;
             var r = new Random();
@@ -248,7 +249,71 @@ namespace JPEG.Tests
                         Console.Write(matrix1[x, y].ToString("X2") + " ");
                     Console.WriteLine();
                 }
+                CollectionAssert.AreEqual(matrix, channel.GetMatrix());
             }
+        }
+        [TestMethod]
+        public void SplitFromProgram()
+        {
+            var width = r.Next(2, 25);
+            var height = r.Next(2, 25);
+
+            Console.WriteLine($"{width}*{height}");
+
+            var testMatrix = new byte[width, height];
+
+            for (var i = 0; i < height; i++)
+            {
+                for (var j = 0; j < width; j++)
+                {
+                    var tmpByte = new byte[1];
+                    r.NextBytes(tmpByte);
+                    testMatrix[j, i] = tmpByte[0];
+                }
+            }
+
+            for (int y = 0; y < testMatrix.GetLength(1); y++)
+            {
+                for (int x = 0; x < testMatrix.GetLength(0); x++)
+                    Console.Write(testMatrix[x, y].ToString("X2") + " ");
+                Console.WriteLine();
+            }
+
+            var channel = new Channel(testMatrix, 0, 0);
+            var blocks = channel.Split();
+
+            Console.WriteLine();
+            Console.WriteLine($"For given {width}*{height} there is {blocks.Count} block(s)");
+
+            //for test print BLOCK_SIZE=8 - fixed!
+            var BLOCK_SIZE = 8;
+            for (var blockIndex = 0; blockIndex < blocks.Count; blockIndex++)
+            {
+                var block = blocks[blockIndex];
+                if (block.Length != BLOCK_SIZE * BLOCK_SIZE) throw new Exception("Incorrect block size!");
+                Console.WriteLine("Block #" + blockIndex);
+                var oneDArr = new byte[BLOCK_SIZE * BLOCK_SIZE];
+                Buffer.BlockCopy(block, 0, oneDArr, 0, block.Length);
+                for (int i = 1; i <= oneDArr.Length; i++)
+                {
+                    Console.Write(oneDArr[i - 1].ToString("X2") + " ");
+                    if (i != 0 && i % BLOCK_SIZE == 0) Console.WriteLine();
+                }
+
+                Console.WriteLine();
+            }
+
+            channel.Collect(blocks);
+
+            Console.WriteLine();
+            byte[,] matrix1 = channel.GetMatrix();
+            for (int y = 0; y < matrix1.GetLength(1); y++)
+            {
+                for (int x = 0; x < matrix1.GetLength(0); x++)
+                    Console.Write(matrix1[x, y].ToString("X2") + " ");
+                Console.WriteLine();
+            }
+            CollectionAssert.AreEqual(testMatrix, channel.GetMatrix());
         }
     }
 }
