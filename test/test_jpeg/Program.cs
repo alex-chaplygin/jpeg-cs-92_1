@@ -31,8 +31,8 @@ namespace ConsoleApp1
             // _TestEncodingWriteBits();*/
             //_TestDecodingDCAC();
 
-            _TestDecodingNextBit();
-            //_TestDecodingRecieve();
+            //_TestDecodingNextBit();
+            _TestDecodingRecieve();
             //_TestDecodingExtend();
             Console.ReadKey();
         }
@@ -883,6 +883,7 @@ namespace ConsoleApp1
 
         private static void _TestDecodingRecieve()
         {
+            Random r = new Random();
             FileStream S = File.Open("../../../test.jpg", FileMode.Open);
 
             S.Seek(0x1f7, SeekOrigin.Begin);
@@ -891,12 +892,18 @@ namespace ConsoleApp1
             HuffmanTable huffAC = new HuffmanTable(S);
             S.Seek(0x3a7, SeekOrigin.Begin); //начала скана
 
-            Decoding d = new Decoding(S, huffDC, huffAC);
+            MemoryStream ms = new MemoryStream(3);
+            for (int i = 0; i < 3; i++)
+            {
+                ms.WriteByte((byte)r.Next(0, 255));
+            }
+            ms.Seek(0, SeekOrigin.Begin);
+
+            Decoding d = new Decoding(ms, huffDC, huffAC);
 
             ushort temp1 = d.Receive(8);
             ushort temp2 = d.Receive(8);
             ushort temp3 = d.Receive(8);
-            Console.Write($"Должно быть первое значение: 00, второе: 0c, третье: 03\n");
             Console.Write($"Первое значение: {Convert.ToString(temp1,16)}, второе: {Convert.ToString(temp2, 16)}, третье: {Convert.ToString(temp3, 16)}");
         }
 
