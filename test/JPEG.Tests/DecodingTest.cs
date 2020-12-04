@@ -43,7 +43,7 @@ namespace JPEG.Tests
         }
 
         [TestMethod]
-        public static void _TestDecodingRecieve()
+        public void _TestDecodingRecieve()
         {
             ushort[] expected = new ushort[5];
             ushort[] actual = new ushort[5];
@@ -73,7 +73,7 @@ namespace JPEG.Tests
         }
 
         [TestMethod]
-        public static void _TestDecodingExtend()
+        public void _TestDecodingExtend()
         {
             short expected = 0;
 
