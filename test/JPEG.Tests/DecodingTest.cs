@@ -84,9 +84,11 @@ namespace JPEG.Tests
             ms.Dispose();
         }
 
-        //[TestMethod]
+        [TestMethod]
         private static void _TestDecodingExtend()
         {
+            short expected = 0;
+
             Random r = new Random();
             FileStream S = File.Open("../../../test.jpg", FileMode.Open);
 
@@ -96,18 +98,43 @@ namespace JPEG.Tests
             HuffmanTable huffAC = new HuffmanTable(S);
             S.Seek(0x3a7, SeekOrigin.Begin); //начала скана
 
-            MemoryStream ms = new MemoryStream(3);
-            for (int i = 0; i < 3; i++)
+            MemoryStream ms = new MemoryStream(6);
+            for (int i = 0; i < 6; i++)
             {
+                byte temp1 = 0;
+                byte temp2 = 0;
+                if (i == 0)
+                {
+                    temp1 = (byte)r.Next(0, 255);
+                    ms.WriteByte(temp1);
+                    expected = (short)((int)(temp1) << 8);
+                }
+                else if (i == 1)
+                {
+                    temp2 = (byte)r.Next(0, 255);
+                    ms.WriteByte(temp2);
+                    expected += temp2;
+                }
                 ms.WriteByte((byte)r.Next(0, 255));
             }
             ms.Seek(0, SeekOrigin.Begin);
 
             Decoding d = new Decoding(ms, huffDC, huffAC);
 
-            ushort diff = d.Receive(16);
-            diff = (ushort)Decoding.Extend(diff, 16);
-            Console.Write($"Результат: {diff}");
+            ushort actual = d.Receive(8);
+            actual = (ushort)Decoding.Extend(actual, 8);
+            Console.Write($"Результат: {actual}");
+
+            ushort temp = (ushort)Math.Pow(2, 7);
+            while (expected < temp)
+            {
+                temp = (ushort)((-1*Math.Pow(2,8))+1);
+                expected += (short)temp;
+            }
+
+            Assert.AreEqual(expected,actual);
+            S.Dispose();
+            ms.Dispose();
         }
     }
 }
