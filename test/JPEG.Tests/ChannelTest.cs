@@ -174,5 +174,81 @@ namespace JPEG.Tests
             byte[,] resM = C.GetMatrix();
             CollectionAssert.AreEqual(exM, resM);
         }
+
+        [TestMethod]
+        public void TestChannel()
+        {
+            byte[,] matrix = new byte[4, 4];
+            for (int y = 0, c = 0; y < matrix.GetLength(1); y++)
+                for (int x = 0; x < matrix.GetLength(0); x++, c++)
+                    matrix[x, y] = (byte)(c * 4);
+
+            Console.WriteLine("Block(matrix, 4, 4)");
+            Channel channel1 = new Channel(matrix, 4, 4);
+            byte[,] matrix1 = channel1.GetMatrix();
+            for (int y = 0; y < matrix1.GetLength(1); y++)
+            {
+                for (int x = 0; x < matrix1.GetLength(0); x++)
+                    Console.Write(matrix1[x, y].ToString("X2") + " ");
+                Console.WriteLine();
+            }
+            Console.WriteLine("\nResample(16, 8)");
+            channel1.Resample(16, 8);
+            matrix1 = channel1.GetMatrix();
+            for (int y = 0; y < matrix1.GetLength(1); y++)
+            {
+                for (int x = 0; x < matrix1.GetLength(0); x++)
+                    Console.Write(matrix1[x, y].ToString("X2") + " ");
+                Console.WriteLine();
+            }
+            Console.WriteLine("\nSample(16, 8)");
+            channel1.Sample(16, 8);
+            matrix1 = channel1.GetMatrix();
+            for (int y = 0; y < matrix1.GetLength(1); y++)
+            {
+                for (int x = 0; x < matrix1.GetLength(0); x++)
+                    Console.Write(matrix1[x, y].ToString("X2") + " ");
+                Console.WriteLine();
+            }
+        }
+
+        [TestMethod]
+        public void TestChannelV2()
+        {
+            const int TEST_COUNT = 10;
+            var r = new Random();
+            for (var i = 0; i < TEST_COUNT; i++)
+            {
+                var width = r.Next(4, 129);
+                var height = r.Next(4, 129);
+                byte[,] matrix = new byte[width, height];
+                for (var y = 0; y < height; y++)
+                    for (var x = 0; x < width; x++)
+                        matrix[x, y] = (byte)r.Next(0, 255);
+                Console.WriteLine($"Тестовая матрица (W*H): {width}*{height}");
+                for (int y = 0; y < matrix.GetLength(1); y++)
+                {
+                    for (int x = 0; x < matrix.GetLength(0); x++)
+                        Console.Write(matrix[x, y].ToString("X2") + " ");
+                    Console.WriteLine();
+                }
+                var H = Convert.ToInt32(Math.Pow(2, r.Next(0, 4)));
+                var V = Convert.ToInt32(Math.Pow(2, r.Next(0, 4)));
+                Console.WriteLine($"H={H}, V={V}");
+                var channel = new Channel(matrix, H, V);
+                channel.Sample(H, V);
+                var blocks = channel.Split();
+                channel.Collect(blocks);
+                channel.Resample(H, V);
+                Console.WriteLine($"Результирующая матрица (W*H): {channel.GetMatrix().GetLength(0)}*{channel.GetMatrix().GetLength(1)}");
+                byte[,] matrix1 = channel.GetMatrix();
+                for (int y = 0; y < matrix1.GetLength(1); y++)
+                {
+                    for (int x = 0; x < matrix1.GetLength(0); x++)
+                        Console.Write(matrix1[x, y].ToString("X2") + " ");
+                    Console.WriteLine();
+                }
+            }
+        }
     }
 }
