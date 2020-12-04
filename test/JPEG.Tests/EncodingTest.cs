@@ -89,18 +89,26 @@ namespace JPEG.Tests
             int numberOfBlock = 3;
             // Создаем numberOfBlock количество блоков [64] со случайными байтовыми значениями.
             Random random = new Random();
-            List<short[]> listOfBlocks = new List<short[]>();
+            List<short[]> listOfBlocks = new List<short[]> { };
+            List<short[]> EXlistOfBlocks = new List<short[]> { };
+
             for (int k = 0; k < numberOfBlock; k++)
             {
                 listOfBlocks.Add(new short[64]);
+                EXlistOfBlocks.Add(new short[64]);
                 for (int i = 0; i < 64; i++)
+                {
                     listOfBlocks[k][i] = (short)random.Next(0, 255);
+                    EXlistOfBlocks[k][i] = listOfBlocks[k][i];
+                }
             }
 
             // Выводим содержимое блоков до применения метода Encoding.EncodeDC
             Console.WriteLine("Содержимое блоков до применения метода Encoding.EncodeDC");
             for (int k = 0; k < numberOfBlock; k++)
+            {
                 Console.WriteLine($"Значения {k} блока: " + string.Join(" ", listOfBlocks[k]));
+            }
 
             // Применяем метод Encoding.EncodeDC
             Encoding.EncodeDC(listOfBlocks);
@@ -108,12 +116,20 @@ namespace JPEG.Tests
             // Выводим содержимое блоков после применения Encoding.EncodeDC
             Console.WriteLine("Содержимое блоков после применения Encoding.EncodeDC");
             for (int k = 0; k < numberOfBlock; k++)
+            {
                 Console.WriteLine($"Значения {k} блока: " + string.Join(" ", listOfBlocks[k]));
+            }
+            for(int i = 0; i < numberOfBlock; i++)
+            {
+                CollectionAssert.AreEqual(EXlistOfBlocks[i], listOfBlocks[i]);
+            }
+
         }
 
         [TestMethod]
         public void TestEncoding_WriteBits()
         {
+            byte[] Ex = new byte[] { 0xa6, 0xff, 0x00, 0xba, 0xe0, 0x6a, 0x80 };
             ushort[] bits =
             {
                 0xa6ff, //0b1010_0110_1111_1111
@@ -145,15 +161,16 @@ namespace JPEG.Tests
             // Чтение записанных в поток данных
             s.Seek(0, SeekOrigin.Begin);
             Console.WriteLine("Записанные в поток байты:");
-            byte b;
+            byte[] b = new byte[7];
             for (int i = 0; i < s.Length; i++)
             {
-                b = (byte)s.ReadByte();
-                Console.WriteLine($"{b:X2} {Convert.ToString(b, 2)}");
+                b[i] = (byte)s.ReadByte();
+                Console.WriteLine($"{b[i]:X2} {Convert.ToString(b[i], 2)}");
             }
 
             s.Dispose();
             File.Delete("../../../testEncodingWriteBits");
+            CollectionAssert.AreEqual(Ex, b);
         }
     }
 }
