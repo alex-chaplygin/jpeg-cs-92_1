@@ -31,9 +31,9 @@ namespace ConsoleApp1
             // _TestEncodingWriteBits();*/
             //_TestDecodingDCAC();
 
-            //_TestDecodingNextBit();       <== начало новых тестов
+            _TestDecodingNextBit();
             //_TestDecodingRecieve();
-            _TestDecodingExtend();
+            //_TestDecodingExtend();
             Console.ReadKey();
         }
 
@@ -826,8 +826,7 @@ namespace ConsoleApp1
 
         private static void _TestDecodingNextBit()
         {
-            //тестирование идёт нормально, в методе на stuff байты исключение выводятся, это работает
-            //но в этой картинке я на 40 тысяч строк не нашёл FF DC маркеров, только DC FF, почему-то (искал даже через редактор)
+            Random r = new Random();
             FileStream S = File.Open("../../../test.jpg", FileMode.Open);
 
             S.Seek(0x1f7, SeekOrigin.Begin);
@@ -836,8 +835,30 @@ namespace ConsoleApp1
             HuffmanTable huffAC = new HuffmanTable(S);
             S.Seek(0x3a7,SeekOrigin.Begin); //начала скана
 
-            Decoding d = new Decoding(S,huffDC,huffAC);
+            MemoryStream ms = new MemoryStream(3);
+            for (int i = 0; i < 3; i++)
+            {
+                ms.WriteByte((byte)r.Next(0,255));
+            }
+            //ms.WriteByte((byte)0xFF);
+            //ms.WriteByte((byte)0x00);
+            ms.Seek(0,SeekOrigin.Begin);
 
+            Decoding d = new Decoding(ms, huffDC, huffAC);
+
+            byte[] temp = new byte[3];
+
+            for (int i = 0; i < 3; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    temp[i] = (byte)(temp[i] << 1);
+                    temp[i] += d.NextBit();
+                }
+                Console.WriteLine(temp[i]);
+            }
+
+            /*
             int counter = 0;
             int stringCounter = 0;
             byte temp = 0;
@@ -857,7 +878,7 @@ namespace ConsoleApp1
                     }
                 }
                 catch (Exception ex) { throw ex; }
-            }
+            }*/
         }
 
         private static void _TestDecodingRecieve()
