@@ -128,6 +128,7 @@ namespace JPEG.Tests
             {
                 Console.WriteLine("Категория: " + resultt[i]);
             }
+            CollectionAssert.AreEqual(ex, resultt);
         }
 
         [TestMethod]
