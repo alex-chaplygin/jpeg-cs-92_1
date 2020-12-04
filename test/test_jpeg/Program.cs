@@ -30,10 +30,6 @@ namespace ConsoleApp1
             //_TestChannelV2();
             // _TestEncodingWriteBits();*/
             //_TestDecodingDCAC();
-
-            //_TestDecodingNextBit();
-            //_TestDecodingRecieve();
-            _TestDecodingExtend();
             Console.ReadKey();
         }
 
@@ -822,114 +818,6 @@ namespace ConsoleApp1
 
             s.Dispose();
             File.Delete("../../../testEncodingWriteBits");
-        }
-
-        private static void _TestDecodingNextBit()
-        {
-            Random r = new Random();
-            FileStream S = File.Open("../../../test.jpg", FileMode.Open);
-
-            S.Seek(0x1f7, SeekOrigin.Begin);
-            HuffmanTable huffDC = new HuffmanTable(S);
-            S.Seek(0x218, SeekOrigin.Begin);
-            HuffmanTable huffAC = new HuffmanTable(S);
-            S.Seek(0x3a7,SeekOrigin.Begin); //начала скана
-
-            MemoryStream ms = new MemoryStream(3);
-            for (int i = 0; i < 3; i++)
-            {
-                ms.WriteByte((byte)r.Next(0,255));
-            }
-            //ms.WriteByte((byte)0xFF);
-            //ms.WriteByte((byte)0x00);
-            ms.Seek(0,SeekOrigin.Begin);
-
-            Decoding d = new Decoding(ms, huffDC, huffAC);
-
-            byte[] temp = new byte[3];
-
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 8; j++)
-                {
-                    temp[i] = (byte)(temp[i] << 1);
-                    temp[i] += d.NextBit();
-                }
-                Console.WriteLine(temp[i]);
-            }
-
-            /*
-            int counter = 0;
-            int stringCounter = 0;
-            byte temp = 0;
-            while (true)
-            {
-                try
-                {
-                    counter++;
-                    temp = (byte)(temp<<1);
-                    temp += d.NextBit();
-                    if (counter % 15 == 0)
-                    {
-                        Console.Write($"{Convert.ToString(temp, 16)}\t");
-                        temp = 0;
-                        stringCounter++;
-                        if (stringCounter % 7 == 0) Console.WriteLine();
-                    }
-                }
-                catch (Exception ex) { throw ex; }
-            }*/
-        }
-
-        private static void _TestDecodingRecieve()
-        {
-            Random r = new Random();
-            FileStream S = File.Open("../../../test.jpg", FileMode.Open);
-
-            S.Seek(0x1f7, SeekOrigin.Begin);
-            HuffmanTable huffDC = new HuffmanTable(S);
-            S.Seek(0x218, SeekOrigin.Begin);
-            HuffmanTable huffAC = new HuffmanTable(S);
-            S.Seek(0x3a7, SeekOrigin.Begin); //начала скана
-
-            MemoryStream ms = new MemoryStream(3);
-            for (int i = 0; i < 3; i++)
-            {
-                ms.WriteByte((byte)r.Next(0, 255));
-            }
-            ms.Seek(0, SeekOrigin.Begin);
-
-            Decoding d = new Decoding(ms, huffDC, huffAC);
-
-            ushort temp1 = d.Receive(8);
-            ushort temp2 = d.Receive(8);
-            ushort temp3 = d.Receive(8);
-            Console.Write($"Первое значение: {Convert.ToString(temp1,16)}, второе: {Convert.ToString(temp2, 16)}, третье: {Convert.ToString(temp3, 16)}");
-        }
-
-        private static void _TestDecodingExtend()
-        {
-            Random r = new Random();
-            FileStream S = File.Open("../../../test.jpg", FileMode.Open);
-
-            S.Seek(0x1f7, SeekOrigin.Begin);
-            HuffmanTable huffDC = new HuffmanTable(S);
-            S.Seek(0x218, SeekOrigin.Begin);
-            HuffmanTable huffAC = new HuffmanTable(S);
-            S.Seek(0x3a7, SeekOrigin.Begin); //начала скана
-
-            MemoryStream ms = new MemoryStream(3);
-            for (int i = 0; i < 3; i++)
-            {
-                ms.WriteByte((byte)r.Next(0, 255));
-            }
-            ms.Seek(0, SeekOrigin.Begin);
-
-            Decoding d = new Decoding(ms, huffDC, huffAC);
-
-            ushort diff = d.Receive(16);
-            diff = (ushort)Decoding.Extend(diff,16);
-            Console.Write($"Результат: {diff}");
         }
     }
 }
