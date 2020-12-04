@@ -9,7 +9,6 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            //_TestSplit();
             //_TestPack();
             //_TestUnpack();
             //_TestInterleave();            
@@ -24,8 +23,8 @@ namespace ConsoleApp1
             //_TestDecodingExtend();
             //_TestImageConverter();
             //_TestHuffmanTable();
-            // _TestDCTcoding();
-            // _TestEncodingWriteBits();
+            //_TestDCTcoding();
+            //_TestEncodingWriteBits();
             //_TestDecodingDCAC();
             Console.ReadKey();
         }
@@ -352,73 +351,7 @@ namespace ConsoleApp1
                 }
                 Console.WriteLine();
             }
-        }        
-        static void _TestSplit()
-        {
-            var r = new Random();
-
-            // var width = r.Next(2, 1080); //big test output
-            // var height = r.Next(2, 1920);
-
-            var width = r.Next(2, 25); //compact test output
-            var height = r.Next(2, 25);
-
-            Console.WriteLine($"{width}*{height}");
-
-            var testMatrix = new byte[width, height];
-
-            for (var i = 0; i < height; i++)
-            {
-                for (var j = 0; j < width; j++)
-                {
-                    var tmpByte = new byte[1];
-                    r.NextBytes(tmpByte);
-                    testMatrix[j, i] = tmpByte[0];
-                }
-            }
-
-            WriteMatrix(testMatrix);
-
-            var channel = new Channel(testMatrix, 0, 0);
-            var blocks = channel.Split();
-
-            Console.WriteLine();
-            Console.WriteLine($"For given {width}*{height} there is {blocks.Count} block(s)");
-
-            //for test print BLOCK_SIZE=8 - fixed!
-            var BLOCK_SIZE = 8;
-            for (var blockIndex = 0; blockIndex < blocks.Count; blockIndex++)
-            {
-                var block = blocks[blockIndex];
-                if (block.Length != BLOCK_SIZE * BLOCK_SIZE) throw new Exception("Incorrect block size!");
-                Console.WriteLine("Block #" + blockIndex);
-                var oneDArr = new byte[BLOCK_SIZE * BLOCK_SIZE];
-                Buffer.BlockCopy(block, 0, oneDArr, 0, block.Length);
-                for (int i = 1; i <= oneDArr.Length; i++)
-                {
-                    Console.Write(oneDArr[i - 1].ToString("X2") + " ");
-                    if (i != 0 && i % BLOCK_SIZE == 0) Console.WriteLine();
-                }
-
-                Console.WriteLine();
-            }
-
-            channel.Collect(blocks);
-
-            Console.WriteLine();
-            WriteMatrix(channel.GetMatrix());
-
-            for (var i = 0; i < height; i++)
-            {
-                for (var j = 0; j < width; j++)
-                {
-                    if (testMatrix[j, i] != channel.GetMatrix()[j, i]) throw new Exception("Test failed - matrix must be equal!");
-                }
-            }
-
-            // if (!Enumerable.SequenceEqual(testMatrix, channel.GetMatrix())) throw new Exception("Matrix must be equal!");
-        }
-
+        }    
 
         static void _TestJPEGData()
         {
