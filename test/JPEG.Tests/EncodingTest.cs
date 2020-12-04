@@ -86,20 +86,31 @@ namespace JPEG.Tests
         [TestMethod]
         public void TestEncodingDC()
         {
-            int numberOfBlock = 3;
+            int numberOfBlock = 12;
             // Создаем numberOfBlock количество блоков [64] со случайными байтовыми значениями.
             Random random = new Random();
             List<short[]> listOfBlocks = new List<short[]> { };
-            List<short[]> EXlistOfBlocks = new List<short[]> { };
+            byte[] resultt = new byte[] { };
+            byte[] ex = new byte[] { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11 };
 
             for (int k = 0; k < numberOfBlock; k++)
             {
                 listOfBlocks.Add(new short[64]);
-                EXlistOfBlocks.Add(new short[64]);
                 for (int i = 0; i < 64; i++)
                 {
-                    listOfBlocks[k][i] = (short)random.Next(0, 255);
-                    EXlistOfBlocks[k][i] = listOfBlocks[k][i];
+                    listOfBlocks[k][i] = (short)random.Next(0, 10);
+                    if (k == 0) listOfBlocks[k][0] = 0;
+                    if (k == 1) listOfBlocks[k][0] = -1;
+                    if (k == 2) listOfBlocks[k][0] = 3;
+                    if (k == 3) listOfBlocks[k][0] = -5;
+                    if (k == 4) listOfBlocks[k][0] = 8;
+                    if (k == 5) listOfBlocks[k][0] = -25;
+                    if (k == 6) listOfBlocks[k][0] = 45;
+                    if (k == 7) listOfBlocks[k][0] = -80;
+                    if (k == 8) listOfBlocks[k][0] = 160;
+                    if (k == 9) listOfBlocks[k][0] = -330;
+                    if (k == 10) listOfBlocks[k][0] = 700;
+                    if (k == 11) listOfBlocks[k][0] = -1500;
                 }
             }
 
@@ -111,19 +122,12 @@ namespace JPEG.Tests
             }
 
             // Применяем метод Encoding.EncodeDC
-            Encoding.EncodeDC(listOfBlocks);
+            resultt = Encoding.EncodeDC(listOfBlocks);
 
-            // Выводим содержимое блоков после применения Encoding.EncodeDC
-            Console.WriteLine("Содержимое блоков после применения Encoding.EncodeDC");
-            for (int k = 0; k < numberOfBlock; k++)
+            for (int i = 0; i < resultt.Length; i++)
             {
-                Console.WriteLine($"Значения {k} блока: " + string.Join(" ", listOfBlocks[k]));
+                Console.WriteLine("Категория: " + resultt[i]);
             }
-            for(int i = 0; i < numberOfBlock; i++)
-            {
-                CollectionAssert.AreEqual(EXlistOfBlocks[i], listOfBlocks[i]);
-            }
-
         }
 
         [TestMethod]
@@ -147,7 +151,7 @@ namespace JPEG.Tests
                 5,
             };
             // Запись в поток с помощью метода Encoding.WriteBits
-            FileStream s = File.Create("../../../testEncodingWriteBits");
+            MemoryStream s = new MemoryStream();
             Encoding encoding = new Encoding(s);
             Console.WriteLine($"Использование метода Encoding.WriteBits");
             for (int i = 0; i < bits.Length; i++)
