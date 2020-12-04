@@ -9,12 +9,10 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            /*_TestSplit();
-            _TestPack();
-            _TestUnpack();
-            _TestChannel();
-            _TestInterleave();
-            
+            //_TestSplit();
+            //_TestPack();
+            //_TestUnpack();
+            //_TestInterleave();            
             //_TestJPEGData();
             //_TestBitReader();
             //_TestBitWriter();            
@@ -27,9 +25,8 @@ namespace ConsoleApp1
             //_TestImageConverter();
             //_TestHuffmanTable();
             // _TestDCTcoding();
-            //_TestChannelV2();
-            // _TestEncodingWriteBits();*/
-            _TestDecodingDCAC();
+            // _TestEncodingWriteBits();
+            //_TestDecodingDCAC();
             Console.ReadKey();
         }
 
@@ -66,50 +63,6 @@ namespace ConsoleApp1
             }
             Console.WriteLine();
             S.Dispose();
-        }
-
-        static void _TestChannelV2()
-        {
-            const int TEST_COUNT = 10;
-            var r = new Random();
-            for (var i = 0; i < TEST_COUNT; i++)
-            {
-                var width = r.Next(4, 1024);
-                var height = r.Next(4, 1024);
-                byte[,] matrix = new byte[width, height];
-                for (var y = 0; y < height; y++)
-                {
-                    for (var x = 0; x < width; x++)
-                    {
-                        matrix[x, y] = (byte)r.Next(0, 255);
-
-                    }
-                }
-                Console.WriteLine($"Тестовая матрица (W*H): {width}*{height}");
-                WriteMatrix(matrix);
-
-                var H = Convert.ToInt32(Math.Pow(2, r.Next(0, 4)));
-                var V = Convert.ToInt32(Math.Pow(2, r.Next(0, 4)));
-                Console.WriteLine($"H={H}, V={V}");
-
-                var channel = new Channel(matrix, H, V);
-                channel.Sample(H, V);
-                var blocks = channel.Split();
-                channel.Collect(blocks);
-                channel.Resample(H, V);
-
-                Console.WriteLine($"Результирующая матрица (W*H): {channel.GetMatrix().GetLength(0)}*{channel.GetMatrix().GetLength(1)}");
-                WriteMatrix(channel.GetMatrix());
-                for (var y = 0; y < height; y++)
-                {
-                    for (var x = 0; x < width; x++)
-                    {
-                        if (matrix[x, y] != channel.GetMatrix()[x, y]) throw new Exception("Ошибка при тестировании: элементы тестовой и результирующей матрицы не совпадают!");
-                    }
-                }
-
-            }
-
         }
 
         private static void _TestHuffmanTable()
@@ -302,7 +255,6 @@ namespace ConsoleApp1
 
 
         }
-
         static void _TestUnpack()
         {
             var up = new JPEG_CS(File.Open("testUP.jpg", FileMode.Create));
@@ -390,32 +342,6 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
         }
-
-        static void _TestChannel()
-        {
-
-            byte[,] matrix = new byte[4, 4];
-            for (int y = 0, c = 0; y < matrix.GetLength(1); y++)
-            {
-                for (int x = 0; x < matrix.GetLength(0); x++, c++)
-                {
-                    matrix[x, y] = (byte)(c * 4);
-                }
-            }
-
-            Console.WriteLine("Block(matrix, 4, 4)");
-            Channel channel1 = new Channel(matrix, 4, 4);
-            WriteMatrix(channel1.GetMatrix());
-
-            Console.WriteLine("\nResample(16, 8)");
-            channel1.Resample(16, 8);
-            WriteMatrix(channel1.GetMatrix());
-
-            Console.WriteLine("\nSample(16, 8)");
-            channel1.Sample(16, 8);
-            WriteMatrix(channel1.GetMatrix());
-        }
-
         static void WriteMatrix(byte[,] matrix)
         {
             for (int y = 0; y < matrix.GetLength(1); y++)
@@ -426,48 +352,7 @@ namespace ConsoleApp1
                 }
                 Console.WriteLine();
             }
-        }
-
-        static void _TestQuantization()
-        {
-            Random random = new Random();
-            short[,] matrixC = new short[4, 4];
-            short[,] matrixQ = new short[4, 4] { {1,2,4,1 },
-                                                  {2,2,2,2 },
-                                                  {3,3,3,30 },
-                                                  {4,4,40,50 } };
-
-            for (int i = 0; i < 16; i++)
-            {
-                matrixC[i / 4, i % 4] = Convert.ToByte(random.Next(0, 256));
-            }
-
-
-            //до
-            for (int i = 0; i < 16; i++)
-            {
-                Console.Write($"{matrixC[i / 4, i % 4]}\t");
-                if (i % 4 == 3) { Console.Write("\n"); }
-            }
-            Console.WriteLine();
-            //после квантования
-            short[,] qtest = DCT.QuantizationDirect(matrixC, matrixQ);
-            for (int i = 0; i < 16; i++)
-            {
-                Console.Write($"{qtest[i / 4, i % 4]}\t");
-                if (i % 4 == 3) { Console.Write("\n"); }
-            }
-            //после обратного
-            Console.WriteLine();
-            qtest = DCT.QuantizationReverse(matrixC, matrixQ);
-            for (int i = 0; i < 16; i++)
-            {
-                Console.Write($"{qtest[i / 4, i % 4]}\t");
-                if (i % 4 == 3) { Console.Write("\n"); }
-            }
-        }
-
-
+        }        
         static void _TestSplit()
         {
             var r = new Random();
