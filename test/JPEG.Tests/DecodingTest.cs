@@ -82,38 +82,30 @@ namespace JPEG.Tests
             HuffmanTable huffDC = null;
             HuffmanTable huffAC = null;
 
-            MemoryStream ms = new MemoryStream(6);
-            for (int i = 0; i < 6; i++)
+            MemoryStream ms = new MemoryStream(3);
+            for (int i = 0; i < 3; i++) 
             {
-                byte temp1 = 0;
-                byte temp2 = 0;
                 if (i == 0)
                 {
-                    temp1 = (byte)r.Next(0, 255);
-                    ms.WriteByte(temp1);
-                    expected = (short)((int)(temp1) << 8);
+                    expected = (short)r.Next(0,255);
+                    ms.WriteByte((byte)(expected%256));
+                    continue;
                 }
-                else if (i == 1)
-                {
-                    temp2 = (byte)r.Next(0, 255);
-                    ms.WriteByte(temp2);
-                    expected += temp2;
-                }
-                ms.WriteByte((byte)r.Next(0, 255));
+                ms.WriteByte((byte)(r.Next(0,255)));
             }
             ms.Seek(0, SeekOrigin.Begin);
 
             Decoding d = new Decoding(ms, huffDC, huffAC);
 
-            ushort actual = d.Receive(8);
-            actual = (ushort)Decoding.Extend(actual, 8);
+            ushort actual = d.Receive(4);
+            actual = (ushort)Decoding.Extend(actual, 4);
             Console.Write($"Результат: {actual}");
 
-            ushort temp = (ushort)Math.Pow(2, 7);
-            while (expected < temp)
+            short vt = (1 << 3); 
+            while (expected < vt)
             {
-                temp = (ushort)((-1 * Math.Pow(2, 8)) + 1);
-                expected += (short)temp;
+                vt = (-1<<4)+1;
+                expected += vt;
             }
 
             Assert.AreEqual(expected, actual);
