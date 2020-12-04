@@ -50,6 +50,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AppDataTest.cs" />
+    <Compile Include="ChannelTest.cs" />
     <Compile Include="DCTTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
