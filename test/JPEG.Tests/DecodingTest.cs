@@ -15,13 +15,8 @@ namespace JPEG.Tests
             byte[] actual = new byte[5];
 
             Random r = new Random();
-            //FileStream S = File.Open("../../../test.jpg", FileMode.Open);
-
-            //S.Seek(0x1f7, SeekOrigin.Begin);
             HuffmanTable huffDC = null;
-            //S.Seek(0x218, SeekOrigin.Begin);
             HuffmanTable huffAC = null;
-            //S.Seek(0x3a7, SeekOrigin.Begin); //начала скана
 
             MemoryStream ms = new MemoryStream(5);
             for (int i = 0; i < 5; i++)
@@ -31,7 +26,7 @@ namespace JPEG.Tests
             }
             ms.Seek(0, SeekOrigin.Begin);
 
-            JPEG_CLASS_LIB.Decoding d = new JPEG_CLASS_LIB.Decoding(ms, huffDC, huffAC);
+            Decoding d = new Decoding(ms, huffDC, huffAC);
 
             for (int i = 0; i < 5; i++)
             {
@@ -44,7 +39,6 @@ namespace JPEG.Tests
             }
 
             CollectionAssert.AreEqual(expected, actual);
-            //S.Dispose();
             ms.Dispose();
         }
 
@@ -55,13 +49,9 @@ namespace JPEG.Tests
             ushort[] actual = new ushort[5];
 
             Random r = new Random();
-            FileStream S = File.Open("../../../test.jpg", FileMode.Open);
 
-            S.Seek(0x1f7, SeekOrigin.Begin);
-            HuffmanTable huffDC = new HuffmanTable(S);
-            S.Seek(0x218, SeekOrigin.Begin);
-            HuffmanTable huffAC = new HuffmanTable(S);
-            S.Seek(0x3a7, SeekOrigin.Begin); //начала скана
+            HuffmanTable huffDC = null;
+            HuffmanTable huffAC = null;
 
             MemoryStream ms = new MemoryStream(5);
             for (int i = 0; i < 5; i++)
@@ -71,7 +61,7 @@ namespace JPEG.Tests
             }
             ms.Seek(0, SeekOrigin.Begin);
 
-            JPEG_CLASS_LIB.Decoding d = new JPEG_CLASS_LIB.Decoding(ms, huffDC, huffAC);
+            Decoding d = new Decoding(ms, huffDC, huffAC);
 
             for (int i = 0; i < 5; i++)
             {
@@ -79,7 +69,6 @@ namespace JPEG.Tests
             }
 
             CollectionAssert.AreEqual(expected, actual);
-            S.Dispose();
             ms.Dispose();
         }
 
@@ -89,13 +78,9 @@ namespace JPEG.Tests
             short expected = 0;
 
             Random r = new Random();
-            FileStream S = File.Open("../../../test.jpg", FileMode.Open);
 
-            S.Seek(0x1f7, SeekOrigin.Begin);
-            HuffmanTable huffDC = new HuffmanTable(S);
-            S.Seek(0x218, SeekOrigin.Begin);
-            HuffmanTable huffAC = new HuffmanTable(S);
-            S.Seek(0x3a7, SeekOrigin.Begin); //начала скана
+            HuffmanTable huffDC = null;
+            HuffmanTable huffAC = null;
 
             MemoryStream ms = new MemoryStream(6);
             for (int i = 0; i < 6; i++)
@@ -118,10 +103,10 @@ namespace JPEG.Tests
             }
             ms.Seek(0, SeekOrigin.Begin);
 
-            JPEG_CLASS_LIB.Decoding d = new JPEG_CLASS_LIB.Decoding(ms, huffDC, huffAC);
+            Decoding d = new Decoding(ms, huffDC, huffAC);
 
             ushort actual = d.Receive(8);
-            actual = (ushort)JPEG_CLASS_LIB.Decoding.Extend(actual, 8);
+            actual = (ushort)Decoding.Extend(actual, 8);
             Console.Write($"Результат: {actual}");
 
             ushort temp = (ushort)Math.Pow(2, 7);
@@ -132,7 +117,6 @@ namespace JPEG.Tests
             }
 
             Assert.AreEqual(expected, actual);
-            S.Dispose();
             ms.Dispose();
         }
     }
