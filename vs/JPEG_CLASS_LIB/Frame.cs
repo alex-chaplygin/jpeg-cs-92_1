@@ -36,6 +36,11 @@ namespace JPEG_CLASS_LIB
         Component[] Components;
 
         /// <summary>
+        /// поток для записи.
+        /// </summary>
+        Stream s;
+
+        /// <summary>
         /// Конструктор класса Frame.
         /// </summary>
         /// <param name="s">Поток с изображением.</param>
@@ -52,6 +57,39 @@ namespace JPEG_CLASS_LIB
                 Read4(out Components[i].H, out Components[i].V);
                 Components[i].QuantizationTableNumber = (byte)(s.ReadByte());
             }
+        }
+
+        /// <summary>
+        /// Второй Конструктор класса Frame.
+        /// </summary>
+        /// <param name="s">поток для записи.</param>
+        /// <param name="markertype">тип фрейма.</param>
+        /// <param name="lenght">длина потока(ushort).</param>
+        public Frame(Stream stream, MarkerType markertype, ushort thewidth, ushort theheight, byte thenumBit, 
+            byte thenumComponent, Component[] thecomponents):base(stream,markertype,
+                (byte)(6+(3*thenumComponent)))
+        {
+            width = thewidth;
+            height =theheight;
+            numBit=thenumBit;
+            numComponent=thenumComponent;
+            Components=thecomponents;
+            s=stream;
+        }
+        public override void Write()
+		{
+            base.Write();
+            Write16(width);
+            Write16(height);
+            MainStream.WriteByte(numBit);
+            MainStream.WriteByte(numComponent);
+            for (int i = 0; i < numComponent; i++)
+            {
+                MainStream.WriteByte(Components[i].Number);
+                Write4(Components[i].H, Components[i].V);
+                MainStream.WriteByte(Components[i].QuantizationTableNumber);
+            }
+
         }
 
         /// <summary>
@@ -89,7 +127,7 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Параметры канала.
         /// </summary>
-        struct Component
+        public struct Component
         {
             /// <summary>
             /// Номер компонента.
