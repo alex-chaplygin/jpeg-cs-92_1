@@ -14,13 +14,11 @@ namespace ConsoleApp1
             //_TestJPEGData();
             //_TestBitReader();
             //_TestBitWriter();            
-            //_TestEncoding();
             //_TestJPEGFile();
             //_TestBitWriterTwo();
             //_TestBitWriterError();
             //_TestHuffmanTable();
             //_TestDCTcoding();
-            //_TestEncodingWriteBits();
             //_TestDecodingDCAC();
             Console.ReadKey();
         }
@@ -429,149 +427,51 @@ namespace ConsoleApp1
             s.Dispose();*/
         }
 
-
-        private static void _TestEncoding()
+        private static void _TestImageConverter()
         {
-            int numberOfBlock = 3;
-            // Создаем numberOfBlock количество блоков [64] со случайными байтовыми значениями.
+            int widgth = 4;
+            int height = 2;
+            // Создаем матрицу пикселей RGB [widgth, height] со случайными байтовыми значениями.
             Random random = new Random();
-            List<short[]> listOfBlocks = new List<short[]>();
-            for (int k = 0; k < numberOfBlock; k++)
+            Point[,] imgRGB = new Point[widgth, height];
+            for (int i = 0; i < height; i++)
+                for (int j = 0; j < widgth; j++)
+                    imgRGB[j, i] = new Point()
+                    {
+                        r = (byte)random.Next(0, 255),
+                        g = (byte)random.Next(0, 255),
+                        b = (byte)random.Next(0, 255),
+                    };
+
+            // Выводим исходный массив RGB пикселей.
+            Console.WriteLine("Исходный массив RGB пикселей");
+            for (int i = 0; i < height; i++)
             {
-                listOfBlocks.Add(new short[64]);
-                for (int i = 0; i < 64; i++)
-                    listOfBlocks[k][i] = (short)random.Next(0, 255);
+                for (int j = 0; j < widgth; j++)
+                    Console.Write($"RGB=({imgRGB[j, i].r:d3};{imgRGB[j, i].g:d3};{imgRGB[j, i].b:d3}) ");
+                Console.WriteLine();
             }
 
-            // Выводим содержимое блоков до применения метода Encoding.EncodeDC
-            Console.WriteLine("Содержимое блоков до применения метода Encoding.EncodeDC");
-            for (int k = 0; k < numberOfBlock; k++)
-                Console.WriteLine($"Значения {k} блока: " + string.Join(" ", listOfBlocks[k]));
-
-            // Применяем метод Encoding.EncodeDC
-            Encoding.EncodeDC(listOfBlocks);
-
-            // Выводим содержимое блоков после применения Encoding.EncodeDC
-            Console.WriteLine("Содержимое блоков после применения Encoding.EncodeDC");
-            for (int k = 0; k < numberOfBlock; k++)
-                Console.WriteLine($"Значения {k} блока: " + string.Join(" ", listOfBlocks[k]));
-        }
-
-        private static void _TestEncodingDCAC()
-        {
-            short[,] LQT = new short[,] {{ 16, 12, 14, 14, 18, 24, 49, 72 },
-                                         { 11, 12, 13, 17, 22, 35, 64, 92},
-                                         { 10, 14, 16, 22, 37, 55, 78, 95},
-                                         { 16, 19, 24, 29, 56, 64, 87, 98},
-                                         { 24, 26, 40, 51, 68, 81, 103, 112},
-                                         { 40, 58, 57, 87, 109, 104, 121, 100},
-                                         { 51, 60, 69, 80, 103, 113, 120, 103},
-                                         { 61, 55, 56, 62, 77, 92, 101, 99} };
-            Random random = new Random();
-            List<byte[,]> tempB = new List<byte[,]>();
-            List<short[,]> tempS = new List<short[,]>();
-            List<short[]> data = new List<short[]>();
-            byte[] result;
-
-            //заполнение
-            for (int i = 0; i < 3; i++)
+            // Конвертируем массив RGB пикселей в массив YUV пикселей и выводим его.
+            byte[,] matrixY, matrixCb, matrixCr;
+            ImageConverter.RGBToYUV(imgRGB, out matrixY, out matrixCb, out matrixCr);
+            Console.WriteLine("Конвертированный из RGB в YUV массив пикселей");
+            for (int i = 0; i < height; i++)
             {
-                byte[,] a = new byte[8, 8];
-                for (int j = 0; j < 64; j++)
-                {
-                    a[j / 8, j % 8] = (byte)random.Next(0, 256);
-                }
-                tempB.Add(a);
+                for (int j = 0; j < widgth; j++)
+                    Console.Write($"YUV=({matrixY[j, i]:d3};{matrixCb[j, i]:d3};{matrixCr[j, i]:d3}) ");
+                Console.WriteLine();
             }
 
-            for (int i = 0; i < 3; i++)
+            // Конвертируем массив YUV пикселей обратно в массив RGB пикселей и выводим его.
+            Point[,] newImgRGB = ImageConverter.YUVToRGB(matrixY, matrixCb, matrixCr);
+            Console.WriteLine("Конвертированный из YUV обратно в RGB массив пикселей");
+            for (int i = 0; i < height; i++)
             {
-                tempS.Add(JPEG_CLASS_LIB.DCT.Shift(tempB[i]));
-                tempS[i] = JPEG_CLASS_LIB.DCT.FDCT(tempS[i]);
-                tempS[i] = JPEG_CLASS_LIB.DCT.QuantizationDirect(tempS[i], LQT);
-                for (int j = 0; j < 64; j++)
-                {
-                    tempB[i][j / 8, j % 8] = (byte)tempS[i][j / 8, j % 8];
-                }
+                for (int j = 0; j < widgth; j++)
+                    Console.Write($"RGB=({newImgRGB[j, i].r:d3};{newImgRGB[j, i].g:d3};{newImgRGB[j, i].b:d3}) ");
+                Console.WriteLine();
             }
-            tempS = DCT.DCCalculating(tempS);
-            for (int i = 0; i < 3; i++)
-            {
-                /*for (int j = 0; j < 64; j++)
-                {
-                    tempS[i][j / 8, j % 8] = (short)tempB[i][j / 8, j % 8];
-                }*/
-                data.Add(JPEG_CLASS_LIB.DCT.Zigzag(tempS[i]));
-            }
-
-            //до кодирования
-            for (int i = 0; i < 3; i++)
-            {
-                for (int j = 0; j < 64; j++)
-                {
-                    //if (j != 0 && j % 7 == 0) Console.WriteLine();
-                    if (j > 50) data[i][j] = 0;
-                    if (j > 10 && j < 35) data[i][j] = 0;
-                    Console.Write($"{data[i][j]} ");
-                }
-                Console.Write("\n\n");
-            }
-
-            result = JPEG_CLASS_LIB.Encoding.EncodeAC(data);
-
-            //string values = BitConverter.ToString(result).Replace("-"," ");
-            //string[] resultStr = values.Split();
-            Console.Write("\n\n");
-            for (int i = 0; i < result.Length; i++)
-            {
-                //if (i != 0 && i % 7 == 0) Console.Write("\n\n");
-                Console.Write(Convert.ToString(result[i], 16) + " ");
-            }
-            Console.WriteLine();
-        }
-
-        private static void _TestEncodingWriteBits()
-        {
-            ushort[] bits =
-            {
-                0xa6ff, //0b1010_0110_1111_1111
-                0x002e, //0b0000_0000_0010_1110,
-                0x000b, //0b0000_0000_0000_1011,
-                0x0206,//0b0000_0010_0000_0110,
-                0x0015,//0b0000_0000_0001_0101,
-            };
-            int[] num =
-            {
-                16,
-                6,
-                4,
-                10,
-                5,
-            };
-            // Запись в поток с помощью метода Encoding.WriteBits
-            FileStream s = File.Create("../../../testEncodingWriteBits");
-            Encoding encoding = new Encoding(s);
-            Console.WriteLine($"Использование метода Encoding.WriteBits");
-            for (int i = 0; i < bits.Length; i++)
-            {
-                Console.Write($"Двоичное представление числа {bits[i]}: ");
-                Console.WriteLine(Convert.ToString(bits[i], 2));
-                encoding.WriteBits(bits[i], num[i]);
-            }
-            encoding.FinishBits();
-
-            // Чтение записанных в поток данных
-            s.Seek(0, SeekOrigin.Begin);
-            Console.WriteLine("Записанные в поток байты:");
-            byte b;
-            for (int i = 0; i < s.Length; i++)
-            {
-                b = (byte)s.ReadByte();
-                Console.WriteLine($"{b:X2} {Convert.ToString(b, 2)}");
-            }
-
-            s.Dispose();
-            File.Delete("../../../testEncodingWriteBits");
         }
     }
 }
