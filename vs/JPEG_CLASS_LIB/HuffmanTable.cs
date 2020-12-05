@@ -42,11 +42,11 @@ namespace JPEG_CLASS_LIB
         /// Массив кодов таблицы Хаффмана для соответствия значениям
         /// </summary>
 
-        public byte[] HUFFCODE;
+        public ushort[] HUFFCODE;
         /// <summary>
         /// Массив кодов, отсортированный по значениям
         /// </summary>
-        byte[] EHUFCO;
+        ushort[] EHUFCO;
 
         /// <summary>
         /// Массив длин кодов, отсортированный по значениям
@@ -176,9 +176,9 @@ namespace JPEG_CLASS_LIB
         private void Generate_code_table(int all_length_values)
         {
             int K = 0;
-            byte CODE = 0;
+            ushort CODE = 0;
             byte SI = HUFFSIZE[0];
-            HUFFCODE = new byte[all_length_values];
+            HUFFCODE = new ushort[all_length_values];
             do
             {
                 do
@@ -195,7 +195,7 @@ namespace JPEG_CLASS_LIB
 
                 do
                 {
-                    CODE = (byte)(CODE << 1);
+                    CODE = (ushort)(CODE << 1);
                     SI++;
                 } while (HUFFSIZE[K] != SI);
             } while (HUFFSIZE[K] == SI);
@@ -208,7 +208,7 @@ namespace JPEG_CLASS_LIB
         {
             byte I;
             int K = 0;
-            EHUFCO = new byte[256];
+            EHUFCO = new ushort[256];
             EHUFSI = new byte[256];
             HUFFVAL = values;
             do
@@ -264,7 +264,7 @@ namespace JPEG_CLASS_LIB
             }
 
             Console.WriteLine("\nHUFFCODE:");
-            foreach (byte i in HUFFCODE)
+            foreach (ushort i in HUFFCODE)
             {
                 Console.Write(Convert.ToString(i, 2) + " ");
             }
