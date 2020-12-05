@@ -52,6 +52,7 @@
     <Compile Include="AppDataTest.cs" />
     <Compile Include="DCTTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="HuffmanTableTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
