@@ -12,14 +12,13 @@ namespace JPEG.Tests
         [TestMethod]
         public void TestHuffmanTable_HuffmanTable()
         {
-
             Random random = new Random();
             ushort Length = 1;
             byte TcTh = 0x00;
             byte[] CodesArray;
 
-            byte[] CodeLengthForLuminance = { 2, 3, 3, 3, 3, 3, 4, 5, 6, 7, 8, 9 , // CodeLength
-            0, 0, 0 ,0}; // Оставшиеся значения, чтобы массив был длиной [16]
+            // Проверка по таблице K.3 "Table for luminance DC coefficient differences"
+            byte[] CodeLengthForLuminance = { 0, 1, 5, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0 };
             int AllCodeLengthForLuminance = 0;
             foreach (var a in CodeLengthForLuminance) AllCodeLengthForLuminance += a;
             byte[] ValuesForLuminance = new byte[AllCodeLengthForLuminance];
@@ -36,14 +35,17 @@ namespace JPEG.Tests
             HuffmanTable huffmanTable = new HuffmanTable(M);
             Console.WriteLine("HuffmanTable for Luminance:");
             huffmanTable.Print();
-            //M.Dispose();
 
-            short[] expectedCodeWordForLuminance =
+            //byte[] expectedCodeLengthForLuminance = { 2, 3, 3, 3, 3, 3, 4, 5, 6, 7, 8, 9 };
+            ushort[] expectedCodeWordForLuminance =
                 { 0, 2, 3, 4, 5, 6, 14, 30, 62, 126, 254, 510};
             CollectionAssert.AreEqual(expectedCodeWordForLuminance, huffmanTable.HUFFCODE);
+            M.Dispose();
 
-            byte[] CodeLengthForChrominance = { 2, 2, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, // CodeLength
-            0, 0, 0, 0}; // Оставшиеся значения, чтобы массив был длиной [16]
+            Console.WriteLine();
+
+            // Проверка по таблице K.4 "Table for chrominance DC coefficient differences"
+            byte[] CodeLengthForChrominance = { 0, 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0, 0, 0};
             int AllCodeLengthForChrominance = 0;
             foreach (var a in CodeLengthForLuminance) AllCodeLengthForChrominance += a;
             byte[] ValuesForChrominance = new byte[AllCodeLengthForChrominance];
@@ -60,10 +62,9 @@ namespace JPEG.Tests
             Console.WriteLine("HuffmanTable for Chrominance:");
             huffmanTable.Print();
 
-            short[] expectedCodeWordForChrominance =
-                { 0, 1, 2, 6, 14, 30, 62, 126, 254, 512, 1022, 2046};
+            ushort[] expectedCodeWordForChrominance =
+                { 0, 1, 2, 6, 14, 30, 62, 126, 254, 510, 1022, 2046};
             CollectionAssert.AreEqual(expectedCodeWordForChrominance, huffmanTable.HUFFCODE);
-
             M.Dispose();
         }
     }
