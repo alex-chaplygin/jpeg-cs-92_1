@@ -117,12 +117,12 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 <tr class="memitem:a81620fcb44d30a555573b2261abbb0d3"><td class="memItemLeft" align="right" valign="top">List&lt; byte[,]&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CS.html#a81620fcb44d30a555573b2261abbb0d3">IDCT</a> (List&lt; short[]&gt; data)</td></tr>
 <tr class="memdesc:a81620fcb44d30a555573b2261abbb0d3"><td class="mdescLeft">&#160;</td><td class="mdescRight">Осуществляет все необходимые обратные DCT преобразования для списка блоков  <a href="#a81620fcb44d30a555573b2261abbb0d3">Подробнее...</a><br /></td></tr>
 <tr class="separator:a81620fcb44d30a555573b2261abbb0d3"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a3dbc92624deebfc992f98393f787f4e8"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CS.html#a3dbc92624deebfc992f98393f787f4e8">Collect</a> (<a class="el" href="classJPEG__CLASS__LIB_1_1Channel.html">Channel</a>[] channels, List&lt; byte[,]&gt; blocks)</td></tr>
-<tr class="memdesc:a3dbc92624deebfc992f98393f787f4e8"><td class="mdescLeft">&#160;</td><td class="mdescRight">Собирает блоки 8x8 в каналы и выполняет обратное масштабирование матриц каналов. Если канал один, то все блоки записываются в канал слева-направо, сверху вниз.  <a href="#a3dbc92624deebfc992f98393f787f4e8">Подробнее...</a><br /></td></tr>
-<tr class="separator:a3dbc92624deebfc992f98393f787f4e8"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae39b93da78914a75021d7fc0d743aa6f"><td class="memItemLeft" align="right" valign="top">List&lt; byte[,]&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CS.html#ae39b93da78914a75021d7fc0d743aa6f">Interleave</a> (<a class="el" href="classJPEG__CLASS__LIB_1_1Channel.html">Channel</a>[] channels)</td></tr>
-<tr class="memdesc:ae39b93da78914a75021d7fc0d743aa6f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Выполняется разбиение каналов на блоки 8x8 и перемешивание блоков в зависимости от значений факторов H и V в каналах (см. раздел A.2.3 стандарта). Если канал один, то перемешивания не происходит. Подразумевается, что каналы уже были уменьшены (для всех каналов был вызван метод Sample с рассчитанными Hmax и Vmax).  <a href="#ae39b93da78914a75021d7fc0d743aa6f">Подробнее...</a><br /></td></tr>
-<tr class="separator:ae39b93da78914a75021d7fc0d743aa6f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a020f88456c97d3b760ccbfc0d30ca282"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CS.html#a020f88456c97d3b760ccbfc0d30ca282">Collect</a> (<a class="el" href="classJPEG__CLASS__LIB_1_1Channel.html">Channel</a>[] channels, List&lt; short[]&gt; blocks)</td></tr>
+<tr class="memdesc:a020f88456c97d3b760ccbfc0d30ca282"><td class="mdescLeft">&#160;</td><td class="mdescRight">Собирает списки каждого канала, далее к ним применяет IDCT преобразование, затем собирает блоки 8x8 в каналы и выполняет обратное масштабирование матриц каналов. Если канал один, то все блоки записываются в канал слева-направо, сверху вниз.  <a href="#a020f88456c97d3b760ccbfc0d30ca282">Подробнее...</a><br /></td></tr>
+<tr class="separator:a020f88456c97d3b760ccbfc0d30ca282"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29bbd1af133eee07ccef3beff5a7c66f"><td class="memItemLeft" align="right" valign="top">List&lt; short[]&gt;&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classJPEG__CS.html#a29bbd1af133eee07ccef3beff5a7c66f">Interleave</a> (<a class="el" href="classJPEG__CLASS__LIB_1_1Channel.html">Channel</a>[] channels)</td></tr>
+<tr class="memdesc:a29bbd1af133eee07ccef3beff5a7c66f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Выполняется разбиение каналов на блоки 8x8 их FDCT преобразование и перемешивание блоков в зависимости от значений факторов H и V в каналах (см. раздел A.2.3 стандарта). Если канал один, то перемешивания не происходит. Подразумевается, что каналы уже были уменьшены (для всех каналов был вызван метод Sample с рассчитанными Hmax и Vmax).  <a href="#a29bbd1af133eee07ccef3beff5a7c66f">Подробнее...</a><br /></td></tr>
+<tr class="separator:a29bbd1af133eee07ccef3beff5a7c66f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a name="pri-attribs"></a>
 Закрытые данные</h2></td></tr>
@@ -175,7 +175,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 </div>
 </div>
 <h2 class="groupheader">Методы</h2>
-<a class="anchor" id="a3dbc92624deebfc992f98393f787f4e8"></a>
+<a class="anchor" id="a020f88456c97d3b760ccbfc0d30ca282"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -191,7 +191,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">List&lt; byte[,]&gt;&#160;</td>
+          <td class="paramtype">List&lt; short[]&gt;&#160;</td>
           <td class="paramname"><em>blocks</em>&#160;</td>
         </tr>
         <tr>
@@ -207,11 +207,11 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 </table>
 </div><div class="memdoc">
 
-<p>Собирает блоки 8x8 в каналы и выполняет обратное масштабирование матриц каналов. Если канал один, то все блоки записываются в канал слева-направо, сверху вниз. </p>
+<p>Собирает списки каждого канала, далее к ним применяет IDCT преобразование, затем собирает блоки 8x8 в каналы и выполняет обратное масштабирование матриц каналов. Если канал один, то все блоки записываются в канал слева-направо, сверху вниз. </p>
 <dl class="params"><dt>Аргументы</dt><dd>
   <table class="params">
     <tr><td class="paramname">channels</td><td>Каналы с пустыми матрицами, но с корректными шириной, высотой и значениями H и V</td></tr>
-    <tr><td class="paramname">blocks</td><td>Список перемешанных блоков</td></tr>
+    <tr><td class="paramname">blocks</td><td>Список short[] перемешанных блоков</td></tr>
   </table>
   </dd>
 </dl>
@@ -316,7 +316,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 
 </div>
 </div>
-<a class="anchor" id="ae39b93da78914a75021d7fc0d743aa6f"></a>
+<a class="anchor" id="a29bbd1af133eee07ccef3beff5a7c66f"></a>
 <div class="memitem">
 <div class="memproto">
 <table class="mlabels">
@@ -324,7 +324,7 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">List&lt;byte[,]&gt; JPEG_CS.Interleave </td>
+          <td class="memname">List&lt;short[]&gt; JPEG_CS.Interleave </td>
           <td>(</td>
           <td class="paramtype"><a class="el" href="classJPEG__CLASS__LIB_1_1Channel.html">Channel</a>[]&#160;</td>
           <td class="paramname"><em>channels</em></td><td>)</td>
@@ -338,14 +338,14 @@ var searchBox = new SearchBox("searchBox", "search",false,'Поиск');
 </table>
 </div><div class="memdoc">
 
-<p>Выполняется разбиение каналов на блоки 8x8 и перемешивание блоков в зависимости от значений факторов H и V в каналах (см. раздел A.2.3 стандарта). Если канал один, то перемешивания не происходит. Подразумевается, что каналы уже были уменьшены (для всех каналов был вызван метод Sample с рассчитанными Hmax и Vmax). </p>
+<p>Выполняется разбиение каналов на блоки 8x8 их FDCT преобразование и перемешивание блоков в зависимости от значений факторов H и V в каналах (см. раздел A.2.3 стандарта). Если канал один, то перемешивания не происходит. Подразумевается, что каналы уже были уменьшены (для всех каналов был вызван метод Sample с рассчитанными Hmax и Vmax). </p>
 <dl class="params"><dt>Аргументы</dt><dd>
   <table class="params">
     <tr><td class="paramname">channels</td><td>Массив классов Channel</td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Возвращает</dt><dd>Cписок блоков всех каналов в необходимом порядке.</dd></dl>
+<dl class="section return"><dt>Возвращает</dt><dd>Cписок short[] блоков всех каналов в необходимом порядке.</dd></dl>
 
 </div>
 </div>

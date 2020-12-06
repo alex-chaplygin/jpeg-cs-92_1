@@ -1,12 +1,12 @@
 var searchData=
 [
-  ['r',['r',['../structPoint.html#a30f6407f41192c297c3dfedd24d340f9',1,'Point']]],
+  ['r',['r',['../classJPEG_1_1Tests_1_1ChannelTest.html#abb668ad3489d160f2c7a31d7a079f639',1,'JPEG.Tests.ChannelTest.r()'],['../structPoint.html#a30f6407f41192c297c3dfedd24d340f9',1,'Point.r()']]],
   ['read',['Read',['../classJPEG__CLASS__LIB_1_1BitReader.html#ae18f92d62ca181b8344e188be6d95f5c',1,'JPEG_CLASS_LIB::BitReader']]],
   ['read16',['Read16',['../classJPEG__CLASS__LIB_1_1JPEGData.html#a3abf13a2701ed61f2f741a4cba56914b',1,'JPEG_CLASS_LIB.JPEGData.Read16()'],['../classJPEG__CLASS__LIB_1_1JPEGData.html#ae5f8aa9f3270d5cb47d7f30b633e4e6a',1,'JPEG_CLASS_LIB.JPEGData.Read16(Stream s)']]],
   ['read32',['Read32',['../classJPEG__CLASS__LIB_1_1JPEGData.html#a1dc5f428a8c8242ffb818ec1227b7c89',1,'JPEG_CLASS_LIB::JPEGData']]],
   ['read4',['Read4',['../classJPEG__CLASS__LIB_1_1JPEGData.html#a7bd12d0be4628b926278054dd762fc85',1,'JPEG_CLASS_LIB::JPEGData']]],
   ['receive',['Receive',['../classJPEG__CLASS__LIB_1_1Decoding.html#a58ee72f90fab9b6efc8d77eb15f419d5',1,'JPEG_CLASS_LIB::Decoding']]],
-  ['resample',['Resample',['../classJPEG__CLASS__LIB_1_1Channel.html#ab1c1f47c6d624ceb0d992745343c11cc',1,'JPEG_CLASS_LIB::Channel']]],
+  ['resample',['Resample',['../classJPEG_1_1Tests_1_1ChannelTest.html#ac004d83720235facaea2239c733bb80a',1,'JPEG.Tests.ChannelTest.Resample()'],['../classJPEG__CLASS__LIB_1_1Channel.html#ab1c1f47c6d624ceb0d992745343c11cc',1,'JPEG_CLASS_LIB.Channel.Resample()']]],
   ['reserved',['Reserved',['../namespaceJPEG__CLASS__LIB.html#ab5620bfa5c00386ee79ef6306380f8e4a942d4e37dd5607ab68e54755540d4a47',1,'JPEG_CLASS_LIB']]],
   ['reservedforapplicationsegments',['ReservedForApplicationSegments',['../namespaceJPEG__CLASS__LIB.html#ab5620bfa5c00386ee79ef6306380f8e4a7c55666f85783138c56866d7b0af3e4d',1,'JPEG_CLASS_LIB']]],
   ['reservedforjpegext',['ReservedForJPEGExt',['../namespaceJPEG__CLASS__LIB.html#ab5620bfa5c00386ee79ef6306380f8e4a980adfe4226ee4bba347ecd3956a7323',1,'JPEG_CLASS_LIB']]],

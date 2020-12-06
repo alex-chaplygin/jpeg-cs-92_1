@@ -4,5 +4,6 @@ var searchData=
   ['write16',['Write16',['../classJPEG__CLASS__LIB_1_1JPEGData.html#af20ac7f022fe639eeed677a69078727f',1,'JPEG_CLASS_LIB::JPEGData']]],
   ['write32',['Write32',['../classJPEG__CLASS__LIB_1_1JPEGData.html#a26ac65651cc549cce405de3fadc6d6de',1,'JPEG_CLASS_LIB::JPEGData']]],
   ['write4',['Write4',['../classJPEG__CLASS__LIB_1_1JPEGData.html#a7d3b2542e315e3c63aeba9683fa4ef73',1,'JPEG_CLASS_LIB::JPEGData']]],
-  ['writematrix',['WriteMatrix',['../classConsoleApp1_1_1Program.html#afe8494856607caebd38cb3240d3593c9',1,'ConsoleApp1::Program']]]
+  ['writebits',['WriteBits',['../classJPEG__CLASS__LIB_1_1Encoding.html#a5b9e286511f369eb8d812414797dcefe',1,'JPEG_CLASS_LIB.Encoding.WriteBits(byte bits, int num)'],['../classJPEG__CLASS__LIB_1_1Encoding.html#a194355af6633c32d59c7fbb690976608',1,'JPEG_CLASS_LIB.Encoding.WriteBits(ushort bits, int num)']]],
+  ['writematrix',['WriteMatrix',['../classJPEG_1_1Tests_1_1DCTTest.html#a453034cbf824390d9e9331398ceed15e',1,'JPEG.Tests.DCTTest.WriteMatrix()'],['../classConsoleApp1_1_1Program.html#afe8494856607caebd38cb3240d3593c9',1,'ConsoleApp1.Program.WriteMatrix()']]]
 ];
