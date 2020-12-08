@@ -179,5 +179,45 @@ namespace JPEG_CLASS_LIB
                 }
             }
         }
+        /// <summary>
+        /// Декодирует блок (DC и 63 коэффициента AC) из потока
+        /// </summary>
+        /// <returns>Массив коэффициентов</returns>
+        public short[] DecodeBlock()
+        {
+            short[] block = new short[64];
+            short diff = 0;
+            ushort diff2 = 0;
+            byte t = Decode(huffDC);
+            if (t == 0) block[0] = 0;
+            else
+            {
+                diff2 = Receive(t);
+                diff = Extend(diff2, t);
+                block[0] = diff;
+            }
+            byte K, RS, RRRR, R, SSSS;
+            bool flag = true;
+            K = 1;
+            while (flag)
+            {
+                RS = Decode(huffAC);
+                SSSS = (byte)(RS % 16);
+                RRRR = (byte)(RS >> 4);
+                R = RRRR;
+                if (SSSS == 0)
+                    if (R == 15) K += 16;
+                    else flag = false;
+                else
+                {
+                    K += R;
+                    block[K] = (short)Receive(SSSS);
+                    block[K] = Extend((ushort)block[K], SSSS);
+                    if (K == 63) flag = false;
+                    else K++;
+                }
+            }
+            return (block);
+        }
     }
 }
