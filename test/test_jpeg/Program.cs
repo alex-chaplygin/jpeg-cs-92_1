@@ -19,6 +19,7 @@ namespace ConsoleApp1
             //_TestBitWriterError();
             //_TestHuffmanTable();
             // _TestEncodingWriteBits();
+            DecodeBlockTest();
             Console.ReadKey();
         }
 
@@ -436,6 +437,41 @@ namespace ConsoleApp1
             {
                 for (int j = 0; j < widgth; j++)
                     Console.Write($"RGB=({newImgRGB[j, i].r:d3};{newImgRGB[j, i].g:d3};{newImgRGB[j, i].b:d3}) ");
+                Console.WriteLine();
+            }
+        }
+        private static void DecodeBlockTest()
+        {
+            short[] Block = new short[64];
+            using (FileStream S = File.Open("../../../test.jpg", FileMode.Open))
+            {
+                S.Seek(0x1f7, SeekOrigin.Begin);
+                HuffmanTable huffDC = new HuffmanTable(S);
+                S.Seek(0x218, SeekOrigin.Begin);
+                HuffmanTable huffAC = new HuffmanTable(S);
+                S.Seek(0x3b3, SeekOrigin.Begin);
+                Decoding decoding = new Decoding(S, huffDC, huffAC);
+                for (int k = 0; k < 10; k++)
+                {
+                    decoding.huffAC = huffAC;
+                    decoding.huffAC.GenerateTables();
+                    decoding.huffDC = huffDC;
+                    decoding.huffDC.GenerateTables();
+                    Block = decoding.DecodeBlock();
+                    Console.WriteLine("\nДекодирование "+k+" блока");
+
+                    for (int i = 0, j = 1; i < 64; i++, j++)
+                    {
+                        string s = Block[i].ToString();
+                        while (s.Length < 5) s = " " + s;
+                        Console.Write(s);
+                        if (j == 8)
+                        {
+                            Console.WriteLine();
+                            j = 0;
+                        }
+                    }
+                }
                 Console.WriteLine();
             }
         }
