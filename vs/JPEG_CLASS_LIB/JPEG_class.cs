@@ -35,14 +35,17 @@ public class JPEG_CS
 	{
 
 	}
-	
-    /// <summary>
-    /// Распаковывает содержимое JPEG и возвращает изображение.
-    /// </summary>
-    /// <returns></returns>
+
+	/// <summary>
+	/// Распаковывает содержимое JPEG файла, преобразует цвет кадра из YUV в RGB.
+	/// </summary>
+	/// <returns>Массив точек изображения в RGB</returns>
 	public Point[,] UnPack()
 	{
-		return new Point[100,100];
+		JPEGFile JF = new JPEGFile(null);
+		Channel[] channeles = Channel.DecodeFrame();
+		Point[,] result = ImageConverter.YUVToRGB(channeles[0].GetMatrix(), channeles[1].GetMatrix(), channeles[2].GetMatrix());
+		return result;
 	}
 	
     /// <summary>
