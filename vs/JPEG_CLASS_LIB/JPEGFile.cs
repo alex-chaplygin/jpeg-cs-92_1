@@ -25,11 +25,16 @@ namespace JPEG_CLASS_LIB
             do
             {
                 position = s.Position;
-                JPEGData temp = JPEGData.GetData(s);
+                var temp = JPEGData.GetData(s);
                 s.Position = position + temp.Length + 2;
+                if (temp.Marker == MarkerType.DefineHuffmanTables) huffmanTables.Add((HuffmanTable)temp);
+                else if (temp.Marker >= MarkerType.BaseLineDCT && temp.Marker <= MarkerType.DifferentialLoslessArithmetic) frame = (Frame)temp;
+                else if (temp.Marker == MarkerType.DefineQuantizationTables) quantizationTables.Add((QuantizationTable)temp);                
+                else if (temp.Marker == MarkerType.StartOfScan) scan = (Scan)temp;
                 Data.Add(temp);
             }
             while (Data[Data.Count - 1].Marker != MarkerType.StartOfScan);
+            decoding = new Decoding(s, null, null);
         }
 
         /// <summary>
@@ -42,5 +47,30 @@ namespace JPEG_CLASS_LIB
                 d.Print();
             }
         }
+
+        /// <summary>
+        /// Кадр
+        /// </summary>
+        Frame frame;
+
+        /// <summary>
+        /// Все таблицы квантования
+        /// </summary>
+        List<QuantizationTable> quantizationTables = new List<QuantizationTable> { };
+
+        /// <summary>
+        /// Все таблицы Хаффмана
+        /// </summary>
+        List<HuffmanTable> huffmanTables = new List<HuffmanTable> { };
+
+        /// <summary>
+        /// Заголовок кодированных данных
+        /// </summary>
+        Scan scan;
+
+        /// <summary>
+        /// Класс декодирования энтропийных данных.
+        /// </summary>
+        Decoding decoding;
     }
 }
