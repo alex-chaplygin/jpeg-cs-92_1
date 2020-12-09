@@ -301,6 +301,7 @@ namespace JPEG_CLASS_LIB
                 }
 
                 Channel temp = new Channel(matx, 200,100);
+                channeles[i] = temp;
             }
             return channeles;
         }
