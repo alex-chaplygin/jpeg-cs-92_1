@@ -35,7 +35,7 @@
   <ItemGroup>
     <Reference Include="JPEG_CLASS_LIB, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\vs\JPEG_CLASS_LIB\bin\Debug\netstandard2.0\JPEG_CLASS_LIB.dll</HintPath>
+      <HintPath>..\..\vs\JPEG_CLASS_LIB\bin\Debug\netstandard2.0\JPEG_CLASS_LIB.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

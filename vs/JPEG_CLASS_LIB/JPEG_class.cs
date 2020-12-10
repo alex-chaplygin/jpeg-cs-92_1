@@ -28,21 +28,29 @@ public class JPEG_CS
 	short[,] CQT = new short[8, 8];
 
 	/// <summary>
+	/// Поток JPEG файла
+	/// </summary>
+	private Stream MainStream;
+
+	/// <summary>
 	/// Создает объект из потока.
 	/// </summary>
 	/// <param name="name">Поток для создания объекта.</param>
 	public JPEG_CS(Stream name)
 	{
-
+		MainStream = name;
 	}
-	
-    /// <summary>
-    /// Распаковывает содержимое JPEG и возвращает изображение.
-    /// </summary>
-    /// <returns></returns>
+
+	/// <summary>
+	/// Распаковывает содержимое JPEG файла, преобразует цвет кадра из YUV в RGB.
+	/// </summary>
+	/// <returns>Массив точек изображения в RGB</returns>
 	public Point[,] UnPack()
 	{
-		return new Point[100,100];
+		JPEGFile JF = new JPEGFile(MainStream);
+		Channel[] channeles = JF.DecodeFrame();
+		Point[,] result = ImageConverter.YUVToRGB(channeles[0].GetMatrix(), channeles[1].GetMatrix(), channeles[2].GetMatrix());
+		return result;
 	}
 	
     /// <summary>
