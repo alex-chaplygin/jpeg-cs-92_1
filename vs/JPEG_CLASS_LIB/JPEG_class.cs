@@ -42,8 +42,8 @@ public class JPEG_CS
 	/// <returns>Массив точек изображения в RGB</returns>
 	public Point[,] UnPack()
 	{
-		//JPEGFile JF = new JPEGFile(null);
-		Channel[] channeles = Channel.DecodeFrame();
+		JPEGFile JF = new JPEGFile(null);
+		Channel[] channeles = JF.DecodeFrame();
 		Point[,] result = ImageConverter.YUVToRGB(channeles[0].GetMatrix(), channeles[1].GetMatrix(), channeles[2].GetMatrix());
 		return result;
 	}

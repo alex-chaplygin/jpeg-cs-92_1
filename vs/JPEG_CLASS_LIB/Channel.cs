@@ -277,34 +277,5 @@ namespace JPEG_CLASS_LIB
             else if (res < 0) return 0;
             else return (byte)res;
         }
-
-        /// <summary>
-        /// Декодирование кадра JPEG
-        /// </summary>
-        /// <returns>Массив масштабированных каналов изображения</returns>
-        static public Channel[] DecodeFrame()
-        {
-            Channel[] channeles = new Channel[3];
-            for (int i = 0; i < 3; i++)
-            {
-                byte[,] matx = new byte[200, 100];
-                //заполнение матрицы
-                for (int a = 0; a < 200; a++)
-                {
-                    for (int b = 0; b<100; b++)
-                    {
-                        if (a < 100 && b < 50) matx[a,b] = 50;
-                        if (a > 100 && b < 50) matx[a, b] = 100;
-                        if (a < 100 && b > 50) matx[a, b] = 150;
-                        if (a > 100 && b > 50) matx[a, b] = 200;
-                    }
-                }
-
-                Channel temp = new Channel(matx, 200,100);
-                channeles[i] = temp;
-            }
-            return channeles;
-        }
-
     }
 }
