@@ -28,12 +28,17 @@ public class JPEG_CS
 	short[,] CQT = new short[8, 8];
 
 	/// <summary>
+	/// Поток JPEG файла
+	/// </summary>
+	private Stream MainStream;
+
+	/// <summary>
 	/// Создает объект из потока.
 	/// </summary>
 	/// <param name="name">Поток для создания объекта.</param>
 	public JPEG_CS(Stream name)
 	{
-
+		MainStream = name;
 	}
 
 	/// <summary>
@@ -42,7 +47,7 @@ public class JPEG_CS
 	/// <returns>Массив точек изображения в RGB</returns>
 	public Point[,] UnPack()
 	{
-		JPEGFile JF = new JPEGFile(null);
+		JPEGFile JF = new JPEGFile(MainStream);
 		Channel[] channeles = JF.DecodeFrame();
 		Point[,] result = ImageConverter.YUVToRGB(channeles[0].GetMatrix(), channeles[1].GetMatrix(), channeles[2].GetMatrix());
 		return result;
