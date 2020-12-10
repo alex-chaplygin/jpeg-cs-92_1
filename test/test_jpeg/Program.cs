@@ -14,7 +14,7 @@ namespace ConsoleApp1
             //_TestJPEGData();
             //_TestBitReader();
             //_TestBitWriter();            
-            //_TestJPEGFile();
+            _TestJPEGFile();
             //_TestBitWriterTwo();
             //_TestBitWriterError();
             //_TestHuffmanTable();
@@ -359,7 +359,8 @@ namespace ConsoleApp1
         {
             FileStream s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
             JPEGFile f = new JPEGFile(s);
-            f.Print();
+            //f.Print();
+            f.PrintData();
             s.Seek(0x48eb, SeekOrigin.Begin);
             HuffmanTable huff = new HuffmanTable(s);
             huff.Print();
