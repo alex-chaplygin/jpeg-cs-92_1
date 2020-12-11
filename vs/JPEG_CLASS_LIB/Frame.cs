@@ -89,7 +89,6 @@ namespace JPEG_CLASS_LIB
                 Write4(Components[i].H, Components[i].V);
                 MainStream.WriteByte(Components[i].QuantizationTableNumber);
             }
-
         }
 
         /// <summary>
