@@ -72,7 +72,7 @@ namespace JPEG.Tests
                 Console.Write("\n\n");
             }
 
-            result = Encoding.EncodeAC(data);
+            result = Encoding.GenerateAC(data);
 
             Console.Write("\n\n");
             for (int i = 0; i < result.Length; i++)
@@ -114,15 +114,15 @@ namespace JPEG.Tests
                 }
             }
 
-            // Выводим содержимое блоков до применения метода Encoding.EncodeDC
-            Console.WriteLine("Содержимое блоков до применения метода Encoding.EncodeDC");
+            // Выводим содержимое блоков до применения метода Encoding.GenerateDC
+            Console.WriteLine("Содержимое блоков до применения метода Encoding.GenerateDC");
             for (int k = 0; k < numberOfBlock; k++)
             {
                 Console.WriteLine($"Значения {k} блока: " + string.Join(" ", listOfBlocks[k]));
             }
 
-            // Применяем метод Encoding.EncodeDC
-            resultt = Encoding.EncodeDC(listOfBlocks);
+            // Применяем метод Encoding.GenerateDC
+            resultt = Encoding.GenerateDC(listOfBlocks);
 
             for (int i = 0; i < resultt.Length; i++)
             {
@@ -153,7 +153,7 @@ namespace JPEG.Tests
             };
             // Запись в поток с помощью метода Encoding.WriteBits
             MemoryStream s = new MemoryStream();
-            Encoding encoding = new Encoding(s);
+            Encoding encoding = new Encoding(s, null, null);
             Console.WriteLine($"Использование метода Encoding.WriteBits");
             for (int i = 0; i < bits.Length; i++)
             {
