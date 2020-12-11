@@ -43,7 +43,7 @@ namespace JPEG_CLASS_LIB
         /// </summary>
         public virtual void Write()
         {
-            Write32((uint)Marker);
+            Write16((ushort)Marker);
             if (!(Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage)) Write16(Length) ;
         }
 
