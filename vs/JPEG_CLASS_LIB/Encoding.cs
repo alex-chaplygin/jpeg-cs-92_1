@@ -28,16 +28,37 @@ namespace JPEG_CLASS_LIB
         /// Счетчик избыточных битов
         /// </summary>
         int extraBits = 0;
+        
+        /// <summary>
+        /// Таблица Хаффмана для DC-коэффициентов
+        /// </summary>
+        HuffmanTable huffDC;
+
+        /// <summary>
+        /// Таблица Хаффмана для AC-коэффициентов
+        /// </summary>
+        HuffmanTable huffAC;
 
         /// <summary>
         /// Создает объект, сохраняет поток в классе.
         /// </summary>
         /// <param name="s">Поток сжатых данных.</param>
-        public Encoding(Stream s)
+        public Encoding(Stream s, HuffmanTable huffDC, HuffmanTable huffAC)
         {
             MainStream = s;
             B = 0;
             CNT = 0;
+            this.huffDC = huffDC;
+            this.huffAC = huffAC;
+        }
+
+        /// <summary>
+        /// Выполняет кодирование блока коэффициентов в поток с помощью таблиц Хаффмана
+        /// </summary>
+        /// <param name="block">Коэффициенты блока 8x8</param>
+        public void EncodeBlock(short[] block)
+        {
+            
         }
 
         /// <summary>
@@ -45,7 +66,7 @@ namespace JPEG_CLASS_LIB
         /// </summary>
         /// <param name="data">Список блоков 8x8 после DCT и обхода зигзагом.</param>
         /// <returns>Массив категорий для всех DC</returns>
-        public static byte[] EncodeDC(List<short[]> data)
+        public static byte[] GenerateDC(List<short[]> data)
         {
             byte[] DCCategories = new byte[data.Count];
             
@@ -67,7 +88,7 @@ namespace JPEG_CLASS_LIB
         /// </summary>
         /// <param name="data">Список блоков 8x8 после DCT и обхода зигзагом.</param>
         /// <returns>Массив последовательных кодов для AC коэффициентов всех блоков</returns>
-        public static byte[] EncodeAC(List<short[]> data)
+        public static byte[] GenerateAC(List<short[]> data)
         {
             byte zeroFinalCounter = 0;
             List<byte> ACCodes = new List<byte>();
