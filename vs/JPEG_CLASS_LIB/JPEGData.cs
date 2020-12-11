@@ -135,7 +135,8 @@ namespace JPEG_CLASS_LIB
             else if (Marker >= MarkerType.ReservedForApplicationSegments && Marker < MarkerType.ReservedForJPEGExtentions) return new AppData(s);
             else if (Marker == MarkerType.DefineNumberOfLines) return new DNL(s);
             else if (Marker >= MarkerType.BaseLineDCT && Marker <= MarkerType.DifferentialLoslessArithmetic) return new Frame(s, Marker);
-            else if (Marker == MarkerType.DefineQuantizationTables) return new QuantizationTable(s); 
+            else if (Marker == MarkerType.DefineQuantizationTables) return new QuantizationTable(s);
+            else if (Marker == MarkerType.DefineArithmeticCodingConditionings) return new ArithmeticConditioning(s);
             else return new JPEGData(s, Marker);
         }
 
