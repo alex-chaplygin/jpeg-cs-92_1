@@ -11,26 +11,21 @@ namespace JPEG.Tests
         [TestMethod]
         public void ArithmeticConditioning()
         {
-            ushort Length = 0x1;
-
             Multiple[] multiples = {
                 new Multiple((byte)0x0, (byte)0x1, (byte)0x05), 
                 new Multiple((byte)0x6, (byte)0xA, (byte)0xF3),
                 new Multiple((byte)0xB, (byte)0xF, (byte)0xFF)};
 
-            ushort LA = (ushort)(2 + multiples.Length * 2);
+            ushort Length = (ushort)(2 + multiples.Length * 2);
             byte[] CodesArray = new byte[2 + 2 + multiples.Length * 2];
 
             CodesArray[0] = (byte)(Length >> 8);
             CodesArray[1] = (byte)(Length & 0xFF);
 
-            CodesArray[2] = (byte)(LA >> 8);
-            CodesArray[3] = (byte)(LA & 0xFF);
-
             for (int i = 0; i < multiples.Length; i++)
             {
-                CodesArray[4 + i * 2] = (byte)((multiples[i].Tc << 4) + multiples[i].Tb);
-                CodesArray[4 + i*2 + 1] = multiples[i].Cs;
+                CodesArray[2 + i * 2] = (byte)((multiples[i].Tc << 4) + multiples[i].Tb);
+                CodesArray[2 + i*2 + 1] = multiples[i].Cs;
             }
 
             MemoryStream M = new MemoryStream(CodesArray, true);
