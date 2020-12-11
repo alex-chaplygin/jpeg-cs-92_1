@@ -56,7 +56,7 @@ namespace JPEG_CLASS_LIB
                 else if (temp.Marker == MarkerType.StartOfScan) scan = (Scan)temp;
                 Data.Add(temp);
             }
-            while (Data[Data.Count - 1].Marker != MarkerType.EndOfImage);
+            while (Data[Data.Count - 1].Marker != MarkerType.StartOfScan);
             decoding = new Decoding(s, null, null);
         }
 
