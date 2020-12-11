@@ -460,16 +460,11 @@ namespace ConsoleApp1
                     Block = decoding.DecodeBlock();
                     Console.WriteLine("\nДекодирование "+k+" блока");
 
-                    for (int i = 0, j = 1; i < 64; i++, j++)
+                    for (int i = 0;  i < 64; i++)
                     {
-                        string s = Block[i].ToString();
-                        while (s.Length < 5) s = " " + s;
+                        string s = Block[i]+" ";
                         Console.Write(s);
-                        if (j == 8)
-                        {
-                            Console.WriteLine();
-                            j = 0;
-                        }
+                        
                     }
                 }
                 Console.WriteLine();
