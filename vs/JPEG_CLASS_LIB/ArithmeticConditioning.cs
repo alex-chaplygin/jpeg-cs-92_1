@@ -12,11 +12,6 @@ namespace JPEG_CLASS_LIB
     public class ArithmeticConditioning : JPEGData
     {
         /// <summary>
-        /// Длина всех множеств Multiples;
-        /// </summary>
-        public ushort LA { get; private set; }
-
-        /// <summary>
         /// Множество компонентов для кодирования.
         /// </summary>
         public Multiple[] Multiples { get; private set; }
@@ -28,8 +23,7 @@ namespace JPEG_CLASS_LIB
         public ArithmeticConditioning(Stream s)
             : base(s, MarkerType.DefineArithmeticCodingConditionings)
         {
-            LA = Read16();
-            int n = (LA - 2) / 2;
+            int n = (Length - 2) / 2;
             Multiples = new Multiple[n];
             for (int t = 0; t < n; t++)
             {
@@ -47,8 +41,7 @@ namespace JPEG_CLASS_LIB
         public void Write(Stream s)
         {
             base.Write();
-            Write16(LA);
-            int n = (LA - 2) / 2;
+            int n = (Length - 2) / 2;
             for (int j = 0; j < n; j++)
             {
                 Write4(Multiples[j].Tc, Multiples[j].Tb);
@@ -62,9 +55,8 @@ namespace JPEG_CLASS_LIB
         public override void Print()
         {
             base.Print();
-            Console.WriteLine($"Длина всех множеств Multiples (LA): {LA:X4}");
             Console.WriteLine("Описание множеств.");
-            int n = (LA - 2) / 2;
+            int n = (Length - 2) / 2;
             for (int t = 0; t < n; t++)
             {
                 Console.WriteLine($"    Tc: {Multiples[t].Tc:X}; " +
