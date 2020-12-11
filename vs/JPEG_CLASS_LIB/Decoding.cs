@@ -179,5 +179,16 @@ namespace JPEG_CLASS_LIB
                 }
             }
         }
+        /// <summary>
+        /// Декодирует блок (DC и 63 коэффициента AC) из потока
+        /// </summary>
+        /// <returns>Массив коэффициентов</returns>
+        public short[] DecodeBlock()
+        {
+            short[] block = new short[64];
+            block[0] = DecodeDC();
+            DecodeAC(block);
+            return (block);
+        }
     }
 }
