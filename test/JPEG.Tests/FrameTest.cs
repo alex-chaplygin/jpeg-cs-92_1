@@ -11,8 +11,8 @@ namespace JPEG.Tests
 		[TestMethod]
 		public void TestFrame_Write()
 		{
-			byte[] strbyte = new byte[] { 0,0,0,0,0,0xc,0,0x50,0,0x3c,0x2a,2,2,0x44,8,1,0x33,9 };
-			MarkerType type = new MarkerType();
+			byte[] strbyte = new byte[] { 0,0,0xff,0xc0,0,0xc,0,0x50,0,0x3c,0x2a,0x2,0x2,0x44,0x8,0x1,0x33,0x9 };
+			MarkerType type = MarkerType.BaseLineDCT;
 			ushort width = 80;
 			ushort height = 60;
 			byte numBit = 0x2a;//42
@@ -35,6 +35,7 @@ namespace JPEG.Tests
 			Assert.AreEqual(frame_Test_Write.Height, 60);
 			Assert.AreEqual(frame_Test_Write.NumberIfBits, 0x2a);
 			Assert.AreEqual(frame_Test_Write.NumberOfComponent, 0x2);
+			Assert.AreEqual(frame_Test_Write.Marker, MarkerType.BaseLineDCT);
 		}
 	}
 }
