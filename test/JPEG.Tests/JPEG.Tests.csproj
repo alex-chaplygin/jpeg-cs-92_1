@@ -58,6 +58,7 @@
     <Compile Include="DecodingTest.cs" />
     <Compile Include="EncodingTest.cs" />
     <Compile Include="HuffmanTableTest.cs" />
+    <Compile Include="ArithmeticConditioningTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

@@ -32,12 +32,14 @@ namespace JPEG_CLASS_LIB
 
             byte Ah, Al;
             Read4(out Ah, out Al);
+            ApproximationHigh = Ah;
+            ApproximationLow = Al;
         }
 
         /// <summary>
         /// Пишет скан в поток, начиная с поля "число компонентов в скане"
         /// </summary>
-        /// <param name="s"></param>
+        /// <param name="s">Поток для записи.</param>
         public void Write(Stream s)
         {
             base.Write();
