@@ -77,9 +77,9 @@ namespace JPEG_CLASS_LIB
         public override void Write()
 	{
             base.Write();
-            Write16(width);
-            Write16(height);
             MainStream.WriteByte(numBit);
+            Write16(height);
+            Write16(width);      
             MainStream.WriteByte(numComponent);
             for (int i = 0; i < numComponent; i++)
             {
