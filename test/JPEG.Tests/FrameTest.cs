@@ -24,7 +24,7 @@ namespace JPEG.Tests
             Comp[2].H = 1;
             Comp[2].V = 1;
             Comp[2].QuantizationTableNumber = 1;
-            Frame TestFrame = new Frame(TestStream, MarkerType.BaseLineDCT, 120, 160, 8, Comp);
+            Frame TestFrame = new Frame(TestStream, MarkerType.BaseLineDCT, 160, 120, 8, Comp);
             TestFrame.Write();
             byte[] TestArr = TestStream.ToArray();
             byte[] exArr = new byte[] { 0xFF, 0xC0, 0x00, 0x11, 0x08, 0x00, 0x78, 0x00, 0xA0, 0x03, 0x01, 0x22, 0x00, 0x02, 0x11, 0x01, 0x03, 0x11, 0x01 };
