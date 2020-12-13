@@ -152,7 +152,6 @@ public class JPEG_CS
 		List<short[,]> Temp = new List<short[,]> { };
 		for (int i = 0; i < data.Count; i++)
 			Temp.Add(DCT.ReZigzag(data[i]));
-		Temp = DCT.DCRestore(Temp);
 		for (int i = 0; i < Temp.Count; i++)
 		{
 			Temp[i] = DCT.QuantizationReverse(Temp[i], LQT);
@@ -221,7 +220,8 @@ public class JPEG_CS
     /// <returns>Cписок short[] блоков всех каналов в необходимом порядке.</returns>
     public List<short[]> Interleave(Channel[] channels)
     {
-	    var BLOCK_SIZE = 8;
+		List<short[,]> quantizationMatrixes = new List<short[,]>();
+		var BLOCK_SIZE = 8;
 	    var returnList = new List<short[]>();
 	    var spliitedChannels = new List<List<short[]>>();
 
