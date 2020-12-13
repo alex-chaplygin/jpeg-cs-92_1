@@ -53,35 +53,35 @@ namespace JPEG_CLASS_LIB
         }
 
         /// <summary>
-        /// Конструктор класса Frame.
+        /// Конструктор класса Frame для последующей записи.
         /// </summary>
-        /// <param name="s">Поток с изображением</param>
-        /// <param name="markerType">Маркер Frame.</param>
-        /// <param name="height">Число колонок в изображении.</param>
-        /// <param name="width">Число столбцов в изображении.</param>
-        /// <param name="numBit">Точность представления в битах.</param>
-        /// <param name="Components">Массив компонентов.</param>
-        public Frame(Stream s, MarkerType markerType, ushort height, ushort width, byte numBit, Component[] Components) : base(s, markerType)
-        {
-            this.numBit = numBit;
-            this.height = height;
-            this.width = width;
-            this.Components = Components;
-            numComponent = (byte)this.Components.Length;
-            Length = (ushort)(8 + 3 * numComponent);
+        /// <param name="s">поток для записи.</param>
+        /// <param name="markertype">тип фрейма.</param>
+        /// <param name="theheight">Число колонок в изображении.</param>
+        /// <param name="thewidth">Число столбцов в изображении.</param>
+        /// <param name="thenumBit">Точность представления в битах.</param>
+        /// <param name="thecomponents">Массив компонентов.</param>
+        public Frame(Stream stream, MarkerType markertype, ushort thewidth, ushort theheight, byte thenumBit, 
+		     Component[] thecomponents) : base(stream, markertype, (ushort)(8 + 3 * thecomponents.Length))
+	{
+            width = thewidth;
+            height = theheight;
+            numBit = thenumBit;
+            numComponent = (byte)thecomponents.Length;
+            Components = thecomponents;
         }
-
+	    
         /// <summary>
         /// Записывает Frame в текущий поток.
         /// </summary>
         public override void Write()
-        {
+	{
             base.Write();
-            MainStream.WriteByte(numBit);
-            Write16(height);
             Write16(width);
+            Write16(height);
+            MainStream.WriteByte(numBit);
             MainStream.WriteByte(numComponent);
-            for (byte i = 0; i < numComponent; i++)
+            for (int i = 0; i < numComponent; i++)
             {
                 MainStream.WriteByte(Components[i].Number);
                 Write4(Components[i].H, Components[i].V);

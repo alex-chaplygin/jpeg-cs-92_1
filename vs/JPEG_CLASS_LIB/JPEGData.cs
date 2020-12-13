@@ -39,6 +39,19 @@ namespace JPEG_CLASS_LIB
         }
 
         /// <summary>
+        /// Конструктор, который устанавливает тип маркера и длину(для последующей записи)
+        /// </summary>
+        /// <param name="s">Поток сегмента</param>
+        /// <param name="type">Маркер сегмента</param>
+        /// <param name="length">Длина сегмента</param>
+        public JPEGData(Stream s, MarkerType type, ushort length)
+        {
+            MainStream = s;
+            Marker = type;
+            Length = length;
+        }
+
+        /// <summary>
         /// Записывает маркер и длину в текущий поток.
         /// </summary>
         public virtual void Write()
