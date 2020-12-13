@@ -120,10 +120,11 @@ public class JPEG_CS
 		}
 	}
 
-        /// <summary>
-        /// Осуществляет все необходимые DCT преобразования для списка блоков
+	/// <summary>
+	/// Осуществляет все необходимые DCT преобразования для списка блоков
 	/// </summary>
 	/// <param name="blocks">Список блоков одного канала после разбиения на блоки</param>
+	/// <param name="quantizationMatrix">Матрица квантования</param>
 	/// <returns>Список коэффициентов блоков одного канала</returns>
 	public List<short[]> FDCT(List<byte[,]> blocks, short[,] quantizationMatrix)
 	{
@@ -140,13 +141,14 @@ public class JPEG_CS
 			Result.Add(DCT.Zigzag(Temp[i]));
 		return Result;
 	}
-    
+
 	/// <summary>
 	/// Осуществляет все необходимые обратные DCT преобразования для списка блоков
 	/// </summary>
 	/// <param name="data">Список коэффициентов блоков одного канала</param>
+	/// <param name="quantizationMatrix">Матрица квантования</param>
 	/// <returns>Список блоков одного канала для сборки</returns>
-	public List<byte[,]> IDCT(List<short[]> data)
+	public List<byte[,]> IDCT(List<short[]> data, short[,] quantizationMatrix)
 	{
 		List<byte[,]> Result = new List<byte[,]> { };
 		List<short[,]> Temp = new List<short[,]> { };
@@ -154,7 +156,7 @@ public class JPEG_CS
 			Temp.Add(DCT.ReZigzag(data[i]));
 		for (int i = 0; i < Temp.Count; i++)
 		{
-			Temp[i] = DCT.QuantizationReverse(Temp[i], LQT);
+			Temp[i] = DCT.QuantizationReverse(Temp[i], quantizationMatrix);
 			Temp[i] = DCT.IDCT(Temp[i]);
 			Result.Add(DCT.ReverseShift(Temp[i]));			
 		}		
@@ -209,16 +211,17 @@ public class JPEG_CS
 				    }
 			    }
 		    }
-		    curChannel.Collect(IDCT(tmpArray.ToList()));
+		    curChannel.Collect(IDCT(tmpArray.ToList(), LQT));
 	    }
     }
-    
-    /// <summary>
-    /// Выполняется разбиение каналов на блоки 8x8 их FDCT преобразование и перемешивание блоков в зависимости от значений факторов H и V в каналах (см. раздел A.2.3 стандарта). Если канал один, то перемешивания не происходит. Подразумевается, что каналы уже были уменьшены (для всех каналов был вызван метод Sample с рассчитанными Hmax и Vmax).
-    /// </summary>
-    /// <param name="channels">Массив классов Channel</param>
-    /// <returns>Cписок short[] блоков всех каналов в необходимом порядке.</returns>
-    public List<short[]> Interleave(Channel[] channels, List<short[,]> quantizationMatrixes)
+
+	/// <summary>
+	/// Выполняется разбиение каналов на блоки 8x8 их FDCT преобразование и перемешивание блоков в зависимости от значений факторов H и V в каналах (см. раздел A.2.3 стандарта). Если канал один, то перемешивания не происходит. Подразумевается, что каналы уже были уменьшены (для всех каналов был вызван метод Sample с рассчитанными Hmax и Vmax).
+	/// </summary>
+	/// <param name="channels">Массив классов Channel</param>
+	/// <param name="quantizationMatrixes">Список матриц квантования для каждого из каналов</param>
+	/// <returns>Cписок short[] блоков всех каналов в необходимом порядке.</returns>
+	public List<short[]> Interleave(Channel[] channels, List<short[,]> quantizationMatrixes)
     {
 		var BLOCK_SIZE = 8;
 	    var returnList = new List<short[]>();
