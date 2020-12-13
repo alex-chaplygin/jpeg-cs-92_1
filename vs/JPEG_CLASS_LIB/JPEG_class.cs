@@ -125,7 +125,7 @@ public class JPEG_CS
 	/// </summary>
 	/// <param name="blocks">Список блоков одного канала после разбиения на блоки</param>
 	/// <returns>Список коэффициентов блоков одного канала</returns>
-	public List<short[]> FDCT(List<byte[,]> blocks)
+	public List<short[]> FDCT(List<byte[,]> blocks, short[,] quantizationMatrix)
 	{
 		List<short[]> Result = new List<short[]> { };
 		List<short[,]> Temp = new List<short[,]> { };
@@ -133,7 +133,7 @@ public class JPEG_CS
 		{
 			Temp.Add(DCT.Shift(blocks[i]));
 			Temp[i] = DCT.FDCT(Temp[i]);
-			Temp[i] = DCT.QuantizationDirect(Temp[i], LQT);
+			Temp[i] = DCT.QuantizationDirect(Temp[i], quantizationMatrix);
 		}
 		Temp = DCT.DCCalculating(Temp);
 		for (int i = 0; i < Temp.Count; i++)
@@ -218,16 +218,15 @@ public class JPEG_CS
     /// </summary>
     /// <param name="channels">Массив классов Channel</param>
     /// <returns>Cписок short[] блоков всех каналов в необходимом порядке.</returns>
-    public List<short[]> Interleave(Channel[] channels)
+    public List<short[]> Interleave(Channel[] channels, List<short[,]> quantizationMatrixes)
     {
-		List<short[,]> quantizationMatrixes = new List<short[,]>();
 		var BLOCK_SIZE = 8;
 	    var returnList = new List<short[]>();
 	    var spliitedChannels = new List<List<short[]>>();
 
 	    for (var i = 0; i < channels.Length; i++)
 	    {
-		    spliitedChannels.Add(FDCT(channels[i].Split()));
+		    spliitedChannels.Add(FDCT(channels[i].Split(), quantizationMatrixes[i]));
 	    }
 	    
 	    for (var blockIndex = 0; blockIndex < spliitedChannels[0].Count/(channels[0].GetH*channels[0].GetV); blockIndex++)
