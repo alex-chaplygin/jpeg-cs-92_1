@@ -10,16 +10,16 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             //_TestUnpack();
-            //_TestInterleave();            
+            _TestInterleave();            
             //_TestJPEGData();
             //_TestBitReader();
             //_TestBitWriter();            
-            _TestJPEGFile();
+            //_TestJPEGFile();
             //_TestBitWriterTwo();
             //_TestBitWriterError();
             //_TestHuffmanTable();
             // _TestEncodingWriteBits();
-            DecodeBlockTest();
+            //DecodeBlockTest();
             Console.ReadKey();
         }
 
@@ -174,13 +174,41 @@ namespace ConsoleApp1
 
 
             var channels = new[] { channel1, channel2, channel3 };
+            List<short[,]> QM = new List<short[,]>();
 
             var library = new JPEG_CS(null);
             library.SetParameters(3);
             Console.WriteLine("Тест для трех каналов:");
 
+            QM.Add(new short[,]{
+            {16, 12, 14, 14, 18, 24, 49, 72},
+            {11, 12, 13, 17, 22, 35, 64, 92},
+            {10, 14, 16, 22, 37, 55, 78, 95},
+            {16, 19, 24, 29, 56, 64, 87, 98},
+            {24, 26, 40, 51, 68, 81, 103, 112},
+            {40, 58, 57, 87, 109, 104, 121, 100},
+            {51, 60, 69, 80, 103, 113, 120, 103},
+            {61, 55, 56, 62, 77, 92, 101, 99}});
+            QM.Add(new short[,]{
+            {17, 18, 24, 47, 99, 99, 99, 99},
+            {18, 21, 26, 66, 99, 99, 99, 99},
+            {24, 26, 56, 99, 99, 99, 99, 99},
+            {47, 66, 99, 99, 99, 99, 99, 99},
+            {99, 99, 99, 99, 99, 99, 99, 99},
+            {99, 99, 99, 99, 99, 99, 99, 99},
+            {99, 99, 99, 99, 99, 99, 99, 99},
+            {99, 99, 99, 99, 99, 99, 99, 99}});
+            QM.Add(new short[,]{
+            {17, 18, 24, 47, 99, 99, 99, 99},
+            {18, 21, 26, 66, 99, 99, 99, 99},
+            {24, 26, 56, 99, 99, 99, 99, 99},
+            {47, 66, 99, 99, 99, 99, 99, 99},
+            {99, 99, 99, 99, 99, 99, 99, 99},
+            {99, 99, 99, 99, 99, 99, 99, 99},
+            {99, 99, 99, 99, 99, 99, 99, 99},
+            {99, 99, 99, 99, 99, 99, 99, 99}});
 
-            var blocks = library.Interleave(channels);
+            var blocks = library.Interleave(channels, QM);
 
             Console.WriteLine("Сборка блоков");
             Console.WriteLine();
@@ -200,8 +228,18 @@ namespace ConsoleApp1
             Console.WriteLine();
 
             channels = new[] { channel1 };
+            QM = new List<short[,]>();
+            QM.Add(new short[,]{
+            {16, 12, 14, 14, 18, 24, 49, 72},
+            {11, 12, 13, 17, 22, 35, 64, 92},
+            {10, 14, 16, 22, 37, 55, 78, 95},
+            {16, 19, 24, 29, 56, 64, 87, 98},
+            {24, 26, 40, 51, 68, 81, 103, 112},
+            {40, 58, 57, 87, 109, 104, 121, 100},
+            {51, 60, 69, 80, 103, 113, 120, 103},
+            {61, 55, 56, 62, 77, 92, 101, 99}});
 
-            blocks = library.Interleave(channels);
+            blocks = library.Interleave(channels, QM);
 
             Console.WriteLine("Сборка блоков");
             Console.WriteLine();
@@ -210,10 +248,6 @@ namespace ConsoleApp1
 
             WriteMatrix(channels[0].GetMatrix());
             Console.WriteLine();
-
-
-
-
         }
         static void _TestUnpack()
         {
@@ -261,7 +295,7 @@ namespace ConsoleApp1
                     Console.Write(S + " ");
                 }
                 Console.WriteLine();
-            }
+            }/*
             Console.WriteLine();
             List<short[]> list2 = TestJCS.FDCT(list1);
             for (int k = 0; k < list2.Count; k++)
@@ -288,7 +322,7 @@ namespace ConsoleApp1
                 }
                 Console.WriteLine();
             }
-            TestChannel.Collect(list3);
+            TestChannel.Collect(list3);*/
             TestMatrix = TestChannel.GetMatrix();
             Console.WriteLine("Конечная матрица");
             for (int i = 0; i < TestMatrix.GetLength(0); i++)
