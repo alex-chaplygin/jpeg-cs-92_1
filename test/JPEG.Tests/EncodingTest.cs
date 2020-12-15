@@ -206,15 +206,17 @@ namespace JPEG.Tests
             
             var zigzag = (DCT.Zigzag(DCT.DCCalculating(new List<short[,]>() {DCT.QuantizationDirect(DCT.FDCT(DCT.Shift(block)), LQT)})[0]));
 
-            var copyZigzag = new short[64];
-            Array.Copy(zigzag, copyZigzag, 64);
+            // var copyZigzag = new short[64];
+            // Array.Copy(zigzag, copyZigzag, 64);
             
             var huffDC = new HuffmanTable(Encoding.GenerateDC(new List<short[]>() {zigzag}), true, 0);
+            huffDC.GenerateTables();
             
             Console.WriteLine(string.Join(" ", huffDC.MaxCode));
             
             var huffAC = new HuffmanTable(Encoding.GenerateAC(new List<short[]>() {zigzag}), false, 0);
-            
+            huffAC.GenerateTables();
+
             Console.WriteLine(string.Join(" ", huffAC.MaxCode));
 
 
@@ -242,14 +244,19 @@ namespace JPEG.Tests
             ms.Seek(0, SeekOrigin.Begin);
             
             
+            var newHuffDC = new HuffmanTable(Encoding.GenerateDC(new List<short[]>() {zigzag}), true, 0);
+            newHuffDC.GenerateTables();
+            var newHuffAC = new HuffmanTable(Encoding.GenerateAC(new List<short[]>() {zigzag}), false, 0);
+            newHuffAC.GenerateTables();
             
-            var decoding = new Decoding(ms, new HuffmanTable(Encoding.GenerateDC(new List<short[]>() {zigzag}), true, 0), new HuffmanTable(Encoding.GenerateAC(new List<short[]>() {zigzag}), false, 0));
-            // var decoding = new Decoding(ms, huffDC, huffAC);
+            // var decoding = new Decoding(ms, new HuffmanTable(Encoding.GenerateDC(new List<short[]>() {zigzag}), true, 0), new HuffmanTable(Encoding.GenerateAC(new List<short[]>() {zigzag}), false, 0));
+            var decoding = new Decoding(ms, newHuffDC, newHuffAC);
 
             var decoded = decoding.DecodeBlock();
             
-            Console.WriteLine(string.Join(" ", zigzag));
-            Console.WriteLine(string.Join(" ", decoded));
+            Console.WriteLine("Before encoding:\r\n"+string.Join(" ", zigzag));
+            Console.WriteLine();
+            Console.WriteLine("After decoding :\r\n"+string.Join(" ", decoded));
             
             ms.Dispose();
 
