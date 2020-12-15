@@ -103,11 +103,11 @@ namespace JPEG_CLASS_LIB
             Generate_size_table(codeLength, all_length_values);
             Generate_code_table(all_length_values);
             Order_codes();
-	    GenerateTables();
+	        GenerateTables();
         }
 
         /// <summary>
-        /// Генериует вспомогательные таблицы для декодирования
+        /// Генериует вспомогательные таблицы для декодирования (Decoder_tables - Figure F.15)
         /// </summary>
         public void GenerateTables()
         {
