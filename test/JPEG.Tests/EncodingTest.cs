@@ -177,5 +177,82 @@ namespace JPEG.Tests
             File.Delete("../../../testEncodingWriteBits");
             CollectionAssert.AreEqual(Ex, b);
         }
+
+
+        [TestMethod]
+        public void TestEncodeBlock()
+        {
+            
+            short[,] LQT = new short[,] {{ 16, 12, 14, 14, 18, 24, 49, 72 },
+                { 11, 12, 13, 17, 22, 35, 64, 92},
+                { 10, 14, 16, 22, 37, 55, 78, 95},
+                { 16, 19, 24, 29, 56, 64, 87, 98},
+                { 24, 26, 40, 51, 68, 81, 103, 112},
+                { 40, 58, 57, 87, 109, 104, 121, 100},
+                { 51, 60, 69, 80, 103, 113, 120, 103},
+                { 61, 55, 56, 62, 77, 92, 101, 99} };
+
+            
+            byte[,] block = new byte[8,8];
+            var r = new Random();
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    block[i, j] = (byte) r.Next(0, 256);
+                }
+            } 
+            
+            
+            var zigzag = (DCT.Zigzag(DCT.DCCalculating(new List<short[,]>() {DCT.QuantizationDirect(DCT.FDCT(DCT.Shift(block)), LQT)})[0]));
+
+            var copyZigzag = new short[64];
+            Array.Copy(zigzag, copyZigzag, 64);
+            
+            var huffDC = new HuffmanTable(Encoding.GenerateDC(new List<short[]>() {zigzag}), true, 0);
+            
+            Console.WriteLine(string.Join(" ", huffDC.MaxCode));
+            
+            var huffAC = new HuffmanTable(Encoding.GenerateAC(new List<short[]>() {zigzag}), false, 0);
+            
+            Console.WriteLine(string.Join(" ", huffAC.MaxCode));
+
+
+            var ms = new MemoryStream();
+
+            var encoding = new Encoding(ms, huffDC, huffAC);
+            
+            encoding.EncodeBlock(zigzag);
+            
+            ms.Seek(0, SeekOrigin.Begin);
+            Console.WriteLine("Записанные в поток байты:");
+            // byte[] b = new byte[7];
+            for (int i = 0; i < ms.Length; i++)
+            {
+                // b[i] = (byte)ms.ReadByte();
+                // Console.WriteLine($"{b[i]:X2} {Convert.ToString(b[i], 2)}");
+
+                var b = (byte)ms.ReadByte();
+                Console.WriteLine($"{b:X2} {Convert.ToString(b, 2)}");
+            }
+            Console.WriteLine();
+            Console.WriteLine();
+
+
+            ms.Seek(0, SeekOrigin.Begin);
+            
+            
+            
+            var decoding = new Decoding(ms, new HuffmanTable(Encoding.GenerateDC(new List<short[]>() {zigzag}), true, 0), new HuffmanTable(Encoding.GenerateAC(new List<short[]>() {zigzag}), false, 0));
+            // var decoding = new Decoding(ms, huffDC, huffAC);
+
+            var decoded = decoding.DecodeBlock();
+            
+            Console.WriteLine(string.Join(" ", zigzag));
+            Console.WriteLine(string.Join(" ", decoded));
+            
+            ms.Dispose();
+
+        }
     }
 }
