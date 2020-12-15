@@ -46,12 +46,12 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Массив кодов, отсортированный по значениям
         /// </summary>
-        ushort[] EHUFCO;
+        public ushort[] EHUFCO;
 
         /// <summary>
         /// Массив длин кодов, отсортированный по значениям
         /// </summary>
-        byte[] EHUFSI;
+        public byte[] EHUFSI;
 
         /// <summary>
         /// Массив значений кодов таблицы Хаффмана
