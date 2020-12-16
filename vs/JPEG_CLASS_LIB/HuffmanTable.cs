@@ -254,7 +254,7 @@ namespace JPEG_CLASS_LIB
             Console.WriteLine("\nЗначения(values): ");
             foreach (byte i in values)
             {
-                Console.Write(i + " ");
+                Console.Write("0x" + Convert.ToString(i, 16) + " ");
             }
 
             Console.WriteLine("\nHUFFSIZE:");
@@ -336,6 +336,7 @@ namespace JPEG_CLASS_LIB
             Generate_size_table(codeLength, allSize);
             Generate_code_table(allSize);
             Order_codes();
+	    GenerateTables();
 
             Length = (ushort)(19 + values.Length); //2 + 1 + 16 + values.Length
         }
