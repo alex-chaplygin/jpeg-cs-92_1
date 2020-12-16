@@ -210,12 +210,10 @@ namespace JPEG.Tests
             // Array.Copy(zigzag, copyZigzag, 64);
             
             var huffDC = new HuffmanTable(Encoding.GenerateDC(new List<short[]>() {zigzag}), true, 0);
-            huffDC.GenerateTables();
             
             Console.WriteLine(string.Join(" ", huffDC.MaxCode));
             
             var huffAC = new HuffmanTable(Encoding.GenerateAC(new List<short[]>() {zigzag}), false, 0);
-            huffAC.GenerateTables();
 
             Console.WriteLine(string.Join(" ", huffAC.MaxCode));
 
@@ -225,6 +223,7 @@ namespace JPEG.Tests
             var encoding = new Encoding(ms, huffDC, huffAC);
             
             encoding.EncodeBlock(zigzag);
+	    encoding.FinishBits();
             
             ms.Seek(0, SeekOrigin.Begin);
             Console.WriteLine("Записанные в поток байты:");
@@ -245,9 +244,7 @@ namespace JPEG.Tests
             
             
             var newHuffDC = new HuffmanTable(Encoding.GenerateDC(new List<short[]>() {zigzag}), true, 0);
-            newHuffDC.GenerateTables();
             var newHuffAC = new HuffmanTable(Encoding.GenerateAC(new List<short[]>() {zigzag}), false, 0);
-            newHuffAC.GenerateTables();
             
             // var decoding = new Decoding(ms, new HuffmanTable(Encoding.GenerateDC(new List<short[]>() {zigzag}), true, 0), new HuffmanTable(Encoding.GenerateAC(new List<short[]>() {zigzag}), false, 0));
             var decoding = new Decoding(ms, newHuffDC, newHuffAC);
