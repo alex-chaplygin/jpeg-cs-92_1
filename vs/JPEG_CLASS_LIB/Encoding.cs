@@ -60,11 +60,10 @@ namespace JPEG_CLASS_LIB
         {
             
             //F.1.1.5.1: At the beginning of the scan and at the beginning of each restart interval, the prediction for the DC coefficient prediction is initialized to 0
-            short pred = 0;  
+            //short pred = 0;  
             
-            short diff = (short) (block[0] - pred);
+            short diff = block[0];
 
-            
             var ssss = ComputeDCCategory(diff);
             
             Console.WriteLine($"diff: {diff}, ssss: {ssss}");
@@ -77,7 +76,7 @@ namespace JPEG_CLASS_LIB
                 WriteBits((ushort) (diff > 0 ? diff : diff-1), ssss);
             }
             
-            EncodeAC(block);
+           // EncodeAC(block);
         } 
         
         /// <summary>
@@ -282,6 +281,7 @@ namespace JPEG_CLASS_LIB
         /// <param name="num">Число бит (от 1 до 16).</param>
         public void WriteBits(ushort bits, int num)
         {
+	    Console.WriteLine("bits " + Convert.ToString(bits, 2) + " num " + num);
             if (num > 8)
             {
                 WriteBits((byte)(bits >> 8), num - 8);
