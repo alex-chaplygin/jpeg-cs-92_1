@@ -282,7 +282,6 @@ namespace JPEG_CLASS_LIB
         /// <param name="num">Число бит (от 1 до 16).</param>
         public void WriteBits(ushort bits, int num)
         {
-	    Console.WriteLine("bits " + Convert.ToString(bits, 2) + " num " + num);
             if (num > 8)
             {
                 WriteBits((byte)(bits >> 8), num - 8);
