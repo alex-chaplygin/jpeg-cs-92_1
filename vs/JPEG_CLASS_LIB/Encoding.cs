@@ -28,16 +28,108 @@ namespace JPEG_CLASS_LIB
         /// Счетчик избыточных битов
         /// </summary>
         int extraBits = 0;
+        
+        /// <summary>
+        /// Таблица Хаффмана для DC-коэффициентов
+        /// </summary>
+        HuffmanTable huffDC;
+
+        /// <summary>
+        /// Таблица Хаффмана для AC-коэффициентов
+        /// </summary>
+        HuffmanTable huffAC;
 
         /// <summary>
         /// Создает объект, сохраняет поток в классе.
         /// </summary>
         /// <param name="s">Поток сжатых данных.</param>
-        public Encoding(Stream s)
+        public Encoding(Stream s, HuffmanTable huffDC, HuffmanTable huffAC)
         {
             MainStream = s;
             B = 0;
             CNT = 0;
+            this.huffDC = huffDC;
+            this.huffAC = huffAC;
+        }
+
+        /// <summary>
+        /// Выполняет кодирование блока коэффициентов в поток с помощью таблиц Хаффмана
+        /// </summary>
+        /// <param name="block">Коэффициенты блока 8x8 после обхода зигзагом</param>
+        public void EncodeBlock(short[] block)
+        {
+            
+            //F.1.1.5.1: At the beginning of the scan and at the beginning of each restart interval, the prediction for the DC coefficient prediction is initialized to 0
+            //short pred = 0;  
+            
+            short diff = block[0];
+
+            var ssss = ComputeDCCategory(diff);
+            
+            Console.WriteLine($"diff: {diff}, ssss: {ssss}");
+
+            
+            WriteBits(huffDC.EHUFCO[ssss], huffDC.EHUFSI[ssss]);
+
+            if (ssss != 0)
+            {
+                WriteBits((ushort) (diff > 0 ? diff : diff-1), ssss);
+            }
+            
+            EncodeAC(block);
+        } 
+        
+        /// <summary>
+        /// Кодирует AC-коэффициенты в поток (Figure F.2)
+        /// </summary>
+        /// <param name="block">Блок коэффициентов</param>
+        public void EncodeAC(short[] block)
+        {
+            int k = 0;
+            int r = 0;
+
+            while (true)
+            {
+                k++;
+                if (block[k] == 0)
+                {
+                    if (k == 63)
+                    {
+                        WriteBits(huffAC.EHUFCO[0], huffAC.EHUFSI[0]);
+                        break;
+                    }
+                    r++;
+                }
+                else
+                {
+                    while (r > 15)
+                    {
+                        WriteBits(huffAC.EHUFCO[0xF0], huffAC.EHUFSI[0xF0]);
+                        r -= 16;
+                    }
+
+                    encodeR(r, block[k]);
+                    r = 0;
+                    if (k==63) break;
+                }
+            }
+        }
+
+        /// <summary>
+        /// Выполняет последовательное кодирование ненулевых AC-коэффициентов (Figure F.3)
+        /// </summary>
+        /// <param name="r">run-length коэффициент</param>
+        /// <param name="cur">Коэффициент ZZ(k) из блока после обхода зигзагом</param>
+        void encodeR(int r, short cur)
+        {
+            var ssss = ComputeACCategory(cur);
+            var rs = 16 * r + ssss;
+            WriteBits(huffAC.EHUFCO[rs], huffAC.EHUFSI[rs]);
+            if (cur < 0)
+            {
+                cur--;
+            }
+            WriteBits((ushort) cur, ssss);
         }
 
         /// <summary>
@@ -45,7 +137,7 @@ namespace JPEG_CLASS_LIB
         /// </summary>
         /// <param name="data">Список блоков 8x8 после DCT и обхода зигзагом.</param>
         /// <returns>Массив категорий для всех DC</returns>
-        public static byte[] EncodeDC(List<short[]> data)
+        public static byte[] GenerateDC(List<short[]> data)
         {
             byte[] DCCategories = new byte[data.Count];
             
@@ -67,7 +159,7 @@ namespace JPEG_CLASS_LIB
         /// </summary>
         /// <param name="data">Список блоков 8x8 после DCT и обхода зигзагом.</param>
         /// <returns>Массив последовательных кодов для AC коэффициентов всех блоков</returns>
-        public static byte[] EncodeAC(List<short[]> data)
+        public static byte[] GenerateAC(List<short[]> data)
         {
             byte zeroFinalCounter = 0;
             List<byte> ACCodes = new List<byte>();
@@ -156,6 +248,7 @@ namespace JPEG_CLASS_LIB
         /// <param name="num">Число бит (от 1 до 8).</param>
         public void WriteBits(byte bits, int num)
         {
+            bits = (byte)(bits & ((1 << num) - 1));
             if (num + CNT > 8)
             {
                 extraBits = num + CNT - 8;

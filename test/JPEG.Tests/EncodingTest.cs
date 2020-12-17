@@ -72,7 +72,7 @@ namespace JPEG.Tests
                 Console.Write("\n\n");
             }
 
-            result = Encoding.EncodeAC(data);
+            result = Encoding.GenerateAC(data);
 
             Console.Write("\n\n");
             for (int i = 0; i < result.Length; i++)
@@ -114,15 +114,15 @@ namespace JPEG.Tests
                 }
             }
 
-            // Выводим содержимое блоков до применения метода Encoding.EncodeDC
-            Console.WriteLine("Содержимое блоков до применения метода Encoding.EncodeDC");
+            // Выводим содержимое блоков до применения метода Encoding.GenerateDC
+            Console.WriteLine("Содержимое блоков до применения метода Encoding.GenerateDC");
             for (int k = 0; k < numberOfBlock; k++)
             {
                 Console.WriteLine($"Значения {k} блока: " + string.Join(" ", listOfBlocks[k]));
             }
 
-            // Применяем метод Encoding.EncodeDC
-            resultt = Encoding.EncodeDC(listOfBlocks);
+            // Применяем метод Encoding.GenerateDC
+            resultt = Encoding.GenerateDC(listOfBlocks);
 
             for (int i = 0; i < resultt.Length; i++)
             {
@@ -153,7 +153,7 @@ namespace JPEG.Tests
             };
             // Запись в поток с помощью метода Encoding.WriteBits
             MemoryStream s = new MemoryStream();
-            Encoding encoding = new Encoding(s);
+            Encoding encoding = new Encoding(s, null, null);
             Console.WriteLine($"Использование метода Encoding.WriteBits");
             for (int i = 0; i < bits.Length; i++)
             {
@@ -176,6 +176,79 @@ namespace JPEG.Tests
             s.Dispose();
             File.Delete("../../../testEncodingWriteBits");
             CollectionAssert.AreEqual(Ex, b);
+        }
+
+
+        [TestMethod]
+        public void TestEncodeBlock()
+        {
+            
+            short[,] LQT = new short[,] {{ 16, 12, 14, 14, 18, 24, 49, 72 },
+                { 11, 12, 13, 17, 22, 35, 64, 92},
+                { 10, 14, 16, 22, 37, 55, 78, 95},
+                { 16, 19, 24, 29, 56, 64, 87, 98},
+                { 24, 26, 40, 51, 68, 81, 103, 112},
+                { 40, 58, 57, 87, 109, 104, 121, 100},
+                { 51, 60, 69, 80, 103, 113, 120, 103},
+                { 61, 55, 56, 62, 77, 92, 101, 99} };
+
+            
+            byte[,] block = new byte[8,8];
+            var r = new Random();
+            for (int i = 0; i < 8; i++)
+            {
+                for (int j = 0; j < 8; j++)
+                {
+                    block[i, j] = (byte) r.Next(0, 256);
+                }
+            } 
+            
+            
+            var zigzag = (DCT.Zigzag(DCT.DCCalculating(new List<short[,]>() {DCT.QuantizationDirect(DCT.FDCT(DCT.Shift(block)), LQT)})[0]));
+
+            var huffDC = new HuffmanTable(Encoding.GenerateDC(new List<short[]>() {zigzag}), true, 0);
+            
+            Console.WriteLine(string.Join(" ", huffDC.MaxCode));
+            
+            var huffAC = new HuffmanTable(Encoding.GenerateAC(new List<short[]>() {zigzag}), false, 0);
+
+            Console.WriteLine(string.Join(" ", huffAC.MaxCode));
+
+
+            var ms = new MemoryStream();
+
+            var encoding = new Encoding(ms, huffDC, huffAC);
+            
+            encoding.EncodeBlock(zigzag);
+	        encoding.FinishBits();
+            
+            ms.Seek(0, SeekOrigin.Begin);
+            Console.WriteLine("Записанные в поток байты:");
+            for (int i = 0; i < ms.Length; i++)
+            {
+                var b = (byte)ms.ReadByte();
+                Console.WriteLine($"{b:X2} {Convert.ToString(b, 2)}");
+            }
+            Console.WriteLine();
+            Console.WriteLine();
+            
+            ms.Seek(0, SeekOrigin.Begin);
+            
+            var newHuffDC = new HuffmanTable(Encoding.GenerateDC(new List<short[]>() {zigzag}), true, 0);
+            var newHuffAC = new HuffmanTable(Encoding.GenerateAC(new List<short[]>() {zigzag}), false, 0);
+            
+            var decoding = new Decoding(ms, newHuffDC, newHuffAC);
+
+            var decoded = decoding.DecodeBlock();
+            
+            Console.WriteLine("Before encoding:\r\n"+string.Join(" ", zigzag));
+            Console.WriteLine();
+            Console.WriteLine("After decoding :\r\n"+string.Join(" ", decoded));
+
+            ms.Dispose();
+            
+            CollectionAssert.AreEqual(zigzag, decoded);
+
         }
     }
 }

@@ -23,8 +23,6 @@ namespace ConsoleApp1
             Console.ReadKey();
         }
 
-        
-
         private static void _TestHuffmanTable()
         {
             // var width = 32;

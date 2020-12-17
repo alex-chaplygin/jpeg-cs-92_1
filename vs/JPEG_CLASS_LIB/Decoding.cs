@@ -124,12 +124,12 @@ namespace JPEG_CLASS_LIB
         {
             int i = 0;//1
             byte CODE = NextBit();
-            while (CODE > H.MaxCode[i])
+            while (i<H.MaxCode.Length && CODE > H.MaxCode[i])
             {
                 i++;
                 CODE = (Byte)((CODE << 1) + NextBit());
-
             }
+            if (i >= 16) return 0;
             int j = H.VALPTR[i];
             j = j + CODE - H.MinCode[i];
             byte Value = H.HUFFVAL[j];

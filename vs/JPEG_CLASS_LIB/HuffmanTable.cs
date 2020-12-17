@@ -46,12 +46,12 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Массив кодов, отсортированный по значениям
         /// </summary>
-        ushort[] EHUFCO;
+        public ushort[] EHUFCO;
 
         /// <summary>
         /// Массив длин кодов, отсортированный по значениям
         /// </summary>
-        byte[] EHUFSI;
+        public byte[] EHUFSI;
 
         /// <summary>
         /// Массив значений кодов таблицы Хаффмана
@@ -103,11 +103,11 @@ namespace JPEG_CLASS_LIB
             Generate_size_table(codeLength, all_length_values);
             Generate_code_table(all_length_values);
             Order_codes();
-	    GenerateTables();
+	        GenerateTables();
         }
 
         /// <summary>
-        /// Генериует вспомогательные таблицы для декодирования
+        /// Генериует вспомогательные таблицы для декодирования (Decoder_tables - Figure F.15)
         /// </summary>
         public void GenerateTables()
         {
@@ -254,7 +254,7 @@ namespace JPEG_CLASS_LIB
             Console.WriteLine("\nЗначения(values): ");
             foreach (byte i in values)
             {
-                Console.Write(i + " ");
+                Console.Write("0x" + Convert.ToString(i, 16) + " ");
             }
 
             Console.WriteLine("\nHUFFSIZE:");
@@ -336,6 +336,7 @@ namespace JPEG_CLASS_LIB
             Generate_size_table(codeLength, allSize);
             Generate_code_table(allSize);
             Order_codes();
+	    GenerateTables();
 
             Length = (ushort)(19 + values.Length); //2 + 1 + 16 + values.Length
         }
