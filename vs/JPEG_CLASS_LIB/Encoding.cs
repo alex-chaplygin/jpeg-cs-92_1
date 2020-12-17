@@ -76,7 +76,7 @@ namespace JPEG_CLASS_LIB
                 WriteBits((ushort) (diff > 0 ? diff : diff-1), ssss);
             }
             
-           // EncodeAC(block);
+            EncodeAC(block);
         } 
         
         /// <summary>
@@ -248,6 +248,7 @@ namespace JPEG_CLASS_LIB
         /// <param name="num">Число бит (от 1 до 8).</param>
         public void WriteBits(byte bits, int num)
         {
+            bits = (byte)(bits & ((1 << num) - 1));
             if (num + CNT > 8)
             {
                 extraBits = num + CNT - 8;
