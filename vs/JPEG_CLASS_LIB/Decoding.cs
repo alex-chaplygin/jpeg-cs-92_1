@@ -148,7 +148,6 @@ namespace JPEG_CLASS_LIB
             if (t == 0) return 0;
             diff2 = Receive(t);
             diff = Extend(diff2, t);
-            Console.WriteLine($"Decoded DC: {diff}");
             return diff;
         }
 
