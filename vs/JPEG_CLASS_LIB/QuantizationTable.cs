@@ -14,7 +14,7 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Таблица квантования содержащаяся в этом классе
         /// </summary>
-        byte[] QuantizationTableMain = new byte[64];
+        public byte[] QuantizationTableMain = new byte[64];
 
         /// <summary>
         /// Pq - точность элемента таблицы квантования.
