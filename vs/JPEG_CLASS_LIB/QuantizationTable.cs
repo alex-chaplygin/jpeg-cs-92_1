@@ -14,13 +14,17 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Таблица квантования содержащаяся в этом классе
         /// </summary>
-        byte[] QuantizationTableMain = new byte[64];
+        public byte[] QuantizationTableMain = new byte[64];
 
         /// <summary>
         /// Pq - точность элемента таблицы квантования.
-        /// Tq - идентификатор назначения таблицы квантования.
         /// </summary>
-        byte Pq, Tq;
+        byte Pq;
+
+        /// <summary>
+        /// Tq - номер таблицы.
+        /// </summary>
+        public byte Tq;
 
         /// <summary>
         /// Конктруктор класс, записывает значения Pq и Tq, значения таблицы квантования в массив из потока.

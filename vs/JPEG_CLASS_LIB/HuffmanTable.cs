@@ -21,12 +21,12 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Класс таблицы, 0 - DC, 1 - AC
         /// </summary>
-        byte Tc;
+        public byte Tc;
 
         /// <summary>
         /// Номер таблицы
         /// </summary>
-        byte Th;
+        public byte Th;
 
         /// <summary>
         /// Массив длин кодов таблицы Хаффмана для соответствия значениям
