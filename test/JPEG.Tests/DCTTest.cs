@@ -213,8 +213,8 @@ namespace JPEG.Tests
                 var split = channel.Split();
                 Console.WriteLine("Тестовая матрица:");
                 WriteMatrix(split[0], 2);
-                var fdct = jpeg.FDCT(split);
-                var idct = jpeg.IDCT(fdct);
+                var fdct = jpeg.FDCT(split, jpeg.LQT);
+                var idct = jpeg.IDCT(fdct, jpeg.LQT);
                 Console.WriteLine("Матрица после DCT:");
                 WriteMatrix(idct[0], 2);
                 Console.WriteLine("Разностная матрица:");
