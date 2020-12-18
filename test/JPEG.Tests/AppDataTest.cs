@@ -37,7 +37,7 @@ namespace JPEG.Tests
             s.Dispose();
             appData_Test_Write.Write(M);
             M.Position = 0;
-            for (int i = 0; i < 17; i++) Testrray[i] = (byte)M.ReadByte();
+            for (int i = 0; i < Testrray.Length; i++) Testrray[i] = (byte)M.ReadByte();
             CollectionAssert.AreEqual(Testrray, ExpectedArraytedArray);
         }
     }
