@@ -30,10 +30,11 @@ namespace JPEG.Tests
             string path = "../../../test_jpeg/JPEG_example_down.jpg";
             byte[] Testrray = new byte[18];
             byte[] ExpectedArraytedArray = new byte[] { 0xFF, 0xE0, 00 ,16, 74, 70, 73, 70, 0, 1, 2, 1, 0, 72, 0, 72, 0, 0 };
-            MemoryStream M = new MemoryStream(Testrray, true);            
+            MemoryStream M = new MemoryStream();            
             FileStream s = new FileStream(path, FileMode.Open);
             s.Seek(0x4, SeekOrigin.Begin);
-            AppData appData_Test_Write = new AppData(M);
+            AppData appData_Test_Write = new AppData(s);
+            s.Dispose();
             appData_Test_Write.Write(M);
             M.Position = 0;
             for (int i = 0; i < 17; i++) Testrray[i] = (byte)M.ReadByte();
