@@ -20,12 +20,12 @@ public class JPEG_CS
 	/// <summary>
 	/// Таблица квантования яркости.
 	/// </summary>
-	short[,] LQT = new short[8, 8];
+	public short[,] LQT = new short[8, 8];
 
 	/// <summary>
 	/// Таблица квантования цветности.
 	/// </summary>
-	short[,] CQT = new short[8, 8];
+	public short[,] CQT = new short[8, 8];
 
 	/// <summary>
 	/// Поток JPEG файла
