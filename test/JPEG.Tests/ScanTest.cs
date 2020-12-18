@@ -24,14 +24,19 @@ namespace JPEG.Tests
 
             Scan scan1 = new Scan(Length, NumberOfImageComponent, components, Ah, Al);
 
-            MemoryStream s = new MemoryStream();
-            scan1.Write(s);
+            MemoryStream s1 = new MemoryStream();
+            scan1.Write(s1);
 
             // Устанавливаем указатель на параметр Lenght, с которого начинается чтение в конструкторе Scan.
-            s.Seek(2, SeekOrigin.Begin); 
+            s1.Seek(2, SeekOrigin.Begin); 
 
-            Scan scan2 = new Scan(s);
-            s.Dispose();
+            Scan scan2 = new Scan(s1);
+
+            MemoryStream s2 = new MemoryStream();
+            scan2.Write(s2);
+            CollectionAssert.AreEqual(s1.GetBuffer(), s2.GetBuffer());
+            s1.Dispose();
+            s2.Dispose();
 
             ushort[] scan1Params = new ushort[4 + NumberOfImageComponent * 3];
             scan1Params[0] = Length;
@@ -63,6 +68,8 @@ namespace JPEG.Tests
             scan2.Print();
 
             CollectionAssert.AreEqual(scan1Params, scan2Params);
+
+
         }
     }
 }
