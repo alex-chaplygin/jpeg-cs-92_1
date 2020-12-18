@@ -213,8 +213,8 @@ namespace JPEG.Tests
                 var split = channel.Split();
                 Console.WriteLine("Тестовая матрица:");
                 WriteMatrix(split[0], 2);
-                var fdct = jpeg.FDCT(split);
-                var idct = jpeg.IDCT(fdct);
+                var fdct = jpeg.FDCT(split, jpeg.LQT);
+                var idct = jpeg.IDCT(fdct, jpeg.LQT);
                 Console.WriteLine("Матрица после DCT:");
                 WriteMatrix(idct[0], 2);
                 Console.WriteLine("Разностная матрица:");
@@ -224,7 +224,7 @@ namespace JPEG.Tests
                     {
                         var tmpDiff = split[0][x, y] - idct[0][x, y];
                         Assert.IsTrue(tmpDiff < passDifference[parameters], $"Разница ({tmpDiff}) превышает допустимые показатели для {parametersName[parameters]}");
-                        Console.Write(Convert.ToString(tmpDiff).PadRight(3, ' ')+"| ");
+                        Console.Write(Convert.ToString(tmpDiff).PadRight(3, ' ') + "| ");
                     }
                     Console.WriteLine();
                 }
