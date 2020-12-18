@@ -87,11 +87,18 @@ namespace JPEG_CLASS_LIB
         /// <returns>матрица квантования</returns>
         public short[,] GetQuantizationTable(int num)
         {
-            short[,] result = new short[8, 8];
-            for (int x = 0; x < 8; x++)
-                for (int y = 0; y < 8; y++)
-                    result[y, x] = quantizationTables[num].QuantizationTableMain[x + 8 * y];
-            return result;
+            for (int k = 0; k < quantizationTables.Count; k++)
+                if (quantizationTables[k].Tq == num)
+                {
+                    int n = 0;
+                    short[,] result = new short[8, 8];
+                    short[] actual = new short[64];
+                    for (int i = 0; i < 64; i++)
+                        actual[i] = quantizationTables[k].QuantizationTableMain[i];
+                    result = DCT.ReZigzag(actual);
+                    return result;
+                }
+            return null;
         }
 
         /// <summary>
