@@ -36,9 +36,9 @@ namespace JPEG_CLASS_LIB
             ApproximationLow = Al;
         }
 
-        public Scan(ushort Length, byte NumberOfImageComponent, Component[] components, byte Ah, byte Al) : base(MarkerType.StartOfScan)
+        public Scan(Stream s, ushort Length, byte NumberOfImageComponent, Component[] components, byte Ah, byte Al) 
+            : base(s, MarkerType.StartOfScan, Length)
         {
-            this.Length = Length;
             this.NumberOfImageComponent = NumberOfImageComponent;
             this.components = components;
             this.ApproximationHigh = Ah;
@@ -48,19 +48,18 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Пишет скан в поток, начиная с поля "число компонентов в скане"
         /// </summary>
-        /// <param name="s">Поток для записи.</param>
-        public override void Write(Stream s)
+        public override void Write()
         {
-            base.Write(s);
-            s.WriteByte(NumberOfImageComponent);
+            base.Write();
+            MainStream.WriteByte(NumberOfImageComponent);
             for (int j = 0; j < NumberOfImageComponent; j++)
             {
-                s.WriteByte(components[j].ComponentSelector);
-                Write4(s, components[j].TableDC, components[j].TableAC);
+                MainStream.WriteByte(components[j].ComponentSelector);
+                Write4(components[j].TableDC, components[j].TableAC);
             }
-            s.WriteByte(SelectionStart);
-            s.WriteByte(SelectionEnd);
-            Write4(s, ApproximationHigh, ApproximationLow);
+            MainStream.WriteByte(SelectionStart);
+            MainStream.WriteByte(SelectionEnd);
+            Write4(ApproximationHigh, ApproximationLow);
         }
 
         /// <summary>
