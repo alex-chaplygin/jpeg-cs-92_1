@@ -277,5 +277,34 @@ namespace JPEG_CLASS_LIB
             else if (res < 0) return 0;
             else return (byte)res;
         }
+
+        /// <summary>
+        /// Меняет текущую матрицу дополняя значениями из последней колонки (по ширине) и последней строки (по высоте).
+        /// Размеры матрицы меняются таким образом, чтобы после уменьшения на Hmax/H и Vmax/V они были кратны 8.
+        /// </summary>
+        /// <param name="Hmax">Коэффициент Hmax</param>
+        /// <param name="Vmax">Коэффициент Vmax</param>
+        public void Complete(int Hmax, int Vmax)
+        {
+            var hCorrection = 0;
+            while ((matrix.GetLength(1)+hCorrection)%(Hmax/h)!=0 || (matrix.GetLength(1)+hCorrection)/(Hmax/h)%8!=0)
+            {
+                hCorrection++;
+            }
+            
+            var vCorrection = 0;
+            while ((matrix.GetLength(0)+vCorrection)%(Vmax/v)!=0 || (matrix.GetLength(0)+vCorrection)/(Vmax/v)%8!=0)
+            {
+                vCorrection++;
+            }
+            
+            var newMatrix = new byte[matrix.GetLength(0) + vCorrection, matrix.GetLength(1) + hCorrection];
+            for (int y = 0; y < newMatrix.GetLength(1); y++)
+            for (int x = 0; x < newMatrix.GetLength(0); x++)
+                newMatrix[x, y] = matrix[Math.Min(x, matrix.GetLength(0) - 1),
+                    Math.Min(y, matrix.GetLength(1) - 1)];
+
+            matrix = newMatrix;
+        }
     }
 }
