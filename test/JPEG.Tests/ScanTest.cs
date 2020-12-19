@@ -12,8 +12,9 @@ namespace JPEG.Tests
         public void ScanTest_Write()
         {
             Random rnd = new Random(0);
-            ushort Length = (ushort)rnd.Next(ushort.MaxValue); 
             byte NumberOfImageComponent = (byte)rnd.Next(256);
+            //byte NumberOfImageComponent = (byte)3;
+            ushort Length = (ushort)(6 + NumberOfImageComponent * 2); 
             Component[] components = new Component[NumberOfImageComponent];
             for (byte i = 0; i < NumberOfImageComponent; i++)
                 components[i] = new Component((byte)rnd.Next(256),
@@ -22,21 +23,24 @@ namespace JPEG.Tests
             byte Ah = (byte)rnd.Next(16); 
             byte Al = (byte)rnd.Next(16);
 
-            Scan scan1 = new Scan(Length, NumberOfImageComponent, components, Ah, Al);
+            MemoryStream s = new MemoryStream();
+            Scan scan1 = new Scan(s, Length, NumberOfImageComponent, components, Ah, Al);
+            scan1.Write();
 
-            MemoryStream s1 = new MemoryStream();
-            scan1.Write(s1);
+            byte[] expected = s.ToArray();
 
             // Устанавливаем указатель на параметр Lenght, с которого начинается чтение в конструкторе Scan.
-            s1.Seek(2, SeekOrigin.Begin); 
+            s.Seek(2, SeekOrigin.Begin); 
 
-            Scan scan2 = new Scan(s1);
+            Scan scan2 = new Scan(s); 
+            s.Seek(0, SeekOrigin.Begin);
 
-            MemoryStream s2 = new MemoryStream();
-            scan2.Write(s2);
-            CollectionAssert.AreEqual(s1.GetBuffer(), s2.GetBuffer());
-            s1.Dispose();
-            s2.Dispose();
+            scan2.Write();
+
+            byte[] actual = s.ToArray();
+            s.Dispose();
+
+            CollectionAssert.AreEqual(expected, actual);
 
             ushort[] scan1Params = new ushort[4 + NumberOfImageComponent * 3];
             scan1Params[0] = Length;
@@ -68,8 +72,6 @@ namespace JPEG.Tests
             scan2.Print();
 
             CollectionAssert.AreEqual(scan1Params, scan2Params);
-
-
         }
     }
 }
