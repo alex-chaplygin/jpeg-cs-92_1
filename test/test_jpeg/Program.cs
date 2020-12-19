@@ -9,8 +9,9 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
+            TestCompleteChannel();
             //_TestUnpack();
-            _TestInterleave();            
+            // _TestInterleave();            
             //_TestJPEGData();
             //_TestBitReader();
             //_TestBitWriter();            
@@ -23,6 +24,43 @@ namespace ConsoleApp1
             Console.ReadKey();
         }
 
+        private static void TestCompleteChannel()
+        {
+            var width = 8;
+            var height = 8;
+            var r = new Random();
+            byte[,] testMatrix = new byte[width, height];
+            for (int y = 0; y < testMatrix.GetLength(1); y++)
+                for (int x = 0; x < testMatrix.GetLength(0); x++)
+                    testMatrix[x, y] = Convert.ToByte(r.Next(0, 255));
+            var channel = new Channel(testMatrix, 1, 1);
+            var Hmax = 2;
+            var Vmax = 2;
+            
+            Console.WriteLine($"Оригинальная матрица ({width}x{height}): ");
+
+            WriteMatrix(channel.GetMatrix());
+            Console.WriteLine();
+            
+            channel.Complete(Hmax, Vmax);
+            Console.WriteLine($"После дополнения ({channel.GetMatrix().GetLength(0)}x{channel.GetMatrix().GetLength(1)}): ");
+
+            var originalColor = Console.ForegroundColor;
+            
+            for (int y = 0; y < channel.GetMatrix().GetLength(1); y++)
+            {
+                for (int x = 0; x < channel.GetMatrix().GetLength(0); x++)
+                {
+                    Console.ForegroundColor = (x < width && y < height) ? originalColor : ConsoleColor.DarkGreen;
+                    Console.Write(channel.GetMatrix()[x, y].ToString("X2") + " ");
+                }
+                Console.WriteLine();
+            }
+
+            Console.ForegroundColor = originalColor;
+            Console.WriteLine();
+        }
+        
         private static void _TestHuffmanTable()
         {
             // var width = 32;
