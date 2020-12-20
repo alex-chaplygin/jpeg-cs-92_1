@@ -84,21 +84,31 @@ namespace JPEG.Tests
                 0b1, 0b0, 0b10, 0b01, 0b11, 0b00, 0b100, 0b011,
                 0b101, 0b010, 0b110, 0b001, 0b111, 0b000, 0b1000, 0b0111,
                 0b1001, 0b0110, 0b1010, 0b0101, 0b1011, 0b0100, 0b1100, 0b0011,
-                0b1101, 0b0010, 0b1110, 0b0001, 0b1111, 0b0000, 0b10000, 0b01111
+                0b1101, 0b0010, 0b1110, 0b0001, 0b1111, 0b0000, 0b10000, 0b01111,
+                0b111_1111_1111_1111, 0b111_1111_1111_1110, 0b111_1110_0000_1010,
+                0b000_0000_1100_1000, 0b000_0000_0000_0000, 0b0111_1111_1111_1111
             };
             ushort[] num_bits = { 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3,
-            4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5};
+            4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5,
+            15, 15, 15, 
+            15, 15, 16};
 
-            short[] actual = new short[32];
+            short[] actual = new short[38];
             for (int i = 0; i < actual.Length; i++)
                 actual[i] = Decoding.Extend(diff[i], num_bits[i]);
 
-            short[] expected = new short[32];
-            for (int i = 0; i < expected.Length - 1; i += 2)
+            short[] expected = new short[38];
+            for (int i = 0; i < 32; i += 2)
             {
                 expected[i] = (short)((i >> 1) + 1);
                 expected[i + 1] = (short)-(((i >> 1) + 1));
             }
+            expected[32] = 32767; // максимальное значение short.
+            expected[33] = 32766;
+            expected[34] = 32266;
+            expected[35] = -32567;
+            expected[36] = -32767;
+            expected[37] = -32768; // минимальное значение short.
 
             CollectionAssert.AreEqual(expected, actual);
 	}
