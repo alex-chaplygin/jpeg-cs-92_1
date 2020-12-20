@@ -24,7 +24,7 @@ namespace JPEG.Tests
             byte Al = (byte)rnd.Next(16);
 
             MemoryStream s = new MemoryStream();
-            Scan scan1 = new Scan(s, Length, NumberOfImageComponent, components, Ah, Al);
+            Scan scan1 = new Scan(s, NumberOfImageComponent, components, Ah, Al);
             scan1.Write();
 
             byte[] expected = s.ToArray();
