@@ -36,8 +36,8 @@ namespace JPEG_CLASS_LIB
             ApproximationLow = Al;
         }
 
-        public Scan(Stream s, ushort Length, byte NumberOfImageComponent, Component[] components, byte Ah, byte Al) 
-            : base(s, MarkerType.StartOfScan, Length)
+        public Scan(Stream s, byte NumberOfImageComponent, Component[] components, byte Ah, byte Al) 
+            : base(s, MarkerType.StartOfScan, (ushort)(6 + NumberOfImageComponent * 2))
         {
             this.NumberOfImageComponent = NumberOfImageComponent;
             this.components = components;
