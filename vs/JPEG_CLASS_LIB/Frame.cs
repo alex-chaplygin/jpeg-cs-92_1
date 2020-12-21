@@ -31,7 +31,7 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Массив компонентов.
         /// </summary>
-        Component[] Components;
+        public Component[] Components;
 
         /// <summary>
         /// Конструктор класса Frame.
