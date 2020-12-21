@@ -150,6 +150,7 @@ namespace JPEG_CLASS_LIB
             else if (Marker >= MarkerType.BaseLineDCT && Marker <= MarkerType.DifferentialLoslessArithmetic) return new Frame(s, Marker);
             else if (Marker == MarkerType.DefineQuantizationTables) return new QuantizationTable(s);
             else if (Marker == MarkerType.DefineArithmeticCodingConditionings) return new ArithmeticConditioning(s);
+            else if (Marker == MarkerType.DefineRestartInterval) return new RestartInterval(s);
             else return new JPEGData(s, Marker);
         }
 
