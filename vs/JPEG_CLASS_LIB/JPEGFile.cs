@@ -16,7 +16,7 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Кадр
         /// </summary>
-        Frame frame;
+        public Frame frame;
 
         /// <summary>
         /// Все таблицы квантования
@@ -34,6 +34,11 @@ namespace JPEG_CLASS_LIB
         Scan scan;
 
         /// <summary>
+        /// Класс кодирования данных.
+        /// </summary>
+        public Encoding encoding;
+
+        /// <summary>
         /// Класс декодирования энтропийных данных.
         /// </summary>
         Decoding decoding;
@@ -42,6 +47,11 @@ namespace JPEG_CLASS_LIB
         /// Интервал повтора - количество MCU - минимальных кодированных блоков. 
         /// </summary>
         RestartInterval restartInterval;
+
+        /// <summary>
+        /// Предыдущее значение DC коэффициента.
+        /// </summary>
+        short prediction = 0;
 
         /// <summary>
         /// Конструктор JPEGFile. Считывает все структуры JPEGData и записывает их в Data.
@@ -63,6 +73,29 @@ namespace JPEG_CLASS_LIB
             }
             while (Data[Data.Count - 1].Marker != MarkerType.StartOfScan);
             decoding = new Decoding(s, null, null);
+            encoding = new Encoding(s, null, null);
+        }
+
+        /// <summary>
+        /// Кодирует минимальный блок кодирования.
+        /// </summary>
+        /// <param name="list">Блоки MCU</param>
+        public void EncodeMCU(List<short[]> list)
+        {
+            for (byte i = 0; i < frame.NumberOfComponent; i++)
+            {
+                encoding.huffDC = GetHuffmanTable(0, (byte)(i == 0 ? 0 : 1));
+                encoding.huffAC = GetHuffmanTable(1, (byte)(i == 0 ? 0 : 1));
+                byte NumBlocks = (byte)(frame.Components[i].H * frame.Components[i].V);
+                while (NumBlocks != 0)
+                {
+                    list[0][0] -= prediction;
+                    prediction = list[0][0];
+                    encoding.EncodeBlock(list[0]);
+                    list.RemoveAt(0);
+                    NumBlocks--;
+                }
+            }
         }
 
         /// <summary>
@@ -90,7 +123,6 @@ namespace JPEG_CLASS_LIB
             for (int k = 0; k < quantizationTables.Count; k++)
                 if (quantizationTables[k].Tq == num)
                 {
-                    int n = 0;
                     short[,] result = new short[8, 8];
                     short[] actual = new short[64];
                     for (int i = 0; i < 64; i++)
