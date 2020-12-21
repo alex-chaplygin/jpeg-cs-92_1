@@ -79,41 +79,38 @@ namespace JPEG.Tests
         [TestMethod]
         public void _TestDecodingExtend()
         {
-            short expected = 0;
-
-            Random r = new Random();
-
-            HuffmanTable huffDC = null;
-            HuffmanTable huffAC = null;
-
-            MemoryStream ms = new MemoryStream(3);
-            for (int i = 0; i < 3; i++) 
-            {
-                if (i == 0)
+            ushort[] diff =
                 {
-                    expected = (short)r.Next(0,255);
-                    ms.WriteByte((byte)(expected%256));
-                    continue;
-                }
-                ms.WriteByte((byte)(r.Next(0,255)));
-            }
-            ms.Seek(0, SeekOrigin.Begin);
+                0b1, 0b0, 0b10, 0b01, 0b11, 0b00, 0b100, 0b011,
+                0b101, 0b010, 0b110, 0b001, 0b111, 0b000, 0b1000, 0b0111,
+                0b1001, 0b0110, 0b1010, 0b0101, 0b1011, 0b0100, 0b1100, 0b0011,
+                0b1101, 0b0010, 0b1110, 0b0001, 0b1111, 0b0000, 0b10000, 0b01111,
+                0b111_1111_1111_1111, 0b111_1111_1111_1110, 0b111_1110_0000_1010,
+                0b000_0000_1100_1000, 0b000_0000_0000_0000, 0b0111_1111_1111_1111
+            };
+            ushort[] num_bits = { 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3,
+            4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 5, 5,
+            15, 15, 15, 
+            15, 15, 16};
 
-            Decoding d = new Decoding(ms, huffDC, huffAC);
+            short[] actual = new short[38];
+            for (int i = 0; i < actual.Length; i++)
+                actual[i] = Decoding.Extend(diff[i], num_bits[i]);
 
-            ushort actual = d.Receive(4);
-            actual = (ushort)Decoding.Extend(actual, 4);
-            Console.Write($"Результат: {actual}");
-
-            short vt = (1 << 3); 
-            while (expected < vt)
+            short[] expected = new short[38];
+            for (int i = 0; i < 32; i += 2)
             {
-                vt = (-1<<4)+1;
-                expected += vt;
+                expected[i] = (short)((i >> 1) + 1);
+                expected[i + 1] = (short)-(((i >> 1) + 1));
             }
+            expected[32] = 32767; // максимальное значение short.
+            expected[33] = 32766;
+            expected[34] = 32266;
+            expected[35] = -32567;
+            expected[36] = -32767;
+            expected[37] = -32768; // минимальное значение short.
 
-            Assert.AreEqual(expected, actual);
-            ms.Dispose();
+            CollectionAssert.AreEqual(expected, actual);
 	}
 	
 	public void DecodeTest()

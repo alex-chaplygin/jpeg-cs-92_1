@@ -224,7 +224,7 @@ namespace JPEG.Tests
                     {
                         var tmpDiff = split[0][x, y] - idct[0][x, y];
                         Assert.IsTrue(tmpDiff < passDifference[parameters], $"Разница ({tmpDiff}) превышает допустимые показатели для {parametersName[parameters]}");
-                        Console.Write(Convert.ToString(tmpDiff).PadRight(3, ' ')+"| ");
+                        Console.Write(Convert.ToString(tmpDiff).PadRight(3, ' ') + "| ");
                     }
                     Console.WriteLine();
                 }

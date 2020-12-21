@@ -61,6 +61,16 @@ namespace JPEG_CLASS_LIB
         }
 
         /// <summary>
+        /// Записывает маркер и длину в поток.
+        /// </summary>
+        /// <param name="s">Поток для записи.</param>
+        public virtual void Write(Stream s)
+        {
+            Write16(s, (ushort)Marker);
+            if (!(Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage)) Write16(s, Length);
+        }
+
+        /// <summary>
         /// Читает  1 байт, разбивает его по 4 бита, которые записывает в младшие разряды двух байтов.
         /// </summary>
         /// <param name="v1">Байт, в который будут записаны 4 старших бита из считываемого байта.</param>
@@ -71,6 +81,7 @@ namespace JPEG_CLASS_LIB
             v1 = (byte)(value >> 4);   // В v1 записываем старшие четыре бита из байта.
             v2 = (byte)(value & 0x0F); // В v2 записываем младшие четыре бита из байта.
         }
+
         /// <summary>
         /// Получает на вход два байта с заполненными младшими четырьмя битами, 
         /// объединяет их в один байт и записывает в поток.
@@ -80,6 +91,18 @@ namespace JPEG_CLASS_LIB
         protected void Write4(byte v1, byte v2)
         {
             MainStream.WriteByte((byte)((v1 << 4) + v2));
+        }
+
+        /// <summary>
+        /// Получает на вход два байта с заполненными младшими четырьмя битами, 
+        /// объединяет их в один байт и записывает в поток.
+        /// </summary>
+        /// <param name="v1">Байт, младшие 4 бита которого буду записаны как старшие биты байта в поток.</param>
+        /// <param name="v2">Байт, младшие 4 бита которого буду записаны как младшие биты байта в поток.</param>
+        /// <param name="s">Поток для записи.</param>
+        protected void Write4(Stream s, byte v1, byte v2)
+        {
+            s.WriteByte((byte)((v1 << 4) + v2));
         }
 
         /// <summary>Читает 2 байта из потока и возвращает их в виде ushort.</summary>
@@ -111,6 +134,17 @@ namespace JPEG_CLASS_LIB
             byte Hbyte = (byte)(data >> 8); //Чтение старшего байта из ushort
             MainStream.WriteByte(Hbyte);    //Запись старшего байта в поток
             MainStream.WriteByte(Lbyte);    //Запись младшего байта в поток
+        }
+
+        /// <summary>Получает на вход ushort, разделяет его на 2 байта и записывает в поток.</summary>
+        /// <param name="data">ushort, который будет записан в поток.</param>
+        /// <param name="s">Поток для записи.</param>
+        protected void Write16(Stream s, ushort data)
+        {
+            byte Lbyte = (byte)(data);      //Чтение младшего байта из ushort
+            byte Hbyte = (byte)(data >> 8); //Чтение старшего байта из ushort
+            s.WriteByte(Hbyte);    //Запись старшего байта в поток
+            s.WriteByte(Lbyte);    //Запись младшего байта в поток
         }
 
         /// <summary>Читает 4 байта и возвращает их в виде uint.</summary>

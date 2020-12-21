@@ -21,7 +21,7 @@ namespace JPEG_CLASS_LIB
         /// <param name="s"></param>
         public AppData(Stream s):base(s, MarkerType.ReservedForApplicationSegments)
         {
-	    data = new byte[Length - 2];
+	        data = new byte[Length - 2];
             s.Read(data,0, Length - 2);
         }
 
@@ -29,9 +29,9 @@ namespace JPEG_CLASS_LIB
         /// Метод записи массива данных в поток.
         /// </summary>
         /// <param name="s"></param>
-        public void Write(Stream s)
+        public override void Write(Stream s)
         {
-            base.Write();
+            base.Write(s);
             s.Write(data, 0, data.Length);
         }
 
