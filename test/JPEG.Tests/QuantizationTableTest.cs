@@ -29,7 +29,7 @@ namespace JPEG.Tests
 			{51, 60, 69, 80, 103, 113, 120, 103},
 			{61, 55, 56, 62, 77, 92, 101, 99}
 				};
-				QuantizationTable QT = new QuantizationTable(S, LQT, 3, 3);
+				QuantizationTable QT = new QuantizationTable(S, LQT, 3, 3, (ushort)LQT.Length);
 				
 				QT.Print();
 				byte[] aaa = S.ToArray();
