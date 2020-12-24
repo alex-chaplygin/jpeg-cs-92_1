@@ -34,9 +34,9 @@ namespace ConsoleApp1
             channel1.Sample(2, 2);
             Channel channel2 = new Channel(matrix, 2, 1);
             channel2.Sample(2, 2);
-            Channel channel3 = new Channel(matrix, 1, 1);
+            Channel channel3 = new Channel(matrix, 1, 2);
             channel3.Sample(2, 2);
-            var channels = new[] { channel1, channel2, channel3 };
+            Channel[] channels = new Channel[] { channel1, channel2, channel3 };
             List<short[,]> QM = new List<short[,]>();
             var library = new JPEG_CS(null);
             library.SetParameters(3);
@@ -67,7 +67,7 @@ namespace ConsoleApp1
             {99, 99, 99, 99, 99, 99, 99, 99},
             {99, 99, 99, 99, 99, 99, 99, 99},
             {99, 99, 99, 99, 99, 99, 99, 99}});
-            var blocks = library.Interleave(channels, QM);            
+            var blocks = library.Interleave(channels, QM);
             MemoryStream TestStream = new MemoryStream();
             Frame.Component[] Comp = new Frame.Component[3];
             Comp[0].Number = 1;
@@ -83,10 +83,13 @@ namespace ConsoleApp1
             Comp[2].V = 1;
             Comp[2].QuantizationTableNumber = 1;
             Frame F = new Frame(TestStream, MarkerType.BaseLineDCT, 32, 32, 8, Comp);
-            FileStream s = File.Open("../../../test.jpg", FileMode.Open);
-            JPEGFile JPEGF = new JPEGFile(s);
+            JPEGFile JPEGF = new JPEGFile();
             JPEGF.frame = F;
             JPEGF.encoding = new Encoding(TestStream, null, null);
+            JPEGF.huffmanTables.Add(new HuffmanTable(Encoding.GenerateDC(blocks), true, 0));
+            JPEGF.huffmanTables.Add(new HuffmanTable(Encoding.GenerateAC(blocks), false, 0));
+            JPEGF.huffmanTables.Add(new HuffmanTable(Encoding.GenerateDC(blocks), true, 1));
+            JPEGF.huffmanTables.Add(new HuffmanTable(Encoding.GenerateAC(blocks), false, 1));
             JPEGF.EncodeMCU(blocks);
             JPEGF.encoding.FinishBits();
             var output = TestStream.ToArray();
@@ -123,7 +126,7 @@ namespace ConsoleApp1
             // var data = new List<short[]>();
             // foreach (var block in blocks)
             // {
-            //     data.Add(DCT.Zigzag(Quantization.QuantizationDirect(DCT.FDCT(DCT.Shift(block)), CQT)));
+            //   data.Add(DCT.Zigzag(Quantization.QuantizationDirect(DCT.FDCT(DCT.Shift(block)), CQT)));
             // }
             // var result = new HuffmanTable(data, false, -1);
 
