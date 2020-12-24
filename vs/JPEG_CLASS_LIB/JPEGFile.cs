@@ -26,7 +26,7 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Все таблицы Хаффмана
         /// </summary>
-        List<HuffmanTable> huffmanTables = new List<HuffmanTable> { };
+        public List<HuffmanTable> huffmanTables = new List<HuffmanTable> { };
 
         /// <summary>
         /// Заголовок кодированных данных
@@ -52,6 +52,12 @@ namespace JPEG_CLASS_LIB
         /// Предыдущее значение DC коэффициента.
         /// </summary>
         short prediction = 0;
+
+        /// <summary>
+        /// Пустой конструктор для теста
+        /// </summary>
+        public JPEGFile()
+        { }
 
         /// <summary>
         /// Конструктор JPEGFile. Считывает все структуры JPEGData и записывает их в Data.
