@@ -92,7 +92,19 @@ namespace JPEG_CLASS_LIB
             }
             return channeles;
         }
-        
+
+        /// <summary>
+        /// Запоминает поток. Записывает все структуры из списка Data в поток.
+        /// </summary>
+        /// <param name="s">Поток, в который записываются структуры из списка Data.</param>
+        public void WriteHeaders(Stream s)
+        {
+            for (int i = 0; i < Data.Count; i++)
+            {
+                Data[i].Write();
+            }
+        }
+
         /// <summary>
         /// Выводит в консоль все JPEGData
         /// </summary>
