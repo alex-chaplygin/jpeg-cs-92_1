@@ -10,7 +10,7 @@ namespace ConsoleApp1
         static void Main(string[] args)
         {
             //_TestUnpack();
-            _TestInterleave();            
+            //_TestInterleave();            
             //_TestJPEGData();
             //_TestBitReader();
             //_TestBitWriter();            
@@ -20,6 +20,7 @@ namespace ConsoleApp1
             //_TestHuffmanTable();
             // _TestEncodingWriteBits();
             //DecodeBlockTest();
+            _TestWriteHeaders();
             Console.ReadKey();
         }
 
@@ -502,6 +503,18 @@ namespace ConsoleApp1
                 }
                 Console.WriteLine();
             }
+        }
+
+        private static void _TestWriteHeaders()
+        {
+            FileStream S = File.Open("../../../test.jpg", FileMode.Open);
+
+            JPEGFile jf = new JPEGFile(S);
+
+            MemoryStream MS = new MemoryStream();
+            jf.WriteHeaders(MS);
+
+            List<string> headers = new List<string>();
         }
     }
 }
