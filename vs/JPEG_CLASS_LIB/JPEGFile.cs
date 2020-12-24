@@ -11,7 +11,7 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Список всех структур JPEG до StartOfScan.
         /// </summary>
-        List<JPEGData> Data = new List<JPEGData> { };
+        public List<JPEGData> Data = new List<JPEGData> { };
 
         /// <summary>
         /// Кадр
@@ -60,6 +60,11 @@ namespace JPEG_CLASS_LIB
             decoding = new Decoding(s, null, null);
         }
 
+        JPEGFile()
+        {
+
+        }
+
         /// <summary>
         /// Декодирование кадра JPEG
         /// </summary>
@@ -87,7 +92,7 @@ namespace JPEG_CLASS_LIB
             }
             return channeles;
         }
-
+        
         /// <summary>
         /// Выводит в консоль все JPEGData
         /// </summary>
