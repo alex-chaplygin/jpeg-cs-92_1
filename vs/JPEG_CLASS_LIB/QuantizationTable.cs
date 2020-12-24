@@ -43,7 +43,8 @@ namespace JPEG_CLASS_LIB
         /// <param name="table">Таблица квантования</param>
         /// <param name="Pq">Точность эллемента таблицы квантования</param>
         /// <param name="Tq">Номер таблицы</param>
-        public QuantizationTable(Stream s, short[,]table, byte Pq, byte Tq) : base(s, MarkerType.DefineQuantizationTables)
+        /// <param name="length">Длина таблица квантования</param>
+        public QuantizationTable(Stream s, short[,]table, byte Pq, byte Tq, ushort length) : base(s, MarkerType.DefineQuantizationTables, length)
         {
             QuantizationTableMain = (DCT.Zigzag(table)).Select(x => Convert.ToByte(x)).ToArray();
             this.Pq = Pq;
