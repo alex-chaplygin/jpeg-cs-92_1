@@ -62,6 +62,9 @@ namespace JPEG_CLASS_LIB
             decoding = new Decoding(s, null, null);
         }
 
+        /// <summary>
+        /// Конструктор для создания JPEG файла. На выходе получается пустой JPEGFile.
+        /// </summary>
         JPEGFile()
         {
 
