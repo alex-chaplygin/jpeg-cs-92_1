@@ -60,6 +60,13 @@ namespace JPEG_CLASS_LIB
             if (!(Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage)) Write16(Length) ;
         }
 
+        public virtual void Write(Stream s)
+        {
+            Write16((ushort)Marker);
+            if (!(Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage)) Write16(Length);
+            MainStream.CopyTo(s);
+        }
+
         /// <summary>
         /// Читает  1 байт, разбивает его по 4 бита, которые записывает в младшие разряды двух байтов.
         /// </summary>

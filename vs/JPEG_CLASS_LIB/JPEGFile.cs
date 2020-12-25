@@ -107,11 +107,13 @@ namespace JPEG_CLASS_LIB
             MainStream = s;
             for (int i = 0; i < Data.Count; i++)
             {
+                Data[i].Write(s);
+                /*
                 ushort temp = (ushort)Data[i].Marker;
                 byte second = (byte)(temp);
                 byte first = (byte)(temp >> 8);
                 MainStream.WriteByte(first);
-                MainStream.WriteByte(second);
+                MainStream.WriteByte(second); */
             }
         }
 
