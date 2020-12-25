@@ -38,6 +38,8 @@ namespace JPEG_CLASS_LIB
         /// </summary>
         Decoding decoding;
 
+        Stream MainStream;
+
         /// <summary>
         /// Конструктор JPEGFile. Считывает все структуры JPEGData и записывает их в Data.
         /// </summary>
@@ -99,6 +101,7 @@ namespace JPEG_CLASS_LIB
         /// <param name="s">Поток, в который записываются структуры из списка Data.</param>
         public void WriteHeaders(Stream s)
         {
+            MainStream = s;
             for (int i = 0; i < Data.Count; i++)
             {
                 Data[i].Write();
