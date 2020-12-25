@@ -507,7 +507,7 @@ namespace ConsoleApp1
 
         private static void _TestWriteHeaders()
         {
-            FileStream fs1 = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
+            FileStream fs1 = File.Open("../../../test.jpg", FileMode.Open);
             FileStream fs2 = File.Open("testWriteHeaders.jpg", FileMode.Create);
 
             JPEGFile jf = new JPEGFile(fs1);
