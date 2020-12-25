@@ -92,7 +92,22 @@ namespace ConsoleApp1
             JPEGF.huffmanTables.Add(new HuffmanTable(Encoding.GenerateAC(blocks), false, 1));
             JPEGF.EncodeMCU(blocks);
             JPEGF.encoding.FinishBits();
-            var output = TestStream.ToArray();
+            var output = TestStream.ToArray();            
+            Console.WriteLine("\r\n\r\nТаблицы Хаффмана");
+            for (byte i =0; i < 4; i++)
+            {
+                Console.Write($"Таблица #{i}\r\n");
+                JPEGF.huffmanTables[i].Print();
+                Console.WriteLine();
+            }
+            Console.WriteLine("\r\n\r\nБлоки");
+            for (byte i = 0; i < 8; i++)
+            {
+                Console.Write($"Блок #{i}\r\n");
+                for (int j = 0; j < blocks[i].Length; j++) Console.Write(blocks[i][j].ToString().PadLeft(4));
+                Console.WriteLine();
+            }
+                Console.WriteLine("\r\nПоток");
             for (int i = 0; i < output.Length; i++) Console.Write(output[i].ToString().PadLeft(4));
 
         }
