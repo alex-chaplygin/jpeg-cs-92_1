@@ -63,7 +63,7 @@ namespace JPEG_CLASS_LIB
         }
 
         /// <summary>
-        /// Конструктор для создания JPEG файла. На выходе получается пустой JPEGFile.
+        /// Конструктор для создания JPEG файла.
         /// </summary>
         JPEGFile()
         {
@@ -107,7 +107,11 @@ namespace JPEG_CLASS_LIB
             MainStream = s;
             for (int i = 0; i < Data.Count; i++)
             {
-                Data[i].Write();
+                ushort temp = (ushort)Data[i].Marker;
+                byte second = (byte)(temp);
+                byte first = (byte)(temp >> 8);
+                MainStream.WriteByte(first);
+                MainStream.WriteByte(second);
             }
         }
 
