@@ -93,7 +93,7 @@ namespace ConsoleApp1
             JPEGF.EncodeMCU(blocks);
             JPEGF.encoding.FinishBits();
             var output = TestStream.ToArray();            
-            Console.WriteLine("\r\n\r\nТаблицы Хаффмана");
+            Console.WriteLine("Таблицы Хаффмана");
             for (byte i =0; i < 4; i++)
             {
                 Console.Write($"Таблица #{i}\r\n");
@@ -101,14 +101,14 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
             Console.WriteLine("\r\n\r\nБлоки");
-            for (byte i = 0; i < 8; i++)
+            for (byte i = 0; i < 4; i++)
             {
                 Console.Write($"Блок #{i}\r\n");
                 for (int j = 0; j < blocks[i].Length; j++) Console.Write(blocks[i][j].ToString().PadLeft(4));
                 Console.WriteLine();
             }
                 Console.WriteLine("\r\nПоток");
-            for (int i = 0; i < output.Length; i++) Console.Write(output[i].ToString().PadLeft(4));
+            for (int i = 0; i < output.Length; i++) Console.Write(Convert.ToString(output[i],2));
 
         }
         private static void _TestHuffmanTable()
