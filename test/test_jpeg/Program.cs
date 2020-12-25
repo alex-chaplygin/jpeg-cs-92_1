@@ -507,14 +507,18 @@ namespace ConsoleApp1
 
         private static void _TestWriteHeaders()
         {
-            FileStream S = File.Open("../../../test.jpg", FileMode.Open);
+            MemoryStream ms = new MemoryStream();
+            ms.Write(new byte[10] {0xFF, 0xD8,0xFF,0xC0,0xff,0xc4, 0xff, 0xc4, 0xFF,0xD0},0,10);
 
-            JPEGFile jf = new JPEGFile(S);
+            JPEGFile jf = new JPEGFile(ms);
 
-            MemoryStream MS = new MemoryStream();
-            jf.WriteHeaders(MS);
+            jf.WriteHeaders(ms);
 
-            List<string> headers = new List<string>();
+            byte[] bytes = new byte[10];
+            for (int i = 0; i < 10; i++) bytes[i] = (byte)ms.ReadByte();
+
+            string[] bytesInStrings = BitConverter.ToString(bytes,16).Split('-');
+            for (int i = 0; i < 10; i++) Console.Write(bytesInStrings[i]+ " ");
         }
     }
 }
