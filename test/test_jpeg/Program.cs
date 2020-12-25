@@ -507,17 +507,15 @@ namespace ConsoleApp1
 
         private static void _TestWriteHeaders()
         {
-            FileStream fs = File.Open("testWriteHeaders.jpg",FileMode.Create);
-            MemoryStream ms = new MemoryStream();
-            ms.Write(new byte[10] {0xFF, 0xD8,0xFF,0xC0,0xff,0xc4, 0xff, 0xc4, 0xFF,0xD0},0,10);
+            FileStream fs1 = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
+            FileStream fs2 = File.Open("testWriteHeaders.jpg", FileMode.Create);
 
-            JPEGFile jf = new JPEGFile(ms);
+            JPEGFile jf = new JPEGFile(fs1);
 
-            jf.WriteHeaders(fs);
+            jf.WriteHeaders(fs2);
 
-            fs.Close();
-            ms.Close();
-            Console.WriteLine("готово");
+            fs1.Close();
+            fs2.Close();
         }
     }
 }
