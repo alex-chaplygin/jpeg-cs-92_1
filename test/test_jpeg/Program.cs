@@ -108,7 +108,7 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
                 Console.WriteLine("\r\nПоток");
-            for (int i = 0; i < output.Length; i++) Console.Write(Convert.ToString(output[i],2) + " ");
+            for (int i = 0; i < output.Length; i++) Console.Write(Convert.ToString(output[i],2).PadLeft(8,'0') + " ");
 
         }
         private static void _TestHuffmanTable()
