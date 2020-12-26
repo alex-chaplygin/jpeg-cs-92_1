@@ -65,10 +65,7 @@ namespace JPEG_CLASS_LIB
             short diff = block[0];
 
             var ssss = ComputeDCCategory(diff);
-            
-            Console.WriteLine($"diff: {diff}, ssss: {ssss}");
 
-            
             WriteBits(huffDC.EHUFCO[ssss], huffDC.EHUFSI[ssss]);
 
             if (ssss != 0)
