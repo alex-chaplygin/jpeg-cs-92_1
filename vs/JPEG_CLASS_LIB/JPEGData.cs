@@ -9,7 +9,7 @@ namespace JPEG_CLASS_LIB
     public class JPEGData
     {
         /// <summary>Поток с данными сегмента.</summary>
-        protected Stream MainStream;
+        public Stream MainStream;
 
         /// <summary>Маркер сегмента.</summary>
         public MarkerType Marker;
@@ -58,13 +58,6 @@ namespace JPEG_CLASS_LIB
         {
             Write16((ushort)Marker);
             if (!(Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage)) Write16(Length) ;
-        }
-
-        public virtual void Write(Stream s)
-        {
-            Write16((ushort)Marker);
-            if (!(Marker >= MarkerType.RestartWithModEightCount0 && Marker <= MarkerType.EndOfImage)) Write16(Length);
-            MainStream.CopyTo(s);
         }
 
         /// <summary>
