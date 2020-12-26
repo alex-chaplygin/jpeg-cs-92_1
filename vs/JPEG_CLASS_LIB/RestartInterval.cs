@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 
 namespace JPEG_CLASS_LIB
 {
@@ -20,6 +21,16 @@ namespace JPEG_CLASS_LIB
         {
             restartInterval = Read16();
         }
+        
+        /// <summary>
+        /// Конструктор класса RestartInterval для записи
+        /// </summary>
+        /// <param name="s">Поток с изображением</param>
+        /// <param name="restartInterval">Число MCU</param>
+        public RestartInterval(Stream s, ushort restartInterval) : base(s, MarkerType.DefineRestartInterval, 4)
+        {
+            this.restartInterval = restartInterval;
+        }
 
         /// <summary>
         /// Записывает RestartInterval в поток.
@@ -28,6 +39,15 @@ namespace JPEG_CLASS_LIB
         {
             base.Write();
             Write16(restartInterval);
+        }
+
+        /// <summary>
+        /// Выводит данные компонента в консоль.
+        /// </summary>
+        public override void Print()
+        {
+            base.Print();
+            Console.WriteLine($"Число MCU: {restartInterval}");
         }
     }
 }
