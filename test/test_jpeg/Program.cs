@@ -90,10 +90,25 @@ namespace ConsoleApp1
             JPEGF.huffmanTables.Add(new HuffmanTable(Encoding.GenerateAC(blocks), false, 0));
             JPEGF.huffmanTables.Add(new HuffmanTable(Encoding.GenerateDC(blocks), true, 1));
             JPEGF.huffmanTables.Add(new HuffmanTable(Encoding.GenerateAC(blocks), false, 1));
-            JPEGF.EncodeMCU(blocks);
+
+            JPEGF.encoding.huffDC = JPEGF.GetHuffmanTable(0, 0);
+            Console.WriteLine("Таблица Хаффмана DC");
+            JPEGF.encoding.huffDC.Print();            
+            JPEGF.encoding.huffAC = JPEGF.GetHuffmanTable(1, 0);
+            Console.WriteLine("\r\nТаблица Хаффмана AC");
+            JPEGF.encoding.huffDC.Print();
+            Console.WriteLine("\r\nБлок");
+            for (int j = 0; j < blocks[0].Length; j++) Console.Write(blocks[0][j].ToString().PadLeft(4));
+            JPEGF.encoding.EncodeBlock(blocks[0]);
             JPEGF.encoding.FinishBits();
-            var output = TestStream.ToArray();            
-            Console.WriteLine("Таблицы Хаффмана");
+            var output = TestStream.ToArray();
+            Console.WriteLine("\r\n\r\nЗакодированный блок");
+            for (int i = 0; i < output.Length; i++) Console.Write(Convert.ToString(output[i], 2).PadLeft(8, '0') + " ");
+
+            //JPEGF.EncodeMCU(blocks);
+            //JPEGF.encoding.FinishBits();
+            //var output = TestStream.ToArray();            
+            /*Console.WriteLine("Таблицы Хаффмана");
             for (byte i =0; i < 4; i++)
             {
                 Console.Write($"Таблица #{i}\r\n");
@@ -109,7 +124,7 @@ namespace ConsoleApp1
             }
                 Console.WriteLine("\r\nПоток");
             for (int i = 0; i < output.Length; i++) Console.Write(Convert.ToString(output[i],2).PadLeft(8,'0') + " ");
-
+            */
         }
         private static void _TestHuffmanTable()
         {
