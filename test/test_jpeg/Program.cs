@@ -9,7 +9,7 @@ namespace ConsoleApp1
     {
         static void Main(string[] args)
         {
-            TestCompleteChannel();
+            //TestCompleteChannel();
             //_TestUnpack();
             // _TestInterleave();            
             //_TestJPEGData();
@@ -21,7 +21,69 @@ namespace ConsoleApp1
             //_TestHuffmanTable();
             // _TestEncodingWriteBits();
             //DecodeBlockTest();
+            _TestFullChannelCycle();
             Console.ReadKey();
+        }
+
+        private static void _TestFullChannelCycle()
+        {
+            /*Там точно нужно исправлять Channel,
+             * чтобы работало с любыми размерами,
+             * и любыми комбинациями H и V*/
+
+            Random rnd = new Random(0);
+
+            int H = 2;
+            int V = 2;
+            int Hmax = 4;
+            int Vmax = 4;
+
+            byte[,] matrix = new byte[14, 11];
+            for (int y = 0, c = 0; y < matrix.GetLength(1); y++)
+                for (int x = 0; x < matrix.GetLength(0); x++, c++)
+                    matrix[x, y] = (byte)rnd.Next(byte.MaxValue);
+
+            // Создание
+            Channel channel = new Channel(matrix, H, V);
+            Console.WriteLine("Исходная матрица:");
+            WriteMatrix(channel.GetMatrix());
+
+            // Дополнение // Complete
+            channel.Complete(Hmax, Vmax);
+            Console.WriteLine("Матрица после дополнения:");
+            WriteMatrix(channel.GetMatrix());
+
+            // Масштабирование // Sample
+            channel.Resample(Hmax, Vmax);
+            //Console.WriteLine("Матрица после масштабирования:");
+            //WriteMatrix(channel.GetMatrix());
+
+            // Разбиение на блоки // Split
+            List<byte[,]> blocks = channel.Split();
+
+            /*
+            Console.WriteLine("Блоки:");
+            foreach (var block in blocks)
+            { 
+                WriteMatrix(block);
+                Console.WriteLine();
+            }
+            */
+
+            // Сборка // Collect
+            channel.Collect(blocks);
+            //Console.WriteLine("Матрица после сборки:");
+            //WriteMatrix(channel.GetMatrix());
+
+            // Дополнение // Complete
+            channel.Complete(Hmax, Hmax);
+            //Console.WriteLine("Матрица после дополнения:");
+            //WriteMatrix(channel.GetMatrix());
+
+            // Обратное масштабирование // Resample
+            channel.Sample(Hmax, Hmax);
+            Console.WriteLine("Матрица после обратного масштабирования:");
+            WriteMatrix(channel.GetMatrix());
         }
 
         private static void TestCompleteChannel()
