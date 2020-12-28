@@ -96,35 +96,23 @@ namespace ConsoleApp1
             JPEGF.encoding.huffDC.Print();            
             JPEGF.encoding.huffAC = JPEGF.GetHuffmanTable(1, 0);
             Console.WriteLine("\r\nТаблица Хаффмана AC");
-            JPEGF.encoding.huffDC.Print();
+            JPEGF.encoding.huffAC.Print();
             Console.WriteLine("\r\nБлок");
-            for (int j = 0; j < blocks[0].Length; j++) Console.Write(blocks[0][j].ToString().PadLeft(4));
-            JPEGF.encoding.EncodeBlock(blocks[0]);
-            JPEGF.encoding.FinishBits();
-            var output = TestStream.ToArray();
-            Console.WriteLine("\r\n\r\nЗакодированный блок");
-            for (int i = 0; i < output.Length; i++) Console.Write(Convert.ToString(output[i], 2).PadLeft(8, '0') + " ");
-
-            //JPEGF.EncodeMCU(blocks);
-            //JPEGF.encoding.FinishBits();
-            //var output = TestStream.ToArray();            
-            /*Console.WriteLine("Таблицы Хаффмана");
-            for (byte i =0; i < 4; i++)
-            {
-                Console.Write($"Таблица #{i}\r\n");
-                JPEGF.huffmanTables[i].Print();
-                Console.WriteLine();
-            }
-            Console.WriteLine("\r\n\r\nБлоки");
+//            for (int j = 0; j < blocks[0].Length; j++) Console.Write(blocks[0][j].ToString().PadLeft(4));
+          Console.WriteLine("\r\n\r\nБлоки");
             for (byte i = 0; i < 8; i++)
             {
                 Console.Write($"Блок #{i}\r\n");
                 for (int j = 0; j < blocks[i].Length; j++) Console.Write(blocks[i][j].ToString().PadLeft(4));
                 Console.WriteLine();
             }
-                Console.WriteLine("\r\nПоток");
-            for (int i = 0; i < output.Length; i++) Console.Write(Convert.ToString(output[i],2).PadLeft(8,'0') + " ");
-            */
+  	    
+            //JPEGF.encoding.EncodeBlock(blocks[0]);
+            JPEGF.EncodeMCU(blocks);
+            JPEGF.encoding.FinishBits();
+            var output = TestStream.ToArray();
+            Console.WriteLine("\r\n\r\nЗакодированные блоки");
+            for (int i = 0; i < output.Length; i++) Console.Write(Convert.ToString(output[i], 2).PadLeft(8, '0') + " ");
         }
         private static void _TestHuffmanTable()
         {
