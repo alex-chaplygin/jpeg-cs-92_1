@@ -11,7 +11,7 @@ namespace ConsoleApp1
         {
             TestCompleteChannel();
             //_TestUnpack();
-            // _TestInterleave();            
+            //_TestInterleave();            
             //_TestJPEGData();
             //_TestBitReader();
             //_TestBitWriter();            
@@ -19,8 +19,10 @@ namespace ConsoleApp1
             //_TestBitWriterTwo();
             //_TestBitWriterError();
             //_TestHuffmanTable();
-            // _TestEncodingWriteBits();
+            //_TestEncodingWriteBits();
             //DecodeBlockTest();
+            _TestMCUencode();
+
             Console.ReadKey();
         }
 
@@ -61,6 +63,97 @@ namespace ConsoleApp1
             Console.WriteLine();
         }
         
+        private static void _TestMCUencode()
+        {
+            byte[,] matrix = new byte[48, 32];
+            for (int y = 0, c = 0; y < matrix.GetLength(1); y++)
+                for (int x = 0; x < matrix.GetLength(0); x++, c++)
+                    matrix[x, y] = (byte)(c * 4);
+            Channel channel1 = new Channel(matrix, 2, 2);
+            channel1.Sample(2, 2);
+            Channel channel2 = new Channel(matrix, 2, 1);
+            channel2.Sample(2, 2);
+            Channel channel3 = new Channel(matrix, 1, 2);
+            channel3.Sample(2, 2);
+            Channel[] channels = new Channel[] { channel1, channel2, channel3 };
+            List<short[,]> QM = new List<short[,]>();
+            var library = new JPEG_CS(null);
+            library.SetParameters(3);
+            QM.Add(new short[,]{
+            {16, 12, 14, 14, 18, 24, 49, 72},
+            {11, 12, 13, 17, 22, 35, 64, 92},
+            {10, 14, 16, 22, 37, 55, 78, 95},
+            {16, 19, 24, 29, 56, 64, 87, 98},
+            {24, 26, 40, 51, 68, 81, 103, 112},
+            {40, 58, 57, 87, 109, 104, 121, 100},
+            {51, 60, 69, 80, 103, 113, 120, 103},
+            {61, 55, 56, 62, 77, 92, 101, 99}});
+            QM.Add(new short[,]{
+            {17, 18, 24, 47, 99, 99, 99, 99},
+            {18, 21, 26, 66, 99, 99, 99, 99},
+            {24, 26, 56, 99, 99, 99, 99, 99},
+            {47, 66, 99, 99, 99, 99, 99, 99},
+            {99, 99, 99, 99, 99, 99, 99, 99},
+            {99, 99, 99, 99, 99, 99, 99, 99},
+            {99, 99, 99, 99, 99, 99, 99, 99},
+            {99, 99, 99, 99, 99, 99, 99, 99}});
+            QM.Add(new short[,]{
+            {17, 18, 24, 47, 99, 99, 99, 99},
+            {18, 21, 26, 66, 99, 99, 99, 99},
+            {24, 26, 56, 99, 99, 99, 99, 99},
+            {47, 66, 99, 99, 99, 99, 99, 99},
+            {99, 99, 99, 99, 99, 99, 99, 99},
+            {99, 99, 99, 99, 99, 99, 99, 99},
+            {99, 99, 99, 99, 99, 99, 99, 99},
+            {99, 99, 99, 99, 99, 99, 99, 99}});
+            var blocks = library.Interleave(channels, QM);
+            MemoryStream TestStream = new MemoryStream();
+            Frame.Component[] Comp = new Frame.Component[3];
+            Comp[0].Number = 1;
+            Comp[0].H = 2;
+            Comp[0].V = 2;
+            Comp[0].QuantizationTableNumber = 0;
+            Comp[1].Number = 2;
+            Comp[1].H = 1;
+            Comp[1].V = 1;
+            Comp[1].QuantizationTableNumber = 1;
+            Comp[2].Number = 3;
+            Comp[2].H = 1;
+            Comp[2].V = 1;
+            Comp[2].QuantizationTableNumber = 1;
+            Frame F = new Frame(TestStream, MarkerType.BaseLineDCT, 32, 32, 8, Comp);
+            JPEGFile JPEGF = new JPEGFile();
+            JPEGF.frame = F;
+            JPEGF.encoding = new Encoding(TestStream, null, null);
+            JPEGF.huffmanTables.Add(new HuffmanTable(Encoding.GenerateDC(blocks), true, 0));
+            JPEGF.huffmanTables.Add(new HuffmanTable(Encoding.GenerateAC(blocks), false, 0));
+            JPEGF.huffmanTables.Add(new HuffmanTable(Encoding.GenerateDC(blocks), true, 1));
+            JPEGF.huffmanTables.Add(new HuffmanTable(Encoding.GenerateAC(blocks), false, 1));
+
+            JPEGF.encoding.huffDC = JPEGF.GetHuffmanTable(0, 0);
+            Console.WriteLine("Таблица Хаффмана DC");
+            JPEGF.encoding.huffDC.Print();            
+            JPEGF.encoding.huffAC = JPEGF.GetHuffmanTable(1, 0);
+            Console.WriteLine("\r\nТаблица Хаффмана AC");
+            JPEGF.encoding.huffAC.Print();
+            Console.WriteLine("\r\nБлок");
+//            for (int j = 0; j < blocks[0].Length; j++) Console.Write(blocks[0][j].ToString().PadLeft(4));
+          Console.WriteLine("\r\n\r\nБлоки");
+            for (byte i = 0; i < 8; i++)
+            {
+                Console.Write($"Блок #{i}\r\n");
+                for (int j = 0; j < blocks[i].Length; j++) Console.Write(blocks[i][j].ToString().PadLeft(4));
+                Console.WriteLine();
+            }
+  	    
+            //JPEGF.encoding.EncodeBlock(blocks[0]);
+            JPEGF.EncodeMCU(blocks);
+            JPEGF.encoding.FinishBits();
+            var output = TestStream.ToArray();
+            Console.WriteLine("\r\n\r\nЗакодированные блоки");
+            for (int i = 0; i < output.Length; i++) Console.Write(Convert.ToString(output[i], 2).PadLeft(8, '0') + " ");
+        }
+
         private static void _TestHuffmanTable()
         {
             // var width = 32;
@@ -91,7 +184,7 @@ namespace ConsoleApp1
             // var data = new List<short[]>();
             // foreach (var block in blocks)
             // {
-            //     data.Add(DCT.Zigzag(Quantization.QuantizationDirect(DCT.FDCT(DCT.Shift(block)), CQT)));
+            //   data.Add(DCT.Zigzag(Quantization.QuantizationDirect(DCT.FDCT(DCT.Shift(block)), CQT)));
             // }
             // var result = new HuffmanTable(data, false, -1);
 
@@ -382,7 +475,7 @@ namespace ConsoleApp1
                 }
                 Console.WriteLine();
             }
-        }    
+        }
 
         static void _TestJPEGData()
         {
@@ -529,13 +622,13 @@ namespace ConsoleApp1
                     decoding.huffDC = huffDC;
                     decoding.huffDC.GenerateTables();
                     Block = decoding.DecodeBlock();
-                    Console.WriteLine("\nДекодирование "+k+" блока");
+                    Console.WriteLine("\nДекодирование " + k + " блока");
 
-                    for (int i = 0;  i < 64; i++)
+                    for (int i = 0; i < 64; i++)
                     {
-                        string s = Block[i]+" ";
+                        string s = Block[i] + " ";
                         Console.Write(s);
-                        
+
                     }
                 }
                 Console.WriteLine();

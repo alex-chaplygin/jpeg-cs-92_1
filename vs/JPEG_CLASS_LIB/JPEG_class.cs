@@ -12,6 +12,7 @@ public class JPEG_CS
     /// Ширина изображения.
     /// </summary>
 	int width;
+
     /// <summary>
     /// Высота изображения.
     /// </summary>
@@ -136,7 +137,6 @@ public class JPEG_CS
 			Temp[i] = DCT.FDCT(Temp[i]);
 			Temp[i] = DCT.QuantizationDirect(Temp[i], quantizationMatrix);
 		}
-		Temp = DCT.DCCalculating(Temp);
 		for (int i = 0; i < Temp.Count; i++)
 			Result.Add(DCT.Zigzag(Temp[i]));
 		return Result;

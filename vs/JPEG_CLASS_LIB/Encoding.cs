@@ -12,7 +12,7 @@ namespace JPEG_CLASS_LIB
     {
         /// Сжатые данные.
         /// </summary>
-        Stream MainStream;
+        public Stream MainStream;
 
         /// <summary>
         /// Текущий байт в сжатых данных.
@@ -32,12 +32,12 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Таблица Хаффмана для DC-коэффициентов
         /// </summary>
-        HuffmanTable huffDC;
+        public HuffmanTable huffDC;
 
         /// <summary>
         /// Таблица Хаффмана для AC-коэффициентов
         /// </summary>
-        HuffmanTable huffAC;
+        public HuffmanTable huffAC;
 
         /// <summary>
         /// Создает объект, сохраняет поток в классе.
@@ -65,10 +65,7 @@ namespace JPEG_CLASS_LIB
             short diff = block[0];
 
             var ssss = ComputeDCCategory(diff);
-            
-            Console.WriteLine($"diff: {diff}, ssss: {ssss}");
 
-            
             WriteBits(huffDC.EHUFCO[ssss], huffDC.EHUFSI[ssss]);
 
             if (ssss != 0)
