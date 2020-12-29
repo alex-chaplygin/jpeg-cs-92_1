@@ -29,16 +29,13 @@ namespace JPEG.Tests
 			{51, 60, 69, 80, 103, 113, 120, 103},
 			{61, 55, 56, 62, 77, 92, 101, 99}
 				};
-				QuantizationTable QT = new QuantizationTable(S, LQT, 3, 3);
+				byte[] etalon = { 255, 219, 0, 68, 3, 3, 16, 12, 11, 10, 12, 14, 14, 13, 14, 16, 24, 19, 16, 17, 18, 24, 22, 22, 24, 26, 40, 51, 58, 40, 29, 37, 35, 49, 72, 64, 55, 56, 51, 57, 60, 61, 55, 69, 87, 68, 64, 78, 92, 95, 87, 81, 109, 80,
+					56, 62, 103, 104, 103, 98, 112, 121, 113, 77, 92, 120, 100, 103, 101, 99 };
 				
-				QT.Print();
-				byte[] aaa = S.ToArray();
-				Console.WriteLine("Значения потока после записи в него\n");
-				Console.Write(Convert.ToString(((aaa[0]<<8)+aaa[1]), 16)+ " "+ Convert.ToString((aaa[2] << 8) + aaa[3], 16)+" ");
-				for (int i=4; i<aaa.Length; i++)
-                {
-					Console.Write(aaa[i] + " ");
-                }
+				QuantizationTable QT = new QuantizationTable(S, LQT, 3, 3);
+				byte[] a = S.ToArray();
+				
+				CollectionAssert.AreEqual(etalon, a);
 
 			}
 			
