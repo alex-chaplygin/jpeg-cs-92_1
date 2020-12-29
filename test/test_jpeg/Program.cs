@@ -33,12 +33,12 @@ namespace ConsoleApp1
 
             Random rnd = new Random(0);
 
-            int H = 2;
+            int H = 1;
             int V = 2;
-            int Hmax = 4;
-            int Vmax = 4;
+            int Hmax = 2;
+            int Vmax = 2;
 
-            byte[,] matrix = new byte[14, 11];
+            byte[,] matrix = new byte[21, 9];
             for (int y = 0, c = 0; y < matrix.GetLength(1); y++)
                 for (int x = 0; x < matrix.GetLength(0); x++, c++)
                     matrix[x, y] = (byte)rnd.Next(byte.MaxValue);
@@ -69,17 +69,18 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
             */
-
-            // Сборка // Collect
-            channel.Collect(blocks);
-            //Console.WriteLine("Матрица после сборки:");
-            //WriteMatrix(channel.GetMatrix());
+	    channel = new Channel(matrix, H, V);
 
             // Дополнение // Complete
             channel.Complete(Hmax, Hmax);
             //Console.WriteLine("Матрица после дополнения:");
             //WriteMatrix(channel.GetMatrix());
 
+            // Сборка // Collect
+            channel.Collect(blocks);
+            //Console.WriteLine("Матрица после сборки:");
+            //WriteMatrix(channel.GetMatrix());
+	    
             // Обратное масштабирование // Resample
             channel.Sample(Hmax, Hmax);
             Console.WriteLine("Матрица после обратного масштабирования:");
