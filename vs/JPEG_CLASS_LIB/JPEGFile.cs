@@ -107,8 +107,8 @@ namespace JPEG_CLASS_LIB
             MainStream = s;
             for (int i = 0; i < Data.Count; i++)
             {
+                Data[i].MainStream = MainStream;
                 Data[i].Write();
-                Data[i].MainStream.CopyTo(MainStream);
             }
         }
 
