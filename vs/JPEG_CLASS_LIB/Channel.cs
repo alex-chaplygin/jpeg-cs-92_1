@@ -311,18 +311,18 @@ namespace JPEG_CLASS_LIB
         public void Complete(int Hmax, int Vmax)
         {
             var hCorrection = 0;
-            while ((matrix.GetLength(1)+hCorrection)%(Hmax/h)!=0 || (matrix.GetLength(1)+hCorrection)/(Hmax/h)%8!=0)
+            while ((matrix.GetLength(0)+hCorrection)%(Hmax/h)!=0 || (matrix.GetLength(0)+hCorrection)/(Hmax/h)%8!=0)
             {
                 hCorrection++;
             }
             
             var vCorrection = 0;
-            while ((matrix.GetLength(0)+vCorrection)%(Vmax/v)!=0 || (matrix.GetLength(0)+vCorrection)/(Vmax/v)%8!=0)
+            while ((matrix.GetLength(1)+vCorrection)%(Vmax/v)!=0 || (matrix.GetLength(1)+vCorrection)/(Vmax/v)%8!=0)
             {
                 vCorrection++;
             }
             
-            var newMatrix = new byte[matrix.GetLength(0) + vCorrection, matrix.GetLength(1) + hCorrection];
+            var newMatrix = new byte[matrix.GetLength(0) + hCorrection, matrix.GetLength(1) + vCorrection];
             for (int y = 0; y < newMatrix.GetLength(1); y++)
             for (int x = 0; x < newMatrix.GetLength(0); x++)
                 newMatrix[x, y] = matrix[Math.Min(x, matrix.GetLength(0) - 1),
