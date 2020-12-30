@@ -23,6 +23,15 @@ namespace JPEG_CLASS_LIB
         private int v;
 
         /// <summary>
+        /// Начальная ширина матрицы.
+        /// </summary>
+        private int originalWidth;
+        /// <summary>
+        /// Начальная высота матрицы
+        /// </summary>
+        private int originalHeight;
+
+        /// <summary>
         /// Создает блок на основе заданной матрицы.
         /// </summary>
         /// <param name="matrix">Заданная матрица для создания канала.</param>
@@ -33,6 +42,8 @@ namespace JPEG_CLASS_LIB
             this.matrix = matrix;
             this.h = H;
             this.v = V;
+            originalWidth = matrix.GetLength(0);
+            originalHeight = matrix.GetLength(1);
         }
 
         /// <summary>
@@ -44,6 +55,19 @@ namespace JPEG_CLASS_LIB
             return matrix;
         }
         
+        /// <summary>
+        /// Возвращает текущую матрицу, обрезанную до исходного размера.
+        /// </summary>
+        /// <returns>Текущая матрица, обрезанная до исходного размера.</returns>
+        public byte[,] GetOriginalSizeMatrix()
+        {
+            byte[,] originalSizeMatrix = new byte[originalWidth, originalHeight];
+            for (int x = 0; x < originalWidth; x++)
+                for (int y = 0; y < originalHeight; y++)
+                    originalSizeMatrix[x, y] = this.matrix[x, y];
+            return originalSizeMatrix;
+        }
+
         /// <summary>
         /// Разбивает внутреннюю матрицу канала на блоки 8x8
         /// </summary>
