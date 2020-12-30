@@ -29,28 +29,24 @@ namespace JPEG.Tests
 			{51, 60, 69, 80, 103, 113, 120, 103},
 			{61, 55, 56, 62, 77, 92, 101, 99}
 				};
-				byte[] etalon = { 255, 219, 0, 68, 3, 3, 16, 12, 11, 10, 12, 14, 14, 13, 14, 16, 24, 19, 16, 17, 18, 24, 22, 22, 24, 26, 40, 51, 58, 40, 29, 37, 35, 49, 72, 64, 55, 56, 51, 57, 60, 61, 55, 69, 87, 68, 64, 78, 92, 95, 87, 81, 109, 80,
+				byte[] etalon = { 255, 219, 0, 67, 51, 16, 12, 11, 10, 12, 14, 14, 13, 14, 16, 24, 19, 16, 17, 18, 24, 22, 22, 24, 26, 40, 51, 58, 40, 29, 37, 35, 49, 72, 64, 55, 56, 51, 57, 60, 61, 55, 69, 87, 68, 64, 78, 92, 95, 87, 81, 109, 80,
 					56, 62, 103, 104, 103, 98, 112, 121, 113, 77, 92, 120, 100, 103, 101, 99 };
 				
 				QuantizationTable QT = new QuantizationTable(S, LQT, 3, 3);
+				QT.Write();
 				byte[] a = S.ToArray();
 				
+				
 				CollectionAssert.AreEqual(etalon, a);
-				using (MemoryStream S1 = new MemoryStream())
-				{
-					QT.Write(S1);
-					byte[] b = S1.ToArray();
-					/*foreach (byte i in b)
-					{
-						Console.Write(i + " ");
-					}
-					Console.WriteLine();
-					foreach (byte i in a)
-					{
-						Console.Write(i + " ");
-					}*/
-					CollectionAssert.AreEqual(a, b);
-				}
+				S.Seek(2, SeekOrigin.Begin);
+				QT = new QuantizationTable(S);
+
+				S.Seek(0, SeekOrigin.Begin);
+				QT.Write();
+				byte[] b = S.ToArray();
+				
+				
+				CollectionAssert.AreEqual(a, b);
 
 
 			}
