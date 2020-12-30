@@ -24,13 +24,9 @@ namespace ConsoleApp1
             _TestFullChannelCycle();
             Console.ReadKey();
         }
-
+         
         private static void _TestFullChannelCycle()
         {
-            /*Там точно нужно исправлять Channel,
-             * чтобы работало с любыми размерами,
-             * и любыми комбинациями H и V*/
-
             Random rnd = new Random(0);
 
             int H = 1;
@@ -38,25 +34,28 @@ namespace ConsoleApp1
             int Hmax = 2;
             int Vmax = 2;
 
+            Console.WriteLine($"H = {H}, V = {V}, Hmax = {Hmax}, Vmax = {Vmax}");
+
             byte[,] matrix = new byte[21, 9];
             for (int y = 0, c = 0; y < matrix.GetLength(1); y++)
                 for (int x = 0; x < matrix.GetLength(0); x++, c++)
                     matrix[x, y] = (byte)rnd.Next(byte.MaxValue);
 
+            Console.SetWindowSize(97, Console.WindowHeight);
             // Создание
             Channel channel = new Channel(matrix, H, V);
-            Console.WriteLine("Исходная матрица:");
+            Console.WriteLine($"Исходная матрица [{channel.GetMatrix().GetLength(0)}, {channel.GetMatrix().GetLength(1)}]:");
             WriteMatrix(channel.GetMatrix());
 
             // Дополнение // Complete
             channel.Complete(Hmax, Vmax);
-            Console.WriteLine("Матрица после дополнения:");
+            Console.WriteLine($"Матрица после дополнения [{channel.GetMatrix().GetLength(0)}, {channel.GetMatrix().GetLength(1)}]:");
             WriteMatrix(channel.GetMatrix());
 
-            // Масштабирование // Sample
+            // Масштабирование // Resample
             channel.Resample(Hmax, Vmax);
-            //Console.WriteLine("Матрица после масштабирования:");
-            //WriteMatrix(channel.GetMatrix());
+            Console.WriteLine($"Матрица после масштабирования [{channel.GetMatrix().GetLength(0)}, {channel.GetMatrix().GetLength(1)}]:");
+            WriteMatrix(channel.GetMatrix());
 
             // Разбиение на блоки // Split
             List<byte[,]> blocks = channel.Split();
@@ -69,22 +68,31 @@ namespace ConsoleApp1
                 Console.WriteLine();
             }
             */
-	    channel = new Channel(matrix, H, V);
+
+            channel = new Channel(matrix, H, V);
 
             // Дополнение // Complete
-            channel.Complete(Hmax, Hmax);
-            //Console.WriteLine("Матрица после дополнения:");
+            channel.Complete(Hmax, Vmax);
+            //Console.WriteLine($"Матрица после дополнения [{channel.GetMatrix().GetLength(0)}, {channel.GetMatrix().GetLength(1)}]:");
             //WriteMatrix(channel.GetMatrix());
 
             // Сборка // Collect
             channel.Collect(blocks);
-            //Console.WriteLine("Матрица после сборки:");
-            //WriteMatrix(channel.GetMatrix());
-	    
-            // Обратное масштабирование // Resample
-            channel.Sample(Hmax, Hmax);
-            Console.WriteLine("Матрица после обратного масштабирования:");
+            Console.WriteLine($"Матрица после сборки [{channel.GetMatrix().GetLength(0)}, {channel.GetMatrix().GetLength(1)}]:");
             WriteMatrix(channel.GetMatrix());
+
+            // Обратное масштабирование // Sample
+            channel.Sample(Hmax, Hmax);
+            Console.WriteLine($"Матрица после обратного масштабирования [{channel.GetMatrix().GetLength(0)}, {channel.GetMatrix().GetLength(1)}]:");
+            WriteMatrix(channel.GetMatrix());
+
+            // Возвращение к исходному размеру // GetOriginalSizeMatrix
+            var tempM = channel.GetOriginalSizeMatrix();
+            Console.WriteLine($"Матрица, обрезанная до исходного размера [{tempM.GetLength(0)}, {tempM.GetLength(1)}]:");
+            WriteMatrix(tempM);
+
+            Console.WriteLine($"Исходная матрица [{matrix.GetLength(0)}, {matrix.GetLength(1)}]:");
+            WriteMatrix(matrix);
         }
 
         private static void TestCompleteChannel()
