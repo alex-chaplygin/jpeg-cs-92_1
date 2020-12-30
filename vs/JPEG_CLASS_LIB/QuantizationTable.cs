@@ -58,6 +58,7 @@ namespace JPEG_CLASS_LIB
         /// <param name="s">Выходной поток</param>
         public void Write(Stream s)
         {
+            MainStream = s;
             base.Write();
             s.Write(new byte[2] {Pq,Tq}, 0, 2);
             s.Write(QuantizationTableMain, 0, QuantizationTableMain.Length);
