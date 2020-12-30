@@ -175,49 +175,39 @@ namespace JPEG_CLASS_LIB
         {
             if (Hmax < h || Vmax < v) return;
 
-            float hProportion = Hmax / (float)h;
-            float vProportion = Vmax / (float)v;
-
-            int width = (int)(matrix.GetLength(0) / hProportion);
-            if (width == 0) width = 1;
-            int height = (int)(matrix.GetLength(1) / vProportion);
-            if (height == 0) height = 1;
-
+            double hProportion = (double)matrix.GetLength(0) / originalWidth;
+            double vProportion = (double)matrix.GetLength(1) / originalHeight;
 
             // Масштабирование по ширине.
-            byte[,] tempMatrix = new byte[width, matrix.GetLength(1)];
+            byte[,] tempMatrix = new byte[matrix.GetLength(0), matrix.GetLength(1)];
             if (hProportion == 1)
-            {
                 tempMatrix = matrix;
-            }
             else
             {
-                for (int x = 0; x < width; x++)
-                {
+                for (int x = 0; x < originalWidth; x++)
                     for (int y = 0; y < tempMatrix.GetLength(1); y++)
-                    {
                         tempMatrix[x, y] = matrix[(int)(x * hProportion), y];
-                    }
-                }
             }
 
             // Масштабирование по высоте.
-            byte[,] scaledMatrix = new byte[width, height];
+            byte[,] scaledMatrix = new byte[matrix.GetLength(0), matrix.GetLength(1)];
             if (vProportion == 1)
-            {
                 scaledMatrix = tempMatrix;
-            }
             else
             {
-                for (int y = 0; y < height; y++)
-                {
-                    for (int x = 0; x < width; x++)
-                    {
+                for (int y = 0; y < originalHeight; y++)
+                    for (int x = 0; x < tempMatrix.GetLength(0); x++)
                         scaledMatrix[x, y] = tempMatrix[x, (int)(y * vProportion)];
-                    }
-                }
             }
             this.matrix = scaledMatrix;
+
+            // Заполняем пустые ячейки с нулями крайними значениями.
+            for (int y = 0; y < originalHeight; y++)
+                for (int x = originalWidth; x < matrix.GetLength(0); x++)
+                    matrix[x, y] = matrix[originalWidth - 1, y];
+            for (int y = originalHeight; y < matrix.GetLength(1); y++)
+                for (int x = 0; x < matrix.GetLength(0); x++)
+                    matrix[x, y] = matrix[x, originalHeight - 1];
         }
 
         /// <summary>
