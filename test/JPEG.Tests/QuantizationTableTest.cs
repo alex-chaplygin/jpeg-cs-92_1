@@ -36,6 +36,22 @@ namespace JPEG.Tests
 				byte[] a = S.ToArray();
 				
 				CollectionAssert.AreEqual(etalon, a);
+				using (MemoryStream S1 = new MemoryStream())
+				{
+					QT.Write(S1);
+					byte[] b = S1.ToArray();
+					/*foreach (byte i in b)
+					{
+						Console.Write(i + " ");
+					}
+					Console.WriteLine();
+					foreach (byte i in a)
+					{
+						Console.Write(i + " ");
+					}*/
+					CollectionAssert.AreEqual(a, b);
+				}
+
 
 			}
 			
