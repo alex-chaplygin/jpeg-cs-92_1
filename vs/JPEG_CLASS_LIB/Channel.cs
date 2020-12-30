@@ -229,33 +229,27 @@ namespace JPEG_CLASS_LIB
         public void Resample(int Hmax, int Vmax)
         {
             if (Hmax < h || Vmax < v) return;
-            float hProportion = (float)h / Hmax;
-            float vProportion = (float)v / Vmax;
-
-            int width = (int)(matrix.GetLength(0) / hProportion);
-            if (width == 0) width = 1;
-            int height = (int)(matrix.GetLength(1) / vProportion);
-            if (height == 0) height = 1;
-
+            double hProportion = (double)originalWidth / matrix.GetLength(0);
+            double vProportion = (double)originalHeight / matrix.GetLength(1);
 
             // Масштабирование по ширине.
-            byte[,] tempMatrix = new byte[width, matrix.GetLength(1)];
+            byte[,] tempMatrix = new byte[matrix.GetLength(0), matrix.GetLength(1)];
             if (hProportion == 1)
             {
                 tempMatrix = matrix;
             }
             else
             {
-                for (int x = 0; x < width; x++)
+                for (int x = 0; x < matrix.GetLength(0); x++)
                 {
                     int x0 = (int)(x * hProportion);
                     int x1 = x0 + 1;
-                    if (x1 > matrix.GetLength(0)) x1--;
-                    else if (x1 == matrix.GetLength(0))
+                    if (x1 > originalWidth) x1--;
+                    else if (x1 == originalWidth)
                     {
                         x1--; x0--;
                     }
-                    for (int y = 0; y < tempMatrix.GetLength(1); y++)
+                    for (int y = 0; y < matrix.GetLength(1); y++)
                     {
                         tempMatrix[x, y] = Lerp(x,
                             (int)(x0 / hProportion), matrix[x0, y],
@@ -263,24 +257,26 @@ namespace JPEG_CLASS_LIB
                     }
                 }
             }
+            matrix = tempMatrix;
+
             // Масштабирование по высоте.
-            byte[,] scaledMatrix = new byte[width, height];
+            byte[,] scaledMatrix = new byte[matrix.GetLength(0), matrix.GetLength(1)];
             if (vProportion == 1)
             {
                 scaledMatrix = tempMatrix;
             }
             else
             {
-                for (int y = 0; y < height; y++)
+                for (int y = 0; y < matrix.GetLength(1); y++)
                 {
                     int y0 = (int)(y * vProportion);
                     int y1 = y0 + 1;
-                    if (y1 > matrix.GetLength(1)) y1--;
-                    else if (y1 == matrix.GetLength(1))
+                    if (y1 > originalHeight) y1--;
+                    else if (y1 == originalHeight)
                     {
                         y1--; y0--;
                     }
-                    for (int x = 0; x < width; x++)
+                    for (int x = 0; x < matrix.GetLength(0); x++)
                     {
                         scaledMatrix[x, y] = Lerp(y,
                             (int)(y0 / vProportion), tempMatrix[x, y0],
