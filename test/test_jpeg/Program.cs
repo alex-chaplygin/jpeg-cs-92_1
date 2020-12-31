@@ -29,14 +29,14 @@ namespace ConsoleApp1
         {
             Random rnd = new Random(0);
 
-            int H = 1;
+            int H = 2;
             int V = 2;
             int Hmax = 2;
             int Vmax = 2;
 
             Console.WriteLine($"H = {H}, V = {V}, Hmax = {Hmax}, Vmax = {Vmax}");
 
-            byte[,] matrix = new byte[21, 9];
+            byte[,] matrix = new byte[1, 1];
             for (int y = 0, c = 0; y < matrix.GetLength(1); y++)
                 for (int x = 0; x < matrix.GetLength(0); x++, c++)
                     matrix[x, y] = (byte)rnd.Next(byte.MaxValue);
