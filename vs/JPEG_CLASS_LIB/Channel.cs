@@ -237,7 +237,8 @@ namespace JPEG_CLASS_LIB
                     if (x1 > originalWidth) x1--;
                     else if (x1 == originalWidth)
                     {
-                        x1--; x0--;
+                        if (x0 > 0) x0--;
+                        x1--; 
                     }
                     for (int y = 0; y < matrix.GetLength(1); y++)
                     {
@@ -264,7 +265,8 @@ namespace JPEG_CLASS_LIB
                     if (y1 > originalHeight) y1--;
                     else if (y1 == originalHeight)
                     {
-                        y1--; y0--;
+                        if (y0 > y) y--;
+                        y1--;
                     }
                     for (int x = 0; x < matrix.GetLength(0); x++)
                     {
@@ -282,6 +284,7 @@ namespace JPEG_CLASS_LIB
         /// </summary>
         static private byte Lerp(int x, int x0, byte y0, int x1, byte y1)
         {
+            if (x1 == x0) return (byte)((y1 + y0) / 2);
             float res = y0 + (float)(y1 - y0) / (x1 - x0) * (x - x0);
             if (res > 255) return 255;
             else if (res < 0) return 0;
