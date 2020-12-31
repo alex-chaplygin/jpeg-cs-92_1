@@ -50,7 +50,7 @@ namespace JPEG_CLASS_LIB
         /// Возвращает текущую матрицу.
         /// </summary>
         /// <returns>Текущая матрица.</returns>
-        public byte[,] GetMatrix()
+        public byte[,] GetCurrentMatrix()
         {
             return matrix;
         }
@@ -59,7 +59,7 @@ namespace JPEG_CLASS_LIB
         /// Возвращает текущую матрицу, обрезанную до исходного размера.
         /// </summary>
         /// <returns>Текущая матрица, обрезанная до исходного размера.</returns>
-        public byte[,] GetOriginalSizeMatrix()
+        public byte[,] GetMatrix()
         {
             byte[,] originalSizeMatrix = new byte[originalWidth, originalHeight];
             for (int x = 0; x < originalWidth; x++)
