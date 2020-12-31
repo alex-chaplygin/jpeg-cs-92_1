@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Linq;
 
 namespace JPEG_CLASS_LIB
 {
@@ -35,16 +36,32 @@ namespace JPEG_CLASS_LIB
             Read4(out Pq, out Tq);
             s.Read(QuantizationTableMain,0 , QuantizationTableMain.Length);
         }
+        /// <summary>
+        /// Конструктор для записи
+        /// </summary>
+        /// <param name="s">Поток в который будет идти запись</param>
+        /// <param name="table">Таблица квантования</param>
+        /// <param name="Pq">Точность эллемента таблицы квантования</param>
+        /// <param name="Tq">Номер таблицы</param>
+        /// <param name="length">Длина таблица квантования</param>
+        public QuantizationTable(Stream s, short[,]table, byte Pq, byte Tq) : base(s, MarkerType.DefineQuantizationTables, (ushort)(table.Length+2+1))
+        {
+            QuantizationTableMain = (DCT.Zigzag(table)).Select(x => Convert.ToByte(x)).ToArray();
+            this.Pq = Pq;
+            this.Tq = Tq;
+            
+        }
 
         /// <summary>
         /// Метод, записывающий значения таблицы квантования в поток
         /// </summary>
-        /// <param name="s">Выходной поток</param>
-        public void Write(Stream s)
+        
+        public override void Write()
         {
             base.Write();
-            s.Write(new byte[2] {Pq,Tq}, 0, 2);
-            s.Write(QuantizationTableMain, 0, QuantizationTableMain.Length);
+            Write4(Pq, Tq);
+            MainStream.Write(QuantizationTableMain, 0, QuantizationTableMain.Length);
+            
         }
 
         /// <summary>
