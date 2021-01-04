@@ -38,7 +38,7 @@ namespace JPEG_CLASS_LIB
         /// Пишет спецификации таблицы арифметического кодирования в поток.
         /// </summary>
         /// <param name="s">Поток для записи.</param>
-        public void Write(Stream s)
+        public override void Write()
         {
             base.Write();
             int n = (Length - 2) / 2;

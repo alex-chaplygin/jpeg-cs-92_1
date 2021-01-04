@@ -40,7 +40,7 @@ namespace JPEG_CLASS_LIB
         /// Пишет скан в поток, начиная с поля "число компонентов в скане"
         /// </summary>
         /// <param name="s">Поток для записи.</param>
-        public void Write(Stream s)
+        public override void Write()
         {
             base.Write();
             MainStream.WriteByte(NumberOfImageComponent);
