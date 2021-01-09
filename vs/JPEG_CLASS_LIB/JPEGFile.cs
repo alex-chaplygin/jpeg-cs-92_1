@@ -105,6 +105,27 @@ namespace JPEG_CLASS_LIB
         }
 
         /// <summary>
+        /// Декодирование минимального блока кодирования.
+        /// </summary>
+        /// <returns>MCU</returns>
+        public List<short[]> DecodeMCU()
+        {
+            List<short[]> result = new List<short[]>();
+            for (byte i = 0; i < frame.NumberOfComponent; i++)
+            {
+                decoding.huffDC = GetHuffmanTable(0, scan.components[i].TableDC);
+                decoding.huffAC = GetHuffmanTable(1, scan.components[i].TableAC);
+                byte NumBlocks = (byte)(frame.Components[i].H * frame.Components[i].V);
+                while (NumBlocks!= 0)
+                {
+                    result.Add(decoding.DecodeBlock());
+                    NumBlocks--;
+                }
+            }
+            return result;
+        }
+
+        /// <summary>
         /// Ищет таблицу Хаффмана с заданными параметрами
         /// </summary>
         /// <param name="cl">Класс таблицы (0 - DC, 1 - AC)</param>
