@@ -23,6 +23,15 @@ namespace JPEG_CLASS_LIB
         private int v;
 
         /// <summary>
+        /// Начальная ширина матрицы.
+        /// </summary>
+        private int originalWidth;
+        /// <summary>
+        /// Начальная высота матрицы
+        /// </summary>
+        private int originalHeight;
+
+        /// <summary>
         /// Создает блок на основе заданной матрицы.
         /// </summary>
         /// <param name="matrix">Заданная матрица для создания канала.</param>
@@ -33,17 +42,32 @@ namespace JPEG_CLASS_LIB
             this.matrix = matrix;
             this.h = H;
             this.v = V;
+            originalWidth = matrix.GetLength(0);
+            originalHeight = matrix.GetLength(1);
         }
 
         /// <summary>
         /// Возвращает текущую матрицу.
         /// </summary>
         /// <returns>Текущая матрица.</returns>
-        public byte[,] GetMatrix()
+        public byte[,] GetCurrentMatrix()
         {
             return matrix;
         }
         
+        /// <summary>
+        /// Возвращает текущую матрицу, обрезанную до исходного размера.
+        /// </summary>
+        /// <returns>Текущая матрица, обрезанная до исходного размера.</returns>
+        public byte[,] GetMatrix()
+        {
+            byte[,] originalSizeMatrix = new byte[originalWidth, originalHeight];
+            for (int x = 0; x < originalWidth; x++)
+                for (int y = 0; y < originalHeight; y++)
+                    originalSizeMatrix[x, y] = this.matrix[x, y];
+            return originalSizeMatrix;
+        }
+
         /// <summary>
         /// Разбивает внутреннюю матрицу канала на блоки 8x8
         /// </summary>
@@ -99,16 +123,18 @@ namespace JPEG_CLASS_LIB
             }
             return splitResultList;
         }
-        
+
         /// <summary>
         /// Соединяет список блоков 8x8 в матрицу канала. Заменяет матрицу канала. 
         /// </summary>
         /// <param name="list">Блоки матрицы канала</param>
-        public void Collect(List<byte[,]> list)
+        /// <param name="Hmax">Коэффициент Hmax</param>
+        /// <param name="Vmax">Коэффициент Vmax</param>
+        public void Collect(List<byte[,]> list, int Hmax, int Vmax)
         {
             if (list.Count==0) throw new Exception("Empty blocks!");
-            var width = matrix.GetLength(0);
-            var height = matrix.GetLength(1);
+            var width = matrix.GetLength(0) * h / Hmax;
+            var height = matrix.GetLength(1) * v / Vmax;
             
             matrix = new byte[width,height];
 
@@ -151,47 +177,32 @@ namespace JPEG_CLASS_LIB
         {
             if (Hmax < h || Vmax < v) return;
 
-            float hProportion = Hmax / (float)h;
-            float vProportion = Vmax / (float)v;
+            double hProportion = Hmax / (double)h;
+            double vProportion = Vmax / (double)v;
 
             int width = (int)(matrix.GetLength(0) / hProportion);
-            if (width == 0) width = 1;
             int height = (int)(matrix.GetLength(1) / vProportion);
-            if (height == 0) height = 1;
-
 
             // Масштабирование по ширине.
             byte[,] tempMatrix = new byte[width, matrix.GetLength(1)];
             if (hProportion == 1)
-            {
                 tempMatrix = matrix;
-            }
             else
             {
                 for (int x = 0; x < width; x++)
-                {
                     for (int y = 0; y < tempMatrix.GetLength(1); y++)
-                    {
                         tempMatrix[x, y] = matrix[(int)(x * hProportion), y];
-                    }
-                }
             }
 
             // Масштабирование по высоте.
             byte[,] scaledMatrix = new byte[width, height];
             if (vProportion == 1)
-            {
                 scaledMatrix = tempMatrix;
-            }
             else
             {
                 for (int y = 0; y < height; y++)
-                {
-                    for (int x = 0; x < width; x++)
-                    {
+                    for (int x = 0; x < tempMatrix.GetLength(0); x++)
                         scaledMatrix[x, y] = tempMatrix[x, (int)(y * vProportion)];
-                    }
-                }
             }
             this.matrix = scaledMatrix;
         }
@@ -205,13 +216,12 @@ namespace JPEG_CLASS_LIB
         public void Resample(int Hmax, int Vmax)
         {
             if (Hmax < h || Vmax < v) return;
-            float hProportion = (float)h / Hmax;
-            float vProportion = (float)v / Vmax;
+
+            double hProportion = (double)h / Hmax;
+            double vProportion = (double)v / Vmax;
 
             int width = (int)(matrix.GetLength(0) / hProportion);
-            if (width == 0) width = 1;
             int height = (int)(matrix.GetLength(1) / vProportion);
-            if (height == 0) height = 1;
 
 
             // Масштабирование по ширине.
@@ -222,14 +232,15 @@ namespace JPEG_CLASS_LIB
             }
             else
             {
-                for (int x = 0; x < width; x++)
+                for (int x = 0; x < originalWidth; x++)
                 {
                     int x0 = (int)(x * hProportion);
                     int x1 = x0 + 1;
                     if (x1 > matrix.GetLength(0)) x1--;
                     else if (x1 == matrix.GetLength(0))
                     {
-                        x1--; x0--;
+                        if (x0 > 0) x0--;
+                        x1--; 
                     }
                     for (int y = 0; y < tempMatrix.GetLength(1); y++)
                     {
@@ -239,6 +250,8 @@ namespace JPEG_CLASS_LIB
                     }
                 }
             }
+            matrix = tempMatrix;
+
             // Масштабирование по высоте.
             byte[,] scaledMatrix = new byte[width, height];
             if (vProportion == 1)
@@ -247,16 +260,17 @@ namespace JPEG_CLASS_LIB
             }
             else
             {
-                for (int y = 0; y < height; y++)
+                for (int y = 0; y < originalHeight; y++)
                 {
                     int y0 = (int)(y * vProportion);
                     int y1 = y0 + 1;
                     if (y1 > matrix.GetLength(1)) y1--;
                     else if (y1 == matrix.GetLength(1))
                     {
-                        y1--; y0--;
+                        if (y0 > y) y--;
+                        y1--;
                     }
-                    for (int x = 0; x < width; x++)
+                    for (int x = 0; x < tempMatrix.GetLength(0); x++)
                     {
                         scaledMatrix[x, y] = Lerp(y,
                             (int)(y0 / vProportion), tempMatrix[x, y0],
@@ -272,6 +286,7 @@ namespace JPEG_CLASS_LIB
         /// </summary>
         static private byte Lerp(int x, int x0, byte y0, int x1, byte y1)
         {
+            if (x1 == x0) return (byte)((y1 + y0) / 2);
             float res = y0 + (float)(y1 - y0) / (x1 - x0) * (x - x0);
             if (res > 255) return 255;
             else if (res < 0) return 0;
@@ -287,18 +302,18 @@ namespace JPEG_CLASS_LIB
         public void Complete(int Hmax, int Vmax)
         {
             var hCorrection = 0;
-            while ((matrix.GetLength(1)+hCorrection)%(Hmax/h)!=0 || (matrix.GetLength(1)+hCorrection)/(Hmax/h)%8!=0)
+            while ((matrix.GetLength(0)+hCorrection)%(Hmax/h)!=0 || (matrix.GetLength(0)+hCorrection)/(Hmax/h)%8!=0)
             {
                 hCorrection++;
             }
             
             var vCorrection = 0;
-            while ((matrix.GetLength(0)+vCorrection)%(Vmax/v)!=0 || (matrix.GetLength(0)+vCorrection)/(Vmax/v)%8!=0)
+            while ((matrix.GetLength(1)+vCorrection)%(Vmax/v)!=0 || (matrix.GetLength(1)+vCorrection)/(Vmax/v)%8!=0)
             {
                 vCorrection++;
             }
             
-            var newMatrix = new byte[matrix.GetLength(0) + vCorrection, matrix.GetLength(1) + hCorrection];
+            var newMatrix = new byte[matrix.GetLength(0) + hCorrection, matrix.GetLength(1) + vCorrection];
             for (int y = 0; y < newMatrix.GetLength(1); y++)
             for (int x = 0; x < newMatrix.GetLength(0); x++)
                 newMatrix[x, y] = matrix[Math.Min(x, matrix.GetLength(0) - 1),
