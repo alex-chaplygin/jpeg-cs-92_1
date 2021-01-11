@@ -36,7 +36,7 @@ namespace JPEG_CLASS_LIB
         /// Метод, записывающий значения таблицы квантования в поток
         /// </summary>
         /// <param name="s">Выходной поток</param>
-        public void Write()
+        public override void Write()
         {
             base.Write();
             MainStream.Write(new byte[2] {Pq,Tq}, 0, 2);
