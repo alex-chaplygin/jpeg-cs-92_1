@@ -123,16 +123,18 @@ namespace JPEG_CLASS_LIB
             }
             return splitResultList;
         }
-        
+
         /// <summary>
         /// Соединяет список блоков 8x8 в матрицу канала. Заменяет матрицу канала. 
         /// </summary>
         /// <param name="list">Блоки матрицы канала</param>
-        public void Collect(List<byte[,]> list)
+        /// <param name="Hmax">Коэффициент Hmax</param>
+        /// <param name="Vmax">Коэффициент Vmax</param>
+        public void Collect(List<byte[,]> list, int Hmax, int Vmax)
         {
             if (list.Count==0) throw new Exception("Empty blocks!");
-            var width = matrix.GetLength(0);
-            var height = matrix.GetLength(1);
+            var width = matrix.GetLength(0) * h / Hmax;
+            var height = matrix.GetLength(1) * v / Vmax;
             
             matrix = new byte[width,height];
 
@@ -238,7 +240,7 @@ namespace JPEG_CLASS_LIB
                     else if (x1 == originalWidth)
                     {
                         if (x0 > 0) x0--;
-                        x1--; 
+                        x1--;
                     }
                     for (int y = 0; y < matrix.GetLength(1); y++)
                     {
