@@ -11,7 +11,7 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Сжатые данные.
         /// </summary>
-        Stream MainStream;
+        public Stream MainStream;
 
         /// <summary>
         /// Текущий байт в сжатых данных.
@@ -75,6 +75,7 @@ namespace JPEG_CLASS_LIB
             byte bit = (byte)(B >> 7);
             CNT--;
             B = (byte)(B << 1);
+	    Console.WriteLine("Bit " + bit);
             return bit;
         }
 
@@ -93,7 +94,7 @@ namespace JPEG_CLASS_LIB
                 v = (ushort)((v << 1) + NextBit());
             }
             while (i != ssss);
-
+	    Console.WriteLine("Receive " + Convert.ToString(v, 16));
             return v;
         }
 
@@ -123,16 +124,17 @@ namespace JPEG_CLASS_LIB
         public byte Decode(HuffmanTable H)
         {
             int i = 0;//1
-            byte CODE = NextBit();
+            ushort CODE = NextBit();
             while (i<H.MaxCode.Length && CODE > H.MaxCode[i])
             {
                 i++;
-                CODE = (Byte)((CODE << 1) + NextBit());
+                CODE = (ushort)((CODE << 1) + NextBit());
             }
             if (i >= 16) return 0;
             int j = H.VALPTR[i];
             j = j + CODE - H.MinCode[i];
             byte Value = H.HUFFVAL[j];
+	    Console.WriteLine("Decode = " + Convert.ToString(Value, 16));
             return Value;
         }
 

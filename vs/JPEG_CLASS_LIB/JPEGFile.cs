@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System;
 
 namespace JPEG_CLASS_LIB
 {
@@ -114,11 +115,16 @@ namespace JPEG_CLASS_LIB
             for (byte i = 0; i < frame.NumberOfComponent; i++)
             {
                 decoding.huffDC = GetHuffmanTable(0, scan.components[i].TableDC);
+		decoding.huffDC.Print();
                 decoding.huffAC = GetHuffmanTable(1, scan.components[i].TableAC);
+		decoding.huffAC.Print();
                 byte NumBlocks = (byte)(frame.Components[i].H * frame.Components[i].V);
+		Console.WriteLine("Comp " + i + " num blocks = " + NumBlocks + " file pos = " + Convert.ToString(decoding.MainStream.Position, 16));
+//		Console.WriteLine("DecodeDC " + Convert.ToString(decoding.DecodeDC(), 16));
+		var block = decoding.DecodeBlock();
                 while (NumBlocks!= 0)
                 {
-                    result.Add(decoding.DecodeBlock());
+//                    result.Add(decoding.DecodeBlock());
                     NumBlocks--;
                 }
             }
