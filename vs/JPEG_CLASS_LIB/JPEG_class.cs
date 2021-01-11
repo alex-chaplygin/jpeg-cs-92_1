@@ -211,7 +211,7 @@ public class JPEG_CS
 				    }
 			    }
 		    }
-		    curChannel.Collect(IDCT(tmpArray.ToList(), LQT));
+		    //curChannel.Collect(IDCT(tmpArray.ToList(), LQT));
 	    }
     }
 

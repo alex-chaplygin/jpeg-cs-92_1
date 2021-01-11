@@ -131,7 +131,7 @@ namespace JPEG.Tests
             Blocks.Add(M2);
             Blocks.Add(M3);
             Channel C = new Channel(new byte[9, 9], 2, 2);
-            C.Collect(Blocks);
+            //C.Collect(Blocks);
             byte[,] resM = C.GetMatrix();
             CollectionAssert.AreEqual(exM, resM);
         }
@@ -239,7 +239,7 @@ namespace JPEG.Tests
                 var channel = new Channel(matrix, H, V);
                 channel.Sample(H, V);
                 var blocks = channel.Split();
-                channel.Collect(blocks);
+                //channel.Collect(blocks);
                 channel.Resample(H, V);
                 Console.WriteLine($"Результирующая матрица (W*H): {channel.GetMatrix().GetLength(0)}*{channel.GetMatrix().GetLength(1)}");
                 byte[,] matrix1 = channel.GetMatrix();
@@ -303,7 +303,7 @@ namespace JPEG.Tests
                 Console.WriteLine();
             }
 
-            channel.Collect(blocks);
+            //channel.Collect(blocks);
 
             Console.WriteLine();
             byte[,] matrix1 = channel.GetMatrix();
