@@ -526,10 +526,12 @@ namespace ConsoleApp1
             var name = f.DecodeMCU();
             for(int i= 0; i < name.Count; i++)
             {
+                Console.WriteLine($"Block {i}: ");
                 for(int j = 0; j < name[i].Length; j++)
                 {
-                    Console.WriteLine(name[i][j]);
+                    Console.Write(name[i][j] + " ");
                 }
+                Console.WriteLine("\r\n");
             }
             //f.Print();
             //f.PrintData();
