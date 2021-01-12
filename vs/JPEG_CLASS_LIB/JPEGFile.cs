@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 
 namespace JPEG_CLASS_LIB
@@ -44,6 +43,9 @@ namespace JPEG_CLASS_LIB
         /// </summary>
         Decoding decoding;
 
+        /// <summary>
+        /// Поток.
+        /// </summary>
         Stream MainStream;
 
         /// <summary>
@@ -54,7 +56,7 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Предыдущее значение DC коэффициента.
         /// </summary>
-        short prediction = 0;
+        short[] prediction;
 
         /// <summary>
         /// Конструктор JPEGFile. Считывает все структуры JPEGData и записывает их в Data.
@@ -77,6 +79,7 @@ namespace JPEG_CLASS_LIB
             while (Data[Data.Count - 1].Marker != MarkerType.StartOfScan);
             decoding = new Decoding(s, null, null);
             encoding = new Encoding(s, null, null);
+            prediction = new short[GetRestartInterval()];
         }
 
         /// <summary>
@@ -92,11 +95,15 @@ namespace JPEG_CLASS_LIB
                 byte NumBlocks = (byte)(frame.Components[i].H * frame.Components[i].V);
                 while (NumBlocks != 0)
                 {
-                    list[0][0] -= prediction;
-                    prediction = list[0][0];
                     encoding.EncodeBlock(list[0]);
                     list.RemoveAt(0);
                     NumBlocks--;
+                }
+                prediction[0] = list[0][0];
+                for (int j = 1; j < list.Count; j++)
+                {
+                    list[j][0] -= prediction[j];
+                    prediction[j] = list[j][0];
                 }
             }
         }
@@ -119,7 +126,26 @@ namespace JPEG_CLASS_LIB
                     NumBlocks--;
                 }
             }
+            prediction[0] = result[0][0];
+            for (int j = 1; j < result.Count; j++)
+            {
+                result[j][0] += prediction[j];
+                prediction[j] = result[j][0];
+            }
             return result;
+        }
+
+        /// <summary>
+        /// Декодирование интервала повтора. Обнуление prediction для всех каналов
+        /// </summary>
+        /// <returns>Список блоков (MCU)</returns>
+        public List<short[]> DecodeRestartInterval()
+        {
+            for (int i = 0; i < prediction.Length; i++)
+            {
+                prediction[i] = 0;
+            }
+            return DecodeMCU();
         }
 
         /// <summary>
