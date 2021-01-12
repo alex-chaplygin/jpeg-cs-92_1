@@ -15,7 +15,7 @@ namespace ConsoleApp1
             //_TestJPEGData();
             //_TestBitReader();
             //_TestBitWriter();            
-            //_TestJPEGFile();
+            _TestJPEGFile();
             //_TestBitWriterTwo();
             //_TestBitWriterError();
             //_TestHuffmanTable();
@@ -23,7 +23,7 @@ namespace ConsoleApp1
             //DecodeBlockTest();
            // _TestMCUencode();
            // _TestFullChannelCycle();
-            _TestWriteHeaders();
+            //_TestWriteHeaders();
             Console.ReadKey();
         }
          
@@ -596,7 +596,8 @@ namespace ConsoleApp1
         {
             FileStream s = File.Open("../../../test.jpg", FileMode.Open);
             JPEGFile f = new JPEGFile(s);
-            var name = f.DecodeMCU();
+            //var name = f.DecodeMCU();
+            var name = f.DecodeRestartInterval();
             for(int i= 0; i < name.Count; i++)
             {
                 Console.WriteLine($"Block {i}: ");
