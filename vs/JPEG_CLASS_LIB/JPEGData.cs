@@ -9,7 +9,7 @@ namespace JPEG_CLASS_LIB
     public class JPEGData
     {
         /// <summary>Поток с данными сегмента.</summary>
-        protected Stream MainStream;
+        public Stream MainStream;
 
         /// <summary>Маркер сегмента.</summary>
         public MarkerType Marker;

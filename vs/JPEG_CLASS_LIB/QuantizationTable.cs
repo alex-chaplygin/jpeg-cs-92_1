@@ -55,13 +55,11 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Метод, записывающий значения таблицы квантования в поток
         /// </summary>
-        
         public override void Write()
         {
             base.Write();
             Write4(Pq, Tq);
             MainStream.Write(QuantizationTableMain, 0, QuantizationTableMain.Length);
-            
         }
 
         /// <summary>

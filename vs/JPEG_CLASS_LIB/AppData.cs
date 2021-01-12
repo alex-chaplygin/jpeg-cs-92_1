@@ -29,10 +29,10 @@ namespace JPEG_CLASS_LIB
         /// Метод записи массива данных в поток.
         /// </summary>
         /// <param name="s"></param>
-        public override void Write(Stream s)
+        public override void Write()
         {
-            base.Write(s);
-            s.Write(data, 0, data.Length);
+            base.Write();
+            MainStream.Write(data, 0, data.Length);
         }
 
         /// <summary>

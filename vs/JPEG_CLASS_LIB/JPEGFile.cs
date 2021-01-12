@@ -12,7 +12,7 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Список всех структур JPEG до StartOfScan.
         /// </summary>
-        List<JPEGData> Data = new List<JPEGData> { };
+        public List<JPEGData> Data = new List<JPEGData> { };
 
         /// <summary>
         /// Кадр
@@ -44,6 +44,8 @@ namespace JPEG_CLASS_LIB
         /// </summary>
         Decoding decoding;
 
+        Stream MainStream;
+
         /// <summary>
         /// Интервал повтора - количество MCU - минимальных кодированных блоков. 
         /// </summary>
@@ -53,12 +55,6 @@ namespace JPEG_CLASS_LIB
         /// Предыдущее значение DC коэффициента.
         /// </summary>
         short prediction = 0;
-
-        /// <summary>
-        /// Пустой конструктор для теста
-        /// </summary>
-        public JPEGFile()
-        { }
 
         /// <summary>
         /// Конструктор JPEGFile. Считывает все структуры JPEGData и записывает их в Data.
@@ -174,6 +170,14 @@ namespace JPEG_CLASS_LIB
         }
 
         /// <summary>
+        /// Конструктор для создания JPEG файла.
+        /// </summary>
+        public JPEGFile()
+        {
+
+        }
+
+        /// <summary>
         /// Декодирование кадра JPEG
         /// </summary>
         /// <returns>Массив масштабированных каналов изображения</returns>
@@ -199,6 +203,20 @@ namespace JPEG_CLASS_LIB
                 channeles[i] = temp;
             }
             return channeles;
+        }
+
+        /// <summary>
+        /// Запоминает поток. Записывает все структуры из списка Data в поток.
+        /// </summary>
+        /// <param name="s">Поток, в который записываются структуры из списка Data.</param>
+        public void WriteHeaders(Stream s)
+        {
+            MainStream = s;
+            for (int i = 0; i < Data.Count; i++)
+            {
+                Data[i].MainStream = MainStream;
+                Data[i].Write();
+            }
         }
 
         /// <summary>

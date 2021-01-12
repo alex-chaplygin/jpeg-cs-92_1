@@ -34,7 +34,7 @@ namespace JPEG_CLASS_LIB
         /// Записывает комментарий в поток.
         /// </summary>
         /// <param name="s"></param>
-        public void Write (Stream s)
+        public override void Write ()
         {
             base.Write();
             Write16(Length);

@@ -15,7 +15,7 @@ namespace ConsoleApp1
             //_TestJPEGData();
             //_TestBitReader();
             //_TestBitWriter();            
-            _TestJPEGFile();
+            //_TestJPEGFile();
             //_TestBitWriterTwo();
             //_TestBitWriterError();
             //_TestHuffmanTable();
@@ -23,6 +23,7 @@ namespace ConsoleApp1
             //DecodeBlockTest();
            // _TestMCUencode();
            // _TestFullChannelCycle();
+            _TestWriteHeaders();
             Console.ReadKey();
         }
          
@@ -715,6 +716,19 @@ namespace ConsoleApp1
                 }
                 Console.WriteLine();
             }
+        }
+
+        private static void _TestWriteHeaders()
+        {
+            FileStream fs1 = File.Open("../../../test.jpg", FileMode.Open);
+            FileStream fs2 = File.Open("testWriteHeaders.jpg", FileMode.Create);
+
+            JPEGFile jf = new JPEGFile(fs1);
+
+            jf.WriteHeaders(fs2);
+
+            fs1.Close();
+            fs2.Close();
         }
     }
 }
