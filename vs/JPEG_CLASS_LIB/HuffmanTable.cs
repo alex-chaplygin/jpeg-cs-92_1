@@ -280,6 +280,21 @@ namespace JPEG_CLASS_LIB
             {
                 Console.Write(i + " ");
             }
+            Console.WriteLine("\nТаблица MaxCode");
+            foreach (int i in MaxCode)
+            {
+                Console.Write(Convert.ToString(i, 2) + " ");
+            }
+            Console.WriteLine("\nТаблица MinCode");
+            foreach (int i in MinCode)
+            {
+                Console.Write(Convert.ToString(i, 2) + " ");
+            }
+            Console.WriteLine("\nТаблица VALPTR");
+            foreach (byte i in VALPTR)
+            {
+                Console.Write(Convert.ToString(i, 10) + " ");
+            }
 
             Console.WriteLine();
         }

@@ -15,14 +15,14 @@ namespace ConsoleApp1
             //_TestJPEGData();
             //_TestBitReader();
             //_TestBitWriter();            
-            //_TestJPEGFile();
+            _TestJPEGFile();
             //_TestBitWriterTwo();
             //_TestBitWriterError();
             //_TestHuffmanTable();
             //_TestEncodingWriteBits();
             //DecodeBlockTest();
            // _TestMCUencode();
-            _TestFullChannelCycle();
+           // _TestFullChannelCycle();
             Console.ReadKey();
         }
          
@@ -593,15 +593,25 @@ namespace ConsoleApp1
 
         static void _TestJPEGFile()
         {
-            FileStream s = File.Open("../../../JPEG_example_down.jpg", FileMode.Open);
+            FileStream s = File.Open("../../../test.jpg", FileMode.Open);
             JPEGFile f = new JPEGFile(s);
+            var name = f.DecodeMCU();
+            for(int i= 0; i < name.Count; i++)
+            {
+                Console.WriteLine($"Block {i}: ");
+                for(int j = 0; j < name[i].Length; j++)
+                {
+                    Console.Write(name[i][j] + " ");
+                }
+                Console.WriteLine("\r\n");
+            }
             //f.Print();
-            f.PrintData();
-            s.Seek(0x48eb, SeekOrigin.Begin);
-            HuffmanTable huff = new HuffmanTable(s);
-            huff.Print();
+            //f.PrintData();
+            //s.Seek(0x48eb, SeekOrigin.Begin);
+            //HuffmanTable huff = new HuffmanTable(s);
+            //huff.Print();
             // Тестирование метода Receive класса Decoding
-            s.Seek(0x4a9b, SeekOrigin.Begin);
+            //s.Seek(0x4a9b, SeekOrigin.Begin);
             /*Decoding decoding = new Decoding(s, huff);
             Console.WriteLine("\nТаблица MaxCode");
             foreach (int i in decoding.MaxCode)
