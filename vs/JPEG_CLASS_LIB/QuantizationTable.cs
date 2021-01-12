@@ -39,7 +39,7 @@ namespace JPEG_CLASS_LIB
         public override void Write()
         {
             base.Write();
-            MainStream.Write(new byte[2] {Pq,Tq}, 0, 2);
+            Write4(Pq, Tq);
             MainStream.Write(QuantizationTableMain, 0, QuantizationTableMain.Length);
         }
 
