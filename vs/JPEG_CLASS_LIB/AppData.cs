@@ -21,7 +21,6 @@ namespace JPEG_CLASS_LIB
         /// <param name="s"></param>
         public AppData(Stream s, MarkerType type):base(s, type)
         {
-            Marker = type;
 	        data = new byte[Length - 2];
             s.Read(data,0, Length - 2);
         }
