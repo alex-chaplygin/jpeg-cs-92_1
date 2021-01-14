@@ -76,6 +76,172 @@ namespace JPEG_CLASS_LIB
             int k2 = 0;
             int k3 = 1;
             int k4 = 0;
+            int zz = 1;
+            int x = 0;
+            int y = 0;
+
+            //int a = 1;
+            short[] mass = new short[64];
+            //mass[0] = (matrix[0, 0]);
+
+            short[,] matrix_temp = new short[8, 8];
+            int m = 0;
+            int n = 1;
+            matrix_temp[0, 0] = matrix[0, 0];
+
+            for (int i = 0; i < 13; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    x += k1;
+                    y += k2;
+                }
+                else
+                {
+                    y += k3;
+                    x += k4;
+                }
+                //mass[a] = (matrix[y, x]);
+                //a++;
+                matrix_temp[n, m] = matrix[x, y];
+
+                if (n == 7)
+                {
+                    n = 0;
+                    m++;
+                }
+                else n++;
+
+                for (int j = 0; j < zz; j++)
+                {
+                    if (i % 2 == 0)
+                    {
+                        x--;
+                        y++;
+                        //mass[a] = (matrix[y, x]);
+                        matrix_temp[n, m] = matrix[x, y];
+                    }
+                    else
+                    {
+                        x++;
+                        y--;
+                        //mass[a] = (matrix[y, x]);
+                        matrix_temp[n, m] = matrix[x, y];
+                    }
+                    //a++;
+
+                    //n++;
+                    if (n == 7)
+                    {
+                        n = 0;
+                        m++;
+                    }
+                    else n++;
+                }
+                if (zz == 7)
+                {
+                    k = -1;
+                    k1 = 0;
+                    k2 = 1;
+                    k3 = 0;
+                    k4 = 1;
+                }
+                zz += k;
+            }
+            //mass[63] = (matrix[7, 7]);
+
+            matrix_temp[7, 7] = matrix[7, 7];
+            int a = 0;
+            for (int w = 0; w < 8; w++)
+            {
+                for (int v = 0; v < 8; v++)
+                {
+                    mass[a] = matrix_temp[v, w];
+                    a++;
+                }
+            }
+            /*int k = 1;
+            int k1 = 1;
+            int k2 = 0;
+            int k3 = 1;
+            int k4 = 0;
+            int zz = 1;
+            int x = 0;
+            int y = 0;
+
+            short[] mass = new short[64];
+            short[,] matrix_temp = new short[8, 8];
+            int m = 0;
+            int n = 1;
+            matrix_temp[0, 0] = matrix[0, 0];
+
+            for (int i = 0; i < 13; i++)
+            {
+                if (i % 2 == 0)
+                {
+                    x += k1;
+                    y += k2;
+                }
+                else
+                {
+                    y += k3;
+                    x += k4;
+                }
+                matrix_temp[n,m] = matrix[x,y];
+                if (n == 7)
+                {
+                    n = 0;
+                    m++;
+                }
+                else n++;
+                for (int j = 0; j < zz; j++)
+                {
+                    if (i % 2 == 0)
+                    {
+                        x--;
+                        y++;
+                        matrix_temp[n,m] = matrix[x, y];
+                    }
+                    else
+                    {
+                        x++;
+                        y--;
+                        matrix_temp[n,m] = matrix[x, y];
+                    }
+                    if (n == 7)
+                    {
+                        n = 0;
+                        m++;
+                    }
+                    else n++;
+                }
+                if (zz == 7)
+                {
+                    k = -1;
+                    k1 = 0;
+                    k2 = 1;
+                    k3 = 0;
+                    k4 = 1;
+                }
+                zz += k;
+            }
+            matrix_temp[7, 7] = matrix[7, 7];
+            
+            int a = 0;
+            for (int w = 0; w < 8; w++)
+            {
+                for (int v = 0; v < 8; v++)
+                {
+                    mass[a] = matrix_temp[v, w];
+                    a++;
+                }
+            }*/
+            //--------
+            /*int k = 1;
+            int k1 = 1;
+            int k2 = 0;
+            int k3 = 1;
+            int k4 = 0;
             int zz = 1;//fff
             int x = 0;
             int y = 0;
@@ -100,7 +266,7 @@ namespace JPEG_CLASS_LIB
                 if (zz == 7) { k = -1; k1 = 0; k2 = 1; k3 = 0; k4 = 1; }
                 zz += k;
             }
-            mass[63] = (matrix[7, 7]);
+            mass[63] = (matrix[7, 7]);*/
             return (mass);
         }
 
@@ -119,26 +285,34 @@ namespace JPEG_CLASS_LIB
             int y = 0;
             int a = 1;
             short[,] matrix = new short[8, 8];
-            (matrix[0, 0]) = mass[0];
+            short[,] matrix_temp = new short[8, 8];
+            matrix_temp[0, 0] = mass[0];
             for (int i = 0; i < 13; i++)
             {
                 if (i % 2 == 0) { x += k1; y += k2; }
                 else { y += k3; x += k4; }
-                (matrix[y, x]) = mass[a];
+                (matrix_temp[y, x]) = mass[a];
                 a++;
                 for (int j = 0; j < zz; j++)
                 {
                     if (i % 2 == 0)
                     {
-                        x--; y++; matrix[y, x] = mass[a];
+                        x--; y++; matrix_temp[y, x] = mass[a];
                     }
-                    else { x++; y--; matrix[y, x] = mass[a]; }
+                    else { x++; y--; matrix_temp[y, x] = mass[a]; }
                     a++;
                 }
                 if (zz == 7) { k = -1; k1 = 0; k2 = 1; k3 = 0; k4 = 1; }
                 zz += k;
             }
-            matrix[7, 7] = mass[63];
+            matrix_temp[7, 7] = mass[63];
+            for (int w = 0; w < 8; w++)
+            {
+                for (int v = 0; v < 8; v++)
+                {
+                    matrix[w,v] = matrix_temp[v, w];
+                }
+            }
             return (matrix);
         }
 
