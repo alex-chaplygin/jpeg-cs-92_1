@@ -594,7 +594,7 @@ namespace ConsoleApp1
 
         static void _TestJPEGFile()
         {
-            FileStream s = File.Open("../../../8.jpg", FileMode.Open);
+            FileStream s = File.Open("../../../testRS.jpg", FileMode.Open);
             JPEGFile f = new JPEGFile(s);
             //var name = f.DecodeMCU();
             var name = f.DecodeRestartInterval();
