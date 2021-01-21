@@ -10,7 +10,8 @@ namespace JPEG.Tests
     public class AppDataTest
 
     {
-        [TestMethod]
+        //[TestMethod]
+        /*
         public void TestAppData_Print()
         {
             byte[] expected = new byte[10]{74, 70, 73, 70, 0, 1, 2, 1, 0, 72};
@@ -24,7 +25,7 @@ namespace JPEG.Tests
             CollectionAssert.AreEqual(expected, actual);
             s.Dispose();
         }
-        [TestMethod]
+        //[TestMethod]
         public void TestAppData_Write()
         {
             string path = "../../../test_jpeg/JPEG_example_down.jpg";
@@ -40,6 +41,7 @@ namespace JPEG.Tests
             for (int i = 0; i < Testrray.Length; i++) Testrray[i] = (byte)M.ReadByte();
             CollectionAssert.AreEqual(Testrray, ExpectedArraytedArray);
         }
+        */
     }
 
 }
