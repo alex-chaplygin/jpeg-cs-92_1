@@ -121,6 +121,67 @@ namespace JPEG_CLASS_LIB
             }
             return result;
         }
+        /// <summary>
+        /// Декодирование скана
+        /// </summary>
+        /// <returns>Список перемешанных блоков</returns>
+        public List<short[]> DecodeScan()
+        {
+            List<short[]> MixedBlocks = new List<short[]>();
+            int Hmax = 0;
+            int Vmax = 0;
+            
+            foreach(var i in frame.Components)
+            {
+                if (i.H > Hmax) Hmax = i.H;
+                if (i.V > Vmax) Vmax = i.V;
+            }
+
+            int width = frame.Width;
+            int height = frame.Height;
+
+            while (width/Hmax%8!=0)
+            {
+                width++;
+            }
+            while (height/Vmax%8!=0)
+            {
+                height++;
+            }
+
+            int iterations = width * height/8/8 / (Hmax * Vmax);
+
+            int iii = 0;
+            
+                while (iii < iterations)
+                {
+                    if (GetRestartInterval() == 0)
+                    {
+                        MixedBlocks.AddRange(DecodeMCU());
+                        iii++;
+                    }
+                    else
+                    {
+                        List<short[]> RestartI = DecodeRestartInterval();
+                        if (RestartI == null) break;
+                        MixedBlocks.AddRange(RestartI);
+                        iii += GetRestartInterval();
+
+                    }
+                }
+            
+            
+            return (MixedBlocks);
+        }
+        List<short[]> DecodeRestartInterval()
+            {
+            List<short[]> list = new List<short[]>();
+            for (int i =0; i<6; i++)
+            {
+                list.Add(new short[64] { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, });
+            }
+            return (list);
+        }
 
         /// <summary>
         /// Ищет таблицу Хаффмана с заданными параметрами
