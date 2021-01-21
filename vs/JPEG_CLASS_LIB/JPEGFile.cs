@@ -54,7 +54,7 @@ namespace JPEG_CLASS_LIB
         RestartInterval restartInterval;
 
         /// <summary>
-        /// Предыдущее значение DC коэффициента.
+        /// Массив предсказаний для DC коэффициентов каналов.
         /// </summary>
         short[] prediction;
 
@@ -79,7 +79,7 @@ namespace JPEG_CLASS_LIB
             while (Data[Data.Count - 1].Marker != MarkerType.StartOfScan);
             decoding = new Decoding(s, null, null);
             encoding = new Encoding(s, null, null);
-            prediction = new short[GetRestartInterval()];
+            prediction = new short[frame.NumberOfComponent];
         }
 
         /// <summary>
@@ -99,6 +99,7 @@ namespace JPEG_CLASS_LIB
                     list.RemoveAt(0);
                     NumBlocks--;
                 }
+                prediction = new short[list.Count];
                 prediction[0] = list[0][0];
                 for (int j = 1; j < list.Count; j++)
                 {
@@ -119,18 +120,15 @@ namespace JPEG_CLASS_LIB
             {
                 decoding.huffDC = GetHuffmanTable(0, scan.components[i].TableDC);
                 decoding.huffAC = GetHuffmanTable(1, scan.components[i].TableAC);
-                byte NumBlocks = (byte)(frame.Components[i].H * frame.Components[i].V);
+                ushort NumBlocks = GetRestartInterval();
                 while (NumBlocks != 0)
                 {
-                    result.Add(decoding.DecodeBlock());
+                    var temp = decoding.DecodeBlock();
+                    temp[0] += prediction[i];
+                    prediction[i] = temp[0];
+                    result.Add(temp);
                     NumBlocks--;
                 }
-            }
-            prediction[0] = result[0][0];
-            for (int j = 1; j < result.Count; j++)
-            {
-                result[j][0] += prediction[j];
-                prediction[j] = result[j][0];
             }
             return result;
         }
@@ -187,7 +185,7 @@ namespace JPEG_CLASS_LIB
         /// Возращает интервал повтора (количество MCU - минимальных кодированных блоков)
         /// </summary>
         /// <returns>интервал повтора</returns>
-        public int GetRestartInterval()
+        public ushort GetRestartInterval()
         {
             if (restartInterval != null)
                 return restartInterval.restartInterval;
