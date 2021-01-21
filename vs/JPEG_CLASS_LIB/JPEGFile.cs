@@ -120,7 +120,7 @@ namespace JPEG_CLASS_LIB
             {
                 decoding.huffDC = GetHuffmanTable(0, scan.components[i].TableDC);
                 decoding.huffAC = GetHuffmanTable(1, scan.components[i].TableAC);
-                ushort NumBlocks = GetRestartInterval();
+                ushort NumBlocks = (ushort)(frame.Components[i].H * frame.Components[i].V);
                 while (NumBlocks != 0)
                 {
                     var temp = decoding.DecodeBlock();
