@@ -17,7 +17,7 @@ namespace GUITest
     {
         public Form1()
         {            
-            JPEG_CS Test = new JPEG_CS(File.Open("testjpeg.jpg", FileMode.Create));
+            JPEG_CS Test = new JPEG_CS(File.Open("testjpeg.jpg", FileMode.Open));
             Point[,] CurrentJPEG = Test.UnPack();
             int width = CurrentJPEG.GetLength(0);
             int lenth = CurrentJPEG.GetLength(1);
