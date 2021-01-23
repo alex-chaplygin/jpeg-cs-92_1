@@ -10,6 +10,17 @@ namespace JPEG_CLASS_LIB
     /// </summary>
     public class JPEGFile
     {
+        static readonly short[,] LQT =
+{
+            {16, 12, 14, 14, 18, 24, 49, 72},
+            {11, 12, 13, 17, 22, 35, 64, 92},
+            {10, 14, 16, 22, 37, 55, 78, 95},
+            {16, 19, 24, 29, 56, 64, 87, 98},
+            {24, 26, 40, 51, 68, 81, 103, 112},
+            {40, 58, 57, 87, 109, 104, 121, 100},
+            {51, 60, 69, 80, 103, 113, 120, 103},
+            {61, 55, 56, 62, 77, 92, 101, 99}
+        };
 
         /// <summary>
         /// Максимальынй фактор разбиения по ширине.
@@ -283,6 +294,79 @@ namespace JPEG_CLASS_LIB
                 channeles[i] = temp;
             }
             return channeles;
+        }
+
+        /// <summary>
+        /// Собирает списки каждого канала, далее к ним применяет IDCT преобразование, затем собирает блоки 8x8 в каналы и выполняет обратное масштабирование матриц каналов. Если канал один, то все блоки записываются в канал слева-направо, сверху вниз.
+        /// </summary>
+        /// <param name="channels">Каналы с пустыми матрицами, но с корректными шириной, высотой и значениями H и V</param>
+        /// <param name="blocks">Список short[] перемешанных блоков</param>
+        public void Collect(Channel[] channels, List<short[]> blocks)
+        {
+            var BLOCK_SIZE = 8;
+            var macroBlockCount = 0;
+            foreach (var channel in channels)
+            {
+                macroBlockCount += channel.GetH * channel.GetV;
+            }
+
+            for (var channelIndex = 0; channelIndex < channels.Length; channelIndex++)
+            {
+                var curChannel = channels[channelIndex];
+
+                var realWidth = curChannel.GetMatrix().GetLength(0);
+                var realHeight = curChannel.GetMatrix().GetLength(1);
+                var correctedWidth = realWidth % BLOCK_SIZE == 0 ? realWidth : BLOCK_SIZE * (realWidth / BLOCK_SIZE + 1);
+                var correctedHeight = realHeight % BLOCK_SIZE == 0 ? realHeight : BLOCK_SIZE * (realHeight / BLOCK_SIZE + 1);
+
+                var tmpArray = new short[(correctedWidth * correctedHeight) / BLOCK_SIZE / BLOCK_SIZE][];
+
+                var otherChannelOffset = 0;
+                for (var offsetChannelIndex = 0; offsetChannelIndex < channelIndex; offsetChannelIndex++)
+                {
+                    otherChannelOffset += channels[offsetChannelIndex].GetH * channels[offsetChannelIndex].GetV;
+                }
+
+                for (var blockIndex = 0; blockIndex < correctedWidth * correctedHeight / BLOCK_SIZE / BLOCK_SIZE / (curChannel.GetH * curChannel.GetV); blockIndex++)
+                {
+                    var channelBlockInRow = correctedWidth / BLOCK_SIZE / curChannel.GetH;
+                    var startIndex = (blockIndex / channelBlockInRow * curChannel.GetV) * (correctedWidth / BLOCK_SIZE) + ((blockIndex % channelBlockInRow) * curChannel.GetH);
+
+                    var innerBlocksGroup =
+                        blocks.GetRange(macroBlockCount * blockIndex + otherChannelOffset, curChannel.GetH * curChannel.GetV);
+                    for (var lineIndex = 0; lineIndex < curChannel.GetV; lineIndex += 1)
+                    {
+                        for (var rowIndex = 0; rowIndex < curChannel.GetH; rowIndex++)
+                        {
+                            tmpArray[startIndex + lineIndex * (correctedWidth / BLOCK_SIZE) + rowIndex] =
+                                innerBlocksGroup[0];
+                            innerBlocksGroup.RemoveAt(0);
+                        }
+                    }
+                }
+                curChannel.Collect(IDCT(tmpArray.ToList(), LQT), Hmax, Vmax);
+            }
+        }
+
+        /// <summary>
+        /// Осуществляет все необходимые обратные DCT преобразования для списка блоков
+        /// </summary>
+        /// <param name="data">Список коэффициентов блоков одного канала</param>
+        /// <param name="quantizationMatrix">Матрица квантования</param>
+        /// <returns>Список блоков одного канала для сборки</returns>
+        public List<byte[,]> IDCT(List<short[]> data, short[,] quantizationMatrix)
+        {
+            List<byte[,]> Result = new List<byte[,]> { };
+            List<short[,]> Temp = new List<short[,]> { };
+            for (int i = 0; i < data.Count; i++)
+                Temp.Add(DCT.ReZigzag(data[i]));
+            for (int i = 0; i < Temp.Count; i++)
+            {
+                Temp[i] = DCT.QuantizationReverse(Temp[i], quantizationMatrix);
+                Temp[i] = DCT.IDCT(Temp[i]);
+                Result.Add(DCT.ReverseShift(Temp[i]));
+            }
+            return Result;
         }
 
         /// <summary>

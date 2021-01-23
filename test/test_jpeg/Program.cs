@@ -415,7 +415,7 @@ namespace ConsoleApp1
             Console.WriteLine("Сборка блоков");
             Console.WriteLine();
 
-            library.Collect(channels, blocks);
+            //library.Collect(channels, blocks);
 
             foreach (var channel in channels)
             {
@@ -446,7 +446,7 @@ namespace ConsoleApp1
             Console.WriteLine("Сборка блоков");
             Console.WriteLine();
 
-            library.Collect(channels, blocks);
+            //library.Collect(channels, blocks);
 
             WriteMatrix(channels[0].GetMatrix());
             Console.WriteLine();
