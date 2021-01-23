@@ -26,7 +26,7 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Счетчик битов.
         /// </summary>
-        byte CNT = 0;
+        public byte CNT = 0;
 
         /// <summary>
         /// Таблица Хаффмана DC.
