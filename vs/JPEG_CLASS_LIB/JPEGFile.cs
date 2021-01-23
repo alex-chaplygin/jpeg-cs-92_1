@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace JPEG_CLASS_LIB
 {
@@ -9,6 +10,16 @@ namespace JPEG_CLASS_LIB
     /// </summary>
     public class JPEGFile
     {
+
+        /// <summary>
+        /// Максимальынй фактор разбиения по ширине.
+        /// </summary>
+        private int Hmax;
+        /// <summary>
+        /// Максимальный фактор разбиения по высоте.
+        /// </summary>
+        private int Vmax;
+
         /// <summary>
         /// Список всех структур JPEG до StartOfScan.
         /// </summary>
@@ -77,6 +88,14 @@ namespace JPEG_CLASS_LIB
             while (Data[Data.Count - 1].Marker != MarkerType.StartOfScan);
             decoding = new Decoding(s, null, null);
             encoding = new Encoding(s, null, null);
+
+            Hmax = 0;
+            Vmax = 0;
+            foreach (var c in frame.Components)
+            {
+                if (c.H > Hmax) Hmax = c.H;
+                if (c.V > Vmax) Vmax = c.V;
+            }
         }
 
         /// <summary>
