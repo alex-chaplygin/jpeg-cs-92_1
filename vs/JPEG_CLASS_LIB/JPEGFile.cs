@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 
@@ -151,6 +150,7 @@ namespace JPEG_CLASS_LIB
             }
             return result;
         }
+
         /// <summary>
         /// Декодирование скана
         /// </summary>
@@ -160,7 +160,7 @@ namespace JPEG_CLASS_LIB
             List<short[]> MixedBlocks = new List<short[]>();
             int Hmax = 0;
             int Vmax = 0;
-            
+
             foreach(var i in frame.Components)
             {
                 if (i.H > Hmax) Hmax = i.H;
@@ -170,11 +170,11 @@ namespace JPEG_CLASS_LIB
             int width = frame.Width;
             int height = frame.Height;
 
-            while (width/Hmax%8!=0)
+            while (width / Hmax % 8 != 0)
             {
                 width++;
             }
-            while (height/Vmax%8!=0)
+            while (height / Vmax % 8 != 0)
             {
                 height++;
             }
@@ -182,29 +182,28 @@ namespace JPEG_CLASS_LIB
             int iterations = width * height/8/8 / (Hmax * Vmax);
 
             int iii = 0;
-            
-                while (iii < iterations)
-                {
-                    if (GetRestartInterval() == 0)
-                    {
-                        MixedBlocks.AddRange(DecodeMCU());
-                        iii++;
-                    }
-                    else
-                    {
-                        List<short[]> RestartI = DecodeRestartInterval();
-                        if (RestartI == null) break;
-                        MixedBlocks.AddRange(RestartI);
-                        iii += GetRestartInterval();
 
-                    }
+            while (iii < iterations)
+            {
+                if (GetRestartInterval() == 0)
+                {
+                    MixedBlocks.AddRange(DecodeMCU());
+                    iii++;
                 }
-            
-            
+                else
+                {
+                    List<short[]> RestartI = DecodeRestartInterval();
+                    if (RestartI == null) break;
+                    MixedBlocks.AddRange(RestartI);
+                    iii += GetRestartInterval();
+                }
+            }
+
+
             return (MixedBlocks);
         }
         List<short[]> DecodeRestartInterval()
-            {
+        {
             List<short[]> list = new List<short[]>();
             for (int i =0; i<6; i++)
             {
@@ -266,7 +265,7 @@ namespace JPEG_CLASS_LIB
         public JPEGFile()
         {
 
-        }
+        }     
 
         /// <summary>
         /// Декодирование кадра JPEG
@@ -278,7 +277,7 @@ namespace JPEG_CLASS_LIB
             var decodeScan = DecodeScan();
 
             for (int i = 0; i < 3; i++)
-            {                
+            {
                 byte[,] tempMatrix = new byte[frame.Width, frame.Height];
                 channeles[i] = new Channel(tempMatrix, frame.Components[i].H, frame.Components[i].V);
             }
@@ -334,7 +333,7 @@ namespace JPEG_CLASS_LIB
                         }
                     }
                 }
-                curChannel.Collect(IDCT(tmpArray.ToList(), LQT), Hmax, Vmax);
+                curChannel.Collect(IDCT(tmpArray.ToList(), channelIndex), Hmax, Vmax);
             }
         }
 
@@ -342,10 +341,11 @@ namespace JPEG_CLASS_LIB
         /// Осуществляет все необходимые обратные DCT преобразования для списка блоков
         /// </summary>
         /// <param name="data">Список коэффициентов блоков одного канала</param>
-        /// <param name="quantizationMatrix">Матрица квантования</param>
+        /// <param name="Index">Индекс матрицы квантованияя</param>
         /// <returns>Список блоков одного канала для сборки</returns>
-        public List<byte[,]> IDCT(List<short[]> data, short[,] quantizationMatrix)
+        public List<byte[,]> IDCT(List<short[]> data, int Index) //, short[,] quantizationMatrix
         {
+            short[,] quantizationMatrix = GetQuantizationTable(frame.Components[Index].QuantizationTableNumber);
             List<byte[,]> Result = new List<byte[,]> { };
             List<short[,]> Temp = new List<short[,]> { };
             for (int i = 0; i < data.Count; i++)
