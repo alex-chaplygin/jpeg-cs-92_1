@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 
 namespace JPEG_CLASS_LIB
@@ -143,7 +144,7 @@ namespace JPEG_CLASS_LIB
             decoding.CNT = 0;
             List<short[]> result = new List<short[]>();
             ushort NumberOfMCU = GetRestartInterval();
-            byte B;
+            ushort B;
             for (int i = 0; i < prediction.Length; i++)
             {
                 prediction[i] = 0;
@@ -156,13 +157,17 @@ namespace JPEG_CLASS_LIB
                     NumberOfMCU--;
                 }
             }
-            if (frame.Marker == MarkerType.EndOfImage || frame.Marker >= MarkerType.RestartWithModEightCount0 && frame.Marker <= MarkerType.RestartWithModEightCount7)
+            B = (ushort)MainStream.ReadByte();
+            B = (ushort)(B << 8);
+            B += (ushort)MainStream.ReadByte();
+            if (B == 0xFFD9 || B >= 0xFFD0 && B <= 0xFFD7)
             {
-                B = (byte)MainStream.ReadByte();
-                B = (byte)(B << 8);
-                B += (byte)MainStream.ReadByte();
+                return result;
             }
-            return result;
+            else
+            {
+                throw new Exception("Неверный маркер.");
+            }
         }
 
         /// <summary>
