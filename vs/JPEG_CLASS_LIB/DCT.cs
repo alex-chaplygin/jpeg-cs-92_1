@@ -310,7 +310,7 @@ namespace JPEG_CLASS_LIB
             {
                 for (int v = 0; v < 8; v++)
                 {
-                    matrix[w,v] = matrix_temp[v, w];
+                    matrix[v, w] = matrix_temp[v, w];
                 }
             }
             return (matrix);
