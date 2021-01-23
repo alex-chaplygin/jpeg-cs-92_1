@@ -75,7 +75,7 @@ namespace JPEG_CLASS_LIB
         /// <summary>
         /// Предыдущее значение DC коэффициента.
         /// </summary>
-        short prediction = 0;
+        short[] prediction = new short[3];
 
         /// <summary>
         /// Конструктор JPEGFile. Считывает все структуры JPEGData и записывает их в Data.
@@ -121,8 +121,8 @@ namespace JPEG_CLASS_LIB
                 byte NumBlocks = (byte)(frame.Components[i].H * frame.Components[i].V);
                 while (NumBlocks != 0)
                 {
-                    list[0][0] -= prediction;
-                    prediction = list[0][0];
+                    list[0][0] -= prediction[i];
+                    prediction[i] = list[0][0];
                     encoding.EncodeBlock(list[0]);
                     list.RemoveAt(0);
                     NumBlocks--;
@@ -147,6 +147,8 @@ namespace JPEG_CLASS_LIB
                     result.Add(decoding.DecodeBlock());
                     NumBlocks--;
                 }
+                result[i][0] += prediction[i];
+                prediction[i] = result[i][0];
             }
             return result;
         }
