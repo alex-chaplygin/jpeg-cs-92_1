@@ -148,7 +148,7 @@ namespace JPEG_CLASS_LIB
             for (int i = 0; i < prediction.Length; i++)
             {
                 prediction[i] = 0;
-            }
+            } 
             if (NumberOfMCU != 0)
             {
                 while (NumberOfMCU > 0)
@@ -161,13 +161,10 @@ namespace JPEG_CLASS_LIB
             B = (ushort)(B << 8);
             B += (ushort)MainStream.ReadByte();
             if (B == 0xFFD9 || B >= 0xFFD0 && B <= 0xFFD7)
-            {
                 return result;
-            }
             else
-            {
                 throw new Exception("Неверный маркер.");
-            }
+            
         }
 
         /// <summary>
