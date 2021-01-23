@@ -64,11 +64,12 @@ namespace JPEG_CLASS_LIB
         /// <param name="s">Поток с изображением.</param>
         public JPEGFile(Stream s)
         {
+            MainStream = s;
             do
             {
-                long position = s.Position;
-                var temp = JPEGData.GetData(s);
-                s.Position = position + temp.Length + 2;
+                long position = MainStream.Position;
+                var temp = JPEGData.GetData(MainStream);
+                MainStream.Position = position + temp.Length + 2;
                 if (temp.Marker == MarkerType.DefineHuffmanTables) huffmanTables.Add((HuffmanTable)temp);
                 else if (temp.Marker >= MarkerType.BaseLineDCT && temp.Marker <= MarkerType.DifferentialLoslessArithmetic) frame = (Frame)temp;
                 else if (temp.Marker == MarkerType.DefineQuantizationTables) quantizationTables.Add((QuantizationTable)temp);
@@ -77,8 +78,8 @@ namespace JPEG_CLASS_LIB
                 Data.Add(temp);
             }
             while (Data[Data.Count - 1].Marker != MarkerType.StartOfScan);
-            decoding = new Decoding(s, null, null);
-            encoding = new Encoding(s, null, null);
+            decoding = new Decoding(MainStream, null, null);
+            encoding = new Encoding(MainStream, null, null);
             prediction = new short[frame.NumberOfComponent];
         }
 
@@ -139,11 +140,29 @@ namespace JPEG_CLASS_LIB
         /// <returns>Список блоков (MCU)</returns>
         public List<short[]> DecodeRestartInterval()
         {
+            decoding.CNT = 0;
+            List<short[]> result = new List<short[]>();
+            ushort NumberOfMCU = GetRestartInterval();
+            byte B;
             for (int i = 0; i < prediction.Length; i++)
             {
                 prediction[i] = 0;
             }
-            return DecodeMCU();
+            if (NumberOfMCU != 0)
+            {
+                while (NumberOfMCU > 0)
+                {
+                    result.AddRange(DecodeMCU());
+                    NumberOfMCU--;
+                }
+            }
+            if (frame.Marker == MarkerType.EndOfImage || frame.Marker >= MarkerType.RestartWithModEightCount0 && frame.Marker <= MarkerType.RestartWithModEightCount7)
+            {
+                B = (byte)MainStream.ReadByte();
+                B = (byte)(B << 8);
+                B += (byte)MainStream.ReadByte();
+            }
+            return result;
         }
 
         /// <summary>
