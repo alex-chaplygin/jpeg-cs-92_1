@@ -57,6 +57,11 @@ namespace JPEG_CLASS_LIB
         short prediction = 0;
 
         /// <summary>
+        /// количества вызовов EncodeRestartInterval.
+        /// </summary>
+        int restart_interval_num;
+
+        /// <summary>
         /// Конструктор JPEGFile. Считывает все структуры JPEGData и записывает их в Data.
         /// </summary>
         /// <param name="s">Поток с изображением.</param>
@@ -77,6 +82,49 @@ namespace JPEG_CLASS_LIB
             while (Data[Data.Count - 1].Marker != MarkerType.StartOfScan);
             decoding = new Decoding(s, null, null);
             encoding = new Encoding(s, null, null);
+        }
+
+        /// <summary>
+        /// Кодирует интервал повтора
+        /// </summary>
+        /// <param name="list">Блоки MCU</param>
+        public void EncodeRestartInterval(List<short[]> list)
+        {
+            int i = GetRestartInterval();
+            while (i != 0)
+            {
+                encoding.EncodeBlock(list[i]);
+                i--;
+            }
+            switch (restart_interval_num % 8)
+			{
+                case 0:
+                    JPEGData jpgD0 = new JPEGData(MarkerType.RestartWithModEightCount0);
+                    break;
+                case 1:
+                    JPEGData jpgD1 = new JPEGData(MarkerType.RestartWithModEightCount1);
+                    break;
+                case 2:
+                    JPEGData jpgD2 = new JPEGData(MarkerType.RestartWithModEightCount2);
+                    break;
+                case 3:
+                    JPEGData jpgD3 = new JPEGData(MarkerType.RestartWithModEightCount3);
+                    break;
+                case 4:
+                    JPEGData jpgD4 = new JPEGData(MarkerType.RestartWithModEightCount4);
+                    break;
+                case 5:
+                    JPEGData jpgD5 = new JPEGData(MarkerType.RestartWithModEightCount5);
+                    break;
+                case 6:
+                    JPEGData jpgD6 = new JPEGData(MarkerType.RestartWithModEightCount6);
+                    break;
+                case 7:
+                    JPEGData jpgD7 = new JPEGData(MarkerType.RestartWithModEightCount7);
+                    break;
+			}
+
+            restart_interval_num++;
         }
 
         /// <summary>
