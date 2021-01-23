@@ -90,40 +90,42 @@ namespace JPEG_CLASS_LIB
         /// <param name="list">Блоки MCU</param>
         public void EncodeRestartInterval(List<short[]> list)
         {
-            int i = GetRestartInterval();
-            while (i != 0)
-            {
-                encoding.EncodeBlock(list[i]);
-                i--;
-            }
+            EncodeMCU(list);
             switch (restart_interval_num % 8)
 			{
                 case 0:
                     JPEGData jpgD0 = new JPEGData(MarkerType.RestartWithModEightCount0);
+                    jpgD0.Write();
                     break;
                 case 1:
                     JPEGData jpgD1 = new JPEGData(MarkerType.RestartWithModEightCount1);
+                    jpgD1.Write();
                     break;
                 case 2:
                     JPEGData jpgD2 = new JPEGData(MarkerType.RestartWithModEightCount2);
+                    jpgD2.Write();
                     break;
                 case 3:
                     JPEGData jpgD3 = new JPEGData(MarkerType.RestartWithModEightCount3);
+                    jpgD3.Write();
                     break;
                 case 4:
                     JPEGData jpgD4 = new JPEGData(MarkerType.RestartWithModEightCount4);
+                    jpgD4.Write();
                     break;
                 case 5:
                     JPEGData jpgD5 = new JPEGData(MarkerType.RestartWithModEightCount5);
+                    jpgD5.Write();
                     break;
                 case 6:
                     JPEGData jpgD6 = new JPEGData(MarkerType.RestartWithModEightCount6);
+                    jpgD6.Write();
                     break;
                 case 7:
                     JPEGData jpgD7 = new JPEGData(MarkerType.RestartWithModEightCount7);
+                    jpgD7.Write();
                     break;
 			}
-
             restart_interval_num++;
         }
 
