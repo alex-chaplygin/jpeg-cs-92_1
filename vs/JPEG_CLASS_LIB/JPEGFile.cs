@@ -132,11 +132,12 @@ namespace JPEG_CLASS_LIB
                 byte NumBlocks = (byte)(frame.Components[i].H * frame.Components[i].V);
                 while (NumBlocks != 0)
                 {
-                    result.Add(decoding.DecodeBlock());
+                    var block = decoding.DecodeBlock();
+                    block[0] += prediction[i];
+                    prediction[i] = block[0];
+                    result.Add(block);
                     NumBlocks--;
                 }
-                result[i][0] += prediction[i];
-                prediction[i] = result[i][0];
             }
             return result;
         }
