@@ -22,7 +22,6 @@ namespace JPEG_CLASS_LIB
         /// <param name="s"></param>
         public Comment (Stream s) : base(s, MarkerType.Comment)
         {
-            Length = Read16();
             CommentBytes = new byte[Length - 2];
             for (int i = 0; i < Length - 2; i++)
             {
